@@ -25,6 +25,7 @@ alwaysApply: false
 | `FRONT SECURITY` | @.cursor/rules/front_developer/workflow-security.mdc |
 
 Пути: `memory-bank/front/<режим>/` — таблица в @.cursor/rules/back_developer/isolation_rules/Core/memory-bank-paths.mdc (**только VAN** / создание структуры).  
+As-built UI: `memory-bank/architecture/frontend.md` — @.cursor/rules/shared/workflow-van-brownfield.mdc.  
 FINISH: @.cursor/rules/shared/finish-block.mdc  
 
 API/БД → `BACK *`. Сквозной wire → `INTEG *`.

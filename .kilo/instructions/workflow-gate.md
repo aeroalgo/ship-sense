@@ -45,11 +45,36 @@ Tool result уже в контексте = источник истины. Re-rea
 - Запрещено обновлять чеклист на каждый шаг реализации — decompose shard = план
 - Subagent: TodoWrite не вызывает (нет budget / права)
 
+## HARD — creative reject (IMPLEMENT)
+
+Перед **любым** кодом/тестами на `BACK IMPLEMENT` / `FRONT IMPLEMENT` / `INTEG IMPLEMENT` проверь текущий shard:
+
+| Поле в `sNN` / `eNN` | Действие |
+|----------------------|----------|
+| `needs_creative: yes (...)` **без** `— **closed**` / `yes (done)` | **REJECT** IMPLEMENT |
+| `Next Phase: BACK CREATIVE` / `FRONT CREATIVE` / `INTEG CREATIVE` | **REJECT** IMPLEMENT |
+| index: `next_phase` = `* CREATIVE` **или** blocker `CR-*` без `✅` / closed | **REJECT** IMPLEMENT |
+| нет `creative-*.md` (или нет markdown-ссылки на него) для указанного `CR-*` | **REJECT** IMPLEMENT |
+
+**REJECT = stop immediately:**
+1. **Не** писать/править код, тесты, migrations
+2. **Не** помечать step `completed`
+3. Ответ пользователю (RU): `REJECT IMPLEMENT — нужен BACK CREATIVE <CR-ID>` + что закрыть + команда (`BACK CREATIVE CR-…`)
+4. Handoff: next = CREATIVE, не следующий implement
+
+**FORBIDDEN rationalizations (FAIL):**
+- «CR про quarantine later / другой sNN — этот шаг можно без creative»
+- «scope loader only, creative не трогаю»
+- «needs_creative в header, но blockers мягкие»
+- переопределять `Next Phase: * CREATIVE` → IMPLEMENT без closed creative
+
+Единственный override: в shard явно `needs_creative: … — **closed**` + кликабельная ссылка на `creative-*.md` + index `✅` / `yes (done)`.
+
 ## HARD — skills (A∪B без раздувания)
 
-Согласовано с Cursor / Claude Code: **слой B из decompose — канон, не вырезать**. Economy §3.7 режет **лишние** Read (re-read, false-предикаты A), не список в step.
+Согласовано с Cursor / Claude Code: **слой B из decompose — канон, не вырезать**. Economy режет **лишние** Read (re-read, false-предикаты A), не список в step и **не** длину одного skill.
 
-1. **Слой B:** пути из `Impl skills` step — **Read каждый 1×** до кода (как Cursor/CC). Пустой B только если в step явно `—`.
+1. **Слой B:** пути из `Impl skills` step — **Read каждый 1× целиком** до кода (как Cursor/CC). Пустой B только если в step явно `—`.
 2. **Слой A (workflow):** Read **только если предикат true** (не дублировать уже прочитанное из B):
 
 | Skill | Читать когда (если ещё не в B / не Read) |
@@ -61,9 +86,10 @@ Tool result уже в контексте = источник истины. Re-rea
 | `python-anti-patterns` | в B **или** `code_surface`: service\|api |
 | `requesting-code-review` · `verification-before-completion` | только Pre-FINISH; **skip** при docs-only / `code_changed: no` если AC уже сверен |
 
-3. **Conflict:** «не пропускай A» = не пропускай **применимые** пункты A. Economy §3.7 > слепой Read всех `если` из A.  
-4. Один `SKILL.md` — один Read. Не дублировать через tool `skill` + Read + bash.  
-5. **FORBIDDEN:** удалять / обнулять `Impl skills` в decompose «ради economy» — ломает parity Cursor/CC.
+3. **Conflict:** «не пропускай A» = не пропускай **применимые** пункты A. Economy > слепой Read всех `если` из A.  
+4. Один `SKILL.md` — один Read **без** `limit: 180|200|220`. Не дублировать через tool `skill` + Read + bash. Prefer tool `skill` **или** `read` без limit (default до 2000 / полный файл). Если tool вернул `(Showing lines 1–N of M)` → сразу `offset=N+1` до EOF.  
+5. **FORBIDDEN:** `read` skills/rules/workflow с `limit≤300` «ради token economy»; удалять / обнулять `Impl skills` в decompose «ради economy».  
+6. **§0.5 «200 lines»** = лимит **WRITE** non-plan docs в memory-bank, **не** лимит READ. Skills / `.cursor/rules` / code — читать полностью.
 
 ## HARD — FINISH / «продолжай» (lean)
 
@@ -73,24 +99,19 @@ Tool result уже в контексте = источник истины. Re-rea
 
 **Бюджет ≤8 tool calls** (типично):
 
-1. `activeContext.md` — 1× Read (если handoff ещё не в контексте)
-2. implement/bugfix/qa shard + index — статусы (если ещё не done в контексте)
-3. Edit/Write: Handoff в `activeContext` · append `memory-bank/tasks/log/` · `memory-bank/tasks.md` · status в decompose/implement index
-4. `.venv/bin/graphify update .` — **только** если `code_changed: yes`
+0. **`task`→`verify`** — если `code_changed: yes` и verify ещё не гоняли в этой сессии (packed AC + VERIFY). FAIL → не FINISH, чини.
+1. Следуй **порядку** @.cursor/rules/shared/finish-block.mdc (step-файл → Handoff → delivery log → **потом** decompose/`load_now`)
+2. `.venv/bin/graphify update .` — **только** если `code_changed: yes`
 
-Канон шагов: `.cursor/rules/shared/finish-block.mdc` + `finish-doc-router.mdc` — Read **только если** ещё не читал в этой сессии; иначе действуй по уже известному чеклисту.
+Канон: `finish-block.mdc` + `finish-doc-router.mdc` + шаблон `finish-doc-router.md` — Read **только если** ещё не читал в этой сессии; иначе действуй по уже известному чеклисту.
 
 После правок — сразу краткий ответ на русском. Без повторного cat activeContext.
 
-### IMPLEMENT status sync (HARD)
+### IMPLEMENT status sync
 
-- Для BACK IMPLEMENT канон статуса = `memory-bank/back/plan/decompose-*/index.md`
-- `implement/index.md` = **только навигация**, без `done` / `completed` / status suffix в строках
-- Перед FINISH проверь 3 точки:
-  1. текущий `sNN` в `decompose index` переведён в `completed`
-  2. следующий шаг в `decompose index` остаётся `pending`
-  3. `activeContext.md` переключён на следующий `sNN`
-- Если обновлён implement step-файл, но не обновлён `decompose index` -> **FINISH запрещён**
+Канон **только** в @.cursor/rules/shared/finish-block.mdc (§Порядок · §5 точек · §FAIL · §Missing artifact). Здесь не дублировать.
+
+Kilo-напоминание: `decompose`=`completed` / next `load_now` **без** step-файла + Handoff → **FINISH запрещён**. Anti-loop при «где implement файл?» — тоже в finish-block.
 
 ## HARD — пути (Linux case-sensitive)
 
@@ -122,20 +143,24 @@ Tool result уже в контексте = источник истины. Re-rea
 - Повтор session start / graphify step 0 «для уверенности»
 - Subagent **не** распознаёт `BACK IMPLEMENT` в user chat — только текст task prompt от parent
 
-### IMPLEMENT L1–L2: без explore (parent)
+### IMPLEMENT L1–L2: parent сам + verify (HARD)
 
-**Не spawn explore**, если parent уже прочитал decompose **shard** и там есть:
+**Не spawn explore/worker**, если parent уже прочитал decompose **shard** и там есть:
 - уровень L1 или L2 (или substep L2)
 - явные пути create/edit в shard
 - `pyproject.toml` / deps уже известны parent’у (или в shard)
 
-**Parent сам:** red test → код → green targeted `.venv/bin/pytest` **или** один `task`→`worker` с **упакованным** prompt (AC + файлы + VERIFY).  
-**Предпочтение** storage service-steps (s08–s11): parent сам, без worker.
+**Parent сам:** red test → код → green targeted `.venv/bin/pytest`.  
+**Storage / service (s08–s11 и аналоги):** parent сам, без worker/test-writer/explore.  
+**Перед FINISH** (`code_changed: yes`): **`task`→`verify`** с packed AC + VERIFY — **обязательно**.
 
-**Explore только если:** «где в коде X» неизвестно · graphify нужен · shard без file paths · cross-package цикл импорта.
+**Explore только если:** «где в коде X» неизвестно · shard без file paths · cross-package цикл импорта.  
+**bugfix 1×** только если pytest FAIL 2× или >3 файлов.
 
-**FAIL parent:** explore + worker + reviewer на один L1/L2 s01 (Alembic baseline, один модуль, docs-only) — раздувание.  
-**FAIL parent:** Read `plan-*.md` целиком на IMPLEMENT; re-read одного файла «для уверенности»; prompt worker «реализуй по shard» без AC в тексте.
+**FAIL parent:** explore + worker + reviewer на один L1–L2 sNN — раздувание.  
+**FAIL parent:** worker×2+ на один AC; FINISH без verify.  
+**FAIL parent:** Read `plan-*.md` целиком на IMPLEMENT; re-read «для уверенности»; prompt worker «реализуй по shard» без AC.  
+Канон метрик: `.kilo/metrics/spawn-baseline-2026-07-29.md`.
 
 | Agent | Модель | Назначение |
 |-------|--------|------------|
@@ -178,6 +203,7 @@ Provider в picker: **OmniRoute** (`omniroute/...`). OmniRoute должен сл
 
 - `implement this` — для правок вне role command
 - PLAN: `SUSPENSION GUARD active — plan output unlimited`; не жать `plan-*.md`
-- FINISH: §FINISH lean выше; Handoff → `activeContext.md` → graphify update если code changed
+- Brownfield VAN: `SUSPENSION GUARD active — architecture map output unlimited`; карта в `memory-bank/architecture/` (см. `.cursor/rules/shared/workflow-van-brownfield.mdc`)
+- FINISH: @.cursor/rules/shared/finish-block.mdc (step + Handoff **до** decompose/`load_now`; 5 точек + FAIL там)
 - pytest: cwd = корень репо; всегда `.venv/bin/pytest …` — **FORBIDDEN** голый `pytest` (в песочнице не работает)
 - Ответы пользователю — на русском; в конце — модель ИИ

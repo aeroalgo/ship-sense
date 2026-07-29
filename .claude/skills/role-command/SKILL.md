@@ -20,9 +20,9 @@ Multi-word: `ARCHIVE NOW`, `IDEA PIPELINE CONTINUE`, `INTEG GAP` (алиас `IN
 
 Читай @.cursor/rules/graphify.mdc и ориентируйся по графу **до** Grep/Read по codebase.
 
-**Обязателен** для: `IMPLEMENT` · `TASK` · `BUGFIX` · `REFACTOR` · `QA`; также `PM DISCOVER`, `TL SYNC DEV`.
+**Обязателен** для: `IMPLEMENT` · `TASK` · `BUGFIX` · `REFACTOR` · `QA`; также `PM DISCOVER`, `TL SYNC DEV`; **brownfield** `BACK/FRONT/INTEG VAN`.
 
-**Пропуск:** `VAN` · `PLAN` · `DECOMPOSE` · `CREATIVE` · `REFLECT` · `ARCHIVE NOW` · `SECURITY` · `GAP` (если только docs). CONTENT/MARKETING/SEO — пропускают.
+**Пропуск:** greenfield `VAN` · `PLAN` · `DECOMPOSE` · `CREATIVE` · `REFLECT` · `ARCHIVE NOW` · `SECURITY` · `GAP` (если только docs). CONTENT/MARKETING/SEO — пропускают.
 
 **CLI (не в PATH):** всегда из **корня репо** (cwd = root; Shell `working_directory` = root). Канон только `<repo>/graphify-out/` — HARD RULE в @.cursor/rules/graphify.mdc.
 
@@ -39,7 +39,7 @@ Fallback на Read/Grep — только после ориентации по г
 ## Step 0b — session
 
 1. @.cursor/rules/shared/context-session-economy.mdc §3
-2. FINISH / `* FINISH`: §5–6 + @.cursor/rules/shared/finish-doc-router.mdc (+ graphify update если code changed)
+2. FINISH / `* FINISH`: @.cursor/rules/shared/finish-block.mdc → @.cursor/rules/shared/finish-doc-router.mdc (+ graphify update если code changed). IMPLEMENT: step-файл + Handoff **до** decompose/`load_now` (не дублировать чеклист здесь)
 3. Tool unclear → recommend: **Cursor** + fast-editing (default) | **Claude Code** + premium-coding (E2E / multi-file / **any PLAN**)
 
 ### Если MODE = PLAN (BACK/FRONT/INTEG/PM)
@@ -134,6 +134,10 @@ Follow workflow. BACK/FRONT QA → lean load §7 context-session-economy. Integr
 
 Если MODE=PLAN: сразу вторая строка `SUSPENSION GUARD active — plan output unlimited`, затем читай `.claude/rules/plan-artifact.md`.
 
-Перед FINISH на PLAN: shell `wc -l` на plan-файл; TOC-only / слишком короткий → FAIL, дописать.
+Если MODE=VAN и brownfield (есть код/compose): сразу `SUSPENSION GUARD active — architecture map output unlimited`, затем `.cursor/rules/shared/workflow-van-brownfield.mdc` + `.claude/rules/plan-artifact.md` (architecture paths).
 
-Slash-команды: `.claude/commands/` (см. `.claude/README.md`). Для portal wire предпочтительно **`/integ-plan`**.
+Перед FINISH на PLAN: shell `wc -l` на plan-файл; TOC-only / слишком короткий → FAIL, дописать.  
+Перед FINISH на brownfield VAN: architecture shards не stub-only; mermaid minimum (services + data-flow + erd|n/a).  
+Перед FINISH на IMPLEMENT: @.cursor/rules/shared/finish-block.mdc — step-файл exists + Handoff шага **до** `decompose`=`completed`.
+
+Slash-команды: `.claude/commands/` (см. `.claude/README.md`). Для portal wire предпочтительно **`/integ-plan`**. Полная as-built карта — **`/integ-van`**.

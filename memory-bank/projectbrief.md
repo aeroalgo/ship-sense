@@ -37,4 +37,5 @@ flowchart TB
 
 ## Инфра (якорь)
 
-Схемы и зафиксированные решения: `memory-bank/systemPatterns.md`, `memory-bank/techContext.md`.
+Схемы и зафиксированные решения: `memory-bank/systemPatterns.md`, `memory-bank/techContext.md`.  
+**As-built карта (brownfield VAN):** `memory-bank/architecture/` — обновлять через `INTEG VAN` (полная) / `BACK VAN` / `FRONT VAN`.

@@ -13,13 +13,16 @@ alwaysApply: false
 
 **Корень (все роли):** `activeContext.md`, `tasks.md` (index + progress + last 5 events), `tasks/log/` (сквозная хронология, append на FINISH, не грузить на IMPLEMENT), `projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `style-guide.md`
 
-**Шаблоны (вне memory-bank):** `.cursor/templates/` — копируются с `.cursor`, без всей `memory-bank/`. Состав: `plan.md` · `decompose/{index,step}.md` · `implement.md` (legacy) · `implement/{index,step}.md` · `implement/integ-{index,step}.md` (INTEG IMPLEMENT) · `integration-{plan,gap,gap-close,contract}.md` · `review.md` · `task-shard.md` · `idea-pipeline.md` · `finish-doc-router.md`
+**As-built карта (все роли, brownfield VAN):** `memory-bank/architecture/` — `index.md` + shards: `overview` · `services` · `data-flow` · `erd` · `workers` · `containers` · `frontend`. Канон процесса: @.cursor/rules/shared/workflow-van-brownfield.mdc. **Не резать** (§0.0 architecture). Session VAN-лог остаётся в `back|front|integration/van/`.
 
-**Split (non-plan, >200 → index + shards).** Plan/gap не резать (§0.0).
+**Шаблоны (вне memory-bank):** `.cursor/templates/` — копируются с `.cursor`, без всей `memory-bank/`. Состав: `plan.md` · `decompose/{index,step}.md` · `implement.md` (legacy) · `implement/{index,step}.md` · `implement/integ-{index,step}.md` (INTEG IMPLEMENT) · `integration-{plan,gap,gap-close,contract}.md` · `architecture/{index,overview,services,data-flow,erd,workers,containers,frontend,van-session}.md` · `review.md` · `task-shard.md` · `idea-pipeline.md` · `finish-doc-router.md`
+
+**Split (non-plan, >200 → index + shards).** Plan/gap/**architecture** не резать (§0.0).
 
 | Index | Shard dir | Prefix |
 |-------|-----------|--------|
 | `systemPatterns.md` | `domain/` | SP |
+| `architecture/index.md` | `architecture/` | overview/services/… |
 | `back/creative/creative-booking-erd.md` | `back/creative/shards/` | ERD |
 | `back/creative/creative-telegram-*.md` | `back/creative/shards/` | TG |
 
@@ -27,7 +30,7 @@ alwaysApply: false
 
 | Режим | Папка | Именование |
 |-------|--------|------------|
-| VAN | `back/van/` | `van-YYYYMMDD.md` (опц.) |
+| VAN | `back/van/` | `van-YYYYMMDD.md` (session; карта → `architecture/`) |
 | PLAN | `back/plan/` | `plan-<task_id>.md` |
 | DECOMPOSE | `back/plan/decompose-<plan_id>/` | `index.md` + `sNN-<slug>.md` (+ `implement`) |
 | CREATIVE | `back/creative/` | `creative-<feature_name>.md` |
@@ -50,7 +53,7 @@ alwaysApply: false
 
 | Режим | Папка | Именование |
 |-------|--------|------------|
-| VAN | `integration/van/` | `van-YYYYMMDD-<slug>.md` |
+| VAN | `integration/van/` | `van-YYYYMMDD-<slug>.md` (session; полная карта → `architecture/`) |
 | GAP | `integration/gap/` | `gap-YYYYMMDD-<slug>.md` |
 | GAP CLOSE | `integration/gap/` | `close-YYYYMMDD-<slug>.md` |
 | PLAN | `integration/plan/` | `plan-<task_id>.md` |
@@ -67,4 +70,4 @@ alwaysApply: false
 | Contracts | `integration/contracts/` | `<domain-slug>.md` |
 | Reference | `integration/reference/` | stubs → query-builder skill |
 
-`slug` — латиница. `tasks.md` — append-only. Артефакты режимов — под `back/` | `front/` | `integration/` (не корень, кроме общих index).
+`slug` — латиница. `tasks.md` — append-only. Артефакты режимов — под `back/` | `front/` | `integration/` (не корень, кроме общих index + **`architecture/`**).

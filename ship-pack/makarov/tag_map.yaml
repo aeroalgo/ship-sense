@@ -1,0 +1,5432 @@
+tags:
+  PAL4102:
+    label: Высокая темп. подшипника GD1
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4103:
+    label: Критическая темп. подшипника GD1
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4300:
+    label: Авария PAL 0
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4303:
+    label: Авария PAL 3
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4306:
+    label: Авария PAL 6
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4309:
+    label: Авария PAL 9
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4312:
+    label: Авария PAL 12
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4315:
+    label: Авария PAL 15
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4318:
+    label: Авария PAL 18
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4321:
+    label: Авария PAL 21
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4324:
+    label: Авария PAL 24
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4327:
+    label: Авария PAL 27
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4330:
+    label: Авария PAL 30
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4333:
+    label: Авария PAL 33
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4336:
+    label: Авария PAL 36
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4339:
+    label: Авария PAL 39
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4342:
+    label: Авария PAL 42
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4345:
+    label: Авария PAL 45
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4348:
+    label: Авария PAL 48
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4351:
+    label: Авария PAL 51
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4354:
+    label: Авария PAL 54
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4357:
+    label: Авария PAL 57
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4360:
+    label: Авария PAL 60
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4363:
+    label: Авария PAL 63
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4366:
+    label: Авария PAL 66
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4369:
+    label: Авария PAL 69
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4372:
+    label: Авария PAL 72
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4375:
+    label: Авария PAL 75
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4378:
+    label: Авария PAL 78
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4381:
+    label: Авария PAL 81
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4384:
+    label: Авария PAL 84
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4387:
+    label: Авария PAL 87
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4390:
+    label: Авария PAL 90
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4393:
+    label: Авария PAL 93
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4396:
+    label: Авария PAL 96
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4399:
+    label: Авария PAL 99
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4402:
+    label: Авария PAL 102
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4405:
+    label: Авария PAL 105
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4408:
+    label: Авария PAL 108
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4411:
+    label: Авария PAL 111
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4414:
+    label: Авария PAL 114
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4417:
+    label: Авария PAL 117
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4420:
+    label: Авария PAL 120
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4423:
+    label: Авария PAL 123
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4426:
+    label: Авария PAL 126
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4429:
+    label: Авария PAL 129
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4432:
+    label: Авария PAL 132
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4435:
+    label: Авария PAL 135
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4438:
+    label: Авария PAL 138
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4441:
+    label: Авария PAL 141
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4444:
+    label: Авария PAL 144
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4447:
+    label: Авария PAL 147
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4450:
+    label: Авария PAL 150
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4453:
+    label: Авария PAL 153
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4456:
+    label: Авария PAL 156
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4459:
+    label: Авария PAL 159
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4462:
+    label: Авария PAL 162
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4465:
+    label: Авария PAL 165
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4468:
+    label: Авария PAL 168
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4471:
+    label: Авария PAL 171
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4474:
+    label: Авария PAL 174
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4477:
+    label: Авария PAL 177
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4480:
+    label: Авария PAL 180
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4483:
+    label: Авария PAL 183
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4486:
+    label: Авария PAL 186
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4489:
+    label: Авария PAL 189
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4492:
+    label: Авария PAL 192
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4495:
+    label: Авария PAL 195
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4498:
+    label: Авария PAL 198
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4501:
+    label: Авария PAL 201
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4504:
+    label: Авария PAL 204
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4507:
+    label: Авария PAL 207
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4510:
+    label: Авария PAL 210
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4513:
+    label: Авария PAL 213
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4516:
+    label: Авария PAL 216
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4519:
+    label: Авария PAL 219
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4522:
+    label: Авария PAL 222
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4525:
+    label: Авария PAL 225
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4528:
+    label: Авария PAL 228
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4531:
+    label: Авария PAL 231
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4534:
+    label: Авария PAL 234
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4537:
+    label: Авария PAL 237
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4540:
+    label: Авария PAL 240
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4543:
+    label: Авария PAL 243
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4546:
+    label: Авария PAL 246
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4549:
+    label: Авария PAL 249
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4552:
+    label: Авария PAL 252
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4555:
+    label: Авария PAL 255
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4558:
+    label: Авария PAL 258
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4561:
+    label: Авария PAL 261
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4564:
+    label: Авария PAL 264
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4567:
+    label: Авария PAL 267
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4570:
+    label: Авария PAL 270
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4573:
+    label: Авария PAL 273
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4576:
+    label: Авария PAL 276
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4579:
+    label: Авария PAL 279
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4582:
+    label: Авария PAL 282
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4585:
+    label: Авария PAL 285
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4588:
+    label: Авария PAL 288
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4591:
+    label: Авария PAL 291
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4594:
+    label: Авария PAL 294
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4597:
+    label: Авария PAL 297
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4600:
+    label: Авария PAL 300
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4603:
+    label: Авария PAL 303
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4606:
+    label: Авария PAL 306
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4609:
+    label: Авария PAL 309
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4612:
+    label: Авария PAL 312
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4615:
+    label: Авария PAL 315
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4618:
+    label: Авария PAL 318
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4621:
+    label: Авария PAL 321
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4624:
+    label: Авария PAL 324
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4627:
+    label: Авария PAL 327
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4630:
+    label: Авария PAL 330
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4633:
+    label: Авария PAL 333
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4636:
+    label: Авария PAL 336
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4639:
+    label: Авария PAL 339
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4642:
+    label: Авария PAL 342
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4645:
+    label: Авария PAL 345
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4648:
+    label: Авария PAL 348
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4651:
+    label: Авария PAL 351
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4654:
+    label: Авария PAL 354
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4657:
+    label: Авария PAL 357
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4660:
+    label: Авария PAL 360
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4663:
+    label: Авария PAL 363
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4666:
+    label: Авария PAL 366
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4669:
+    label: Авария PAL 369
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4672:
+    label: Авария PAL 372
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4675:
+    label: Авария PAL 375
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4678:
+    label: Авария PAL 378
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4681:
+    label: Авария PAL 381
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4684:
+    label: Авария PAL 384
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4687:
+    label: Авария PAL 387
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4690:
+    label: Авария PAL 390
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4693:
+    label: Авария PAL 393
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4696:
+    label: Авария PAL 396
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4699:
+    label: Авария PAL 399
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4702:
+    label: Авария PAL 402
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4705:
+    label: Авария PAL 405
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4708:
+    label: Авария PAL 408
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4711:
+    label: Авария PAL 411
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4714:
+    label: Авария PAL 414
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4717:
+    label: Авария PAL 417
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4720:
+    label: Авария PAL 420
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4723:
+    label: Авария PAL 423
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4726:
+    label: Авария PAL 426
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4729:
+    label: Авария PAL 429
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4732:
+    label: Авария PAL 432
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4735:
+    label: Авария PAL 435
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4738:
+    label: Авария PAL 438
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4741:
+    label: Авария PAL 441
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4744:
+    label: Авария PAL 444
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4747:
+    label: Авария PAL 447
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4750:
+    label: Авария PAL 450
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4753:
+    label: Авария PAL 453
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4756:
+    label: Авария PAL 456
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4759:
+    label: Авария PAL 459
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4762:
+    label: Авария PAL 462
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4765:
+    label: Авария PAL 465
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4768:
+    label: Авария PAL 468
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4771:
+    label: Авария PAL 471
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  PAL4774:
+    label: Авария PAL 474
+    unit: bool
+    source_id: aps_main
+    signal_type: alarm_bit
+    alarm_class: critical
+  SKT001:
+    label: Обороты ГЭУ
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 600
+  SKT002:
+    label: Давление масла ГЭУ
+    unit: bar
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 10
+    setpoints:
+      warn: 3
+      alarm: 2
+  SKT0100:
+    label: Параметр SKT 0
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0101:
+    label: Параметр SKT 1
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0102:
+    label: Параметр SKT 2
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0103:
+    label: Параметр SKT 3
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0104:
+    label: Параметр SKT 4
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0105:
+    label: Параметр SKT 5
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0106:
+    label: Параметр SKT 6
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0107:
+    label: Параметр SKT 7
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0108:
+    label: Параметр SKT 8
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0109:
+    label: Параметр SKT 9
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0110:
+    label: Параметр SKT 10
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0111:
+    label: Параметр SKT 11
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0112:
+    label: Параметр SKT 12
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0113:
+    label: Параметр SKT 13
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0114:
+    label: Параметр SKT 14
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0115:
+    label: Параметр SKT 15
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0116:
+    label: Параметр SKT 16
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0117:
+    label: Параметр SKT 17
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0118:
+    label: Параметр SKT 18
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0119:
+    label: Параметр SKT 19
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0120:
+    label: Параметр SKT 20
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0121:
+    label: Параметр SKT 21
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0122:
+    label: Параметр SKT 22
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0123:
+    label: Параметр SKT 23
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0124:
+    label: Параметр SKT 24
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0125:
+    label: Параметр SKT 25
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0126:
+    label: Параметр SKT 26
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0127:
+    label: Параметр SKT 27
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0128:
+    label: Параметр SKT 28
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0129:
+    label: Параметр SKT 29
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0130:
+    label: Параметр SKT 30
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0131:
+    label: Параметр SKT 31
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0132:
+    label: Параметр SKT 32
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0133:
+    label: Параметр SKT 33
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0134:
+    label: Параметр SKT 34
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0135:
+    label: Параметр SKT 35
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0136:
+    label: Параметр SKT 36
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0137:
+    label: Параметр SKT 37
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0138:
+    label: Параметр SKT 38
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0139:
+    label: Параметр SKT 39
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0140:
+    label: Параметр SKT 40
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0141:
+    label: Параметр SKT 41
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0142:
+    label: Параметр SKT 42
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0143:
+    label: Параметр SKT 43
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0144:
+    label: Параметр SKT 44
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0145:
+    label: Параметр SKT 45
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0146:
+    label: Параметр SKT 46
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0147:
+    label: Параметр SKT 47
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0148:
+    label: Параметр SKT 48
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0149:
+    label: Параметр SKT 49
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0150:
+    label: Параметр SKT 50
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0151:
+    label: Параметр SKT 51
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0152:
+    label: Параметр SKT 52
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0153:
+    label: Параметр SKT 53
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0154:
+    label: Параметр SKT 54
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0155:
+    label: Параметр SKT 55
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0156:
+    label: Параметр SKT 56
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0157:
+    label: Параметр SKT 57
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0158:
+    label: Параметр SKT 58
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0159:
+    label: Параметр SKT 59
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0160:
+    label: Параметр SKT 60
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0161:
+    label: Параметр SKT 61
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0162:
+    label: Параметр SKT 62
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0163:
+    label: Параметр SKT 63
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0164:
+    label: Параметр SKT 64
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0165:
+    label: Параметр SKT 65
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0166:
+    label: Параметр SKT 66
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0167:
+    label: Параметр SKT 67
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0168:
+    label: Параметр SKT 68
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0169:
+    label: Параметр SKT 69
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0170:
+    label: Параметр SKT 70
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0171:
+    label: Параметр SKT 71
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0172:
+    label: Параметр SKT 72
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0173:
+    label: Параметр SKT 73
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0174:
+    label: Параметр SKT 74
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0175:
+    label: Параметр SKT 75
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0176:
+    label: Параметр SKT 76
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0177:
+    label: Параметр SKT 77
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0178:
+    label: Параметр SKT 78
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0179:
+    label: Параметр SKT 79
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0180:
+    label: Параметр SKT 80
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0181:
+    label: Параметр SKT 81
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0182:
+    label: Параметр SKT 82
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0183:
+    label: Параметр SKT 83
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0184:
+    label: Параметр SKT 84
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0185:
+    label: Параметр SKT 85
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0186:
+    label: Параметр SKT 86
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0187:
+    label: Параметр SKT 87
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0188:
+    label: Параметр SKT 88
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0189:
+    label: Параметр SKT 89
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0190:
+    label: Параметр SKT 90
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0191:
+    label: Параметр SKT 91
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0192:
+    label: Параметр SKT 92
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0193:
+    label: Параметр SKT 93
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0194:
+    label: Параметр SKT 94
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0195:
+    label: Параметр SKT 95
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0196:
+    label: Параметр SKT 96
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0197:
+    label: Параметр SKT 97
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0198:
+    label: Параметр SKT 98
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0199:
+    label: Параметр SKT 99
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0200:
+    label: Параметр SKT 100
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  SKT0201:
+    label: Параметр SKT 101
+    unit: rpm
+    source_id: skt_geu
+    signal_type: analog
+    range:
+      min: 0
+      max: 1000
+    setpoints: null
+  TAI4101:
+    label: Температура подшипника GD1 DE
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 75
+      alarm: 85
+  TAI4102:
+    label: Температура подшипника GD1 NDE
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 70
+      alarm: 80
+  TAI4201:
+    label: Температура морской воды
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: -5
+      max: 40
+  TAI4202:
+    label: Параметр TAI 2
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4204:
+    label: Параметр TAI 4
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4205:
+    label: Параметр TAI 5
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4207:
+    label: Параметр TAI 7
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4208:
+    label: Параметр TAI 8
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4210:
+    label: Параметр TAI 10
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4211:
+    label: Параметр TAI 11
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4213:
+    label: Параметр TAI 13
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4214:
+    label: Параметр TAI 14
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4216:
+    label: Параметр TAI 16
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4217:
+    label: Параметр TAI 17
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4219:
+    label: Параметр TAI 19
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4220:
+    label: Параметр TAI 20
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4222:
+    label: Параметр TAI 22
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4223:
+    label: Параметр TAI 23
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4225:
+    label: Параметр TAI 25
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4226:
+    label: Параметр TAI 26
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4228:
+    label: Параметр TAI 28
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4229:
+    label: Параметр TAI 29
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4231:
+    label: Параметр TAI 31
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4232:
+    label: Параметр TAI 32
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4234:
+    label: Параметр TAI 34
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4235:
+    label: Параметр TAI 35
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4237:
+    label: Параметр TAI 37
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4238:
+    label: Параметр TAI 38
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4240:
+    label: Параметр TAI 40
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4241:
+    label: Параметр TAI 41
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4243:
+    label: Параметр TAI 43
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4244:
+    label: Параметр TAI 44
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4246:
+    label: Параметр TAI 46
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4247:
+    label: Параметр TAI 47
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4249:
+    label: Параметр TAI 49
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4250:
+    label: Параметр TAI 50
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4252:
+    label: Параметр TAI 52
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4253:
+    label: Параметр TAI 53
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4255:
+    label: Параметр TAI 55
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4256:
+    label: Параметр TAI 56
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4258:
+    label: Параметр TAI 58
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4259:
+    label: Параметр TAI 59
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4261:
+    label: Параметр TAI 61
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4262:
+    label: Параметр TAI 62
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4264:
+    label: Параметр TAI 64
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4265:
+    label: Параметр TAI 65
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4267:
+    label: Параметр TAI 67
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4268:
+    label: Параметр TAI 68
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4270:
+    label: Параметр TAI 70
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4271:
+    label: Параметр TAI 71
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4273:
+    label: Параметр TAI 73
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4274:
+    label: Параметр TAI 74
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4276:
+    label: Параметр TAI 76
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4277:
+    label: Параметр TAI 77
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4279:
+    label: Параметр TAI 79
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4280:
+    label: Параметр TAI 80
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4282:
+    label: Параметр TAI 82
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4283:
+    label: Параметр TAI 83
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4285:
+    label: Параметр TAI 85
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4286:
+    label: Параметр TAI 86
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4288:
+    label: Параметр TAI 88
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4289:
+    label: Параметр TAI 89
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4291:
+    label: Параметр TAI 91
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4292:
+    label: Параметр TAI 92
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4294:
+    label: Параметр TAI 94
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4295:
+    label: Параметр TAI 95
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4297:
+    label: Параметр TAI 97
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4298:
+    label: Параметр TAI 98
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4300:
+    label: Параметр TAI 100
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4301:
+    label: Параметр TAI 101
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4303:
+    label: Параметр TAI 103
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4304:
+    label: Параметр TAI 104
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4306:
+    label: Параметр TAI 106
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4307:
+    label: Параметр TAI 107
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4309:
+    label: Параметр TAI 109
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4310:
+    label: Параметр TAI 110
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4312:
+    label: Параметр TAI 112
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4313:
+    label: Параметр TAI 113
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4315:
+    label: Параметр TAI 115
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4316:
+    label: Параметр TAI 116
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4318:
+    label: Параметр TAI 118
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4319:
+    label: Параметр TAI 119
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4321:
+    label: Параметр TAI 121
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4322:
+    label: Параметр TAI 122
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4324:
+    label: Параметр TAI 124
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4325:
+    label: Параметр TAI 125
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4327:
+    label: Параметр TAI 127
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4328:
+    label: Параметр TAI 128
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4330:
+    label: Параметр TAI 130
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4331:
+    label: Параметр TAI 131
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4333:
+    label: Параметр TAI 133
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4334:
+    label: Параметр TAI 134
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4336:
+    label: Параметр TAI 136
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4337:
+    label: Параметр TAI 137
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4339:
+    label: Параметр TAI 139
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4340:
+    label: Параметр TAI 140
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4342:
+    label: Параметр TAI 142
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4343:
+    label: Параметр TAI 143
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4345:
+    label: Параметр TAI 145
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4346:
+    label: Параметр TAI 146
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4348:
+    label: Параметр TAI 148
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4349:
+    label: Параметр TAI 149
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4351:
+    label: Параметр TAI 151
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4352:
+    label: Параметр TAI 152
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4354:
+    label: Параметр TAI 154
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4355:
+    label: Параметр TAI 155
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4357:
+    label: Параметр TAI 157
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4358:
+    label: Параметр TAI 158
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4360:
+    label: Параметр TAI 160
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4361:
+    label: Параметр TAI 161
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4363:
+    label: Параметр TAI 163
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4364:
+    label: Параметр TAI 164
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4366:
+    label: Параметр TAI 166
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4367:
+    label: Параметр TAI 167
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4369:
+    label: Параметр TAI 169
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4370:
+    label: Параметр TAI 170
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4372:
+    label: Параметр TAI 172
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4373:
+    label: Параметр TAI 173
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4375:
+    label: Параметр TAI 175
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4376:
+    label: Параметр TAI 176
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4378:
+    label: Параметр TAI 178
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4379:
+    label: Параметр TAI 179
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4381:
+    label: Параметр TAI 181
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4382:
+    label: Параметр TAI 182
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4384:
+    label: Параметр TAI 184
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4385:
+    label: Параметр TAI 185
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4387:
+    label: Параметр TAI 187
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4388:
+    label: Параметр TAI 188
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4390:
+    label: Параметр TAI 190
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4391:
+    label: Параметр TAI 191
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4393:
+    label: Параметр TAI 193
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4394:
+    label: Параметр TAI 194
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4396:
+    label: Параметр TAI 196
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4397:
+    label: Параметр TAI 197
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4399:
+    label: Параметр TAI 199
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4400:
+    label: Параметр TAI 200
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4402:
+    label: Параметр TAI 202
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4403:
+    label: Параметр TAI 203
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4405:
+    label: Параметр TAI 205
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4406:
+    label: Параметр TAI 206
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4408:
+    label: Параметр TAI 208
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4409:
+    label: Параметр TAI 209
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4411:
+    label: Параметр TAI 211
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4412:
+    label: Параметр TAI 212
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4414:
+    label: Параметр TAI 214
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4415:
+    label: Параметр TAI 215
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4417:
+    label: Параметр TAI 217
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4418:
+    label: Параметр TAI 218
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4420:
+    label: Параметр TAI 220
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4421:
+    label: Параметр TAI 221
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4423:
+    label: Параметр TAI 223
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4424:
+    label: Параметр TAI 224
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4426:
+    label: Параметр TAI 226
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4427:
+    label: Параметр TAI 227
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4429:
+    label: Параметр TAI 229
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4430:
+    label: Параметр TAI 230
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4432:
+    label: Параметр TAI 232
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4433:
+    label: Параметр TAI 233
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4435:
+    label: Параметр TAI 235
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4436:
+    label: Параметр TAI 236
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4438:
+    label: Параметр TAI 238
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4439:
+    label: Параметр TAI 239
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4441:
+    label: Параметр TAI 241
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4442:
+    label: Параметр TAI 242
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4444:
+    label: Параметр TAI 244
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4445:
+    label: Параметр TAI 245
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4447:
+    label: Параметр TAI 247
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4448:
+    label: Параметр TAI 248
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4450:
+    label: Параметр TAI 250
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4451:
+    label: Параметр TAI 251
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4453:
+    label: Параметр TAI 253
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4454:
+    label: Параметр TAI 254
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4456:
+    label: Параметр TAI 256
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4457:
+    label: Параметр TAI 257
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4459:
+    label: Параметр TAI 259
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4460:
+    label: Параметр TAI 260
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4462:
+    label: Параметр TAI 262
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4463:
+    label: Параметр TAI 263
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4465:
+    label: Параметр TAI 265
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4466:
+    label: Параметр TAI 266
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4468:
+    label: Параметр TAI 268
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4469:
+    label: Параметр TAI 269
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4471:
+    label: Параметр TAI 271
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4472:
+    label: Параметр TAI 272
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4474:
+    label: Параметр TAI 274
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4475:
+    label: Параметр TAI 275
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4477:
+    label: Параметр TAI 277
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4478:
+    label: Параметр TAI 278
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4480:
+    label: Параметр TAI 280
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4481:
+    label: Параметр TAI 281
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4483:
+    label: Параметр TAI 283
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4484:
+    label: Параметр TAI 284
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4486:
+    label: Параметр TAI 286
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4487:
+    label: Параметр TAI 287
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4489:
+    label: Параметр TAI 289
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4490:
+    label: Параметр TAI 290
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4492:
+    label: Параметр TAI 292
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4493:
+    label: Параметр TAI 293
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4495:
+    label: Параметр TAI 295
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4496:
+    label: Параметр TAI 296
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4498:
+    label: Параметр TAI 298
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4499:
+    label: Параметр TAI 299
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4501:
+    label: Параметр TAI 301
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4502:
+    label: Параметр TAI 302
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4504:
+    label: Параметр TAI 304
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4505:
+    label: Параметр TAI 305
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4507:
+    label: Параметр TAI 307
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4508:
+    label: Параметр TAI 308
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4510:
+    label: Параметр TAI 310
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4511:
+    label: Параметр TAI 311
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4513:
+    label: Параметр TAI 313
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4514:
+    label: Параметр TAI 314
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4516:
+    label: Параметр TAI 316
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4517:
+    label: Параметр TAI 317
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4519:
+    label: Параметр TAI 319
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4520:
+    label: Параметр TAI 320
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4522:
+    label: Параметр TAI 322
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4523:
+    label: Параметр TAI 323
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4525:
+    label: Параметр TAI 325
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4526:
+    label: Параметр TAI 326
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4528:
+    label: Параметр TAI 328
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4529:
+    label: Параметр TAI 329
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4531:
+    label: Параметр TAI 331
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4532:
+    label: Параметр TAI 332
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4534:
+    label: Параметр TAI 334
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4535:
+    label: Параметр TAI 335
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4537:
+    label: Параметр TAI 337
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4538:
+    label: Параметр TAI 338
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4540:
+    label: Параметр TAI 340
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4541:
+    label: Параметр TAI 341
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4543:
+    label: Параметр TAI 343
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4544:
+    label: Параметр TAI 344
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4546:
+    label: Параметр TAI 346
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4547:
+    label: Параметр TAI 347
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4549:
+    label: Параметр TAI 349
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4550:
+    label: Параметр TAI 350
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4552:
+    label: Параметр TAI 352
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4553:
+    label: Параметр TAI 353
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4555:
+    label: Параметр TAI 355
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4556:
+    label: Параметр TAI 356
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4558:
+    label: Параметр TAI 358
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4559:
+    label: Параметр TAI 359
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4561:
+    label: Параметр TAI 361
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4562:
+    label: Параметр TAI 362
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4564:
+    label: Параметр TAI 364
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4565:
+    label: Параметр TAI 365
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4567:
+    label: Параметр TAI 367
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4568:
+    label: Параметр TAI 368
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4570:
+    label: Параметр TAI 370
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4571:
+    label: Параметр TAI 371
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4573:
+    label: Параметр TAI 373
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4574:
+    label: Параметр TAI 374
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4576:
+    label: Параметр TAI 376
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4577:
+    label: Параметр TAI 377
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4579:
+    label: Параметр TAI 379
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4580:
+    label: Параметр TAI 380
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4582:
+    label: Параметр TAI 382
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4583:
+    label: Параметр TAI 383
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4585:
+    label: Параметр TAI 385
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4586:
+    label: Параметр TAI 386
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4588:
+    label: Параметр TAI 388
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4589:
+    label: Параметр TAI 389
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4591:
+    label: Параметр TAI 391
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4592:
+    label: Параметр TAI 392
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4594:
+    label: Параметр TAI 394
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4595:
+    label: Параметр TAI 395
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4597:
+    label: Параметр TAI 397
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4598:
+    label: Параметр TAI 398
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4600:
+    label: Параметр TAI 400
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4601:
+    label: Параметр TAI 401
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4603:
+    label: Параметр TAI 403
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4604:
+    label: Параметр TAI 404
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4606:
+    label: Параметр TAI 406
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4607:
+    label: Параметр TAI 407
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4609:
+    label: Параметр TAI 409
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4610:
+    label: Параметр TAI 410
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4612:
+    label: Параметр TAI 412
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4613:
+    label: Параметр TAI 413
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4615:
+    label: Параметр TAI 415
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4616:
+    label: Параметр TAI 416
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4618:
+    label: Параметр TAI 418
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4619:
+    label: Параметр TAI 419
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4621:
+    label: Параметр TAI 421
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4622:
+    label: Параметр TAI 422
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4624:
+    label: Параметр TAI 424
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4625:
+    label: Параметр TAI 425
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4627:
+    label: Параметр TAI 427
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4628:
+    label: Параметр TAI 428
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4630:
+    label: Параметр TAI 430
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4631:
+    label: Параметр TAI 431
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4633:
+    label: Параметр TAI 433
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4634:
+    label: Параметр TAI 434
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4636:
+    label: Параметр TAI 436
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4637:
+    label: Параметр TAI 437
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4639:
+    label: Параметр TAI 439
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4640:
+    label: Параметр TAI 440
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4642:
+    label: Параметр TAI 442
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4643:
+    label: Параметр TAI 443
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4645:
+    label: Параметр TAI 445
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4646:
+    label: Параметр TAI 446
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4648:
+    label: Параметр TAI 448
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4649:
+    label: Параметр TAI 449
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4651:
+    label: Параметр TAI 451
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4652:
+    label: Параметр TAI 452
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4654:
+    label: Параметр TAI 454
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4655:
+    label: Параметр TAI 455
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4657:
+    label: Параметр TAI 457
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4658:
+    label: Параметр TAI 458
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4660:
+    label: Параметр TAI 460
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4661:
+    label: Параметр TAI 461
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4663:
+    label: Параметр TAI 463
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4664:
+    label: Параметр TAI 464
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4666:
+    label: Параметр TAI 466
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4667:
+    label: Параметр TAI 467
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4669:
+    label: Параметр TAI 469
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4670:
+    label: Параметр TAI 470
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4672:
+    label: Параметр TAI 472
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4673:
+    label: Параметр TAI 473
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4675:
+    label: Параметр TAI 475
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI4676:
+    label: Параметр TAI 476
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95
+  TAI5201:
+    label: Параметр TAI 1001
+    unit: degC
+    source_id: aps_main
+    signal_type: analog
+    range:
+      min: 0
+      max: 150
+    setpoints:
+      warn: 80
+      alarm: 95

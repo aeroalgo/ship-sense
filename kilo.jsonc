@@ -8,7 +8,7 @@
   ],
   "agent": {
     "code": {
-      "description": "Primary implementer. MUST Task→explore|explorer for search; Task→worker|general for isolated edits; Task→reviewer for review.",
+      "description": "Primary implementer. L1–L2 self; verify before FINISH; spawn only per spawn-hard.",
       "mode": "primary",
       "model": "omniroute/cx/gpt-5.6-luna",
       "permission": {
@@ -27,7 +27,7 @@
       }
     },
     "build": {
-      "description": "Primary ship-sense (Codex luna parity). Delegate via Task only.",
+      "description": "Primary ship-sense (luna parity). L1–L2 self; verify before FINISH; spawn per spawn-hard.",
       "mode": "primary",
       "model": "omniroute/cx/gpt-5.6-luna",
       "color": "#3B82F6",
@@ -47,7 +47,7 @@
       }
     },
     "luna": {
-      "description": "Parent PLAN/IMPLEMENT — cx/gpt-5.6-luna. MUST spawn Flash subagents via Task.",
+      "description": "Parent PLAN/IMPLEMENT — luna. L1–L2 self; verify before FINISH; spawn only per spawn-hard.",
       "mode": "primary",
       "model": "omniroute/cx/gpt-5.6-luna",
       "color": "#6366F1",
@@ -67,7 +67,7 @@
       }
     },
     "grok": {
-      "description": "Parent PLAN/IMPLEMENT — gc/grok-build. MUST spawn Flash subagents via Task.",
+      "description": "Parent PLAN/IMPLEMENT — grok. L1–L2 self; verify before FINISH; spawn only per spawn-hard.",
       "mode": "primary",
       "model": "omniroute/gc/grok-build",
       "color": "#F59E0B",
@@ -87,7 +87,7 @@
       }
     },
     "glm": {
-      "description": "Parent PLAN/IMPLEMENT — glm/glm-5.2. MUST spawn Flash subagents via Task.",
+      "description": "Parent PLAN/IMPLEMENT — glm. L1–L2 self; verify before FINISH; spawn only per spawn-hard.",
       "mode": "primary",
       "model": "omniroute/glm/glm-5.2",
       "color": "#10B981",
@@ -107,7 +107,7 @@
       }
     },
     "flash": {
-      "description": "Cheap parent — flash-high. Still spawn explore/worker for isolation.",
+      "description": "Cheap parent — flash-high. L1–L2 self; verify before FINISH; spawn only per spawn-hard.",
       "mode": "primary",
       "model": "omniroute/antigravity/gemini-3.5-flash-high",
       "color": "#22D3EE",

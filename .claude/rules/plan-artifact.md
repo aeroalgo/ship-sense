@@ -6,18 +6,26 @@ paths:
   - "memory-bank/back/plan/plan-*.md"
   - "memory-bank/front/plan/plan-*.md"
   - "memory-bank/integration/plan/plan-*.md"
+  - "memory-bank/architecture/**"
 ---
 
-# PLAN / GAP artifacts — NO OUTPUT ECONOMY
+# PLAN / GAP / ARCHITECTURE artifacts — NO OUTPUT ECONOMY
 
 When creating or editing files matching these paths:
 
 ## Absolute rules
 
 1. **Token economy / telegraph / «max 3 sentences» / 200-line caps DO NOT APPLY** to this file.
-2. **Chat brevity does not limit** this file. Short reply to user ≠ short plan.
+2. **Chat brevity does not limit** this file. Short reply to user ≠ short plan/map.
 3. **Lean load ≠ lean write.** Context may stay focused; this artifact must be exhaustive.
 4. Truncating «для экономии контекста / токенов» = **FAIL**. Rewrite longer.
+
+## Minimum bar (architecture — `memory-bank/architecture/**`)
+
+- Brownfield VAN must produce real as-built content, not stubs-only
+- Required mermaid: service interaction + data-flow; ERD or explicit `erd: n/a`
+- Missing layer → explicit `absent` / `n/a`, never silent omit
+- Session van log stays thin; detail lives in architecture shards
 
 ## Minimum bar (INTEG GAP — `gap-*.md`)
 
@@ -39,3 +47,4 @@ If scope is portal/journey / file is `plan-INTEG-*`:
 ## After Write
 
 Run `wc -l` on the plan file. If under acceptance bar → expand before FINISH. Do not declare done.
+For architecture shards: verify mermaid blocks exist before FINISH.

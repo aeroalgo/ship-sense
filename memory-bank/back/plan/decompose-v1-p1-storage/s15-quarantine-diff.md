@@ -1,7 +1,8 @@
 # Шаг s15: Quarantine diff + persist (tag_quarantine)
 **Plan ID:** v1-p1-storage
-**Next Phase:** BACK CREATIVE
-**needs_creative:** yes (CR-STO-03) | **tdd:** yes
+**Next Phase:** BACK IMPLEMENT
+**needs_creative:** yes (CR-STO-03) — **closed** | **tdd:** yes
+**Creative:** [CR-STO-03/creative-cr-sto-03-quarantine-ux.md](../../creative/creative-cr-sto-03-quarantine-ux.md)
 **AC:** AC-STO-S15 (из плана §219–222, §802–812: diff native → quarantine, state, acknowledge, persist)
 **code_surface:** service
 

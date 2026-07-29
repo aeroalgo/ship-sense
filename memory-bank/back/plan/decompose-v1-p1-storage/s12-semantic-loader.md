@@ -1,7 +1,8 @@
 # Шаг s12: Semantic loader (YAML + pydantic validate)
 **Plan ID:** v1-p1-storage
-**Next Phase:** BACK CREATIVE
-**needs_creative:** yes (CR-STO-03) | **tdd:** yes
+**Next Phase:** BACK IMPLEMENT
+**needs_creative:** yes (CR-STO-03) — **closed** | **tdd:** yes
+**Creative:** [CR-STO-03/creative-cr-sto-03-quarantine-ux.md](../../creative/creative-cr-sto-03-quarantine-ux.md)
 **AC:** AC-STO-S12 (из плана §214–222, §795–801: load ship-pack, fail-fast validation, unique tags, no orphans)
 **code_surface:** model
 

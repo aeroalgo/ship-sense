@@ -59,6 +59,7 @@ IDEA PIPELINE      →  /idea-pipeline
 
 | Slash | Chat |
 |-------|------|
+| `/integ-van` | INTEG VAN (brownfield → полная `architecture/`) |
 | `/integ-gap` | INTEG GAP (алиас INTEGRATION GAP; rewrite §Gaps → link) |
 | `/integ-gap-close` | INTEG GAP CLOSE (follow links + rewire) |
 | `/integ-plan` | INTEG PLAN (SUSPENSION GUARD — plan unlimited) |
@@ -117,4 +118,5 @@ IDEA PIPELINE      →  /idea-pipeline
 
 ## FINISH
 
-`## Handoff` в artifact + `/clear` (аналог new chat в Cursor).
+Канон: `.cursor/rules/shared/finish-block.mdc` → `finish-doc-router.mdc` → `/clear` (аналог new chat в Cursor).  
+IMPLEMENT: step-файл + Handoff в `activeContext` **до** decompose completed.

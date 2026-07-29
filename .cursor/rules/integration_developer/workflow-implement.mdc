@@ -35,7 +35,7 @@ alwaysApply: false
 **D Wire:** fetch + loading/error + URL sync  
 **E §0.11:** endpoint ↔ fetch; mock удалён; live check  
 **E2 Scenario:** user-visible flow → Playwright targeted **или** `.venv/bin/pytest` HTTP outcome; путь в step (не только unit)  
-**F FINISH:** step-файл + sync обоих index; перед FINISH (HARD): в `decompose-*/index.md` текущий `eNN` = `completed`, следующий шаг остаётся `pending`, `activeContext.md` указывает следующий `eNN`, а `implement/index.md` не содержит `done` / `completed`; затем @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`)  
+**F FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) — step-файл + Handoff **до** sync decompose/`load_now` (канон порядка только в finish-block)  
 → Gaps open → `INTEG GAP` → … → `INTEG GAP CLOSE`; иначе eNN+1 / QA (new chat)
 
 ## Уровни

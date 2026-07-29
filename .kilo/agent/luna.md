@@ -1,5 +1,5 @@
 ---
-description: Parent PLAN/IMPLEMENT — OmniRoute cx/gpt-5.6-luna. Task-spawn only when needed.
+description: Parent PLAN/IMPLEMENT — luna. L1–L2 self; verify before FINISH; spawn only per spawn-hard.
 mode: primary
 model: omniroute/cx/gpt-5.6-luna
 color: "#6366F1"
@@ -29,28 +29,23 @@ FINISH / «продолжай» → `.kilo/instructions/workflow-gate.md` §FINI
 - Re-read файла «для уверенности» — **запрещён** (tool result уже в контексте).
 - Skills A∪B: каждый SKILL.md ≤1× за сессию.
 
-## HARD — L1–L2 без spawn
+## HARD — L1–L2 parent сам + verify
 
 Если shard уже в контексте и есть явные create/edit paths:
 
 - **сам:** TDD red → edit → green targeted `.venv/bin/pytest`
-- **не** `task`→`explore` «найти файлы»
-- **не** `task`→`worker` «реализуй по shard» без packed AC
+- **не** `task`→`explore` / `worker` «на всякий»
+- pytest FAIL 1× → сам fix; FAIL 2× или >3 файлов → **1×** `bugfix`
+- **перед FINISH** (`code_changed: yes`): **`task`→`verify`** + packed AC + VERIFY — обязательно
 
-`task`→`worker` только с **упакованным** prompt (см. spawn-hard): Цель + AC + CREATE/EDIT + ALLOW ≤5 файлов + VERIFY + FORBID.  
-Не давать worker путь к `plan-*.md` / decompose index / `activeContext` — AC уже в prompt.
+## HARD spawn (только когда spawn-hard разрешает)
 
-## HARD spawn (когда нужен)
+- поиск «где X» без paths → `explore` + GRAPHIFY
+- bugfix 1× → `bugfix` + REPRO/VERIFY
+- pre-FINISH → `verify` (mandatory)
+- review / QA → `reviewer` (не цепочка на один sNN)
 
-- поиск «где X» → `task`→`explore` + GRAPHIFY query + ALLOW
-- изолированная подзадача → `task`→`worker` + packed AC
-- тесты / TDD red → `task`→`test-writer` + packed AC
-- multi-file refactor → `task`→`refactor` + packed AC
-- root-cause bug → `task`→`bugfix` + REPRO/VERIFY
-- pre-FINISH → `task`→`verify` + AC + VERIFY (read-only)
-- review → `task`→`reviewer`
-
-См. `.kilo/instructions/spawn-hard.md`.
+См. `.kilo/instructions/spawn-hard.md`. Метрики: `.kilo/metrics/spawn-baseline-2026-07-29.md`.
 
 В prompt каждого subagent: HARD RULE front-tests + отчёт на русском.  
 Ответы пользователю — на русском.

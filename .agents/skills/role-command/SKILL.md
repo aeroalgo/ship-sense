@@ -30,9 +30,9 @@ Multi-word: `ARCHIVE NOW`, `IDEA PIPELINE CONTINUE`, `INTEG GAP`, `INTEG GAP CLO
 
 Читай `.cursor/rules/graphify.mdc` **до** Grep/Read по codebase.
 
-**Обязателен** для: `IMPLEMENT` · `TASK` · `BUGFIX` · `REFACTOR` · `QA`; также `PM DISCOVER`, `TL SYNC DEV`.
+**Обязателен** для: `IMPLEMENT` · `TASK` · `BUGFIX` · `REFACTOR` · `QA`; также `PM DISCOVER`, `TL SYNC DEV`; **brownfield** `BACK/FRONT/INTEG VAN`.
 
-**Пропуск:** `VAN` · `PLAN` · `DECOMPOSE` · `CREATIVE` · `REFLECT` · `ARCHIVE NOW` · `SECURITY` · `GAP` (docs only).
+**Пропуск:** greenfield `VAN` · `PLAN` · `DECOMPOSE` · `CREATIVE` · `REFLECT` · `ARCHIVE NOW` · `SECURITY` · `GAP` (docs only).
 
 ```bash
 .venv/bin/graphify query "<question>"
@@ -45,7 +45,7 @@ Multi-word: `ARCHIVE NOW`, `IDEA PIPELINE CONTINUE`, `INTEG GAP`, `INTEG GAP CLO
 ## Step 0b — session
 
 1. `.cursor/rules/shared/context-session-economy.mdc` §3
-2. FINISH: §5–6 + `.cursor/rules/shared/finish-doc-router.mdc` (+ graphify update если code changed)
+2. FINISH: `.cursor/rules/shared/finish-block.mdc` → `finish-doc-router.mdc` (+ graphify update если code changed). IMPLEMENT: step + Handoff **до** decompose/`load_now`
 
 ### Если MODE = PLAN
 
@@ -138,7 +138,11 @@ Integration grep §0.11 token-economy before FINISH.
 
 Если MODE=PLAN: вторая строка `SUSPENSION GUARD active — plan output unlimited`.
 
-Перед FINISH на PLAN: `wc -l` на plan-файл.
+Если MODE=VAN и brownfield: `SUSPENSION GUARD active — architecture map output unlimited` + `.cursor/rules/shared/workflow-van-brownfield.mdc`.
+
+Перед FINISH на PLAN: `wc -l` на plan-файл.  
+Перед FINISH на brownfield VAN: architecture не stub-only; mermaid minimum.  
+Перед FINISH на IMPLEMENT: `finish-block.mdc` — step-файл + Handoff **до** decompose completed.
 
 ## IDEA PIPELINE
 

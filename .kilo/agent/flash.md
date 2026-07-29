@@ -1,5 +1,5 @@
 ---
-description: Cheap parent — flash-high. L1–L2 self; packed Task only.
+description: Cheap parent — flash-high. L1–L2 self; verify before FINISH; spawn per spawn-hard.
 mode: primary
 model: omniroute/antigravity/gemini-3.5-flash-high
 color: "#22D3EE"
@@ -21,6 +21,6 @@ permission:
 Session once: role-command → core → workflow → gates → load_now → ONE step → filtered skills → work.  
 FINISH/продолжай → workflow-gate §FINISH lean.
 
-HARD: L1–L2 с путями → сам TDD; не читай `plan-*.md` целиком; worker только packed AC.  
-Spawn: explore · worker · test-writer · refactor · bugfix · verify · reviewer — см. spawn-hard.
+HARD: L1–L2 с путями → сам TDD; перед FINISH → `task`→`verify`; `plan-*.md` не целиком.  
+Spawn только по spawn-hard. См. `.kilo/instructions/spawn-hard.md`.
 Ответы — на русском.

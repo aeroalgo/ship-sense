@@ -1,18 +1,22 @@
 ---
-description: "VAN gates — memory bank, complexity (lean)"
+description: "VAN gates — memory bank, complexity, brownfield architecture (lean)"
 alwaysApply: false
 ---
 # VAN — gates
 
-**Артефакт (опц.):** `memory-bank/back/van/van-YYYYMMDD.md`  
-**Пути структуры:** @.cursor/rules/back_developer/isolation_rules/Core/memory-bank-paths.mdc
+**Артефакт (session):** `memory-bank/back/van/van-YYYYMMDD.md`  
+**Карта (brownfield):** `memory-bank/architecture/`  
+**Brownfield:** @.cursor/rules/shared/workflow-van-brownfield.mdc  
+**Пути:** @.cursor/rules/back_developer/isolation_rules/Core/memory-bank-paths.mdc
 
 ## Gates
 
 1. `memory-bank/` valid по paths — иначе create; abort до valid
 2. Обязательны: `tasks.md`, `activeContext.md`, `projectbrief.md`
-3. L1–L4 записан в `tasks.md` (append-only)
-4. Контекст ясен из tasks + activeContext
+3. Mode detected: greenfield | brownfield
+4. L1–L4 записан в `tasks.md` (append-only)
+5. Контекст ясен из tasks + activeContext
+6. **Brownfield:** backend-scope shards refreshed + `architecture/index.md` updated; session van log с links; mermaid minimum (services + data-flow + erd|n/a)
 
 ## Complexity
 
@@ -27,3 +31,4 @@ alwaysApply: false
 
 - Invalid memory bank → fix first
 - Complexity не определён → не рекомендовать IMPLEMENT/PLAN
+- Brownfield без architecture refresh → FAIL

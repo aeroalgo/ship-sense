@@ -23,7 +23,7 @@
 | **s10** | [s10-quota-manager.md](../../plan/decompose-v1-p1-storage/s10-quota-manager.md) | [s10-quota-manager.md](s10-quota-manager.md) |
 | **s11** | [s11-health-snapshots.md](../../plan/decompose-v1-p1-storage/s11-health-snapshots.md) | [s11-health-snapshots.md](s11-health-snapshots.md) |
 | **s12** | [s12-semantic-loader.md](../../plan/decompose-v1-p1-storage/s12-semantic-loader.md) | [s12-semantic-loader.md](s12-semantic-loader.md) |
-| **s13** | [s13-semantic-engine.md](../../plan/decompose-v1-p1-storage/s13-semantic-engine.md) | [s13-semantic-engine.md](s13-semantic-engine.md) |
+| **s13** | [s13-semantic-engine.md](../../plan/decompose-v1-p1-storage/s13-semantic-engine.md) | [s13-semantic-engine.md](s13-semantic-engine.md) — done |
 | **s14** | [s14-ship-pack-makarov.md](../../plan/decompose-v1-p1-storage/s14-ship-pack-makarov.md) | [s14-ship-pack-makarov.md](s14-ship-pack-makarov.md) |
 | **s15** | [s15-quarantine-diff.md](../../plan/decompose-v1-p1-storage/s15-quarantine-diff.md) | [s15-quarantine-diff.md](s15-quarantine-diff.md) |
 | **s16** | [s16-compression-policy.md](../../plan/decompose-v1-p1-storage/s16-compression-policy.md) | [s16-compression-policy.md](s16-compression-policy.md) |

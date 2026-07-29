@@ -52,11 +52,10 @@ Union A∪B. Не пропускать **применимые** пункты A (
 5b. **Scenario:** user-visible flow в step → Playwright targeted **обязателен**; путь в step/Handoff
 6. Реализация по level delta в gates; UI — **только после** design Read; следование plan/creative + design skills
 7. Green: затронутые unit/component + scenario E2E шага — **parent** shell
-8. tasks + decompose index: `done`; implement step = источник истины статуса; `implement/index` = ссылки only, без status
-8a. Pre-FINISH verify (HARD): в `decompose-*/index.md` текущий `sNN` = `completed`, следующий шаг остаётся `pending`; `activeContext.md` указывает следующий `sNN`; в `implement/index.md` **нет** суффиксов `done` / `completed`
+8. Green: затронутые unit/component + scenario E2E шага — **parent** shell
 9. §0.11 если API/env/keys
 10. Pre-FINISH skills
-11. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`, artifact: step)
+11. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) — порядок/артефакты **только там**
     - FAIL: user-visible без scenario; Handoff «manual smoke only»
     - FAIL: visible UI без Read design (A и/или B)
 12. → FRONT QA (**новый чат**) → REFLECT

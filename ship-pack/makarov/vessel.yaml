@@ -1,0 +1,12 @@
+vessel:
+  id: makarov
+  name: Адмирал Макаров
+  imo: XXXXXXX
+  pack_version: 1.0.0-emulator
+sources:
+- id: aps_main
+  label: АПС
+  tag_count_expected: 482
+- id: skt_geu
+  label: СКТ ГЭУ
+  tag_count_expected: 104

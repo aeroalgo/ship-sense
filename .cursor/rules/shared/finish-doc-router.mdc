@@ -35,11 +35,23 @@ Entry: @.cursor/rules/shared/finish-block.mdc → этот файл → graphify
 - Пропускать для `PLAN`/`DECOMPOSE`/`VAN`/`QA`/`REFLECT`/`ARCHIVE` — код не менялся
 - Nested `frontend/graphify-out`, `apps/**/graphify-out` — удалить, не использовать
 
+## IMPLEMENT / INTEG IMPLEMENT (artifact order — канон)
+
+Полный порядок и FAIL: @.cursor/rules/shared/finish-block.mdc. Кратко:
+
+1. **Сначала** Write `memory-bank/{back|front|integration}/implement/implement-<plan>/sNN|eNN-<slug>.md` + `## Handoff` этого шага в `activeContext.md` + delivery log
+2. **Потом** `decompose-*/index.md` → `completed` и `load_now` → следующий step-файл
+3. `implement/index.md` — только ссылки, **без** status
+
+**FAIL:** completed / next `load_now` без существующего step-файла или без Handoff шага.
+
 ## Forbidden at FINISH
 
 - Do NOT leave completed work in `load_now`
 - Do NOT add full index files to `load_now` (index → shard link only)
 - Prefer **shard path** in `load_now`, not index + shard
+- Do NOT mark `decompose`=`completed` or flip `load_now` to next **before** implement/integ step-файл + `## Handoff` exist
+- Do NOT declare IMPLEMENT done on code/tests alone without step-файл
 
 ## After template
 

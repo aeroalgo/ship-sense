@@ -51,6 +51,9 @@ Provider: **OmniRoute** (`~/.config/kilo/kilo.jsonc`).
 
 Делегирует **primary** (`code`/`luna`/…) через tool `task` — отдельный Orchestrator не нужен.
 
+**Канон spawn (2026-07-29):** L1–L2 IMPLEMENT → parent сам; перед FINISH → `verify`; spawn не default.  
+Детали: `.kilo/instructions/spawn-hard.md`. Baseline: `.kilo/metrics/spawn-baseline-2026-07-29.md`.
+
 1. Task → `explore`|`explorer` | `general`|`worker` | `test-writer` | `refactor` | `bugfix` | `verify` | `reviewer`
 2. Explore: **только graphify** (`.venv/bin/graphify`); grep/glob deny — см. `spawn-hard.md`
 3. Sticky model на агенте (flash-low/high) — **не** наследуй parent
@@ -66,7 +69,9 @@ Provider: **OmniRoute** (`~/.config/kilo/kilo.jsonc`).
 - `implement this` — обязателен для правок вне role command (`.cursor/rules/token-economy-core.mdc` §0.9)
 - FRONT: subagent **никогда** не запускает vitest/playwright/npm test/e2e — только parent
 - PLAN: `plan-*.md` / `gap-*.md` без лимита строк; `SUSPENSION GUARD active — plan output unlimited`
-- FINISH: Handoff → `activeContext.md` → `.venv/bin/graphify update .` если code changed
+- Brownfield VAN: `memory-bank/architecture/**` без лимита; `SUSPENSION GUARD active — architecture map output unlimited` (`INTEG VAN` = полная карта; `BACK`/`FRONT VAN` = scoped)
+- FINISH: Handoff → `activeContext.md` → `.venv/bin/graphify update .` если code changed; канон порядка IMPLEMENT: `.cursor/rules/shared/finish-block.mdc` (step-файл **до** decompose completed)
+- FINISH IMPLEMENT: перед закрытием → `task`→`verify` (см. spawn-hard)
 - pytest: всегда из **корня репо** через `.venv/bin/pytest` (не голый `pytest` — в песочнице не работает)
 
 ## Stack

@@ -1,0 +1,8 @@
+vessel_timezone: Asia/Vladivostok
+store_utc: true
+official_ts_rule:
+  prefer_source_ts: true
+  max_source_edge_skew_sec: 300
+clock_shift_detect:
+  backward_jump_sec: 60
+  forward_jump_sec: 300

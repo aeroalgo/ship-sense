@@ -10,5 +10,6 @@
 | Session load | `memory-bank/activeContext.md` → только `load_now` |
 | Язык | ответы пользователю — **русский**; в конце — модель |
 
-**Session start once** (role command): role-command → core → workflow → gates → `activeContext` → ONE step → skills (filtered) → work.  
-**FINISH / «продолжай»:** §FINISH lean в `workflow-gate.md` — без перезапуска цепочки.
+**Session start once** (role command): role-command → core → workflow → gates → `activeContext` → ONE step → **creative reject check** → skills (full Read, no limit≈200) → work.  
+**FINISH / «продолжай»:** §FINISH lean в `workflow-gate.md` — без перезапуска цепочки.  
+**HARD:** `needs_creative` open → REJECT IMPLEMENT (не код). §0.5 «200 lines» = WRITE docs only.

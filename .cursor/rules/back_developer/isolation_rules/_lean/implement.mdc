@@ -11,13 +11,12 @@ alwaysApply: false
 1. `activeContext.md` → `load_now` non-empty
 2. ONE task shard + ONE plan/decompose **step file** (не index)
 3. Level из step/plan — L2 substep → L2, не L4 по умолчанию
-4. L3–4 + `needs_creative` без `creative-*.md` → abort → BACK CREATIVE
-5. **Skills A∪B:** слой A (выбор по задаче в `workflow-implement`) + слой B (Impl skills из decompose step) — Read **до** prod-кода
+4. **Creative hard-stop (любой L):** `needs_creative: yes` без `— **closed**` / без `creative-*.md` ссылки, **или** `Next Phase: * CREATIVE`, **или** index blocker `CR-*` без `✅` → **abort сразу** → сообщить `REJECT IMPLEMENT — нужен BACK CREATIVE <CR-ID>`; **запрещено** код/тесты/`completed`. Нельзя рационализировать («quarantine later», «другой sNN», «scope без CR»).
+5. **Skills A∪B:** слой A (выбор по задаче в `workflow-implement`) + слой B (Impl skills из decompose step) — Read **целиком до** prod-кода (**без** `limit≤300` на `SKILL.md`)
 6. Red: тесты написаны; **targeted** `.venv/bin/pytest` из корня репо падает до кода — не полный suite
 7. §0.11: counterpart для key/env/event/col/route — missing = bug
 8. Green: только новые/затронутые тесты через `.venv/bin/pytest` (cwd=root); полный suite → BACK QA
-9. implement step-файл + decompose index обновлены; `implement/index` — навигация only, без status; tasks append-only
-10. Перед финальным ответом сверить 3 точки: `decompose-*/index.md` (`sNN` -> `completed`), `activeContext.md` (next -> следующий шаг), `implement/index.md` (без `done`/`completed`/status suffix)
+9. **FINISH:** @.cursor/rules/shared/finish-block.mdc — step-файл + Handoff **до** decompose `completed` / next `load_now` (5 точек + FAIL там)
 
 ## Level delta
 
@@ -31,8 +30,10 @@ alwaysApply: false
 ## Abort
 
 - Shard/step missing → не код
+- `needs_creative` open / `Next Phase: * CREATIVE` / `CR-*` без closed → **REJECT** (не код, не `completed`)
 - Red skipped → не merge
 - Полный pytest в IMPLEMENT → BACK QA
 - Голый `pytest` (не `.venv/bin/…`, не из корня) → FAIL / перезапуск
-- Слой A или B skills не Read → no FINISH
+- Слой A или B skills не Read **целиком** → no FINISH
 - service/deps/endpoints без anti-patterns (A и/или B) → no FINISH
+- FINISH без step-файла / Handoff / с нарушением порядка → FAIL (см. finish-block)

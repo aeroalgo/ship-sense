@@ -1,0 +1,3 @@
+# ERD
+
+**Status:** stub — заполняется `BACK VAN` / `INTEG VAN`

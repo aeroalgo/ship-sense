@@ -2,19 +2,43 @@
 
 Orchestrator mode **deprecated**. Делегирование делает primary (`code` / `luna` / `grok` / `glm`) через tool **`task`**.
 
-## Когда ОБЯЗАТЕЛЬНО вызвать `task` (не делать самому)
+**Канон (baseline 2026-07-29):** parent-self на L1–L2 IMPLEMENT + **mandatory verify** перед FINISH.  
+Spawn — исключение, не default. Метрики: `.kilo/metrics/spawn-baseline-2026-07-29.md`.
+
+## Политика spawn (канон)
+
+| Режим | Кто делает | Spawn |
+|-------|------------|-------|
+| BACK IMPLEMENT L1–L2, paths в shard, ≤3 файлов | **Parent сам** TDD | **запрещён** (кроме verify) |
+| MQTT/scripts/docs/compose steps | **Parent сам** | **запрещён** (кроме verify) |
+| Перед FINISH (любой IMPLEMENT с code) | — | **`task`→`verify` ОБЯЗАТЕЛЬНО** |
+| pytest FAIL 1× | **Parent сам** fix | не spawn |
+| pytest FAIL 2× / cross-package / >3 файлов | — | **1×** `bugfix` (не worker chain) |
+| «где X», нет paths в shard | — | `explore` / `explorer` |
+| Multi-file preserve-behavior | — | `refactor` |
+| Только red tests, большой matrix | — | `test-writer` |
+| BACK QA, scope ясен | Parent pytest + | **1×** `reviewer` |
+| BACK QA, scope неясен | — | ≤1 `explorer`, потом parent |
+| Review по запросу / diff >5 файлов | — | `reviewer` |
+
+**FAIL:** explore/worker/reviewer цепочкой на один L1–L2 sNN.  
+**FAIL:** worker×2+ на один AC.  
+**FAIL:** FINISH без `verify` когда `code_changed: yes`.  
+**FAIL:** «MUST spawn» / spawn «на всякий случай».
+
+## Когда вызвать `task` (справочник agents)
 
 | Ситуация | Agent |
 |----------|--------|
 | Поиск по репо / «где X» (через graphify) | `explore` или `explorer` |
-| Изолированная правка / подзадача реализации | `worker` или `general` |
+| Изолированная правка (только если parent не может сам) | `worker` или `general` |
 | TDD / написать-править тесты (red first) | `test-writer` |
 | Multi-file surgical refactor (preserve behavior) | `refactor` |
 | Root-cause bugfix (reproduce → fix → prove) | `bugfix` |
-| Pre-FINISH gate (AC + VERIFY, read-only) | `verify` |
+| Pre-FINISH gate (AC + VERIFY, read-only) | `verify` — **mandatory** |
 | Review / QA prep read-only | `reviewer` |
 
-**FAIL:** широкий grep/glob/read parent’ом вместо `task`→`explore` с GRAPHIFY query.  
+**FAIL:** широкий grep/glob/read parent’ом вместо `task`→`explore` с GRAPHIFY query (только когда explore разрешён).  
 **FAIL:** один `worker` на всё подряд, когда задача = тесты / refactor / bugfix / verify — бери узкий agent.
 
 ## Parent packs context (HARD)
@@ -38,19 +62,21 @@ Subagent **не** повторяет workflow. Parent после своего Re
 **FAIL:** worker Read `plan-*.md` / decompose index / `activeContext` — AC должен быть в prompt.  
 **FAIL:** parent Read `plan-*.md` целиком на IMPLEMENT — только §/offset из shard.
 
-## IMPLEMENT L1–L2: parent без explore (HARD)
+## IMPLEMENT L1–L2: parent сам (HARD)
 
 Если decompose **shard** уже в контексте parent и содержит L1/L2 + явные file paths:
 
 | Делай parent | Не делай |
 |--------------|----------|
-| Сам: TDD red → edit → green targeted pytest | `task`→`explore` «найти структуру Alembic/файлы» |
-| Или **один** `task`→`worker` с AC+paths+VERIFY в prompt | explore → worker → reviewer на один s01 |
+| Сам: TDD red → edit → green targeted pytest | `task`→`explore` «найти структуру/файлы» |
+| Сам fix после 1× pytest FAIL | explore → worker → reviewer на один sNN |
 | Read: shard + `pyproject.toml` + ≤3 кода из shard | Read `plan-*.md` целиком; все sNN; чужой эпик; re-read |
+| Перед FINISH: `task`→`verify` + packed AC + VERIFY | FINISH без verify при code_changed |
 
 **Explore обязателен только** когда parent не знает file:line и shard не даёт paths.
 
-**Предпочтение storage s08–s11:** parent сам (узкий service + TDD), без worker.
+**Storage / service steps (s08–s11 и аналоги):** parent сам TDD, **без** worker/test-writer/explore. Только `verify` перед FINISH.  
+**worker** — только если >3 create/edit файлов **или** parent уже 2× FAIL pytest.
 
 ## Как вызывать (узкий prompt)
 
@@ -126,9 +152,11 @@ Budget: ≤10 read, ≤5 files. Reproduce first. На русском.
 AC:
 - compute_official_ts …
 - detect/record clock_shift …
-ALLOW READ: apps/edge/storage/time_axis.py, tests/storage/test_time_axis.py
+ALLOW READ: apps/edge/storage/time_axis.py, tests/storage/test_time_axis.py,
+  memory-bank/back/implement/implement-*/s08-*.md (must exist before FINISH)
 VERIFY: .venv/bin/pytest tests/storage/test_time_axis.py -q
 FORBID: edit/write; role-command; plan.
+Также: step-файл implement существует? (finish-block §5 точек #1)
 Отчёт: VERDICT PASS|FAIL + blockers. На русском.
 ```
 
@@ -162,8 +190,10 @@ Glob от корня / `rg` по всему репо / `os.walk` / `kilo_local_r
 - ALLOW = дерево каталога (`apps/edge/collector/`, `tests/`) вместо ≤5 файлов
 - `kilo_local_recall` / чтение прошлых sessionID «для контекста»
 - Цепочка explore→worker→reviewer→explore на тот же баг без новых фактов
+- **worker×2+** / worker chain на один AC (после 1 fail → parent или 1× bugfix)
 - BACK/FRONT **QA** с ясного AC → spawn explore «найти scope» (parent сам: load_now + diff + `.venv/bin/pytest`)
-- **BACK IMPLEMENT L1–L2** с shard + paths + pyproject в контексте → explore / worker «на всякий» без packed AC
+- **BACK IMPLEMENT L1–L2** с shard + paths + pyproject → explore / worker «на всякий»
+- FINISH с `code_changed: yes` без `task`→`verify`
 - Subagent вызывает **`skill role-command`**
 - Subagent / parent на IMPLEMENT: Read **`plan-*.md` целиком**
 - Re-read одного файла >2× за сессию child

@@ -40,11 +40,9 @@ Union A∪B: путь из step, которого нет в A — тоже Read.
 5. TDD targeted (см. core + gates): red → code → green **только** затронутых тестов через `.venv/bin/pytest` из **корня репо**. Полный suite → **BACK QA**. **FORBIDDEN:** голый `pytest`
 6. Реализация по level delta в gates
 7. Green: пути прогона в step-файле (команда = `.venv/bin/pytest …`)
-8. tasks + decompose index: `done`; implement step = источник истины статуса; `implement/index` = ссылки only (без status); append-only
-8a. Pre-FINISH verify (HARD): в `decompose-*/index.md` текущий `sNN` = `completed`, следующий шаг остаётся `pending`; `activeContext.md` указывает следующий `sNN`; в `implement/index.md` **нет** суффиксов `done` / `completed`
-9. §0.11 integration verification
-10. Pre-FINISH skills (verification + code-review; anti-patterns если service/deps/endpoints)
-11. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`, artifact: step-файл)
-12. → BACK QA (**новый чат**) → REFLECT
+8. §0.11 integration verification
+9. Pre-FINISH skills (verification + code-review; anti-patterns если service/deps/endpoints)
+10. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) — канон порядка/артефактов/5 точек **только там** (не дублировать здесь)
+11. → BACK QA (**новый чат**) → REFLECT
 
 **Верификация**: gates + §0.11 + FINISH/Handoff + из корня репо `graphify update .`

@@ -42,20 +42,23 @@
 **Когда:** FINISH с завершённым atomic subtask (IMPLEMENT sNN, PLAN, DECOMPOSE, CREATIVE, QA, BUGFIX, TASK).  
 **Пропуск:** checkbox внутри того же шага; typo-only правки.
 
-## Shard checkbox / implement
+## Shard checkbox / implement (ORDER — до decompose completed)
 
-- [x] AC/checklist в `implement/sNN` (секции Сделано, Файлы, Тесты) — **без** `## Handoff`
-- [ ] **ЗАПРЕЩЕНО** `## Handoff` / `## Следующий шаг` в implement
+- [ ] **Файл существует:** `memory-bank/{back|front|integration}/implement/implement-<plan>/sNN|eNN-<slug>.md` (не stub)
+- [x] Секции Реализация (Сделано/Файлы) · Верификация/Тесты · Статус=`completed` — **без** `## Handoff` внутри step
+- [ ] **ЗАПРЕЩЕНО** `## Handoff` / `## Следующий шаг` в implement step
+- [ ] **## Handoff** этого `sNN|eNN` уже в `activeContext.md` (шаг ниже) — **до** галки decompose
 
-## Decompose index (если шаг из `decompose-*/`)
+## Decompose index (если шаг из `decompose-*/`) — только после step + Handoff
 
-- [ ] `status: done` в `decompose-*/index.md`
+- [ ] `status: completed` / `done` в `decompose-*/index.md` (**после** step-файла + Handoff)
 - [ ] `[x]` в Summary-чеклисте  
   (не через `tasks.md`)
+- [ ] `implement/index.md` — ссылки only, **без** `done`/`completed`/status suffix
 
 ## Handoff (только `activeContext.md`)
 
-Единый каркас — **перезаписать**, не копить старые блоки:
+Единый каркас — **перезаписать**, не копить старые блоки. Писать **до** sync decompose/`load_now`:
 
 ```markdown
 ## Handoff BACK IMPLEMENT T-xxx sNN

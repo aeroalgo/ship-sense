@@ -6,13 +6,13 @@
 
 | ID | Title | Role | Plan | Step | Status |
 |----|-------|------|------|------|--------|
-| T-002 | storage + semantic | BACK | [plan](back/plan/plan-v1-p1-storage.md) · [dec](back/plan/decompose-v1-p1-storage/index.md) | s06 ✅ · CR-STO-04 ✅ | in_progress |
+| T-002 | storage + semantic | BACK | [plan](back/plan/plan-v1-p1-storage.md) · [dec](back/plan/decompose-v1-p1-storage/index.md) | s06 ✅ · CR-STO-04 ✅ · CR-STO-03 ✅ · s12/s13/s14 ✅ | in_progress |
 | T-001 | collector + emulator | BACK | [plan](back/plan/plan-v1-p1-collector.md) · [dec](back/plan/decompose-v1-p1-collector/index.md) · [gap](back/plan/plan-v1-p1-edge-runtime-smoke.md) | gap-close | in_progress |
 | T-008 | MQTT connector | BACK | [plan](back/plan/plan-v1-p1-mqtt.md) · [dec](back/plan/decompose-v1-p1-mqtt/index.md) · [smoke](back/plan/plan-v1-p1-mqtt-smoke.md) | s12 ✅ · smoke BUGFIX ✅ · QA ✅ | next BACK REFLECT |
 
 ### Progress (компактно)
 
-- **T-002** [dec](back/plan/decompose-v1-p1-storage/index.md): s01/s01b/s02/s03/s04/s05/s06 ✅ · CR-STO-04 ✅ · s07–s18 pending (s16 blocked CR-STO-01/02) → next IMPLEMENT s07
+- **T-002** [dec](back/plan/decompose-v1-p1-storage/index.md): s01/s01b/s02/s03/s04/s05/s06/s07/s08/s09/s10 ✅ · CR-STO-04 ✅ · CR-STO-03 ✅ · s12/s13/s14 ✅ · s11/s15–s18 pending (s16 blocked CR-STO-01/02) → next IMPLEMENT s15
 - **T-001** [dec](back/plan/decompose-v1-p1-collector/index.md): s01–s26 ✅ · gap-close smoke ⏳ ([plan](back/plan/plan-v1-p1-edge-runtime-smoke.md) — DECOMPOSE pending)
 - **T-008** [dec](back/plan/decompose-v1-p1-mqtt/index.md): s01–s12 ✅ · smoke BUGFIX ✅ · QA ✅ → next BACK REFLECT
 
@@ -20,8 +20,11 @@
 
 | Дата | Task | Событие |
 |------|------|---------|
+| 2026-07-29 | T-002 | BACK IMPLEMENT v1-p1-storage s12 — semantic loader (Pydantic v2 models + load_pack fail-fast validation + sha256 checksum); 14 tests green, regression 33 green |
+| 2026-07-29 | T-002 | BACK CREATIVE CR-STO-03 — TagDisplayState machine, dual-path quality=4, native map diff, full-reconcile quarantine, aggregate worst-of; unblocks s12/s13/s15 |
 | 2026-07-29 | T-002 | BACK DECOMPOSE v1-p1-storage — index + s01–s18 |
 | 2026-07-29 | T-002 | BACK IMPLEMENT v1-p1-storage s01b — TimescaleDB dev infra + live Alembic verification |
+| 2026-07-29 | T-002 | BACK IMPLEMENT v1-p1-storage s14 — ship-pack/makarov (vessel/assets/tag_map 586/native_stub approved/timezone); loader verified 586 tags + tree 100% | 
 | 2026-07-29 | T-002 | BACK IMPLEMENT v1-p1-storage s04 — meta/health/quota/degrade Alembic migrations; offline verification PASS |
 | 2026-07-29 | T-002 | BACK CREATIVE CR-STO-04 — frozen core + JSONB domain envelope; Q4=A/B validators; modes auto/native/reconstruct |
 | 2026-07-29 | T-008 | BACK IMPLEMENT v1-p1-mqtt-smoke s07 — README §MQTT smoke commands + snippets |

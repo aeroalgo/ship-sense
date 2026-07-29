@@ -1,20 +1,28 @@
 ---
-description: "Режим FRONT VAN — инициализация, уровень сложности"
+description: "Режим FRONT VAN — init / brownfield architecture map (frontend scope)"
 alwaysApply: false
 ---
 ### Команда: FRONT VAN
-**Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
-**Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/van.mdc
+**Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc  
+**Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/van.mdc  
+**Brownfield map**: @.cursor/rules/shared/workflow-van-brownfield.mdc  
+**Paths**: @.cursor/rules/back_developer/isolation_rules/Core/memory-bank-paths.mdc
 
 **Процесс**:
-1. `OK FRONT VAN - Запускаю инициализацию`
-1a. Прочитай **Gates** (+ memory-bank-paths если создаёшь структуру)
-2–4. `tasks.md`, `projectbrief.md`, `activeContext.md`
-5. Структура `frontend/`
-6. Level L1–L4 (gates)
-7. `tasks.md` append-only
-7b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)
-8. Next: L1 → IMPLEMENT; L2–4 → PLAN
-9. Опц. `memory-bank/front/van/van-YYYYMMDD.md`
+1. `OK FRONT VAN - Запускаю инициализацию / карту frontend`
+1a. Прочитай **Gates** + **Brownfield map** (+ paths если create MB)
+2. Detect greenfield | brownfield
+3. `tasks.md`, `projectbrief.md`, `activeContext.md`
+4. **greenfield:** MB + `frontend/` scaffold check → L1–L4 → FINISH  
+   **brownfield:**
+   - announce: `SUSPENSION GUARD active — architecture map output unlimited`
+   - graphify + inventory UI surface
+   - refresh: `overview` (UI slice) · `frontend.md`; API deps as links
+   - нет `frontend/` → `frontend.md` = `status: absent`
+   - update `architecture/index.md`
+   - session log: `memory-bank/front/van/van-YYYYMMDD.md`
+5. L1–L4 в `tasks.md`
+6. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)
+7. Next: L1 → IMPLEMENT; L2–4 → PLAN
 
-**Верификация**: gates + next mode
+**Верификация**: gates + (brownfield → frontend shard + links)

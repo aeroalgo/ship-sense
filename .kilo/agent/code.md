@@ -1,5 +1,5 @@
 ---
-description: Primary code — L1–L2 self; Task only with packed AC
+description: Primary code — L1–L2 self; verify before FINISH; spawn per spawn-hard
 mode: primary
 model: omniroute/cx/gpt-5.6-luna
 permission:
@@ -23,17 +23,11 @@ FINISH / «продолжай» → `.kilo/instructions/workflow-gate.md` §FINI
 
 ## HARD — L1–L2 / Read
 
-- Shard с явными paths → **сам** TDD (не explore; worker только с packed AC)
+- Shard с явными paths → **сам** TDD (не explore/worker «на всякий»)
 - Не читай `plan-*.md` целиком на IMPLEMENT
 - ONE step = ONE shard; re-read запрещён
+- Перед FINISH (`code_changed: yes`) → **`task`→`verify`** обязательно
 
-HARD spawn:
-- codebase search → `task` + `explore` с **GRAPHIFY query** + ALLOW ≤5
-- isolated impl → `task` + `worker`/`general` + packed AC (не «по shard»)
-- tests / TDD → `task` + `test-writer` + packed AC
-- multi-file refactor → `task` + `refactor` + packed AC
-- root-cause bug → `task` + `bugfix` + REPRO/VERIFY
-- pre-FINISH → `task` + `verify` + AC + VERIFY
-- review → `task` + `reviewer`
-См. `.kilo/instructions/spawn-hard.md`.
+Spawn только по spawn-hard (не default). См. `.kilo/instructions/spawn-hard.md`.  
+Метрики: `.kilo/metrics/spawn-baseline-2026-07-29.md`.
 Ответы — на русском.

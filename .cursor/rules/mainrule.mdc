@@ -6,7 +6,7 @@ alwaysApply: true
 
 **Layer 0:** @.cursor/rules/token-economy-core.mdc (token economy, approval gate, doc format)
 
-`memory-bank/` — канон артефактов. **Router:** `activeContext.md` → `load_now`. Index-only: `tasks.md`, `systemPatterns.md`, `plan-*`. Shards: `domain/` (SP), `back/creative/shards/` (ERD/TG). Plan/gap не резать — `plan-*.md` + `decompose-*/`. Скиллы — `@.agents/skills/` (читать по цепочке, не индексировать весь каталог).
+`memory-bank/` — канон артефактов. **Router:** `activeContext.md` → `load_now`. Index-only: `tasks.md`, `systemPatterns.md`, `plan-*`, `architecture/index.md`. Shards: `domain/` (SP), `architecture/*`, `back/creative/shards/` (ERD/TG). Plan/gap/architecture не резать — `plan-*.md` + `decompose-*/` + `architecture/**`. Скиллы — `@.agents/skills/` (читать по цепочке, не индексировать весь каталог).
 
 ## Когда что грузить
 
@@ -18,7 +18,7 @@ alwaysApply: true
 
 ## Цепочка при распознанной команде
 
-0. **graphify (ориентация по графу)** — @.cursor/rules/graphify.mdc. Только для команд с кодом/ориентацией по codebase: `BACK/FRONT/INTEG IMPLEMENT`, `TASK`, `BUGFIX`, `REFACTOR`, `QA`; также `PM DISCOVER`, `TL SYNC DEV`. **Пропуск:** VAN, PLAN, DECOMPOSE, CREATIVE, REFLECT, ARCHIVE NOW, SECURITY, GAP (если только docs). CONTENT/MARKETING/SEO — пропускают.
+0. **graphify (ориентация по графу)** — @.cursor/rules/graphify.mdc. Только для команд с кодом/ориентацией по codebase: `BACK/FRONT/INTEG IMPLEMENT`, `TASK`, `BUGFIX`, `REFACTOR`, `QA`; также `PM DISCOVER`, `TL SYNC DEV`; **brownfield `BACK/FRONT/INTEG VAN`** (карта `architecture/`). **Пропуск:** greenfield VAN, PLAN, DECOMPOSE, CREATIVE, REFLECT, ARCHIVE NOW, SECURITY, GAP (если только docs). CONTENT/MARKETING/SEO — пропускают.
 1. **Индекс роли** — таблица «Префикс → индекс»
 2. **Core роли** — `mainrule-core` (BACK/FRONT) или `*-core.mdc` (остальные роли)
 3. **Workflow** — файл из индекса роли для этой команды (`workflow-*.mdc`)

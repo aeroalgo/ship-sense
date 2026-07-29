@@ -25,6 +25,7 @@ alwaysApply: false
 | `BACK SECURITY` | @.cursor/rules/back_developer/workflow-security.mdc |
 
 Пути артефактов: `memory-bank/back/<режим>/` — таблица в @.cursor/rules/back_developer/isolation_rules/Core/memory-bank-paths.mdc (грузить **только** VAN / создание структуры).  
+As-built карта: `memory-bank/architecture/` — @.cursor/rules/shared/workflow-van-brownfield.mdc.  
 FINISH: @.cursor/rules/shared/finish-block.mdc  
 
 UI → `FRONT *`. Сквозной wire → `INTEG *`.

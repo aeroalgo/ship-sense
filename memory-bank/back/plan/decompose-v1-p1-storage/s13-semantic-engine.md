@@ -1,7 +1,8 @@
 # Шаг s13: SemanticEngine (tree, aggregate, tag state, diff hook)
 **Plan ID:** v1-p1-storage
-**Next Phase:** BACK CREATIVE
-**needs_creative:** yes (CR-STO-03) | **tdd:** yes
+**Next Phase:** BACK IMPLEMENT
+**needs_creative:** yes (CR-STO-03) — **closed** | **tdd:** yes
+**Creative:** [CR-STO-03/creative-cr-sto-03-quarantine-ux.md](../../creative/creative-cr-sto-03-quarantine-ux.md)
 **AC:** AC-STO-S13 (из плана §214–222, §778–792: in-memory tree, aggregate_status worst-of, get_tag_state, diff_native_map)
 **code_surface:** service
 

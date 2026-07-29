@@ -2,13 +2,13 @@
 
 ## PLAN ARTIFACT OVERRIDE (читать первым — важнее economy)
 
-При `* PLAN` / записи `memory-bank/**/plan-*.md` / `gap-*.md`:
+При `* PLAN` / записи `memory-bank/**/plan-*.md` / `gap-*.md` / brownfield VAN → `memory-bank/architecture/**`:
 
-- **ЗАПРЕЩЕНО** жать вывод плана: telegraph, «max 3 sentences», лимит ~200 строк, «кратко для контекста»
-- **ОБЯЗАТЕЛЬНО:** plan file = maximally detailed; chat reply может быть коротким
+- **ЗАПРЕЩЕНО** жать вывод плана/карты: telegraph, «max 3 sentences», лимит ~200 строк, «кратко для контекста»
+- **ОБЯЗАТЕЛЬНО:** plan/architecture file = maximally detailed; chat reply может быть коротким
 - Lean **load** ≠ lean **write**
-- Сразу после OK: `SUSPENSION GUARD active — plan output unlimited`
-- Path-rule: `.claude/rules/plan-artifact.md` (автоматически на plan-файлы)
+- Сразу после OK: `SUSPENSION GUARD active — plan output unlimited` (PLAN) или `SUSPENSION GUARD active — architecture map output unlimited` (brownfield VAN)
+- Path-rule: `.claude/rules/plan-artifact.md` (автоматически на plan/gap/architecture)
 - INTEG: Prefer slash **`/integ-plan`** (self-contained acceptance, `wc -l` ≥ 400 или FAIL)
 
 @.claude/rules/plan-artifact.md
@@ -19,7 +19,7 @@
 
 **Cursor, Claude Code, Codex и Kilo — один workflow.** Канон: `.cursor/rules/` + `memory-bank/`. Kilo: `kilo.jsonc` + `.kilo/agent/` + `.kilo/instructions/{bootstrap,workflow-gate,spawn-hard}.md` + OmniRoute в `~/.config/kilo/kilo.jsonc` (см. `AGENTS.md`).
 
-Token economy: @.cursor/rules/token-economy-core.mdc — для PLAN смотри **только §0.0 + §0.0.1**; §§0.2/0.5 **не применять** к `plan-*.md`.
+Token economy: @.cursor/rules/token-economy-core.mdc — для PLAN / architecture смотри **только §0.0 + §0.0.1**; §§0.2/0.5 **не применять** к `plan-*.md` / `architecture/**`.
 
 @.cursor/rules/mainrule.mdc
 
@@ -45,10 +45,12 @@ Token economy: @.cursor/rules/token-economy-core.mdc — для PLAN смотр�
 
 ## FINISH
 
-1. `## Handoff` в role artifact → @.cursor/rules/shared/context-session-economy.mdc §5
-2. @.cursor/rules/shared/finish-doc-router.mdc
-3. Рекомендуй `/clear` когда §2 context-session-economy требует new chat
-4. **PLAN:** перед FINISH — `wc -l` plan-файла; если ниже acceptance из `/integ-plan` или `plan-artifact.md` → дописать, не закрывать
+Канон: @.cursor/rules/shared/finish-block.mdc → @.cursor/rules/shared/finish-doc-router.mdc → шаблон `.cursor/templates/finish-doc-router.md`.
+
+1. **IMPLEMENT:** step-файл `implement-*/sNN|eNN-*.md` + `## Handoff` в `activeContext.md` **до** decompose `completed` / next `load_now` (5 точек + FAIL в finish-block)
+2. Рекомендуй `/clear` когда §2 context-session-economy требует new chat
+3. **PLAN:** перед FINISH — `wc -l` plan-файла; если ниже acceptance из `/integ-plan` или `plan-artifact.md` → дописать, не закрывать
+4. **code_changed:** из корня репо `.venv/bin/graphify update .`
 
 ## Context economy — IMPLEMENT/TASK/BUGFIX
 

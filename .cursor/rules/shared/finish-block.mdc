@@ -4,18 +4,48 @@ alwaysApply: false
 ---
 # FINISH Block
 
-Единая точка FINISH. Checklist + Handoff fill-in: @.cursor/templates/finish-doc-router.md  
+**Единая точка FINISH для BACK / FRONT / INTEG** (и остальных ролей).  
+Workflow `* IMPLEMENT` **не** дублирует чеклист — только ссылается сюда.
+
+Checklist + Handoff fill-in: @.cursor/templates/finish-doc-router.md  
 Процедура (By command / graphify / Forbidden): @.cursor/rules/shared/finish-doc-router.mdc
 
 ## Порядок (обязательно)
 
 1. **Pre-FINISH skills** — если workflow указал skills перед FINISH — прочитай их
-2. **## Handoff** в `activeContext.md` only — поля из шаблона §Handoff (idea: см. @.cursor/templates/idea-pipeline.md). **ЗАПРЕЩЕНО** `## Handoff` в `implement/sNN`
-3. **implement/sNN:** закрыть AC, секции Сделано/Файлы/Тесты (без навигации)
-4. **Delivery log:** append строка в `tasks/log/YYYY-MM.md` §Timeline + §Последние события в `tasks.md` (обязательно на FINISH subtask)
-5. **doc-router:** @.cursor/rules/shared/finish-doc-router.mdc + заполнение по шаблону
-6. **graphify** — если `code_changed: yes`: из **корня репо** (cwd = root, не `frontend/`/`apps/…`): `.venv/bin/graphify update .`; `--force` только если узлов стало меньше. Канон: только `<repo>/graphify-out/` — см. @.cursor/rules/graphify.mdc HARD RULE
-7. **new chat:** @.cursor/rules/shared/context-session-economy.mdc §2; сообщение — шаблон §«Сообщение пользователю»
+2. **Role artifact (IMPLEMENT / INTEG):** создать или дописать step-файл  
+   `memory-bank/{back|front|integration}/implement/implement-<plan>/sNN|eNN-<slug>.md`  
+   Секции: Реализация (или Сделано/Файлы) · Верификация/Тесты · Статус=`completed`. Без навигации / без `## Handoff` внутри step.  
+   **До** `decompose`=`completed` и **до** смены `load_now`
+3. **## Handoff** в `activeContext.md` only — шаблон §Handoff. **ЗАПРЕЩЕНО** `## Handoff` в implement step. Handoff **этого** `sNN|eNN` обязателен
+4. **Delivery log:** append `tasks/log/YYYY-MM.md` + §Последние события в `tasks.md`
+5. **Status sync (только после 2–4):** `decompose-*/index.md` текущий → `completed`; next остаётся `pending`; `load_now` → следующий step-файл; `implement/index` — ссылки only, **без** status suffix
+6. **doc-router:** @.cursor/rules/shared/finish-doc-router.mdc + шаблон
+7. **graphify** — если `code_changed: yes`: cwd = корень репо → `.venv/bin/graphify update .` (см. @.cursor/rules/graphify.mdc)
+8. **new chat:** @.cursor/rules/shared/context-session-economy.mdc §2; текст — шаблон §«Сообщение пользователю»
+
+## 5 точек перед «готово» (IMPLEMENT / INTEG IMPLEMENT)
+
+Все обязательны:
+
+1. Step-файл `implement-*/sNN|eNN-*.md` **существует**, не stub (есть Реализация + Верификация + Статус)
+2. В `activeContext.md` есть `## Handoff …` **этого** шага (не только flipped `load_now`)
+3. В `decompose-*/index.md` текущий шаг = `completed`
+4. Следующий в decompose = `pending`
+5. `load_now` указывает на следующий step; `implement/index.md` без `done`/`completed`/status suffix
+
+## FAIL
+
+- Нет step-файла (или stub) → **не** FINISH
+- Нет `## Handoff` текущего шага → **не** FINISH
+- `decompose`=`completed` / `load_now`=next **раньше** step-файла + Handoff → **FAIL**; дописать артефакты, затем sync
+- Объявить шаг завершённым только по коду/тестам без step-файла → **FAIL**
+
+## Missing artifact / «где implement файл?» (anti-loop)
+
+1. **≤3 tool calls:** Write step → Edit Handoff (+ при необходимости 1× decompose/`load_now`) → краткий ответ
+2. **FORBIDDEN:** re-read index >2×; bash `cat`/`ls` вместо Write; reasoning >2 раунда без Write
+3. Не перезапускать role-chain / verify, пока step-файл не записан
 
 ## code_changed
 
