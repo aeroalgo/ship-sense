@@ -26,6 +26,10 @@
 |-------|--------|------------|
 | `explorer` | `antigravity/gemini-3.5-flash-low` | explore через **graphify** (не grep) |
 | `worker` | `antigravity/gemini-3.5-flash-low` | implementation subtasks |
+| `test-writer` | `antigravity/gemini-3.5-flash-low` | TDD / тесты (red first) |
+| `refactor` | `antigravity/gemini-3.5-flash-low` | surgical multi-file refactor |
+| `bugfix` | `antigravity/gemini-3.5-flash-high` | root-cause bugfix |
+| `verify` | `antigravity/gemini-3.5-flash-high` | pre-FINISH AC↔VERIFY |
 | `reviewer` | `antigravity/gemini-3.5-flash-high` | review, QA prep |
 
 ### Codex spawn
@@ -47,7 +51,7 @@ Provider: **OmniRoute** (`~/.config/kilo/kilo.jsonc`).
 
 Делегирует **primary** (`code`/`luna`/…) через tool `task` — отдельный Orchestrator не нужен.
 
-1. Task → `explore`|`explorer` | `general`|`worker` | `reviewer`
+1. Task → `explore`|`explorer` | `general`|`worker` | `test-writer` | `refactor` | `bugfix` | `verify` | `reviewer`
 2. Explore: **только graphify** (`.venv/bin/graphify`); grep/glob deny — см. `spawn-hard.md`
 3. Sticky model на агенте (flash-low/high) — **не** наследуй parent
 4. Built-in `explore`/`general` **включены** и переопределены на Flash (иначе Kilo не спавнит)

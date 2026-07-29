@@ -61,8 +61,8 @@
 | **s04** | [s04-meta-health-tables.md](s04-meta-health-tables.md)<br>• `migrations/versions/004_time_semantic_health.py` (create) | s04 | no | no | AC-STO-S04 | BACK IMPLEMENT | completed |
 | **s05** | [s05-sqlalchemy-models.md](s05-sqlalchemy-models.md)<br>• `apps/edge/storage/schemas.py` (create)<br>• `migrations/versions/005_quota_degrade.py` (create, частично) | s05 | no | yes | AC-STO-S05 | BACK IMPLEMENT | completed |
   | **s06** | [s06-samples-repo.md](s06-samples-repo.md)<br>• `apps/edge/storage/samples_repo.py` (create) | s06 | no | yes | AC-STO-S06 | BACK IMPLEMENT | completed |
-| **s07** | [s07-events-repo.md](s07-events-repo.md)<br>• `apps/edge/storage/events_repo.py` (create) | s07 | ✅ yes (CR-STO-04 done) | yes | AC-STO-S07 | BACK IMPLEMENT | pending |
-| **s08** | [s08-time-axis.md](s08-time-axis.md)<br>• `apps/edge/storage/time_axis.py` (create) | s08 | no | yes | AC-STO-S08 | BACK IMPLEMENT | pending |
+| **s07** | [s07-events-repo.md](s07-events-repo.md)<br>• `apps/edge/storage/events_repo.py` (create) | s07 | ✅ yes (CR-STO-04 done) | yes | AC-STO-S07 | BACK IMPLEMENT | completed |
+| **s08** | [s08-time-axis.md](s08-time-axis.md)<br>• `apps/edge/storage/time_axis.py` (create) | s08 | no | yes | AC-STO-S08 | BACK IMPLEMENT | completed |
 | **s09** | [s09-writer-service.md](s09-writer-service.md)<br>• `apps/edge/storage/writer.py` (create) | s09 | no | yes | AC-STO-S09 | BACK IMPLEMENT | pending |
 | **s10** | [s10-quota-manager.md](s10-quota-manager.md)<br>• `apps/edge/storage/quota_manager.py` (create) | s10 | no | yes | AC-STO-S10 | BACK IMPLEMENT | pending |
 | **s11** | [s11-health-snapshots.md](s11-health-snapshots.md)<br>• `apps/edge/storage/health.py` (create) | s11 | no | yes | AC-STO-S11 | BACK IMPLEMENT | pending |

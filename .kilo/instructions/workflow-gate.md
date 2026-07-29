@@ -129,24 +129,31 @@ Tool result уже в контексте = источник истины. Re-rea
 - явные пути create/edit в shard
 - `pyproject.toml` / deps уже известны parent’у (или в shard)
 
-**Parent сам:** red test → код → green targeted `.venv/bin/pytest` **или** один `task`→`worker` с **упакованным** prompt (AC + файлы + VERIFY).
+**Parent сам:** red test → код → green targeted `.venv/bin/pytest` **или** один `task`→`worker` с **упакованным** prompt (AC + файлы + VERIFY).  
+**Предпочтение** storage service-steps (s08–s11): parent сам, без worker.
 
 **Explore только если:** «где в коде X» неизвестно · graphify нужен · shard без file paths · cross-package цикл импорта.
 
-**FAIL parent:** explore + worker + reviewer на один L1/L2 s01 (Alembic baseline, один модуль, docs-only) — раздувание.
+**FAIL parent:** explore + worker + reviewer на один L1/L2 s01 (Alembic baseline, один модуль, docs-only) — раздувание.  
+**FAIL parent:** Read `plan-*.md` целиком на IMPLEMENT; re-read одного файла «для уверенности»; prompt worker «реализуй по shard» без AC в тексте.
 
 | Agent | Модель | Назначение |
 |-------|--------|------------|
 | `explore` / `explorer` | flash-low | поиск через **graphify** (не grep) |
 | `general` / `worker` | flash-low | implementation subtasks |
+| `test-writer` | flash-low | TDD / тесты (red first) |
+| `refactor` | flash-low | surgical multi-file refactor |
+| `bugfix` | flash-high | root-cause: reproduce → fix → prove |
+| `verify` | flash-high | pre-FINISH AC↔VERIFY (read-only) |
 | `reviewer` | flash-high | review, QA prep |
 
 `explore`/`general` — встроенные имена Kilo. `explorer`/`worker` — алиасы.
+`test-writer` / `refactor` / `bugfix` / `verify` — task-specific system prompts.
 
-В **task prompt** всегда: **GRAPHIFY query** + ALLOW **≤5 файлов** (не деревья) + budget.  
+В **task prompt** всегда: **GRAPHIFY query** + ALLOW **≤5 файлов** (не деревья) + budget ≤8 read.  
 Explore = **только graphify**; `grep`/`glob`/`kilo_local_recall` deny. Детали: `.kilo/instructions/spawn-hard.md`.
 
-**Запрещено:** наследовать Luna/Grok/GLM на children; ждать Orchestrator; ALLOW-дерево; `kilo_local_recall` чужих sessions; explore на BACK QA при ясном `load_now`; **explore на BACK IMPLEMENT L1–L2** когда shard + paths + pyproject уже у parent (см. §IMPLEMENT L1–L2 выше).
+**Запрещено:** наследовать Luna/Grok/GLM на children; ждать Orchestrator; ALLOW-дерево; `kilo_local_recall` чужих sessions; explore на BACK QA при ясном `load_now`; **explore на BACK IMPLEMENT L1–L2** когда shard + paths + pyproject уже у parent (см. §IMPLEMENT L1–L2 выше); worker без packed AC; Read `plan-*.md` целиком на IMPLEMENT.
 
 В промпт **каждого** subagent вставь:
 

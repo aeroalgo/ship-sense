@@ -18,7 +18,11 @@
           "explorer": "allow",
           "worker": "allow",
           "general": "allow",
-          "reviewer": "allow"
+          "reviewer": "allow",
+          "test-writer": "allow",
+          "refactor": "allow",
+          "bugfix": "allow",
+          "verify": "allow"
         }
       }
     },
@@ -34,7 +38,11 @@
           "explorer": "allow",
           "worker": "allow",
           "general": "allow",
-          "reviewer": "allow"
+          "reviewer": "allow",
+          "test-writer": "allow",
+          "refactor": "allow",
+          "bugfix": "allow",
+          "verify": "allow"
         }
       }
     },
@@ -50,7 +58,11 @@
           "explorer": "allow",
           "worker": "allow",
           "general": "allow",
-          "reviewer": "allow"
+          "reviewer": "allow",
+          "test-writer": "allow",
+          "refactor": "allow",
+          "bugfix": "allow",
+          "verify": "allow"
         }
       }
     },
@@ -66,7 +78,11 @@
           "explorer": "allow",
           "worker": "allow",
           "general": "allow",
-          "reviewer": "allow"
+          "reviewer": "allow",
+          "test-writer": "allow",
+          "refactor": "allow",
+          "bugfix": "allow",
+          "verify": "allow"
         }
       }
     },
@@ -82,7 +98,11 @@
           "explorer": "allow",
           "worker": "allow",
           "general": "allow",
-          "reviewer": "allow"
+          "reviewer": "allow",
+          "test-writer": "allow",
+          "refactor": "allow",
+          "bugfix": "allow",
+          "verify": "allow"
         }
       }
     },
@@ -98,7 +118,11 @@
           "explorer": "allow",
           "worker": "allow",
           "general": "allow",
-          "reviewer": "allow"
+          "reviewer": "allow",
+          "test-writer": "allow",
+          "refactor": "allow",
+          "bugfix": "allow",
+          "verify": "allow"
         }
       }
     },
@@ -151,11 +175,11 @@
       }
     },
     "general": {
-      "description": "Worker flash-low. Narrow files. ≤15 reads. Targeted tests.",
+      "description": "Worker flash-low. ≤5 files. ≤8 reads. No plan/workflow.",
       "mode": "subagent",
       "model": "omniroute/antigravity/gemini-3.5-flash-low",
       "color": "#A78BFA",
-      "steps": 22,
+      "steps": 12,
       "permission": {
         "task": { "*": "deny" },
         "bash": {
@@ -172,11 +196,11 @@
       }
     },
     "worker": {
-      "description": "Alias general. Narrow impl flash-low. ≤15 reads.",
+      "description": "Alias general. ≤5 files. ≤8 reads. Packed AC only.",
       "mode": "subagent",
       "model": "omniroute/antigravity/gemini-3.5-flash-low",
       "color": "#A78BFA",
-      "steps": 22,
+      "steps": 12,
       "permission": {
         "task": { "*": "deny" },
         "bash": {
@@ -210,6 +234,102 @@
         },
         "task": { "*": "deny" }
       }
+    },
+    "test-writer": {
+      "description": "TDD test-writer. Red first. Flash-low.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-low",
+      "color": "#FBBF24",
+      "steps": 14,
+      "permission": {
+        "task": { "*": "deny" },
+        "bash": {
+          "npm test*": "deny",
+          "pnpm test*": "deny",
+          "yarn test*": "deny",
+          "npx vitest*": "deny",
+          "vitest*": "deny",
+          "npx playwright*": "deny",
+          "playwright*": "deny",
+          "npm run test*": "deny",
+          "pnpm run test*": "deny"
+        }
+      }
+    },
+    "refactor": {
+      "description": "Surgical multi-file refactor. Preserve behavior. Flash-low.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-low",
+      "color": "#38BDF8",
+      "steps": 14,
+      "permission": {
+        "task": { "*": "deny" },
+        "bash": {
+          "npm test*": "deny",
+          "pnpm test*": "deny",
+          "yarn test*": "deny",
+          "npx vitest*": "deny",
+          "vitest*": "deny",
+          "npx playwright*": "deny",
+          "playwright*": "deny",
+          "npm run test*": "deny",
+          "pnpm run test*": "deny"
+        }
+      }
+    },
+    "bugfix": {
+      "description": "Root-cause bugfix. Reproduce → fix → prove. Flash-high.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-high",
+      "color": "#F97316",
+      "steps": 16,
+      "permission": {
+        "task": { "*": "deny" },
+        "bash": {
+          "npm test*": "deny",
+          "pnpm test*": "deny",
+          "yarn test*": "deny",
+          "npx vitest*": "deny",
+          "vitest*": "deny",
+          "npx playwright*": "deny",
+          "playwright*": "deny",
+          "npm run test*": "deny",
+          "pnpm run test*": "deny"
+        }
+      }
+    },
+    "verify": {
+      "description": "Pre-FINISH verify. Read-only + VERIFY cmds. Text PASS/FAIL.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-high",
+      "color": "#84CC16",
+      "steps": 12,
+      "permission": {
+        "edit": "deny",
+        "write": "deny",
+        "task": { "*": "deny" },
+        "bash": {
+          "*": "deny",
+          ".venv/bin/pytest *": "allow",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "rg *": "allow",
+          "ls *": "allow",
+          "head *": "allow",
+          "wc *": "allow"
+        }
+      }
     }
+  },
+  "indexing": {
+    "enabled": false,
+    "provider": "kilo",
+    "vectorStore": "lancedb",
+    "lancedb": {},
+    "fileExtensions": [".py", ".ts", ".tsx", ".sql", ".yaml", ".yml"],
+    "searchMinScore": 0.45,
+    "searchMaxResults": 20,
+    "embeddingBatchSize": 40,
+    "scannerMaxBatchRetries": 3
   }
 }

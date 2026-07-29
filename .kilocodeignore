@@ -1,0 +1,34 @@
+# Kilo ignore — ship-sense (indexing off; lean agent context only)
+# НЕ блокировать memory-bank / .cursor / .agents — parent workflow читает их через Read.
+
+_archive/
+
+# Graph / index artifacts
+graphify-out/
+
+# Vendor & env
+.venv/
+venv/
+node_modules/
+frontend/node_modules/
+
+# Build / cache / coverage
+dist/
+build/
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+coverage/
+*.egg-info/
+
+# Data & local runtime
+data/
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
