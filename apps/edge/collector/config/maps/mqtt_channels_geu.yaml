@@ -1,0 +1,31 @@
+version: 1
+source_id: panel_geu
+channels:
+  - channel_id: GEU.TAI4101
+    tag_id: TGEU4101
+    kind: analog
+    unit: degC
+    thresholds:
+      expose: true
+  - channel_id: GEU.TPI4101
+    tag_id: TGEU4102
+    kind: analog
+    unit: bar
+    thresholds:
+      expose: true
+  - channel_id: GEU.RPM4101
+    tag_id: TGEU4103
+    kind: analog
+    unit: rpm
+    thresholds:
+      expose: true
+  - channel_id: GEU.DI2201
+    tag_id: XGEU1201
+    kind: discrete
+  - channel_id: GEU.EV0201
+    tag_id: XGEU1202
+    kind: event
+  - channel_id: GEU.EGT1
+    tag_id: GEU.EGT1
+    kind: egt_group
+    unit: degC

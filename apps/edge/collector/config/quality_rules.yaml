@@ -1,0 +1,50 @@
+# quality_rules.yaml — canon для collector (CR-COL-04 / s11)
+# Quality mapping: OPC UA StatusCode / Modbus exception / NaN-Inf / range / stale / quarantine → Quality
+# Изменение правил = редактирование этого файла, без правки кода (AC-B4-12).
+# Reload = restart коллектора (load once при старте NormalizerWorker, s13).
+
+version: 1
+
+stale_threshold_sec: 3.0
+
+# --- OPC UA StatusCode → Quality (AC-B3-06) ---
+# Токен из connector: `opcua.<StatusName>` (напр. opcua.Good, opcua.BadNoCommunication).
+# 1) explicit override по имени; 2) иначе класс по префиксу имени (Good*/Uncertain*/Bad*).
+opcua:
+  severity_class:
+    good: good           # имя начинается с Good
+    uncertain: uncertain # имя начинается с Uncertain
+    bad: bad             # имя начинается с Bad
+  overrides:
+    GoodClamped: uncertain           # значение было ограничено
+    GoodLocalOverride: uncertain     # локальная подмена
+    BadWaitingForInitialData: stale  # сервер ждёт первое значение → «устарело»
+    BadNoData: stale
+    BadNoDataAvailable: stale
+  unknown_status: uncertain          # имя не распознано → безопасный дефолт
+
+# --- Modbus exception / client error → Quality ---
+# Токен из connector: `modbus.<token>` (timeout | client_error | exception.<code>).
+modbus:
+  map:
+    timeout: bad          # ModbusTimeoutError
+    client_error: bad     # not connected / protocol (ModbusClientError)
+    exception.1: bad      # IllegalFunction
+    exception.2: bad      # IllegalDataAddress
+    exception.3: bad      # IllegalDataValue
+    exception.4: bad      # SlaveDeviceFailure
+    exception.5: uncertain  # Acknowledge — устройство занято, повтор
+    exception.6: uncertain  # SlaveDeviceBusy
+    exception.8: bad      # MemoryParityError
+  unknown_exception: bad    # безопасный дефолт для Modbus
+
+# --- NaN / Inf → bad (AC-B4-08) ---
+value:
+  nan_inf: bad            # фиксировано; non-finite float всегда bad
+
+# --- Out-of-range → uncertain, значение сохраняется (AC-B4-07) ---
+range:
+  out_of_range: uncertain # проверка на raw_value (до conversion)
+
+# --- Safe default ---
+unknown_native_quality: good  # native_quality None / не распознанный токен без явного правила

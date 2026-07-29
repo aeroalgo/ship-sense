@@ -1,0 +1,37 @@
+---
+description: "INTEG SECURITY — аудит безопасности контракта back↔front, authz, wire"
+alwaysApply: false
+---
+### Команда: INTEG SECURITY
+**Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Скиллы:**
+- @.agents/skills/owasp-security-check/SKILL.md
+- @.agents/skills/security-auditor/SKILL.md
+- @.agents/skills/security-auditor-owasp/SKILL.md
+- @.agents/skills/codeql/SKILL.md
+- @.agents/skills/supply-chain-risk-auditor/SKILL.md
+- @.agents/skills/insecure-defaults/SKILL.md
+- @.agents/skills/agentic-actions-auditor/SKILL.md
+- @.agents/skills/secure-workflow-guide/SKILL.md
+- @.agents/skills/agentsec/SKILL.md
+- @.agents/skills/sarif-parsing/SKILL.md
+- @.agents/skills/semgrep-rule-creator/SKILL.md (кастомные правила)
+- @.agents/skills/semgrep-rule-variant-creator/SKILL.md
+- @.agents/skills/skill-security-audit/SKILL.md
+- @.agents/skills/sigil-scan/SKILL.md
+- @.agents/skills/variant-analysis/SKILL.md
+
+**Цель:** глубокий security-аудит интеграции back↔front (отдельно от ежедневного QA). Isolation maps не грузить.
+
+**Scope:** wire portal — route × UI × API × authz/IDOR, filter/query injection на стыке, contract drift (публичные поля/секреты), insecure defaults в client+API mapping, CI Actions затрагивающие integ/e2e.
+
+**Процесс**:
+1. `OK INTEG SECURITY - Security audit`
+2. `tasks.md`, `techContext.md`, scope (wired routes + API clients + filter-utils)
+3. OWASP (broken access, injection на стыке) + SAST по затронутым back+front путям wire
+4. Supply chain + insecure defaults + Actions (e2e/integ CI)
+5. `memory-bank/integration/security/security-audit-YYYYMMDD-<slug>.md` — findings, severity, skills
+6. `tasks.md` append-only
+7. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`, artifact: `security-audit-*.md`)
+
+**Next:** BUGFIX / IMPLEMENT (фиксы) → QA · при drift контракта → GAP

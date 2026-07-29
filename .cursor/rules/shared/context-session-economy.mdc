@@ -1,0 +1,94 @@
+---
+description: "Session & chat context economy — handoff, new chat gate, lean load (referenced by workflows FINISH)"
+alwaysApply: false
+---
+# Context Session Economy
+
+Cross-cutting. Referenced from workflows at **session start** and **FINISH**. Layer 0 base: @.cursor/rules/token-economy-core.mdc
+
+## 1. Session unit
+
+**One chat = one atomic subtask** with clear AC (not necessarily whole T-xxx).
+
+| Scope example | Own chat? |
+|---------------|-----------|
+| `hold.py` only | yes |
+| handler wire after handoff | yes (new chat) |
+| L1 typo fix, <5 tool calls | same chat OK |
+| IMPLEMENT → QA | **new chat** |
+| PLAN → first IMPLEMENT step | **new chat** |
+
+## 2. New chat — REQUIRED recommend to user
+
+Recommend **new chat** at FINISH when **any** is true:
+
+- Atomic subtask AC met (tests pass / QA scope done)
+- Next substep differs (e.g. hold → handler)
+- Role switch: IMPLEMENT/TASK/BUGFIX → QA; QA pass → REFLECT; PLAN → IMPLEMENT
+- Long debug trace or many failed runs in current chat
+- User reports confusion / agent repeats settled decisions
+
+**Do NOT** require new chat for: single checkbox in same subtask; continuing debug of same bug in fresh context.
+
+## 3. Session start (any role command)
+
+0. **Tool routing:** if unclear — Cursor + fast-editing (default) | Claude Code + premium-coding (E2E / multi-file / **PLAN**)
+1. Read `memory-bank/activeContext.md` → **`load_now` only** (default IMPLEMENT/TASK)
+2. Read **§Handoff** в `activeContext.md` (единственный канон навигации)
+3. **Do NOT** rely on prior chat transcript — files are source of truth
+4. ONE task shard + ONE plan/domain shard (shard file, not index monolith) — **except PLAN workflows** (inventory per `workflow-*-plan.mdc`)
+5. `load_if_needed` only when AC requires it
+6. Prefer `memory-bank/back/code-map.md` (if exists) + `grep` before broad codebase search
+7. Skills: load **only** skills needed for this subtask (not full workflow list)
+
+### 3a. PLAN sessions — Load ≠ Write
+
+- Lean rules in this file control **context load** and **chat brevity**, not plan file size
+- Writing `plan-*.md` / `gap-*.md` → @.cursor/rules/token-economy-core.mdc §0.0 — **unlimited, exhaustive**
+- Forbidden: truncate plan because «token economy» / «telegraph» / «200 lines»
+- After OK PLAN: announce `SUSPENSION GUARD active — plan output unlimited`
+
+## 4. During session
+
+| Rule | Detail |
+|------|--------|
+| Read once | One Read per file per session; batch edits |
+| Subagent | Parent **MAY** Task/explore for wide search / multi-file / review; parent gets paths + summary only. Skip only trivial (1 file / простой grep) |
+| Index | Forbidden as content load — link to ONE shard |
+| Section | If focus names `§3c` — load that section only when shard is large |
+| Isolation | Match level from task (L2 substep → Level2 rules, not Level4) |
+
+## 5. FINISH — handoff block (mandatory)
+
+Before doc-router: `## Handoff` в `activeContext.md` + append `tasks/log/YYYY-MM.md` — канон @.cursor/templates/finish-doc-router.md §Handoff / §Delivery log (idea → @.cursor/templates/idea-pipeline.md).  
+Затем @.cursor/rules/shared/finish-doc-router.mdc.
+
+## 6. User message — new chat template (RU)
+
+Когда **New chat: yes** — текст из @.cursor/templates/finish-doc-router.md §«Сообщение пользователю» (подставить команду и пути).
+
+## 7. QA lean load
+
+BACK/FRONT QA scoped to one feature:
+
+- `activeContext.md` (load_now)
+- ONE task shard (AC)
+- `git diff` / changed files
+- grep integration §0.11
+- **Skip** full plan shard unless AC ambiguous
+- **Skip** explore/task «найти scope» — parent сам гоняет `.venv/bin/pytest` / smoke из handoff
+- **FORBIDDEN:** `kilo_local_recall` / дамп прошлых Kilo sessions вместо файлов
+
+## 8. TASK / BUGFIX
+
+- Prefer `activeContext` + `load_now` over loading all core memory-bank roots
+- Load `projectbrief` / `techContext` only if task is cross-cutting or user asks
+- Wide search → parent **MAY** spawn subagent; FINISH → handoff + new chat if scope was large
+
+## 9. Forbidden
+
+- Loading `done — do NOT load` paths
+- Duplicating plan prose into task shard or chat
+- Keeping completed substep in `load_now`
+- Over-refusal: never spawning when wide search/review needed
+- Trivial-only skip: do not spawn for single-file read / простой grep / мелкий edit (это не запрет на wide work)

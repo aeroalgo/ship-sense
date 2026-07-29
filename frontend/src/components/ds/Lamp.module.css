@@ -1,0 +1,53 @@
+.root {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.quality_good {
+}
+
+.quality_uncertain {
+}
+
+.quality_bad {
+}
+
+.quality_stale {
+}
+
+.quality_quarantine {
+}
+
+.pulse {
+  box-shadow: 0 0 0 2px currentColor;
+  animation: lamp-pulse-outline var(--lamp-pulse-ms, 2000ms) ease-in-out infinite;
+}
+
+.pulseStatic {
+  box-shadow: 0 0 0 3px currentColor;
+}
+
+@keyframes lamp-pulse-outline {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px transparent;
+  }
+  50% {
+    box-shadow: 0 0 0 3px currentColor;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+    box-shadow: 0 0 0 3px currentColor;
+  }
+}

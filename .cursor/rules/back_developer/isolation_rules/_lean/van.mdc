@@ -1,0 +1,29 @@
+---
+description: "VAN gates — memory bank, complexity (lean)"
+alwaysApply: false
+---
+# VAN — gates
+
+**Артефакт (опц.):** `memory-bank/back/van/van-YYYYMMDD.md`  
+**Пути структуры:** @.cursor/rules/back_developer/isolation_rules/Core/memory-bank-paths.mdc
+
+## Gates
+
+1. `memory-bank/` valid по paths — иначе create; abort до valid
+2. Обязательны: `tasks.md`, `activeContext.md`, `projectbrief.md`
+3. L1–L4 записан в `tasks.md` (append-only)
+4. Контекст ясен из tasks + activeContext
+
+## Complexity
+
+| L | Scope |
+|---|--------|
+| L1 | 1–2 файла |
+| L2 | 3–5 файлов |
+| L3 | фича, возможен CREATIVE |
+| L4 | архитектура |
+
+## Abort
+
+- Invalid memory bank → fix first
+- Complexity не определён → не рекомендовать IMPLEMENT/PLAN

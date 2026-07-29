@@ -1,0 +1,30 @@
+---
+description: "DECOMPOSE gates — plan input, atomic steps (lean)"
+alwaysApply: false
+---
+# DECOMPOSE — gates
+
+**Артефакт:** `memory-bank/back/plan/decompose-<plan_id>/` (`index.md` + `sNN-*.md`)
+
+## Gates
+
+1. Объект: `plan-<id>.md` или shard из `load_now`
+2. L3–L4: все shards плана (исключение ONE shard)
+3. Шаг = один IMPLEMENT + TDD; `step_id`, files, `needs_creative`, `tdd`, `code_surface`
+4. Каждый `sNN`: `**code_surface:**` service|api|sql|model|infra|test + блок **Impl skills** (always 3 + доп. по map из `workflow-decompose.mdc`)
+5. Папка создана: index + `sNN-*.md`
+6. Plan: ссылка на index как единственный трекер; нет sNN-чеклистов в plan
+7. `load_now` → `s01-*.md` (не index)
+
+## Abort
+
+- Нет решения в плане → `needs_creative`, не код
+- Есть unresolved `CR-*`, без которого шаг нельзя реализовать корректно → `needs_creative: yes (...)` + `Next Phase: BACK CREATIVE`; не прятать это в тексте шага
+- Не писать код / не гонять тесты реализации
+- Полные тела методов в `sNN` вместо lean-интерфейсов → incomplete
+- Plan всё ещё с дубль «Шаги / Результат sNN» → incomplete
+- `sNN` без `code_surface` → incomplete
+- `sNN` без Impl skills (always / map) → incomplete
+- `code_surface: service|api` без `python-anti-patterns` в Impl skills → incomplete
+- `code_surface: api` без `fastapi-templates` → incomplete
+- `code_surface: sql` без `supabase-postgres-best-practices` → incomplete

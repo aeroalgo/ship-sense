@@ -1,0 +1,9 @@
+{
+  "@type": "discrete",
+  "schema_version": "1.0",
+  "channel_id": "GEU.DI2201",
+  "source_ts": "2026-07-27T12:00:00.000Z",
+  "aps_state": "active_unacked",
+  "input_active": true,
+  "channel_test_enabled": false
+}

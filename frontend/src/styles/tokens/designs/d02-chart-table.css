@@ -1,0 +1,106 @@
+/* CR-UI-01 — d02 Chart Table — chrome + day|night|dim */
+
+html[data-design="d02"][data-theme="day"] {
+  --font-sans: "Source Sans 3", "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Source Sans 3", "IBM Plex Sans", sans-serif;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --border-width: 1px;
+  --border-width-strong: 1px;
+  --space-unit: 8px;
+  --gap-grid: 20px;
+  --panel-pad: 20px;
+  --content-pad-x: 28px;
+  --font-display-size: 56px;
+  --font-critical: 48px;
+  --font-title: 28px;
+  --font-body: 18px;
+  --font-caption: 15px;
+  --font-mono-value: 20px;
+  --tracking-label: 0.06em;
+  --surface-0: #161c20;
+  --surface-1: #1c242a;
+  --surface-2: #243038;
+  --text-primary: #e2ebe8;
+  --text-secondary: #8aa09a;
+  --text-muted: #5e706c;
+  --border-subtle: #2e3c42;
+  --border-strong: #3a4e52;
+  --focus-ring: #3d9b8f;
+  --chrome-accent: #2f7a72;
+  --statusbar-height: 56px;
+}
+
+html[data-design="d02"][data-theme="night"] {
+  --font-sans: "Source Sans 3", "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Source Sans 3", "IBM Plex Sans", sans-serif;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --border-width: 1px;
+  --border-width-strong: 1px;
+  --space-unit: 8px;
+  --gap-grid: 20px;
+  --panel-pad: 20px;
+  --content-pad-x: 28px;
+  --font-display-size: 56px;
+  --font-critical: 48px;
+  --font-title: 28px;
+  --font-body: 18px;
+  --font-caption: 15px;
+  --font-mono-value: 20px;
+  --tracking-label: 0.06em;
+  --surface-0: #10161a;
+  --surface-1: #161e24;
+  --surface-2: #1e2a30;
+  --text-primary: #d0dbd8;
+  --text-secondary: #7a908a;
+  --text-muted: #546460;
+  --border-subtle: #283438;
+  --border-strong: #344448;
+  --focus-ring: #348a80;
+  --chrome-accent: #286860;
+  --statusbar-height: 56px;
+}
+
+html[data-design="d02"][data-theme="dim"] {
+  --font-sans: "Source Sans 3", "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Source Sans 3", "IBM Plex Sans", sans-serif;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --border-width: 1px;
+  --border-width-strong: 1px;
+  --space-unit: 8px;
+  --gap-grid: 20px;
+  --panel-pad: 20px;
+  --content-pad-x: 28px;
+  --font-display-size: 56px;
+  --font-critical: 48px;
+  --font-title: 28px;
+  --font-body: 18px;
+  --font-caption: 15px;
+  --font-mono-value: 20px;
+  --tracking-label: 0.06em;
+  --surface-0: #0c1014;
+  --surface-1: #12181c;
+  --surface-2: #182024;
+  --text-primary: #b0bcb8;
+  --text-secondary: #687870;
+  --text-muted: #485450;
+  --border-subtle: #222c30;
+  --border-strong: #2c383c;
+  --focus-ring: #2a7068;
+  --chrome-accent: #205850;
+  --statusbar-height: 48px;
+}
+
+html[data-design="d02"] {
+  background-color: var(--surface-0);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}

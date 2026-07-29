@@ -1,0 +1,23 @@
+/* Product typescale helpers — sizes live in designs/dNN. Provisional until CR-UI-05/Q9. */
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+.font-mono,
+[data-mono="true"],
+time,
+code,
+kbd,
+samp {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+html[data-design] {
+  --font-sans: var(--font-plex-sans), "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-display: var(--font-plex-sans), "Segoe UI", system-ui, sans-serif;
+}

@@ -1,0 +1,26 @@
+/* CR-UI-01 — общий слой alarm/quality (одинаков для всех dNN) */
+/* Формы DS0-1 — в CR-UI-03 / SVG; здесь только hue + soft bg */
+
+:root {
+  --alarm-critical-fg: #ff4d4f;
+  --alarm-critical-bg: rgba(255, 77, 79, 0.12);
+  --alarm-warning-fg: #faad14;
+  --alarm-warning-bg: rgba(250, 173, 20, 0.12);
+  --alarm-info-fg: #69b1ff;
+  --alarm-info-bg: rgba(105, 177, 255, 0.12);
+
+  --quality-bad-fg: #ff7875;
+  --quality-bad-bg: rgba(255, 120, 117, 0.12);
+  --quality-quarantine-fg: #b37feb;
+  --quality-quarantine-bg: rgba(179, 127, 235, 0.12);
+  --quality-stale-fg: #8c8c8c;
+  --quality-stale-bg: rgba(140, 140, 140, 0.1);
+  --quality-uncertain-fg: #ffc069;
+  --quality-uncertain-bg: rgba(255, 192, 105, 0.12);
+
+  --motion-theme-ms: 150ms;
+  --touch-min: 57px;
+  --overview-group-min-w: 176px;
+  --overview-group-min-h: 128px;
+  --accent: var(--chrome-accent, #5a6a7c);
+}

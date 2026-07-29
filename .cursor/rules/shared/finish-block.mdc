@@ -1,0 +1,23 @@
+---
+description: "FINISH block — Handoff, doc-router, graphify, new chat (единая точка для workflow)"
+alwaysApply: false
+---
+# FINISH Block
+
+Единая точка FINISH. Checklist + Handoff fill-in: @.cursor/templates/finish-doc-router.md  
+Процедура (By command / graphify / Forbidden): @.cursor/rules/shared/finish-doc-router.mdc
+
+## Порядок (обязательно)
+
+1. **Pre-FINISH skills** — если workflow указал skills перед FINISH — прочитай их
+2. **## Handoff** в `activeContext.md` only — поля из шаблона §Handoff (idea: см. @.cursor/templates/idea-pipeline.md). **ЗАПРЕЩЕНО** `## Handoff` в `implement/sNN`
+3. **implement/sNN:** закрыть AC, секции Сделано/Файлы/Тесты (без навигации)
+4. **Delivery log:** append строка в `tasks/log/YYYY-MM.md` §Timeline + §Последние события в `tasks.md` (обязательно на FINISH subtask)
+5. **doc-router:** @.cursor/rules/shared/finish-doc-router.mdc + заполнение по шаблону
+6. **graphify** — если `code_changed: yes`: из **корня репо** (cwd = root, не `frontend/`/`apps/…`): `.venv/bin/graphify update .`; `--force` только если узлов стало меньше. Канон: только `<repo>/graphify-out/` — см. @.cursor/rules/graphify.mdc HARD RULE
+7. **new chat:** @.cursor/rules/shared/context-session-economy.mdc §2; сообщение — шаблон §«Сообщение пользователю»
+
+## code_changed
+
+| yes | IMPLEMENT, TASK, BUGFIX, REFACTOR (правки кода) |
+| no | VAN, PLAN, DECOMPOSE, CREATIVE, QA, REFLECT, ARCHIVE NOW, SECURITY |

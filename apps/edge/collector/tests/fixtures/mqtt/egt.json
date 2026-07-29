@@ -1,0 +1,16 @@
+{
+  "@type": "egt",
+  "schema_version": "1.0",
+  "channel_id": "GEU.EGT1",
+  "source_ts": "2026-07-27T12:00:00.000Z",
+  "engine_id": "GEU.EGT1",
+  "cylinder_deviation": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  "engine_mean_temp": 440.5,
+  "max_allowed_deviation": 25.0,
+  "operator_min_mean": 400.0,
+  "operator_max_mean": 500.0,
+  "operator_max_dev_at_min_mean": 30.0,
+  "operator_max_dev_at_max_mean": 20.0,
+  "cylinder_correction": [0, 0, 1, 0, -1, 0, 0, 0, 0, 0, 0, 0],
+  "aps_permission": [true, true, true, true, true, true, true, true, true, true, true, true]
+}

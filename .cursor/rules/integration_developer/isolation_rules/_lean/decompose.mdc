@@ -1,0 +1,23 @@
+---
+description: "INTEG DECOMPOSE gates — one step = one UI element (lean)"
+alwaysApply: false
+---
+# INTEG DECOMPOSE — gates
+
+**Артефакт:** `memory-bank/integration/plan/decompose-<plan_id>/` (`index.md` + `eNN-*.md`)
+
+## Gates
+
+1. Source: `plan-<task_id>.md` Element registry
+2. Folder: все eNN из plan
+3. Step: §UI, §Data, §API today, §Contract lean, §BACK/FRONT/DB, §0.11, §Verify
+4. One element per file — не layer-first
+5. Batch: весь decompose за один проход
+6. Plan → index tracker; колонка `implement`
+7. `load_now` → `e01-*.md` на FINISH
+8. Не читать gap/contracts; не грузить executing-plans
+
+## Abort
+
+- Layer-first нарезка → wrong
+- §Contract пуст или с полным TS/Pydantic → incomplete

@@ -1,0 +1,6469 @@
+profile:
+  id: aps_stub
+  version: 1
+  tick_hz: 1.0
+signals:
+- signal_id: MAIN_ENGINE_RPM
+  native_ids:
+    modbus: '40107'
+    opcua: ns=2;s=AI4104
+  value_type: float32
+  unit: rpm
+  range:
+    min: 0
+    max: 4000
+  generator:
+    kind: periodic
+    baseline: 1800
+    amplitude: 300
+    period: 86400
+    phase: 0
+- signal_id: MAIN_ENGINE_TEMP
+  native_ids:
+    modbus: '40101'
+    opcua: ns=2;s=AI4101
+  value_type: float32
+  unit: degC
+  range:
+    min: -40
+    max: 120
+  generator:
+    kind: correlated
+    drivers:
+    - MAIN_ENGINE_RPM
+    coefficients:
+    - 0.015
+    baseline: 55
+    noise: 0.5
+- signal_id: MAIN_ENGINE_PRESSURE
+  native_ids:
+    modbus: '40105'
+    opcua: ns=2;s=AI4103
+  value_type: float32
+  unit: bar
+  range:
+    min: 0
+    max: 25
+  generator:
+    kind: correlated
+    drivers:
+    - MAIN_ENGINE_RPM
+    coefficients:
+    - 0.0025
+    baseline: 2
+    noise: 0.05
+- signal_id: SIGNAL_0004
+  native_ids:
+    modbus: '41004'
+    opcua: ns=2;s=STUB0004
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0005
+  native_ids:
+    modbus: '41005'
+    opcua: ns=2;s=STUB0005
+  value_type: int16
+  generator:
+    kind: constant
+    value: 5
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0006
+  native_ids:
+    modbus: '41006'
+    opcua: ns=2;s=STUB0006
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0007
+  native_ids:
+    modbus: '41007'
+    opcua: ns=2;s=STUB0007
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0007
+  unit: text
+- signal_id: SIGNAL_0008
+  native_ids:
+    modbus: '41008'
+    opcua: ns=2;s=STUB0008
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0009
+  native_ids:
+    modbus: '41009'
+    opcua: ns=2;s=STUB0009
+  value_type: int16
+  generator:
+    kind: constant
+    value: 9
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0010
+  native_ids:
+    modbus: '41010'
+    opcua: ns=2;s=STUB0010
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0011
+  native_ids:
+    modbus: '41011'
+    opcua: ns=2;s=STUB0011
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0011
+  unit: text
+- signal_id: SIGNAL_0012
+  native_ids:
+    modbus: '41012'
+    opcua: ns=2;s=STUB0012
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0013
+  native_ids:
+    modbus: '41013'
+    opcua: ns=2;s=STUB0013
+  value_type: int16
+  generator:
+    kind: constant
+    value: 13
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0014
+  native_ids:
+    modbus: '41014'
+    opcua: ns=2;s=STUB0014
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0015
+  native_ids:
+    modbus: '41015'
+    opcua: ns=2;s=STUB0015
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0015
+  unit: text
+- signal_id: SIGNAL_0016
+  native_ids:
+    modbus: '41016'
+    opcua: ns=2;s=STUB0016
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0017
+  native_ids:
+    modbus: '41017'
+    opcua: ns=2;s=STUB0017
+  value_type: int16
+  generator:
+    kind: constant
+    value: 17
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0018
+  native_ids:
+    modbus: '41018'
+    opcua: ns=2;s=STUB0018
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0019
+  native_ids:
+    modbus: '41019'
+    opcua: ns=2;s=STUB0019
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0019
+  unit: text
+- signal_id: SIGNAL_0020
+  native_ids:
+    modbus: '41020'
+    opcua: ns=2;s=STUB0020
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0021
+  native_ids:
+    modbus: '41021'
+    opcua: ns=2;s=STUB0021
+  value_type: int16
+  generator:
+    kind: constant
+    value: 21
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0022
+  native_ids:
+    modbus: '41022'
+    opcua: ns=2;s=STUB0022
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0023
+  native_ids:
+    modbus: '41023'
+    opcua: ns=2;s=STUB0023
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0023
+  unit: text
+- signal_id: SIGNAL_0024
+  native_ids:
+    modbus: '41024'
+    opcua: ns=2;s=STUB0024
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0025
+  native_ids:
+    modbus: '41025'
+    opcua: ns=2;s=STUB0025
+  value_type: int16
+  generator:
+    kind: constant
+    value: 25
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0026
+  native_ids:
+    modbus: '41026'
+    opcua: ns=2;s=STUB0026
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0027
+  native_ids:
+    modbus: '41027'
+    opcua: ns=2;s=STUB0027
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0027
+  unit: text
+- signal_id: SIGNAL_0028
+  native_ids:
+    modbus: '41028'
+    opcua: ns=2;s=STUB0028
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0029
+  native_ids:
+    modbus: '41029'
+    opcua: ns=2;s=STUB0029
+  value_type: int16
+  generator:
+    kind: constant
+    value: 29
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0030
+  native_ids:
+    modbus: '41030'
+    opcua: ns=2;s=STUB0030
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0031
+  native_ids:
+    modbus: '41031'
+    opcua: ns=2;s=STUB0031
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0031
+  unit: text
+- signal_id: SIGNAL_0032
+  native_ids:
+    modbus: '41032'
+    opcua: ns=2;s=STUB0032
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0033
+  native_ids:
+    modbus: '41033'
+    opcua: ns=2;s=STUB0033
+  value_type: int16
+  generator:
+    kind: constant
+    value: 33
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0034
+  native_ids:
+    modbus: '41034'
+    opcua: ns=2;s=STUB0034
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0035
+  native_ids:
+    modbus: '41035'
+    opcua: ns=2;s=STUB0035
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0035
+  unit: text
+- signal_id: SIGNAL_0036
+  native_ids:
+    modbus: '41036'
+    opcua: ns=2;s=STUB0036
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0037
+  native_ids:
+    modbus: '41037'
+    opcua: ns=2;s=STUB0037
+  value_type: int16
+  generator:
+    kind: constant
+    value: 37
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0038
+  native_ids:
+    modbus: '41038'
+    opcua: ns=2;s=STUB0038
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0039
+  native_ids:
+    modbus: '41039'
+    opcua: ns=2;s=STUB0039
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0039
+  unit: text
+- signal_id: SIGNAL_0040
+  native_ids:
+    modbus: '41040'
+    opcua: ns=2;s=STUB0040
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0041
+  native_ids:
+    modbus: '41041'
+    opcua: ns=2;s=STUB0041
+  value_type: int16
+  generator:
+    kind: constant
+    value: 41
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0042
+  native_ids:
+    modbus: '41042'
+    opcua: ns=2;s=STUB0042
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0043
+  native_ids:
+    modbus: '41043'
+    opcua: ns=2;s=STUB0043
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0043
+  unit: text
+- signal_id: SIGNAL_0044
+  native_ids:
+    modbus: '41044'
+    opcua: ns=2;s=STUB0044
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0045
+  native_ids:
+    modbus: '41045'
+    opcua: ns=2;s=STUB0045
+  value_type: int16
+  generator:
+    kind: constant
+    value: 45
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0046
+  native_ids:
+    modbus: '41046'
+    opcua: ns=2;s=STUB0046
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0047
+  native_ids:
+    modbus: '41047'
+    opcua: ns=2;s=STUB0047
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0047
+  unit: text
+- signal_id: SIGNAL_0048
+  native_ids:
+    modbus: '41048'
+    opcua: ns=2;s=STUB0048
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0049
+  native_ids:
+    modbus: '41049'
+    opcua: ns=2;s=STUB0049
+  value_type: int16
+  generator:
+    kind: constant
+    value: 49
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0050
+  native_ids:
+    modbus: '41050'
+    opcua: ns=2;s=STUB0050
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0051
+  native_ids:
+    modbus: '41051'
+    opcua: ns=2;s=STUB0051
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0051
+  unit: text
+- signal_id: SIGNAL_0052
+  native_ids:
+    modbus: '41052'
+    opcua: ns=2;s=STUB0052
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0053
+  native_ids:
+    modbus: '41053'
+    opcua: ns=2;s=STUB0053
+  value_type: int16
+  generator:
+    kind: constant
+    value: 53
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0054
+  native_ids:
+    modbus: '41054'
+    opcua: ns=2;s=STUB0054
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0055
+  native_ids:
+    modbus: '41055'
+    opcua: ns=2;s=STUB0055
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0055
+  unit: text
+- signal_id: SIGNAL_0056
+  native_ids:
+    modbus: '41056'
+    opcua: ns=2;s=STUB0056
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0057
+  native_ids:
+    modbus: '41057'
+    opcua: ns=2;s=STUB0057
+  value_type: int16
+  generator:
+    kind: constant
+    value: 57
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0058
+  native_ids:
+    modbus: '41058'
+    opcua: ns=2;s=STUB0058
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0059
+  native_ids:
+    modbus: '41059'
+    opcua: ns=2;s=STUB0059
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0059
+  unit: text
+- signal_id: SIGNAL_0060
+  native_ids:
+    modbus: '41060'
+    opcua: ns=2;s=STUB0060
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0061
+  native_ids:
+    modbus: '41061'
+    opcua: ns=2;s=STUB0061
+  value_type: int16
+  generator:
+    kind: constant
+    value: 61
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0062
+  native_ids:
+    modbus: '41062'
+    opcua: ns=2;s=STUB0062
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0063
+  native_ids:
+    modbus: '41063'
+    opcua: ns=2;s=STUB0063
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0063
+  unit: text
+- signal_id: SIGNAL_0064
+  native_ids:
+    modbus: '41064'
+    opcua: ns=2;s=STUB0064
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0065
+  native_ids:
+    modbus: '41065'
+    opcua: ns=2;s=STUB0065
+  value_type: int16
+  generator:
+    kind: constant
+    value: 65
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0066
+  native_ids:
+    modbus: '41066'
+    opcua: ns=2;s=STUB0066
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0067
+  native_ids:
+    modbus: '41067'
+    opcua: ns=2;s=STUB0067
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0067
+  unit: text
+- signal_id: SIGNAL_0068
+  native_ids:
+    modbus: '41068'
+    opcua: ns=2;s=STUB0068
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0069
+  native_ids:
+    modbus: '41069'
+    opcua: ns=2;s=STUB0069
+  value_type: int16
+  generator:
+    kind: constant
+    value: 69
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0070
+  native_ids:
+    modbus: '41070'
+    opcua: ns=2;s=STUB0070
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0071
+  native_ids:
+    modbus: '41071'
+    opcua: ns=2;s=STUB0071
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0071
+  unit: text
+- signal_id: SIGNAL_0072
+  native_ids:
+    modbus: '41072'
+    opcua: ns=2;s=STUB0072
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0073
+  native_ids:
+    modbus: '41073'
+    opcua: ns=2;s=STUB0073
+  value_type: int16
+  generator:
+    kind: constant
+    value: 73
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0074
+  native_ids:
+    modbus: '41074'
+    opcua: ns=2;s=STUB0074
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0075
+  native_ids:
+    modbus: '41075'
+    opcua: ns=2;s=STUB0075
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0075
+  unit: text
+- signal_id: SIGNAL_0076
+  native_ids:
+    modbus: '41076'
+    opcua: ns=2;s=STUB0076
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0077
+  native_ids:
+    modbus: '41077'
+    opcua: ns=2;s=STUB0077
+  value_type: int16
+  generator:
+    kind: constant
+    value: 77
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0078
+  native_ids:
+    modbus: '41078'
+    opcua: ns=2;s=STUB0078
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0079
+  native_ids:
+    modbus: '41079'
+    opcua: ns=2;s=STUB0079
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0079
+  unit: text
+- signal_id: SIGNAL_0080
+  native_ids:
+    modbus: '41080'
+    opcua: ns=2;s=STUB0080
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0081
+  native_ids:
+    modbus: '41081'
+    opcua: ns=2;s=STUB0081
+  value_type: int16
+  generator:
+    kind: constant
+    value: 81
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0082
+  native_ids:
+    modbus: '41082'
+    opcua: ns=2;s=STUB0082
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0083
+  native_ids:
+    modbus: '41083'
+    opcua: ns=2;s=STUB0083
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0083
+  unit: text
+- signal_id: SIGNAL_0084
+  native_ids:
+    modbus: '41084'
+    opcua: ns=2;s=STUB0084
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0085
+  native_ids:
+    modbus: '41085'
+    opcua: ns=2;s=STUB0085
+  value_type: int16
+  generator:
+    kind: constant
+    value: 85
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0086
+  native_ids:
+    modbus: '41086'
+    opcua: ns=2;s=STUB0086
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0087
+  native_ids:
+    modbus: '41087'
+    opcua: ns=2;s=STUB0087
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0087
+  unit: text
+- signal_id: SIGNAL_0088
+  native_ids:
+    modbus: '41088'
+    opcua: ns=2;s=STUB0088
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0089
+  native_ids:
+    modbus: '41089'
+    opcua: ns=2;s=STUB0089
+  value_type: int16
+  generator:
+    kind: constant
+    value: 89
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0090
+  native_ids:
+    modbus: '41090'
+    opcua: ns=2;s=STUB0090
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0091
+  native_ids:
+    modbus: '41091'
+    opcua: ns=2;s=STUB0091
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0091
+  unit: text
+- signal_id: SIGNAL_0092
+  native_ids:
+    modbus: '41092'
+    opcua: ns=2;s=STUB0092
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0093
+  native_ids:
+    modbus: '41093'
+    opcua: ns=2;s=STUB0093
+  value_type: int16
+  generator:
+    kind: constant
+    value: 93
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0094
+  native_ids:
+    modbus: '41094'
+    opcua: ns=2;s=STUB0094
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0095
+  native_ids:
+    modbus: '41095'
+    opcua: ns=2;s=STUB0095
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0095
+  unit: text
+- signal_id: SIGNAL_0096
+  native_ids:
+    modbus: '41096'
+    opcua: ns=2;s=STUB0096
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0097
+  native_ids:
+    modbus: '41097'
+    opcua: ns=2;s=STUB0097
+  value_type: int16
+  generator:
+    kind: constant
+    value: 97
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0098
+  native_ids:
+    modbus: '41098'
+    opcua: ns=2;s=STUB0098
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0099
+  native_ids:
+    modbus: '41099'
+    opcua: ns=2;s=STUB0099
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0099
+  unit: text
+- signal_id: SIGNAL_0100
+  native_ids:
+    modbus: '41100'
+    opcua: ns=2;s=STUB0100
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0101
+  native_ids:
+    modbus: '41101'
+    opcua: ns=2;s=STUB0101
+  value_type: int16
+  generator:
+    kind: constant
+    value: 101
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0102
+  native_ids:
+    modbus: '41102'
+    opcua: ns=2;s=STUB0102
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0103
+  native_ids:
+    modbus: '41103'
+    opcua: ns=2;s=STUB0103
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0103
+  unit: text
+- signal_id: SIGNAL_0104
+  native_ids:
+    modbus: '41104'
+    opcua: ns=2;s=STUB0104
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0105
+  native_ids:
+    modbus: '41105'
+    opcua: ns=2;s=STUB0105
+  value_type: int16
+  generator:
+    kind: constant
+    value: 105
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0106
+  native_ids:
+    modbus: '41106'
+    opcua: ns=2;s=STUB0106
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0107
+  native_ids:
+    modbus: '41107'
+    opcua: ns=2;s=STUB0107
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0107
+  unit: text
+- signal_id: SIGNAL_0108
+  native_ids:
+    modbus: '41108'
+    opcua: ns=2;s=STUB0108
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0109
+  native_ids:
+    modbus: '41109'
+    opcua: ns=2;s=STUB0109
+  value_type: int16
+  generator:
+    kind: constant
+    value: 109
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0110
+  native_ids:
+    modbus: '41110'
+    opcua: ns=2;s=STUB0110
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0111
+  native_ids:
+    modbus: '41111'
+    opcua: ns=2;s=STUB0111
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0111
+  unit: text
+- signal_id: SIGNAL_0112
+  native_ids:
+    modbus: '41112'
+    opcua: ns=2;s=STUB0112
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0113
+  native_ids:
+    modbus: '41113'
+    opcua: ns=2;s=STUB0113
+  value_type: int16
+  generator:
+    kind: constant
+    value: 113
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0114
+  native_ids:
+    modbus: '41114'
+    opcua: ns=2;s=STUB0114
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0115
+  native_ids:
+    modbus: '41115'
+    opcua: ns=2;s=STUB0115
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0115
+  unit: text
+- signal_id: SIGNAL_0116
+  native_ids:
+    modbus: '41116'
+    opcua: ns=2;s=STUB0116
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0117
+  native_ids:
+    modbus: '41117'
+    opcua: ns=2;s=STUB0117
+  value_type: int16
+  generator:
+    kind: constant
+    value: 117
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0118
+  native_ids:
+    modbus: '41118'
+    opcua: ns=2;s=STUB0118
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0119
+  native_ids:
+    modbus: '41119'
+    opcua: ns=2;s=STUB0119
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0119
+  unit: text
+- signal_id: SIGNAL_0120
+  native_ids:
+    modbus: '41120'
+    opcua: ns=2;s=STUB0120
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0121
+  native_ids:
+    modbus: '41121'
+    opcua: ns=2;s=STUB0121
+  value_type: int16
+  generator:
+    kind: constant
+    value: 121
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0122
+  native_ids:
+    modbus: '41122'
+    opcua: ns=2;s=STUB0122
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0123
+  native_ids:
+    modbus: '41123'
+    opcua: ns=2;s=STUB0123
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0123
+  unit: text
+- signal_id: SIGNAL_0124
+  native_ids:
+    modbus: '41124'
+    opcua: ns=2;s=STUB0124
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0125
+  native_ids:
+    modbus: '41125'
+    opcua: ns=2;s=STUB0125
+  value_type: int16
+  generator:
+    kind: constant
+    value: 125
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0126
+  native_ids:
+    modbus: '41126'
+    opcua: ns=2;s=STUB0126
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0127
+  native_ids:
+    modbus: '41127'
+    opcua: ns=2;s=STUB0127
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0127
+  unit: text
+- signal_id: SIGNAL_0128
+  native_ids:
+    modbus: '41128'
+    opcua: ns=2;s=STUB0128
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0129
+  native_ids:
+    modbus: '41129'
+    opcua: ns=2;s=STUB0129
+  value_type: int16
+  generator:
+    kind: constant
+    value: 129
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0130
+  native_ids:
+    modbus: '41130'
+    opcua: ns=2;s=STUB0130
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0131
+  native_ids:
+    modbus: '41131'
+    opcua: ns=2;s=STUB0131
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0131
+  unit: text
+- signal_id: SIGNAL_0132
+  native_ids:
+    modbus: '41132'
+    opcua: ns=2;s=STUB0132
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0133
+  native_ids:
+    modbus: '41133'
+    opcua: ns=2;s=STUB0133
+  value_type: int16
+  generator:
+    kind: constant
+    value: 133
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0134
+  native_ids:
+    modbus: '41134'
+    opcua: ns=2;s=STUB0134
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0135
+  native_ids:
+    modbus: '41135'
+    opcua: ns=2;s=STUB0135
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0135
+  unit: text
+- signal_id: SIGNAL_0136
+  native_ids:
+    modbus: '41136'
+    opcua: ns=2;s=STUB0136
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0137
+  native_ids:
+    modbus: '41137'
+    opcua: ns=2;s=STUB0137
+  value_type: int16
+  generator:
+    kind: constant
+    value: 137
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0138
+  native_ids:
+    modbus: '41138'
+    opcua: ns=2;s=STUB0138
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0139
+  native_ids:
+    modbus: '41139'
+    opcua: ns=2;s=STUB0139
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0139
+  unit: text
+- signal_id: SIGNAL_0140
+  native_ids:
+    modbus: '41140'
+    opcua: ns=2;s=STUB0140
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0141
+  native_ids:
+    modbus: '41141'
+    opcua: ns=2;s=STUB0141
+  value_type: int16
+  generator:
+    kind: constant
+    value: 141
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0142
+  native_ids:
+    modbus: '41142'
+    opcua: ns=2;s=STUB0142
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0143
+  native_ids:
+    modbus: '41143'
+    opcua: ns=2;s=STUB0143
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0143
+  unit: text
+- signal_id: SIGNAL_0144
+  native_ids:
+    modbus: '41144'
+    opcua: ns=2;s=STUB0144
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0145
+  native_ids:
+    modbus: '41145'
+    opcua: ns=2;s=STUB0145
+  value_type: int16
+  generator:
+    kind: constant
+    value: 145
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0146
+  native_ids:
+    modbus: '41146'
+    opcua: ns=2;s=STUB0146
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0147
+  native_ids:
+    modbus: '41147'
+    opcua: ns=2;s=STUB0147
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0147
+  unit: text
+- signal_id: SIGNAL_0148
+  native_ids:
+    modbus: '41148'
+    opcua: ns=2;s=STUB0148
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0149
+  native_ids:
+    modbus: '41149'
+    opcua: ns=2;s=STUB0149
+  value_type: int16
+  generator:
+    kind: constant
+    value: 149
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0150
+  native_ids:
+    modbus: '41150'
+    opcua: ns=2;s=STUB0150
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0151
+  native_ids:
+    modbus: '41151'
+    opcua: ns=2;s=STUB0151
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0151
+  unit: text
+- signal_id: SIGNAL_0152
+  native_ids:
+    modbus: '41152'
+    opcua: ns=2;s=STUB0152
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0153
+  native_ids:
+    modbus: '41153'
+    opcua: ns=2;s=STUB0153
+  value_type: int16
+  generator:
+    kind: constant
+    value: 153
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0154
+  native_ids:
+    modbus: '41154'
+    opcua: ns=2;s=STUB0154
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0155
+  native_ids:
+    modbus: '41155'
+    opcua: ns=2;s=STUB0155
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0155
+  unit: text
+- signal_id: SIGNAL_0156
+  native_ids:
+    modbus: '41156'
+    opcua: ns=2;s=STUB0156
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0157
+  native_ids:
+    modbus: '41157'
+    opcua: ns=2;s=STUB0157
+  value_type: int16
+  generator:
+    kind: constant
+    value: 157
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0158
+  native_ids:
+    modbus: '41158'
+    opcua: ns=2;s=STUB0158
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0159
+  native_ids:
+    modbus: '41159'
+    opcua: ns=2;s=STUB0159
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0159
+  unit: text
+- signal_id: SIGNAL_0160
+  native_ids:
+    modbus: '41160'
+    opcua: ns=2;s=STUB0160
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0161
+  native_ids:
+    modbus: '41161'
+    opcua: ns=2;s=STUB0161
+  value_type: int16
+  generator:
+    kind: constant
+    value: 161
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0162
+  native_ids:
+    modbus: '41162'
+    opcua: ns=2;s=STUB0162
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0163
+  native_ids:
+    modbus: '41163'
+    opcua: ns=2;s=STUB0163
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0163
+  unit: text
+- signal_id: SIGNAL_0164
+  native_ids:
+    modbus: '41164'
+    opcua: ns=2;s=STUB0164
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0165
+  native_ids:
+    modbus: '41165'
+    opcua: ns=2;s=STUB0165
+  value_type: int16
+  generator:
+    kind: constant
+    value: 165
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0166
+  native_ids:
+    modbus: '41166'
+    opcua: ns=2;s=STUB0166
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0167
+  native_ids:
+    modbus: '41167'
+    opcua: ns=2;s=STUB0167
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0167
+  unit: text
+- signal_id: SIGNAL_0168
+  native_ids:
+    modbus: '41168'
+    opcua: ns=2;s=STUB0168
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0169
+  native_ids:
+    modbus: '41169'
+    opcua: ns=2;s=STUB0169
+  value_type: int16
+  generator:
+    kind: constant
+    value: 169
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0170
+  native_ids:
+    modbus: '41170'
+    opcua: ns=2;s=STUB0170
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0171
+  native_ids:
+    modbus: '41171'
+    opcua: ns=2;s=STUB0171
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0171
+  unit: text
+- signal_id: SIGNAL_0172
+  native_ids:
+    modbus: '41172'
+    opcua: ns=2;s=STUB0172
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0173
+  native_ids:
+    modbus: '41173'
+    opcua: ns=2;s=STUB0173
+  value_type: int16
+  generator:
+    kind: constant
+    value: 173
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0174
+  native_ids:
+    modbus: '41174'
+    opcua: ns=2;s=STUB0174
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0175
+  native_ids:
+    modbus: '41175'
+    opcua: ns=2;s=STUB0175
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0175
+  unit: text
+- signal_id: SIGNAL_0176
+  native_ids:
+    modbus: '41176'
+    opcua: ns=2;s=STUB0176
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0177
+  native_ids:
+    modbus: '41177'
+    opcua: ns=2;s=STUB0177
+  value_type: int16
+  generator:
+    kind: constant
+    value: 177
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0178
+  native_ids:
+    modbus: '41178'
+    opcua: ns=2;s=STUB0178
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0179
+  native_ids:
+    modbus: '41179'
+    opcua: ns=2;s=STUB0179
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0179
+  unit: text
+- signal_id: SIGNAL_0180
+  native_ids:
+    modbus: '41180'
+    opcua: ns=2;s=STUB0180
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0181
+  native_ids:
+    modbus: '41181'
+    opcua: ns=2;s=STUB0181
+  value_type: int16
+  generator:
+    kind: constant
+    value: 181
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0182
+  native_ids:
+    modbus: '41182'
+    opcua: ns=2;s=STUB0182
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0183
+  native_ids:
+    modbus: '41183'
+    opcua: ns=2;s=STUB0183
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0183
+  unit: text
+- signal_id: SIGNAL_0184
+  native_ids:
+    modbus: '41184'
+    opcua: ns=2;s=STUB0184
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0185
+  native_ids:
+    modbus: '41185'
+    opcua: ns=2;s=STUB0185
+  value_type: int16
+  generator:
+    kind: constant
+    value: 185
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0186
+  native_ids:
+    modbus: '41186'
+    opcua: ns=2;s=STUB0186
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0187
+  native_ids:
+    modbus: '41187'
+    opcua: ns=2;s=STUB0187
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0187
+  unit: text
+- signal_id: SIGNAL_0188
+  native_ids:
+    modbus: '41188'
+    opcua: ns=2;s=STUB0188
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0189
+  native_ids:
+    modbus: '41189'
+    opcua: ns=2;s=STUB0189
+  value_type: int16
+  generator:
+    kind: constant
+    value: 189
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0190
+  native_ids:
+    modbus: '41190'
+    opcua: ns=2;s=STUB0190
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0191
+  native_ids:
+    modbus: '41191'
+    opcua: ns=2;s=STUB0191
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0191
+  unit: text
+- signal_id: SIGNAL_0192
+  native_ids:
+    modbus: '41192'
+    opcua: ns=2;s=STUB0192
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0193
+  native_ids:
+    modbus: '41193'
+    opcua: ns=2;s=STUB0193
+  value_type: int16
+  generator:
+    kind: constant
+    value: 193
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0194
+  native_ids:
+    modbus: '41194'
+    opcua: ns=2;s=STUB0194
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0195
+  native_ids:
+    modbus: '41195'
+    opcua: ns=2;s=STUB0195
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0195
+  unit: text
+- signal_id: SIGNAL_0196
+  native_ids:
+    modbus: '41196'
+    opcua: ns=2;s=STUB0196
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0197
+  native_ids:
+    modbus: '41197'
+    opcua: ns=2;s=STUB0197
+  value_type: int16
+  generator:
+    kind: constant
+    value: 197
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0198
+  native_ids:
+    modbus: '41198'
+    opcua: ns=2;s=STUB0198
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0199
+  native_ids:
+    modbus: '41199'
+    opcua: ns=2;s=STUB0199
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0199
+  unit: text
+- signal_id: SIGNAL_0200
+  native_ids:
+    modbus: '41200'
+    opcua: ns=2;s=STUB0200
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0201
+  native_ids:
+    modbus: '41201'
+    opcua: ns=2;s=STUB0201
+  value_type: int16
+  generator:
+    kind: constant
+    value: 201
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0202
+  native_ids:
+    modbus: '41202'
+    opcua: ns=2;s=STUB0202
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0203
+  native_ids:
+    modbus: '41203'
+    opcua: ns=2;s=STUB0203
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0203
+  unit: text
+- signal_id: SIGNAL_0204
+  native_ids:
+    modbus: '41204'
+    opcua: ns=2;s=STUB0204
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0205
+  native_ids:
+    modbus: '41205'
+    opcua: ns=2;s=STUB0205
+  value_type: int16
+  generator:
+    kind: constant
+    value: 205
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0206
+  native_ids:
+    modbus: '41206'
+    opcua: ns=2;s=STUB0206
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0207
+  native_ids:
+    modbus: '41207'
+    opcua: ns=2;s=STUB0207
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0207
+  unit: text
+- signal_id: SIGNAL_0208
+  native_ids:
+    modbus: '41208'
+    opcua: ns=2;s=STUB0208
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0209
+  native_ids:
+    modbus: '41209'
+    opcua: ns=2;s=STUB0209
+  value_type: int16
+  generator:
+    kind: constant
+    value: 209
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0210
+  native_ids:
+    modbus: '41210'
+    opcua: ns=2;s=STUB0210
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0211
+  native_ids:
+    modbus: '41211'
+    opcua: ns=2;s=STUB0211
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0211
+  unit: text
+- signal_id: SIGNAL_0212
+  native_ids:
+    modbus: '41212'
+    opcua: ns=2;s=STUB0212
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0213
+  native_ids:
+    modbus: '41213'
+    opcua: ns=2;s=STUB0213
+  value_type: int16
+  generator:
+    kind: constant
+    value: 213
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0214
+  native_ids:
+    modbus: '41214'
+    opcua: ns=2;s=STUB0214
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0215
+  native_ids:
+    modbus: '41215'
+    opcua: ns=2;s=STUB0215
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0215
+  unit: text
+- signal_id: SIGNAL_0216
+  native_ids:
+    modbus: '41216'
+    opcua: ns=2;s=STUB0216
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0217
+  native_ids:
+    modbus: '41217'
+    opcua: ns=2;s=STUB0217
+  value_type: int16
+  generator:
+    kind: constant
+    value: 217
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0218
+  native_ids:
+    modbus: '41218'
+    opcua: ns=2;s=STUB0218
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0219
+  native_ids:
+    modbus: '41219'
+    opcua: ns=2;s=STUB0219
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0219
+  unit: text
+- signal_id: SIGNAL_0220
+  native_ids:
+    modbus: '41220'
+    opcua: ns=2;s=STUB0220
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0221
+  native_ids:
+    modbus: '41221'
+    opcua: ns=2;s=STUB0221
+  value_type: int16
+  generator:
+    kind: constant
+    value: 221
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0222
+  native_ids:
+    modbus: '41222'
+    opcua: ns=2;s=STUB0222
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0223
+  native_ids:
+    modbus: '41223'
+    opcua: ns=2;s=STUB0223
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0223
+  unit: text
+- signal_id: SIGNAL_0224
+  native_ids:
+    modbus: '41224'
+    opcua: ns=2;s=STUB0224
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0225
+  native_ids:
+    modbus: '41225'
+    opcua: ns=2;s=STUB0225
+  value_type: int16
+  generator:
+    kind: constant
+    value: 225
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0226
+  native_ids:
+    modbus: '41226'
+    opcua: ns=2;s=STUB0226
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0227
+  native_ids:
+    modbus: '41227'
+    opcua: ns=2;s=STUB0227
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0227
+  unit: text
+- signal_id: SIGNAL_0228
+  native_ids:
+    modbus: '41228'
+    opcua: ns=2;s=STUB0228
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0229
+  native_ids:
+    modbus: '41229'
+    opcua: ns=2;s=STUB0229
+  value_type: int16
+  generator:
+    kind: constant
+    value: 229
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0230
+  native_ids:
+    modbus: '41230'
+    opcua: ns=2;s=STUB0230
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0231
+  native_ids:
+    modbus: '41231'
+    opcua: ns=2;s=STUB0231
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0231
+  unit: text
+- signal_id: SIGNAL_0232
+  native_ids:
+    modbus: '41232'
+    opcua: ns=2;s=STUB0232
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0233
+  native_ids:
+    modbus: '41233'
+    opcua: ns=2;s=STUB0233
+  value_type: int16
+  generator:
+    kind: constant
+    value: 233
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0234
+  native_ids:
+    modbus: '41234'
+    opcua: ns=2;s=STUB0234
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0235
+  native_ids:
+    modbus: '41235'
+    opcua: ns=2;s=STUB0235
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0235
+  unit: text
+- signal_id: SIGNAL_0236
+  native_ids:
+    modbus: '41236'
+    opcua: ns=2;s=STUB0236
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0237
+  native_ids:
+    modbus: '41237'
+    opcua: ns=2;s=STUB0237
+  value_type: int16
+  generator:
+    kind: constant
+    value: 237
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0238
+  native_ids:
+    modbus: '41238'
+    opcua: ns=2;s=STUB0238
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0239
+  native_ids:
+    modbus: '41239'
+    opcua: ns=2;s=STUB0239
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0239
+  unit: text
+- signal_id: SIGNAL_0240
+  native_ids:
+    modbus: '41240'
+    opcua: ns=2;s=STUB0240
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0241
+  native_ids:
+    modbus: '41241'
+    opcua: ns=2;s=STUB0241
+  value_type: int16
+  generator:
+    kind: constant
+    value: 241
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0242
+  native_ids:
+    modbus: '41242'
+    opcua: ns=2;s=STUB0242
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0243
+  native_ids:
+    modbus: '41243'
+    opcua: ns=2;s=STUB0243
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0243
+  unit: text
+- signal_id: SIGNAL_0244
+  native_ids:
+    modbus: '41244'
+    opcua: ns=2;s=STUB0244
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0245
+  native_ids:
+    modbus: '41245'
+    opcua: ns=2;s=STUB0245
+  value_type: int16
+  generator:
+    kind: constant
+    value: 245
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0246
+  native_ids:
+    modbus: '41246'
+    opcua: ns=2;s=STUB0246
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0247
+  native_ids:
+    modbus: '41247'
+    opcua: ns=2;s=STUB0247
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0247
+  unit: text
+- signal_id: SIGNAL_0248
+  native_ids:
+    modbus: '41248'
+    opcua: ns=2;s=STUB0248
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0249
+  native_ids:
+    modbus: '41249'
+    opcua: ns=2;s=STUB0249
+  value_type: int16
+  generator:
+    kind: constant
+    value: 249
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0250
+  native_ids:
+    modbus: '41250'
+    opcua: ns=2;s=STUB0250
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0251
+  native_ids:
+    modbus: '41251'
+    opcua: ns=2;s=STUB0251
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0251
+  unit: text
+- signal_id: SIGNAL_0252
+  native_ids:
+    modbus: '41252'
+    opcua: ns=2;s=STUB0252
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0253
+  native_ids:
+    modbus: '41253'
+    opcua: ns=2;s=STUB0253
+  value_type: int16
+  generator:
+    kind: constant
+    value: 253
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0254
+  native_ids:
+    modbus: '41254'
+    opcua: ns=2;s=STUB0254
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0255
+  native_ids:
+    modbus: '41255'
+    opcua: ns=2;s=STUB0255
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0255
+  unit: text
+- signal_id: SIGNAL_0256
+  native_ids:
+    modbus: '41256'
+    opcua: ns=2;s=STUB0256
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0257
+  native_ids:
+    modbus: '41257'
+    opcua: ns=2;s=STUB0257
+  value_type: int16
+  generator:
+    kind: constant
+    value: 257
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0258
+  native_ids:
+    modbus: '41258'
+    opcua: ns=2;s=STUB0258
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0259
+  native_ids:
+    modbus: '41259'
+    opcua: ns=2;s=STUB0259
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0259
+  unit: text
+- signal_id: SIGNAL_0260
+  native_ids:
+    modbus: '41260'
+    opcua: ns=2;s=STUB0260
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0261
+  native_ids:
+    modbus: '41261'
+    opcua: ns=2;s=STUB0261
+  value_type: int16
+  generator:
+    kind: constant
+    value: 261
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0262
+  native_ids:
+    modbus: '41262'
+    opcua: ns=2;s=STUB0262
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0263
+  native_ids:
+    modbus: '41263'
+    opcua: ns=2;s=STUB0263
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0263
+  unit: text
+- signal_id: SIGNAL_0264
+  native_ids:
+    modbus: '41264'
+    opcua: ns=2;s=STUB0264
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0265
+  native_ids:
+    modbus: '41265'
+    opcua: ns=2;s=STUB0265
+  value_type: int16
+  generator:
+    kind: constant
+    value: 265
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0266
+  native_ids:
+    modbus: '41266'
+    opcua: ns=2;s=STUB0266
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0267
+  native_ids:
+    modbus: '41267'
+    opcua: ns=2;s=STUB0267
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0267
+  unit: text
+- signal_id: SIGNAL_0268
+  native_ids:
+    modbus: '41268'
+    opcua: ns=2;s=STUB0268
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0269
+  native_ids:
+    modbus: '41269'
+    opcua: ns=2;s=STUB0269
+  value_type: int16
+  generator:
+    kind: constant
+    value: 269
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0270
+  native_ids:
+    modbus: '41270'
+    opcua: ns=2;s=STUB0270
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0271
+  native_ids:
+    modbus: '41271'
+    opcua: ns=2;s=STUB0271
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0271
+  unit: text
+- signal_id: SIGNAL_0272
+  native_ids:
+    modbus: '41272'
+    opcua: ns=2;s=STUB0272
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0273
+  native_ids:
+    modbus: '41273'
+    opcua: ns=2;s=STUB0273
+  value_type: int16
+  generator:
+    kind: constant
+    value: 273
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0274
+  native_ids:
+    modbus: '41274'
+    opcua: ns=2;s=STUB0274
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0275
+  native_ids:
+    modbus: '41275'
+    opcua: ns=2;s=STUB0275
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0275
+  unit: text
+- signal_id: SIGNAL_0276
+  native_ids:
+    modbus: '41276'
+    opcua: ns=2;s=STUB0276
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0277
+  native_ids:
+    modbus: '41277'
+    opcua: ns=2;s=STUB0277
+  value_type: int16
+  generator:
+    kind: constant
+    value: 277
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0278
+  native_ids:
+    modbus: '41278'
+    opcua: ns=2;s=STUB0278
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0279
+  native_ids:
+    modbus: '41279'
+    opcua: ns=2;s=STUB0279
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0279
+  unit: text
+- signal_id: SIGNAL_0280
+  native_ids:
+    modbus: '41280'
+    opcua: ns=2;s=STUB0280
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0281
+  native_ids:
+    modbus: '41281'
+    opcua: ns=2;s=STUB0281
+  value_type: int16
+  generator:
+    kind: constant
+    value: 281
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0282
+  native_ids:
+    modbus: '41282'
+    opcua: ns=2;s=STUB0282
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0283
+  native_ids:
+    modbus: '41283'
+    opcua: ns=2;s=STUB0283
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0283
+  unit: text
+- signal_id: SIGNAL_0284
+  native_ids:
+    modbus: '41284'
+    opcua: ns=2;s=STUB0284
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0285
+  native_ids:
+    modbus: '41285'
+    opcua: ns=2;s=STUB0285
+  value_type: int16
+  generator:
+    kind: constant
+    value: 285
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0286
+  native_ids:
+    modbus: '41286'
+    opcua: ns=2;s=STUB0286
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0287
+  native_ids:
+    modbus: '41287'
+    opcua: ns=2;s=STUB0287
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0287
+  unit: text
+- signal_id: SIGNAL_0288
+  native_ids:
+    modbus: '41288'
+    opcua: ns=2;s=STUB0288
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0289
+  native_ids:
+    modbus: '41289'
+    opcua: ns=2;s=STUB0289
+  value_type: int16
+  generator:
+    kind: constant
+    value: 289
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0290
+  native_ids:
+    modbus: '41290'
+    opcua: ns=2;s=STUB0290
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0291
+  native_ids:
+    modbus: '41291'
+    opcua: ns=2;s=STUB0291
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0291
+  unit: text
+- signal_id: SIGNAL_0292
+  native_ids:
+    modbus: '41292'
+    opcua: ns=2;s=STUB0292
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0293
+  native_ids:
+    modbus: '41293'
+    opcua: ns=2;s=STUB0293
+  value_type: int16
+  generator:
+    kind: constant
+    value: 293
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0294
+  native_ids:
+    modbus: '41294'
+    opcua: ns=2;s=STUB0294
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0295
+  native_ids:
+    modbus: '41295'
+    opcua: ns=2;s=STUB0295
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0295
+  unit: text
+- signal_id: SIGNAL_0296
+  native_ids:
+    modbus: '41296'
+    opcua: ns=2;s=STUB0296
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0297
+  native_ids:
+    modbus: '41297'
+    opcua: ns=2;s=STUB0297
+  value_type: int16
+  generator:
+    kind: constant
+    value: 297
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0298
+  native_ids:
+    modbus: '41298'
+    opcua: ns=2;s=STUB0298
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0299
+  native_ids:
+    modbus: '41299'
+    opcua: ns=2;s=STUB0299
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0299
+  unit: text
+- signal_id: SIGNAL_0300
+  native_ids:
+    modbus: '41300'
+    opcua: ns=2;s=STUB0300
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0301
+  native_ids:
+    modbus: '41301'
+    opcua: ns=2;s=STUB0301
+  value_type: int16
+  generator:
+    kind: constant
+    value: 301
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0302
+  native_ids:
+    modbus: '41302'
+    opcua: ns=2;s=STUB0302
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0303
+  native_ids:
+    modbus: '41303'
+    opcua: ns=2;s=STUB0303
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0303
+  unit: text
+- signal_id: SIGNAL_0304
+  native_ids:
+    modbus: '41304'
+    opcua: ns=2;s=STUB0304
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0305
+  native_ids:
+    modbus: '41305'
+    opcua: ns=2;s=STUB0305
+  value_type: int16
+  generator:
+    kind: constant
+    value: 305
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0306
+  native_ids:
+    modbus: '41306'
+    opcua: ns=2;s=STUB0306
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0307
+  native_ids:
+    modbus: '41307'
+    opcua: ns=2;s=STUB0307
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0307
+  unit: text
+- signal_id: SIGNAL_0308
+  native_ids:
+    modbus: '41308'
+    opcua: ns=2;s=STUB0308
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0309
+  native_ids:
+    modbus: '41309'
+    opcua: ns=2;s=STUB0309
+  value_type: int16
+  generator:
+    kind: constant
+    value: 309
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0310
+  native_ids:
+    modbus: '41310'
+    opcua: ns=2;s=STUB0310
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0311
+  native_ids:
+    modbus: '41311'
+    opcua: ns=2;s=STUB0311
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0311
+  unit: text
+- signal_id: SIGNAL_0312
+  native_ids:
+    modbus: '41312'
+    opcua: ns=2;s=STUB0312
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0313
+  native_ids:
+    modbus: '41313'
+    opcua: ns=2;s=STUB0313
+  value_type: int16
+  generator:
+    kind: constant
+    value: 313
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0314
+  native_ids:
+    modbus: '41314'
+    opcua: ns=2;s=STUB0314
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0315
+  native_ids:
+    modbus: '41315'
+    opcua: ns=2;s=STUB0315
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0315
+  unit: text
+- signal_id: SIGNAL_0316
+  native_ids:
+    modbus: '41316'
+    opcua: ns=2;s=STUB0316
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0317
+  native_ids:
+    modbus: '41317'
+    opcua: ns=2;s=STUB0317
+  value_type: int16
+  generator:
+    kind: constant
+    value: 317
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0318
+  native_ids:
+    modbus: '41318'
+    opcua: ns=2;s=STUB0318
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0319
+  native_ids:
+    modbus: '41319'
+    opcua: ns=2;s=STUB0319
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0319
+  unit: text
+- signal_id: SIGNAL_0320
+  native_ids:
+    modbus: '41320'
+    opcua: ns=2;s=STUB0320
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0321
+  native_ids:
+    modbus: '41321'
+    opcua: ns=2;s=STUB0321
+  value_type: int16
+  generator:
+    kind: constant
+    value: 321
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0322
+  native_ids:
+    modbus: '41322'
+    opcua: ns=2;s=STUB0322
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0323
+  native_ids:
+    modbus: '41323'
+    opcua: ns=2;s=STUB0323
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0323
+  unit: text
+- signal_id: SIGNAL_0324
+  native_ids:
+    modbus: '41324'
+    opcua: ns=2;s=STUB0324
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0325
+  native_ids:
+    modbus: '41325'
+    opcua: ns=2;s=STUB0325
+  value_type: int16
+  generator:
+    kind: constant
+    value: 325
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0326
+  native_ids:
+    modbus: '41326'
+    opcua: ns=2;s=STUB0326
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0327
+  native_ids:
+    modbus: '41327'
+    opcua: ns=2;s=STUB0327
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0327
+  unit: text
+- signal_id: SIGNAL_0328
+  native_ids:
+    modbus: '41328'
+    opcua: ns=2;s=STUB0328
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0329
+  native_ids:
+    modbus: '41329'
+    opcua: ns=2;s=STUB0329
+  value_type: int16
+  generator:
+    kind: constant
+    value: 329
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0330
+  native_ids:
+    modbus: '41330'
+    opcua: ns=2;s=STUB0330
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0331
+  native_ids:
+    modbus: '41331'
+    opcua: ns=2;s=STUB0331
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0331
+  unit: text
+- signal_id: SIGNAL_0332
+  native_ids:
+    modbus: '41332'
+    opcua: ns=2;s=STUB0332
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0333
+  native_ids:
+    modbus: '41333'
+    opcua: ns=2;s=STUB0333
+  value_type: int16
+  generator:
+    kind: constant
+    value: 333
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0334
+  native_ids:
+    modbus: '41334'
+    opcua: ns=2;s=STUB0334
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0335
+  native_ids:
+    modbus: '41335'
+    opcua: ns=2;s=STUB0335
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0335
+  unit: text
+- signal_id: SIGNAL_0336
+  native_ids:
+    modbus: '41336'
+    opcua: ns=2;s=STUB0336
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0337
+  native_ids:
+    modbus: '41337'
+    opcua: ns=2;s=STUB0337
+  value_type: int16
+  generator:
+    kind: constant
+    value: 337
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0338
+  native_ids:
+    modbus: '41338'
+    opcua: ns=2;s=STUB0338
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0339
+  native_ids:
+    modbus: '41339'
+    opcua: ns=2;s=STUB0339
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0339
+  unit: text
+- signal_id: SIGNAL_0340
+  native_ids:
+    modbus: '41340'
+    opcua: ns=2;s=STUB0340
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0341
+  native_ids:
+    modbus: '41341'
+    opcua: ns=2;s=STUB0341
+  value_type: int16
+  generator:
+    kind: constant
+    value: 341
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0342
+  native_ids:
+    modbus: '41342'
+    opcua: ns=2;s=STUB0342
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0343
+  native_ids:
+    modbus: '41343'
+    opcua: ns=2;s=STUB0343
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0343
+  unit: text
+- signal_id: SIGNAL_0344
+  native_ids:
+    modbus: '41344'
+    opcua: ns=2;s=STUB0344
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0345
+  native_ids:
+    modbus: '41345'
+    opcua: ns=2;s=STUB0345
+  value_type: int16
+  generator:
+    kind: constant
+    value: 345
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0346
+  native_ids:
+    modbus: '41346'
+    opcua: ns=2;s=STUB0346
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0347
+  native_ids:
+    modbus: '41347'
+    opcua: ns=2;s=STUB0347
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0347
+  unit: text
+- signal_id: SIGNAL_0348
+  native_ids:
+    modbus: '41348'
+    opcua: ns=2;s=STUB0348
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0349
+  native_ids:
+    modbus: '41349'
+    opcua: ns=2;s=STUB0349
+  value_type: int16
+  generator:
+    kind: constant
+    value: 349
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0350
+  native_ids:
+    modbus: '41350'
+    opcua: ns=2;s=STUB0350
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0351
+  native_ids:
+    modbus: '41351'
+    opcua: ns=2;s=STUB0351
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0351
+  unit: text
+- signal_id: SIGNAL_0352
+  native_ids:
+    modbus: '41352'
+    opcua: ns=2;s=STUB0352
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0353
+  native_ids:
+    modbus: '41353'
+    opcua: ns=2;s=STUB0353
+  value_type: int16
+  generator:
+    kind: constant
+    value: 353
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0354
+  native_ids:
+    modbus: '41354'
+    opcua: ns=2;s=STUB0354
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0355
+  native_ids:
+    modbus: '41355'
+    opcua: ns=2;s=STUB0355
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0355
+  unit: text
+- signal_id: SIGNAL_0356
+  native_ids:
+    modbus: '41356'
+    opcua: ns=2;s=STUB0356
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0357
+  native_ids:
+    modbus: '41357'
+    opcua: ns=2;s=STUB0357
+  value_type: int16
+  generator:
+    kind: constant
+    value: 357
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0358
+  native_ids:
+    modbus: '41358'
+    opcua: ns=2;s=STUB0358
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0359
+  native_ids:
+    modbus: '41359'
+    opcua: ns=2;s=STUB0359
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0359
+  unit: text
+- signal_id: SIGNAL_0360
+  native_ids:
+    modbus: '41360'
+    opcua: ns=2;s=STUB0360
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0361
+  native_ids:
+    modbus: '41361'
+    opcua: ns=2;s=STUB0361
+  value_type: int16
+  generator:
+    kind: constant
+    value: 361
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0362
+  native_ids:
+    modbus: '41362'
+    opcua: ns=2;s=STUB0362
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0363
+  native_ids:
+    modbus: '41363'
+    opcua: ns=2;s=STUB0363
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0363
+  unit: text
+- signal_id: SIGNAL_0364
+  native_ids:
+    modbus: '41364'
+    opcua: ns=2;s=STUB0364
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0365
+  native_ids:
+    modbus: '41365'
+    opcua: ns=2;s=STUB0365
+  value_type: int16
+  generator:
+    kind: constant
+    value: 365
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0366
+  native_ids:
+    modbus: '41366'
+    opcua: ns=2;s=STUB0366
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0367
+  native_ids:
+    modbus: '41367'
+    opcua: ns=2;s=STUB0367
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0367
+  unit: text
+- signal_id: SIGNAL_0368
+  native_ids:
+    modbus: '41368'
+    opcua: ns=2;s=STUB0368
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0369
+  native_ids:
+    modbus: '41369'
+    opcua: ns=2;s=STUB0369
+  value_type: int16
+  generator:
+    kind: constant
+    value: 369
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0370
+  native_ids:
+    modbus: '41370'
+    opcua: ns=2;s=STUB0370
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0371
+  native_ids:
+    modbus: '41371'
+    opcua: ns=2;s=STUB0371
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0371
+  unit: text
+- signal_id: SIGNAL_0372
+  native_ids:
+    modbus: '41372'
+    opcua: ns=2;s=STUB0372
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0373
+  native_ids:
+    modbus: '41373'
+    opcua: ns=2;s=STUB0373
+  value_type: int16
+  generator:
+    kind: constant
+    value: 373
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0374
+  native_ids:
+    modbus: '41374'
+    opcua: ns=2;s=STUB0374
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0375
+  native_ids:
+    modbus: '41375'
+    opcua: ns=2;s=STUB0375
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0375
+  unit: text
+- signal_id: SIGNAL_0376
+  native_ids:
+    modbus: '41376'
+    opcua: ns=2;s=STUB0376
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0377
+  native_ids:
+    modbus: '41377'
+    opcua: ns=2;s=STUB0377
+  value_type: int16
+  generator:
+    kind: constant
+    value: 377
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0378
+  native_ids:
+    modbus: '41378'
+    opcua: ns=2;s=STUB0378
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0379
+  native_ids:
+    modbus: '41379'
+    opcua: ns=2;s=STUB0379
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0379
+  unit: text
+- signal_id: SIGNAL_0380
+  native_ids:
+    modbus: '41380'
+    opcua: ns=2;s=STUB0380
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0381
+  native_ids:
+    modbus: '41381'
+    opcua: ns=2;s=STUB0381
+  value_type: int16
+  generator:
+    kind: constant
+    value: 381
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0382
+  native_ids:
+    modbus: '41382'
+    opcua: ns=2;s=STUB0382
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0383
+  native_ids:
+    modbus: '41383'
+    opcua: ns=2;s=STUB0383
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0383
+  unit: text
+- signal_id: SIGNAL_0384
+  native_ids:
+    modbus: '41384'
+    opcua: ns=2;s=STUB0384
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0385
+  native_ids:
+    modbus: '41385'
+    opcua: ns=2;s=STUB0385
+  value_type: int16
+  generator:
+    kind: constant
+    value: 385
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0386
+  native_ids:
+    modbus: '41386'
+    opcua: ns=2;s=STUB0386
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0387
+  native_ids:
+    modbus: '41387'
+    opcua: ns=2;s=STUB0387
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0387
+  unit: text
+- signal_id: SIGNAL_0388
+  native_ids:
+    modbus: '41388'
+    opcua: ns=2;s=STUB0388
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0389
+  native_ids:
+    modbus: '41389'
+    opcua: ns=2;s=STUB0389
+  value_type: int16
+  generator:
+    kind: constant
+    value: 389
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0390
+  native_ids:
+    modbus: '41390'
+    opcua: ns=2;s=STUB0390
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0391
+  native_ids:
+    modbus: '41391'
+    opcua: ns=2;s=STUB0391
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0391
+  unit: text
+- signal_id: SIGNAL_0392
+  native_ids:
+    modbus: '41392'
+    opcua: ns=2;s=STUB0392
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0393
+  native_ids:
+    modbus: '41393'
+    opcua: ns=2;s=STUB0393
+  value_type: int16
+  generator:
+    kind: constant
+    value: 393
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0394
+  native_ids:
+    modbus: '41394'
+    opcua: ns=2;s=STUB0394
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0395
+  native_ids:
+    modbus: '41395'
+    opcua: ns=2;s=STUB0395
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0395
+  unit: text
+- signal_id: SIGNAL_0396
+  native_ids:
+    modbus: '41396'
+    opcua: ns=2;s=STUB0396
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0397
+  native_ids:
+    modbus: '41397'
+    opcua: ns=2;s=STUB0397
+  value_type: int16
+  generator:
+    kind: constant
+    value: 397
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0398
+  native_ids:
+    modbus: '41398'
+    opcua: ns=2;s=STUB0398
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0399
+  native_ids:
+    modbus: '41399'
+    opcua: ns=2;s=STUB0399
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0399
+  unit: text
+- signal_id: SIGNAL_0400
+  native_ids:
+    modbus: '41400'
+    opcua: ns=2;s=STUB0400
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0401
+  native_ids:
+    modbus: '41401'
+    opcua: ns=2;s=STUB0401
+  value_type: int16
+  generator:
+    kind: constant
+    value: 401
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0402
+  native_ids:
+    modbus: '41402'
+    opcua: ns=2;s=STUB0402
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0403
+  native_ids:
+    modbus: '41403'
+    opcua: ns=2;s=STUB0403
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0403
+  unit: text
+- signal_id: SIGNAL_0404
+  native_ids:
+    modbus: '41404'
+    opcua: ns=2;s=STUB0404
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0405
+  native_ids:
+    modbus: '41405'
+    opcua: ns=2;s=STUB0405
+  value_type: int16
+  generator:
+    kind: constant
+    value: 405
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0406
+  native_ids:
+    modbus: '41406'
+    opcua: ns=2;s=STUB0406
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0407
+  native_ids:
+    modbus: '41407'
+    opcua: ns=2;s=STUB0407
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0407
+  unit: text
+- signal_id: SIGNAL_0408
+  native_ids:
+    modbus: '41408'
+    opcua: ns=2;s=STUB0408
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0409
+  native_ids:
+    modbus: '41409'
+    opcua: ns=2;s=STUB0409
+  value_type: int16
+  generator:
+    kind: constant
+    value: 409
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0410
+  native_ids:
+    modbus: '41410'
+    opcua: ns=2;s=STUB0410
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0411
+  native_ids:
+    modbus: '41411'
+    opcua: ns=2;s=STUB0411
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0411
+  unit: text
+- signal_id: SIGNAL_0412
+  native_ids:
+    modbus: '41412'
+    opcua: ns=2;s=STUB0412
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0413
+  native_ids:
+    modbus: '41413'
+    opcua: ns=2;s=STUB0413
+  value_type: int16
+  generator:
+    kind: constant
+    value: 413
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0414
+  native_ids:
+    modbus: '41414'
+    opcua: ns=2;s=STUB0414
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0415
+  native_ids:
+    modbus: '41415'
+    opcua: ns=2;s=STUB0415
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0415
+  unit: text
+- signal_id: SIGNAL_0416
+  native_ids:
+    modbus: '41416'
+    opcua: ns=2;s=STUB0416
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0417
+  native_ids:
+    modbus: '41417'
+    opcua: ns=2;s=STUB0417
+  value_type: int16
+  generator:
+    kind: constant
+    value: 417
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0418
+  native_ids:
+    modbus: '41418'
+    opcua: ns=2;s=STUB0418
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0419
+  native_ids:
+    modbus: '41419'
+    opcua: ns=2;s=STUB0419
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0419
+  unit: text
+- signal_id: SIGNAL_0420
+  native_ids:
+    modbus: '41420'
+    opcua: ns=2;s=STUB0420
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0421
+  native_ids:
+    modbus: '41421'
+    opcua: ns=2;s=STUB0421
+  value_type: int16
+  generator:
+    kind: constant
+    value: 421
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0422
+  native_ids:
+    modbus: '41422'
+    opcua: ns=2;s=STUB0422
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0423
+  native_ids:
+    modbus: '41423'
+    opcua: ns=2;s=STUB0423
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0423
+  unit: text
+- signal_id: SIGNAL_0424
+  native_ids:
+    modbus: '41424'
+    opcua: ns=2;s=STUB0424
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0425
+  native_ids:
+    modbus: '41425'
+    opcua: ns=2;s=STUB0425
+  value_type: int16
+  generator:
+    kind: constant
+    value: 425
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0426
+  native_ids:
+    modbus: '41426'
+    opcua: ns=2;s=STUB0426
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0427
+  native_ids:
+    modbus: '41427'
+    opcua: ns=2;s=STUB0427
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0427
+  unit: text
+- signal_id: SIGNAL_0428
+  native_ids:
+    modbus: '41428'
+    opcua: ns=2;s=STUB0428
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0429
+  native_ids:
+    modbus: '41429'
+    opcua: ns=2;s=STUB0429
+  value_type: int16
+  generator:
+    kind: constant
+    value: 429
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0430
+  native_ids:
+    modbus: '41430'
+    opcua: ns=2;s=STUB0430
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0431
+  native_ids:
+    modbus: '41431'
+    opcua: ns=2;s=STUB0431
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0431
+  unit: text
+- signal_id: SIGNAL_0432
+  native_ids:
+    modbus: '41432'
+    opcua: ns=2;s=STUB0432
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0433
+  native_ids:
+    modbus: '41433'
+    opcua: ns=2;s=STUB0433
+  value_type: int16
+  generator:
+    kind: constant
+    value: 433
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0434
+  native_ids:
+    modbus: '41434'
+    opcua: ns=2;s=STUB0434
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0435
+  native_ids:
+    modbus: '41435'
+    opcua: ns=2;s=STUB0435
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0435
+  unit: text
+- signal_id: SIGNAL_0436
+  native_ids:
+    modbus: '41436'
+    opcua: ns=2;s=STUB0436
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0437
+  native_ids:
+    modbus: '41437'
+    opcua: ns=2;s=STUB0437
+  value_type: int16
+  generator:
+    kind: constant
+    value: 437
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0438
+  native_ids:
+    modbus: '41438'
+    opcua: ns=2;s=STUB0438
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0439
+  native_ids:
+    modbus: '41439'
+    opcua: ns=2;s=STUB0439
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0439
+  unit: text
+- signal_id: SIGNAL_0440
+  native_ids:
+    modbus: '41440'
+    opcua: ns=2;s=STUB0440
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0441
+  native_ids:
+    modbus: '41441'
+    opcua: ns=2;s=STUB0441
+  value_type: int16
+  generator:
+    kind: constant
+    value: 441
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0442
+  native_ids:
+    modbus: '41442'
+    opcua: ns=2;s=STUB0442
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0443
+  native_ids:
+    modbus: '41443'
+    opcua: ns=2;s=STUB0443
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0443
+  unit: text
+- signal_id: SIGNAL_0444
+  native_ids:
+    modbus: '41444'
+    opcua: ns=2;s=STUB0444
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0445
+  native_ids:
+    modbus: '41445'
+    opcua: ns=2;s=STUB0445
+  value_type: int16
+  generator:
+    kind: constant
+    value: 445
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0446
+  native_ids:
+    modbus: '41446'
+    opcua: ns=2;s=STUB0446
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0447
+  native_ids:
+    modbus: '41447'
+    opcua: ns=2;s=STUB0447
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0447
+  unit: text
+- signal_id: SIGNAL_0448
+  native_ids:
+    modbus: '41448'
+    opcua: ns=2;s=STUB0448
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0449
+  native_ids:
+    modbus: '41449'
+    opcua: ns=2;s=STUB0449
+  value_type: int16
+  generator:
+    kind: constant
+    value: 449
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0450
+  native_ids:
+    modbus: '41450'
+    opcua: ns=2;s=STUB0450
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0451
+  native_ids:
+    modbus: '41451'
+    opcua: ns=2;s=STUB0451
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0451
+  unit: text
+- signal_id: SIGNAL_0452
+  native_ids:
+    modbus: '41452'
+    opcua: ns=2;s=STUB0452
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0453
+  native_ids:
+    modbus: '41453'
+    opcua: ns=2;s=STUB0453
+  value_type: int16
+  generator:
+    kind: constant
+    value: 453
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0454
+  native_ids:
+    modbus: '41454'
+    opcua: ns=2;s=STUB0454
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0455
+  native_ids:
+    modbus: '41455'
+    opcua: ns=2;s=STUB0455
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0455
+  unit: text
+- signal_id: SIGNAL_0456
+  native_ids:
+    modbus: '41456'
+    opcua: ns=2;s=STUB0456
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0457
+  native_ids:
+    modbus: '41457'
+    opcua: ns=2;s=STUB0457
+  value_type: int16
+  generator:
+    kind: constant
+    value: 457
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0458
+  native_ids:
+    modbus: '41458'
+    opcua: ns=2;s=STUB0458
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0459
+  native_ids:
+    modbus: '41459'
+    opcua: ns=2;s=STUB0459
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0459
+  unit: text
+- signal_id: SIGNAL_0460
+  native_ids:
+    modbus: '41460'
+    opcua: ns=2;s=STUB0460
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0461
+  native_ids:
+    modbus: '41461'
+    opcua: ns=2;s=STUB0461
+  value_type: int16
+  generator:
+    kind: constant
+    value: 461
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0462
+  native_ids:
+    modbus: '41462'
+    opcua: ns=2;s=STUB0462
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0463
+  native_ids:
+    modbus: '41463'
+    opcua: ns=2;s=STUB0463
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0463
+  unit: text
+- signal_id: SIGNAL_0464
+  native_ids:
+    modbus: '41464'
+    opcua: ns=2;s=STUB0464
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0465
+  native_ids:
+    modbus: '41465'
+    opcua: ns=2;s=STUB0465
+  value_type: int16
+  generator:
+    kind: constant
+    value: 465
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0466
+  native_ids:
+    modbus: '41466'
+    opcua: ns=2;s=STUB0466
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0467
+  native_ids:
+    modbus: '41467'
+    opcua: ns=2;s=STUB0467
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0467
+  unit: text
+- signal_id: SIGNAL_0468
+  native_ids:
+    modbus: '41468'
+    opcua: ns=2;s=STUB0468
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0469
+  native_ids:
+    modbus: '41469'
+    opcua: ns=2;s=STUB0469
+  value_type: int16
+  generator:
+    kind: constant
+    value: 469
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0470
+  native_ids:
+    modbus: '41470'
+    opcua: ns=2;s=STUB0470
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0471
+  native_ids:
+    modbus: '41471'
+    opcua: ns=2;s=STUB0471
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0471
+  unit: text
+- signal_id: SIGNAL_0472
+  native_ids:
+    modbus: '41472'
+    opcua: ns=2;s=STUB0472
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0473
+  native_ids:
+    modbus: '41473'
+    opcua: ns=2;s=STUB0473
+  value_type: int16
+  generator:
+    kind: constant
+    value: 473
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0474
+  native_ids:
+    modbus: '41474'
+    opcua: ns=2;s=STUB0474
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0475
+  native_ids:
+    modbus: '41475'
+    opcua: ns=2;s=STUB0475
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0475
+  unit: text
+- signal_id: SIGNAL_0476
+  native_ids:
+    modbus: '41476'
+    opcua: ns=2;s=STUB0476
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0477
+  native_ids:
+    modbus: '41477'
+    opcua: ns=2;s=STUB0477
+  value_type: int16
+  generator:
+    kind: constant
+    value: 477
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0478
+  native_ids:
+    modbus: '41478'
+    opcua: ns=2;s=STUB0478
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0479
+  native_ids:
+    modbus: '41479'
+    opcua: ns=2;s=STUB0479
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0479
+  unit: text
+- signal_id: SIGNAL_0480
+  native_ids:
+    modbus: '41480'
+    opcua: ns=2;s=STUB0480
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0481
+  native_ids:
+    modbus: '41481'
+    opcua: ns=2;s=STUB0481
+  value_type: int16
+  generator:
+    kind: constant
+    value: 481
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0482
+  native_ids:
+    modbus: '41482'
+    opcua: ns=2;s=STUB0482
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0483
+  native_ids:
+    modbus: '41483'
+    opcua: ns=2;s=STUB0483
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0483
+  unit: text
+- signal_id: SIGNAL_0484
+  native_ids:
+    modbus: '41484'
+    opcua: ns=2;s=STUB0484
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0485
+  native_ids:
+    modbus: '41485'
+    opcua: ns=2;s=STUB0485
+  value_type: int16
+  generator:
+    kind: constant
+    value: 485
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0486
+  native_ids:
+    modbus: '41486'
+    opcua: ns=2;s=STUB0486
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0487
+  native_ids:
+    modbus: '41487'
+    opcua: ns=2;s=STUB0487
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0487
+  unit: text
+- signal_id: SIGNAL_0488
+  native_ids:
+    modbus: '41488'
+    opcua: ns=2;s=STUB0488
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0489
+  native_ids:
+    modbus: '41489'
+    opcua: ns=2;s=STUB0489
+  value_type: int16
+  generator:
+    kind: constant
+    value: 489
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0490
+  native_ids:
+    modbus: '41490'
+    opcua: ns=2;s=STUB0490
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0491
+  native_ids:
+    modbus: '41491'
+    opcua: ns=2;s=STUB0491
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0491
+  unit: text
+- signal_id: SIGNAL_0492
+  native_ids:
+    modbus: '41492'
+    opcua: ns=2;s=STUB0492
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0493
+  native_ids:
+    modbus: '41493'
+    opcua: ns=2;s=STUB0493
+  value_type: int16
+  generator:
+    kind: constant
+    value: 493
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0494
+  native_ids:
+    modbus: '41494'
+    opcua: ns=2;s=STUB0494
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0495
+  native_ids:
+    modbus: '41495'
+    opcua: ns=2;s=STUB0495
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0495
+  unit: text
+- signal_id: SIGNAL_0496
+  native_ids:
+    modbus: '41496'
+    opcua: ns=2;s=STUB0496
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0497
+  native_ids:
+    modbus: '41497'
+    opcua: ns=2;s=STUB0497
+  value_type: int16
+  generator:
+    kind: constant
+    value: 497
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0498
+  native_ids:
+    modbus: '41498'
+    opcua: ns=2;s=STUB0498
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0499
+  native_ids:
+    modbus: '41499'
+    opcua: ns=2;s=STUB0499
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0499
+  unit: text
+- signal_id: SIGNAL_0500
+  native_ids:
+    modbus: '41500'
+    opcua: ns=2;s=STUB0500
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0501
+  native_ids:
+    modbus: '41501'
+    opcua: ns=2;s=STUB0501
+  value_type: int16
+  generator:
+    kind: constant
+    value: 501
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0502
+  native_ids:
+    modbus: '41502'
+    opcua: ns=2;s=STUB0502
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0503
+  native_ids:
+    modbus: '41503'
+    opcua: ns=2;s=STUB0503
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0503
+  unit: text
+- signal_id: SIGNAL_0504
+  native_ids:
+    modbus: '41504'
+    opcua: ns=2;s=STUB0504
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0505
+  native_ids:
+    modbus: '41505'
+    opcua: ns=2;s=STUB0505
+  value_type: int16
+  generator:
+    kind: constant
+    value: 505
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0506
+  native_ids:
+    modbus: '41506'
+    opcua: ns=2;s=STUB0506
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0507
+  native_ids:
+    modbus: '41507'
+    opcua: ns=2;s=STUB0507
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0507
+  unit: text
+- signal_id: SIGNAL_0508
+  native_ids:
+    modbus: '41508'
+    opcua: ns=2;s=STUB0508
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0509
+  native_ids:
+    modbus: '41509'
+    opcua: ns=2;s=STUB0509
+  value_type: int16
+  generator:
+    kind: constant
+    value: 509
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0510
+  native_ids:
+    modbus: '41510'
+    opcua: ns=2;s=STUB0510
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0511
+  native_ids:
+    modbus: '41511'
+    opcua: ns=2;s=STUB0511
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0511
+  unit: text
+- signal_id: SIGNAL_0512
+  native_ids:
+    modbus: '41512'
+    opcua: ns=2;s=STUB0512
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0513
+  native_ids:
+    modbus: '41513'
+    opcua: ns=2;s=STUB0513
+  value_type: int16
+  generator:
+    kind: constant
+    value: 513
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0514
+  native_ids:
+    modbus: '41514'
+    opcua: ns=2;s=STUB0514
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0515
+  native_ids:
+    modbus: '41515'
+    opcua: ns=2;s=STUB0515
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0515
+  unit: text
+- signal_id: SIGNAL_0516
+  native_ids:
+    modbus: '41516'
+    opcua: ns=2;s=STUB0516
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0517
+  native_ids:
+    modbus: '41517'
+    opcua: ns=2;s=STUB0517
+  value_type: int16
+  generator:
+    kind: constant
+    value: 517
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0518
+  native_ids:
+    modbus: '41518'
+    opcua: ns=2;s=STUB0518
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0519
+  native_ids:
+    modbus: '41519'
+    opcua: ns=2;s=STUB0519
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0519
+  unit: text
+- signal_id: SIGNAL_0520
+  native_ids:
+    modbus: '41520'
+    opcua: ns=2;s=STUB0520
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0521
+  native_ids:
+    modbus: '41521'
+    opcua: ns=2;s=STUB0521
+  value_type: int16
+  generator:
+    kind: constant
+    value: 521
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0522
+  native_ids:
+    modbus: '41522'
+    opcua: ns=2;s=STUB0522
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0523
+  native_ids:
+    modbus: '41523'
+    opcua: ns=2;s=STUB0523
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0523
+  unit: text
+- signal_id: SIGNAL_0524
+  native_ids:
+    modbus: '41524'
+    opcua: ns=2;s=STUB0524
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0525
+  native_ids:
+    modbus: '41525'
+    opcua: ns=2;s=STUB0525
+  value_type: int16
+  generator:
+    kind: constant
+    value: 525
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0526
+  native_ids:
+    modbus: '41526'
+    opcua: ns=2;s=STUB0526
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0527
+  native_ids:
+    modbus: '41527'
+    opcua: ns=2;s=STUB0527
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0527
+  unit: text
+- signal_id: SIGNAL_0528
+  native_ids:
+    modbus: '41528'
+    opcua: ns=2;s=STUB0528
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0529
+  native_ids:
+    modbus: '41529'
+    opcua: ns=2;s=STUB0529
+  value_type: int16
+  generator:
+    kind: constant
+    value: 529
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0530
+  native_ids:
+    modbus: '41530'
+    opcua: ns=2;s=STUB0530
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0531
+  native_ids:
+    modbus: '41531'
+    opcua: ns=2;s=STUB0531
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0531
+  unit: text
+- signal_id: SIGNAL_0532
+  native_ids:
+    modbus: '41532'
+    opcua: ns=2;s=STUB0532
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0533
+  native_ids:
+    modbus: '41533'
+    opcua: ns=2;s=STUB0533
+  value_type: int16
+  generator:
+    kind: constant
+    value: 533
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0534
+  native_ids:
+    modbus: '41534'
+    opcua: ns=2;s=STUB0534
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0535
+  native_ids:
+    modbus: '41535'
+    opcua: ns=2;s=STUB0535
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0535
+  unit: text
+- signal_id: SIGNAL_0536
+  native_ids:
+    modbus: '41536'
+    opcua: ns=2;s=STUB0536
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0537
+  native_ids:
+    modbus: '41537'
+    opcua: ns=2;s=STUB0537
+  value_type: int16
+  generator:
+    kind: constant
+    value: 537
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0538
+  native_ids:
+    modbus: '41538'
+    opcua: ns=2;s=STUB0538
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0539
+  native_ids:
+    modbus: '41539'
+    opcua: ns=2;s=STUB0539
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0539
+  unit: text
+- signal_id: SIGNAL_0540
+  native_ids:
+    modbus: '41540'
+    opcua: ns=2;s=STUB0540
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0541
+  native_ids:
+    modbus: '41541'
+    opcua: ns=2;s=STUB0541
+  value_type: int16
+  generator:
+    kind: constant
+    value: 541
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0542
+  native_ids:
+    modbus: '41542'
+    opcua: ns=2;s=STUB0542
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0543
+  native_ids:
+    modbus: '41543'
+    opcua: ns=2;s=STUB0543
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0543
+  unit: text
+- signal_id: SIGNAL_0544
+  native_ids:
+    modbus: '41544'
+    opcua: ns=2;s=STUB0544
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0545
+  native_ids:
+    modbus: '41545'
+    opcua: ns=2;s=STUB0545
+  value_type: int16
+  generator:
+    kind: constant
+    value: 545
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0546
+  native_ids:
+    modbus: '41546'
+    opcua: ns=2;s=STUB0546
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0547
+  native_ids:
+    modbus: '41547'
+    opcua: ns=2;s=STUB0547
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0547
+  unit: text
+- signal_id: SIGNAL_0548
+  native_ids:
+    modbus: '41548'
+    opcua: ns=2;s=STUB0548
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0549
+  native_ids:
+    modbus: '41549'
+    opcua: ns=2;s=STUB0549
+  value_type: int16
+  generator:
+    kind: constant
+    value: 549
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0550
+  native_ids:
+    modbus: '41550'
+    opcua: ns=2;s=STUB0550
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0551
+  native_ids:
+    modbus: '41551'
+    opcua: ns=2;s=STUB0551
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0551
+  unit: text
+- signal_id: SIGNAL_0552
+  native_ids:
+    modbus: '41552'
+    opcua: ns=2;s=STUB0552
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0553
+  native_ids:
+    modbus: '41553'
+    opcua: ns=2;s=STUB0553
+  value_type: int16
+  generator:
+    kind: constant
+    value: 553
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0554
+  native_ids:
+    modbus: '41554'
+    opcua: ns=2;s=STUB0554
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0555
+  native_ids:
+    modbus: '41555'
+    opcua: ns=2;s=STUB0555
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0555
+  unit: text
+- signal_id: SIGNAL_0556
+  native_ids:
+    modbus: '41556'
+    opcua: ns=2;s=STUB0556
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0557
+  native_ids:
+    modbus: '41557'
+    opcua: ns=2;s=STUB0557
+  value_type: int16
+  generator:
+    kind: constant
+    value: 557
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0558
+  native_ids:
+    modbus: '41558'
+    opcua: ns=2;s=STUB0558
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0559
+  native_ids:
+    modbus: '41559'
+    opcua: ns=2;s=STUB0559
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0559
+  unit: text
+- signal_id: SIGNAL_0560
+  native_ids:
+    modbus: '41560'
+    opcua: ns=2;s=STUB0560
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0561
+  native_ids:
+    modbus: '41561'
+    opcua: ns=2;s=STUB0561
+  value_type: int16
+  generator:
+    kind: constant
+    value: 561
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0562
+  native_ids:
+    modbus: '41562'
+    opcua: ns=2;s=STUB0562
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0563
+  native_ids:
+    modbus: '41563'
+    opcua: ns=2;s=STUB0563
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0563
+  unit: text
+- signal_id: SIGNAL_0564
+  native_ids:
+    modbus: '41564'
+    opcua: ns=2;s=STUB0564
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0565
+  native_ids:
+    modbus: '41565'
+    opcua: ns=2;s=STUB0565
+  value_type: int16
+  generator:
+    kind: constant
+    value: 565
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0566
+  native_ids:
+    modbus: '41566'
+    opcua: ns=2;s=STUB0566
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0567
+  native_ids:
+    modbus: '41567'
+    opcua: ns=2;s=STUB0567
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0567
+  unit: text
+- signal_id: SIGNAL_0568
+  native_ids:
+    modbus: '41568'
+    opcua: ns=2;s=STUB0568
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0569
+  native_ids:
+    modbus: '41569'
+    opcua: ns=2;s=STUB0569
+  value_type: int16
+  generator:
+    kind: constant
+    value: 569
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0570
+  native_ids:
+    modbus: '41570'
+    opcua: ns=2;s=STUB0570
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0571
+  native_ids:
+    modbus: '41571'
+    opcua: ns=2;s=STUB0571
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0571
+  unit: text
+- signal_id: SIGNAL_0572
+  native_ids:
+    modbus: '41572'
+    opcua: ns=2;s=STUB0572
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0573
+  native_ids:
+    modbus: '41573'
+    opcua: ns=2;s=STUB0573
+  value_type: int16
+  generator:
+    kind: constant
+    value: 573
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0574
+  native_ids:
+    modbus: '41574'
+    opcua: ns=2;s=STUB0574
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0575
+  native_ids:
+    modbus: '41575'
+    opcua: ns=2;s=STUB0575
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0575
+  unit: text
+- signal_id: SIGNAL_0576
+  native_ids:
+    modbus: '41576'
+    opcua: ns=2;s=STUB0576
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0577
+  native_ids:
+    modbus: '41577'
+    opcua: ns=2;s=STUB0577
+  value_type: int16
+  generator:
+    kind: constant
+    value: 577
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0578
+  native_ids:
+    modbus: '41578'
+    opcua: ns=2;s=STUB0578
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0579
+  native_ids:
+    modbus: '41579'
+    opcua: ns=2;s=STUB0579
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0579
+  unit: text
+- signal_id: SIGNAL_0580
+  native_ids:
+    modbus: '41580'
+    opcua: ns=2;s=STUB0580
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0581
+  native_ids:
+    modbus: '41581'
+    opcua: ns=2;s=STUB0581
+  value_type: int16
+  generator:
+    kind: constant
+    value: 581
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0582
+  native_ids:
+    modbus: '41582'
+    opcua: ns=2;s=STUB0582
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true
+- signal_id: SIGNAL_0583
+  native_ids:
+    modbus: '41583'
+    opcua: ns=2;s=STUB0583
+  value_type: string
+  generator:
+    kind: constant
+    value: STUB-0583
+  unit: text
+- signal_id: SIGNAL_0584
+  native_ids:
+    modbus: '41584'
+    opcua: ns=2;s=STUB0584
+  value_type: float32
+  generator:
+    kind: random_walk
+    baseline: 50.0
+    step: 1.0
+  unit: percent
+  range:
+    min: 0
+    max: 100
+- signal_id: SIGNAL_0585
+  native_ids:
+    modbus: '41585'
+    opcua: ns=2;s=STUB0585
+  value_type: int16
+  generator:
+    kind: constant
+    value: 585
+  unit: count
+  range:
+    min: -32768
+    max: 32767
+- signal_id: SIGNAL_0586
+  native_ids:
+    modbus: '41586'
+    opcua: ns=2;s=STUB0586
+  value_type: boolean
+  generator:
+    kind: discrete
+    values:
+    - false
+    - true

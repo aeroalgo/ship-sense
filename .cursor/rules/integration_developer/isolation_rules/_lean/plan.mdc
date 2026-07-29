@@ -1,0 +1,23 @@
+---
+description: "INTEG PLAN gates — portal element registry (lean)"
+alwaysApply: false
+---
+# INTEG PLAN — gates
+
+**Артефакт:** `memory-bank/integration/plan/plan-<task_id>.md`  
+**SUSPENSION GUARD** §0.0 — plan unlimited; portal `wc -l` ≥ 400 или FAIL
+
+## Gates
+
+1. Scope: portal | journey | section
+2. Inventory: routes + UI + back/front implement as-built
+3. §0.11; mocks в Element registry
+4. Plan: все секции @.cursor/templates/integration-plan.md; Rollout без status-checkboxes
+5. `contracts/` не обязателен
+6. `tasks.md` append-only
+7. После DECOMPOSE: plan → index; нет дубль eNN-чеклиста
+
+## Abort
+
+- TOC-only / short portal plan → FAIL
+- Scope=portal без Element registry → incomplete

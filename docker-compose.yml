@@ -1,0 +1,195 @@
+# ShipSense v1 phase-1 (T-001 collector) — local dev/integration compose.
+#
+# Сервисы:
+#   emulator — I3 industrial test source (Modbus TCP 5020/5021 + OPC UA 4840)
+#   collector — edge telemetry collector (skeleton; runtime wiring-from-config — будущий шаг)
+#   writer — T-002 day-1 stub: drain-only framing server (length-prefixed JSON)
+#   db / api / web — stubs (заглушки под полный edge stack; реальные — T-003/T-004)
+#
+# Smoke (s23 чекпоинт):
+#   docker compose up -d emulator writer collector
+#   docker compose ps          # всё (healthy)
+#   docker compose logs writer # samples/sec в логе (stub writer ok)
+#   docker compose stop collector && docker compose ps collector # exit 0
+#
+# Порты см. в README collector/emulator + секцию ports ниже.
+
+services:
+  emulator:
+    build:
+      context: apps/edge/emulator
+    image: shipsense/emulator:dev
+    container_name: shipsense-emulator
+    # CLI-дефолты профиля/сценариев разрешаются относительно src; в контейнере
+    # конфиги лежат в /app/config — задаём явно. Emulator поднимает ОДИН
+    # Modbus-порт (5020); второй источник skt_geu (5021) — будущий шаг
+    # (multi-port adapter), до него dual-source покрывается integration-тестами.
+    command:
+      - "--host"
+      - "0.0.0.0"
+      - "--profile"
+      - "/app/config/tags_stub.yaml"
+      - "--scenarios"
+      - "/app/config/scenarios.yaml"
+      - "--modbus-port"
+      - "5020"
+      - "--opcua-port"
+      - "4840"
+    ports:
+      - "5020:5020"   # Modbus TCP — aps_main
+      - "4840:4840"   # OPC UA — opc.tcp://emulator:4840
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import socket; s=socket.socket(); s.settimeout(2); s.connect(('127.0.0.1',5020)); s.close()\""]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 5s
+    restart: unless-stopped
+
+  writer:
+    build:
+      context: apps/edge/writer-stub
+    image: shipsense/writer-stub:dev
+    container_name: shipsense-writer
+    ports:
+      - "9009:9009"   # IPC framing collector → writer (AC-INT-01)
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import socket; s=socket.socket(); s.settimeout(2); s.connect(('127.0.0.1',9009)); s.close()\""]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 3s
+    restart: unless-stopped
+
+  collector:
+    build:
+      context: apps/edge/collector
+    image: shipsense/collector:dev
+    container_name: shipsense-collector
+    depends_on:
+      emulator:
+        condition: service_healthy
+      writer:
+        condition: service_healthy
+    environment:
+      # IpcCanonicalSink endpoint: TCP tuple host:port (README §framing).
+      SHIPSSENSE_WRITER_ENDPOINT: "writer:9009"
+    volumes:
+      # Health snapshot (sources.dev.yaml → /var/lib/shipsense/health)
+      - collector-health:/var/lib/shipsense/health
+    ports:
+      - "9008:9008"   # зарезервировано под future collector HTTP/health-порт
+    healthcheck:
+      # Skeleton пишет snapshot каждые 5s (SnapshotWriter). Его наличие = alive.
+      test: ["CMD-SHELL", "python -c \"import os,sys; p='/var/lib/shipsense/health/collector.json'; sys.exit(0 if os.path.exists(p) else 1)\""]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 8s
+    stop_grace_period: 10s   # drain + disconnect (AC-HLT-05)
+    restart: unless-stopped
+
+  # --- Stubs: полный edge stack появится в T-003 (api) / T-004 (web). ---
+  db:
+    image: timescale/timescaledb:2.14.2-pg16
+    container_name: shipsense-db
+    shm_size: 512mb
+    environment:
+      POSTGRES_USER: shipsense
+      POSTGRES_PASSWORD: shipsense
+      POSTGRES_DB: shipsense
+    ports:
+      - "5432:5432"
+    volumes:
+      - tsdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shipsense"]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+    profiles: ["storage-dev", "full"]   # поднимается в dev-окружении бэкенда или с полным стеком
+
+  api:
+    image: nginx:alpine   # placeholder до T-003 FastAPI service
+    container_name: shipsense-api-stub
+    profiles: ["full"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: nginx:alpine   # placeholder до T-004 Next.js frontend
+    container_name: shipsense-web-stub
+    profiles: ["full"]
+    ports:
+      - "8080:80"
+
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: shipsense-mosquitto
+    profiles: ["mqtt-dev"]
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./infra/mosquitto/aclfile:/mosquitto/config/aclfile:ro
+    restart: unless-stopped
+
+  collector-mqtt:
+    build:
+      context: apps/edge/collector
+    image: shipsense/collector:dev
+    container_name: shipsense-collector-mqtt
+    profiles: ["mqtt-dev"]
+    depends_on:
+      mosquitto:
+        condition: service_started
+      writer:
+        condition: service_healthy
+    environment:
+      COLLECTOR_SOURCES_PATH: /app/config/sources.mqtt-dev.yaml
+      COLLECTOR_MAPS_DIR: /app/config/maps
+      MQTT_BROKER_HOST: "${MQTT_BROKER_HOST:-mosquitto}"
+      MQTT_BROKER_PORT: "${MQTT_BROKER_PORT:-1883}"
+      MQTT_USER: "${MQTT_USER:-}"
+      MQTT_PASSWORD: "${MQTT_PASSWORD:-}"
+      SHIPSSENSE_WRITER_ENDPOINT: "writer:9009"
+    volumes:
+      - collector-mqtt-health:/var/lib/shipsense/health
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import os,sys; sys.exit(0 if os.path.exists('/var/lib/shipsense/health/collector.json') else 1)\""]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 8s
+    stop_grace_period: 10s
+    restart: unless-stopped
+
+  emulator-mqtt:
+    build:
+      context: apps/edge/emulator
+    image: shipsense/emulator:dev
+    container_name: shipsense-emulator-mqtt
+    profiles: ["mqtt-dev"]
+    entrypoint:
+      - "python"
+      - "-m"
+      - "emulator.mqtt_publish"
+    command:
+      - "--broker"
+      - "mqtt://mosquitto:1883"
+      - "--panels"
+      - "aps,geu"
+      - "--interval"
+      - "1.0"
+    depends_on:
+      mosquitto:
+        condition: service_started
+    restart: unless-stopped
+    stop_grace_period: 10s
+
+volumes:
+  collector-health:
+  tsdata:
+  collector-mqtt-health:

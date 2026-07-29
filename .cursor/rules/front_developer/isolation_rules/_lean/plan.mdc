@@ -1,0 +1,27 @@
+---
+description: "FRONT PLAN gates — plan artifact, E2E, design (lean)"
+alwaysApply: false
+---
+# FRONT PLAN — gates
+
+**Артефакт:** `memory-bank/front/plan/plan-<task_id>.md`  
+**SUSPENSION GUARD:** @.cursor/rules/token-economy-core.mdc §0.0
+
+## Gates
+
+1. `tasks.md` + level
+2. План в path выше
+3. UI → design direction (palette, type, layout, signature)
+4. Playwright E2E сценарии в плане
+5. CREATIVE need; `tasks.md` append-only
+
+## Level delta
+
+| L | Секции |
+|---|--------|
+| L2 | обзор, файлы, шаги, риски, component+E2E strategy, AC |
+| L3–L4 | + requirements, components, design system, deps, creative |
+
+## Abort
+
+- Блокеры scope → grill-me

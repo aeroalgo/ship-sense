@@ -1,0 +1,21 @@
+---
+description: "INTEG QA gates — contract + scenario journeys (lean)"
+alwaysApply: false
+---
+# INTEG QA — gates
+
+**Артефакт:** `memory-bank/integration/qa/qa-YYYYMMDD-<slug>.md`
+
+## Gates
+
+1. Lean load §7: ONE eNN §Contract + implement + diff
+2. §0.11 + INTEG-CHECKLIST
+3. Tests: `.venv/bin/pytest` из корня + vitest + **scenario** (Playwright smoke / wired journeys); **FORBIDDEN** голый `pytest`
+4. Missing scenario for P0/P1 user-visible flow → **write** before PASS (parent runs FRONT tests)
+5. Contract drift = FAIL
+6. Handoff: no «manual smoke only» if scenario path exists or was required
+
+## Abort
+
+- PASS без scenario на user-visible AC → reject
+- Subagent runs vitest/playwright → FAIL (parent only)

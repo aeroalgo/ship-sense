@@ -1,0 +1,37 @@
+version: 1
+collector:
+  raw_queue_maxsize: 10000
+  canonical_queue_maxsize: 10000
+  health_snapshot_path: /var/lib/shipsense/health/collector.json
+  health_interval_sec: 5
+  stale_threshold_sec: 3.0
+sources:
+  - id: aps_main
+    protocol: modbus_tcp
+    endpoint: emulator:5020
+    poll:
+      default_hz: 1.0
+      groups:
+        - name: analog_fast
+          hz: 1.0
+        - name: discrete
+          hz: 1.0
+    tag_map_ref: maps/stub_aps_main.yaml
+    readonly_profile: true
+  - id: aps_main_opcua
+    protocol: opcua
+    endpoint: opc.tcp://emulator:4840/shipsense/server
+    security:
+      policy: Basic256Sha256
+      mode: SignAndEncrypt
+    readonly_profile: true
+    subscribe:
+      publishing_interval_ms: 1000
+      nodes_ref: maps/stub_aps_main_nodes.yaml
+  - id: skt_geu
+    protocol: modbus_tcp
+    endpoint: emulator:5021
+    poll:
+      default_hz: 1.0
+    tag_map_ref: maps/stub_skt_geu.yaml
+    readonly_profile: true

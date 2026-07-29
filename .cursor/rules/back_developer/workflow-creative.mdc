@@ -1,0 +1,49 @@
+---
+description: "Режим BACK CREATIVE — дизайн и архитектурные решения"
+alwaysApply: false
+---
+### Команда: BACK CREATIVE
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/creative.mdc
+**Скиллы:**
+- @.agents/skills/grill-me/SKILL.md (только блокеры)
+- @.agents/skills/brainstorming/SKILL.md (batch, без HARD-GATE пауз)
+- @.agents/skills/architecture-patterns/SKILL.md
+- @.agents/skills/improve-codebase-architecture/SKILL.md
+- @.agents/skills/property-based-testing/SKILL.md (алгоритм/инварианты)
+
+**Batch:** шаги 1–7 за один проход; все компоненты в одном `creative-*.md`.
+
+**Процесс**:
+1. `OK BACK CREATIVE - Начинаю творческую фазу`
+1a. Прочитай **Gates**
+2. `tasks.md` + plan/decompose step из `load_now`
+2a. Skills list в `memory-bank/back/creative/creative-[feature_name].md`
+3. Компоненты для дизайна; при размытости — brainstorming
+4. На каждый компонент — тип Architecture / Algorithm / UI-UX; 2+ варианта:
+
+```
+🎨🎨🎨 ENTERING CREATIVE PHASE: [ТИП]
+Decompose step: [sNN-*.md](…) (если от шага)
+Компонент: …
+Требования и ограничения: …
+Вариант 1/2/… — плюсы/минусы
+Рекомендуемый подход: … + обоснование
+Руководство по реализации: …
+Верификация: …
+🎨🎨🎨 EXITING CREATIVE PHASE
+```
+
+5. Один файл `creative-[feature_name].md` + **Decompose link** (creative → `sNN-*.md`) если от шага
+5a. **Rewire dependents (обязательно до FINISH):** все `decompose-*/sNN-*.md` и `decompose-*/index.md`, где `needs_creative` / blockers ссылаются на этот CR-ID:
+   - markdown-ссылка на creative: `[CR-…/creative-….md](../../creative/…)` (+ пути кода/spec если CREATIVE их создал)
+   - в шаге: строка `**Creative:**` со ссылками; `needs_creative: … — **closed**`; `Next Phase:` → `BACK IMPLEMENT` (не CREATIVE)
+   - в index: blockers `CR-… ✅`; строка шага `needs_creative` → `yes (done)`; `next_phase` → `BACK IMPLEMENT`; `status` снять `needs_creative` → `pending` (если ещё не implement)
+   - **FAIL** если creative closed, а зависимый `sNN` без кликабельной ссылки / всё ещё `needs_creative` без closed
+6. `tasks.md` append-only
+7. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`, artifact: `creative-*.md`) — только после 5a
+8. → BACK IMPLEMENT (новый чат если только что DECOMPOSE)
+
+**Типы:** Architecture (структура/связи) · Algorithm (сложность/edge) · UI/UX (UX/a11y/паттерны)
+
+**Верификация**: все компоненты, 2+ вариантов, обоснованная рекомендация; dependents rewired (5a)

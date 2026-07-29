@@ -1,0 +1,57 @@
+button,
+a,
+[role="button"],
+summary {
+  touch-action: manipulation;
+  cursor: pointer;
+  transition-property: transform, opacity, background-color, border-color, color, box-shadow;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+button:active,
+a:active,
+[role="button"]:active,
+summary:active {
+  transform: scale(0.97);
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--focus-ring, #4a7ad4);
+  outline-offset: 2px;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button,
+  a,
+  [role="button"],
+  summary {
+    transition-duration: 0.01ms;
+  }
+
+  button:active,
+  a:active,
+  [role="button"]:active,
+  summary:active {
+    transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover {
+    color: var(--text-primary);
+  }
+}

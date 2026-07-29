@@ -1,0 +1,35 @@
+---
+description: "Режим BACK PLAN — детальный план по уровню сложности"
+alwaysApply: false
+---
+### Команда: BACK PLAN
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/plan.mdc
+**Скиллы:**
+- @.agents/skills/writing-plans/SKILL.md
+- @.agents/skills/grill-me/SKILL.md (только блокирующие неясности)
+- @.agents/skills/brainstorming/SKILL.md (L3–4 / размытая — batch, без HARD-GATE пауз)
+- @.agents/skills/python-testing-patterns/SKILL.md
+- @.agents/skills/fastapi-templates/SKILL.md (если FastAPI в techContext)
+- @.agents/skills/supabase-postgres-best-practices/SKILL.md (если Postgres)
+- @.agents/skills/architecture-patterns/SKILL.md (L3–4)
+
+**Важно:** §0.0 SUSPENSION GUARD — plan максимально детальный; lean load ≠ lean write.
+
+**Batch:** шаги 1–8 за один проход; grill-me только при блокерах; вопросы пакетом.
+
+**Процесс**:
+1. `OK BACK PLAN - Создаю детальный план` + `SUSPENSION GUARD active — plan output unlimited`
+1a. Прочитай **Gates**
+2. `tasks.md` → level
+3. writing-plans; skills list в `plan-<task_id>.md`; L3–4 → brainstorming / architecture-patterns
+4. Содержание по level delta в gates (L2 / L3–4). Черновик нарезки без checkbox — трекер после DECOMPOSE только в `decompose/index.md`
+5. CREATIVE need?
+6. Сохрани `memory-bank/back/plan/plan-<task_id>.md`
+7. `tasks.md` append-only (ссылка на план; без sNN-чеклиста)
+7b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)
+8. Next: L2+ обычно → **BACK DECOMPOSE**; CREATIVE если дизайн; L1 → IMPLEMENT
+
+**После DECOMPOSE:** plan = Goal/AC/архитектура + ссылка на index; без дубль `- [ ] s01…` в plan.
+
+**Верификация**: gates + AC + CREATIVE need

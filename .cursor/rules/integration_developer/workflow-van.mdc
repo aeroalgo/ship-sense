@@ -1,0 +1,18 @@
+---
+description: "Режим INTEG VAN — оценка сложности интеграции"
+alwaysApply: false
+---
+### Команда: INTEG VAN
+**Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/van.mdc
+**Скиллы:** @.agents/skills/architecture-patterns/SKILL.md
+
+**Процесс**:
+1. `OK INTEG VAN - Оцениваю интеграцию`
+1a. Прочитай **Gates** (+ memory-bank-paths если create)
+1b. graphify: entity, endpoints, consumers
+2. As-built: model / endpoint / front / contract?
+3. L1–L4 (gates)
+4. `memory-bank/integration/van/van-YYYYMMDD-<slug>.md`
+5. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)
+6. Next: L1 → IMPLEMENT; L2+ → PLAN → DECOMPOSE

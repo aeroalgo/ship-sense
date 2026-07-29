@@ -1,0 +1,20 @@
+---
+description: "Режим FRONT VAN — инициализация, уровень сложности"
+alwaysApply: false
+---
+### Команда: FRONT VAN
+**Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/van.mdc
+
+**Процесс**:
+1. `OK FRONT VAN - Запускаю инициализацию`
+1a. Прочитай **Gates** (+ memory-bank-paths если создаёшь структуру)
+2–4. `tasks.md`, `projectbrief.md`, `activeContext.md`
+5. Структура `frontend/`
+6. Level L1–L4 (gates)
+7. `tasks.md` append-only
+7b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)
+8. Next: L1 → IMPLEMENT; L2–4 → PLAN
+9. Опц. `memory-bank/front/van/van-YYYYMMDD.md`
+
+**Верификация**: gates + next mode

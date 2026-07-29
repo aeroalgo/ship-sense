@@ -1,0 +1,38 @@
+---
+description: "IMPLEMENT gates — shards, TDD, integration (lean)"
+alwaysApply: false
+---
+# IMPLEMENT — gates
+
+**Артефакт:** `memory-bank/back/implement/implement-<plan_id>/sNN-<slug>.md` (+ `index.md`; шаблон `.cursor/templates/implement/`)
+
+## Gates
+
+1. `activeContext.md` → `load_now` non-empty
+2. ONE task shard + ONE plan/decompose **step file** (не index)
+3. Level из step/plan — L2 substep → L2, не L4 по умолчанию
+4. L3–4 + `needs_creative` без `creative-*.md` → abort → BACK CREATIVE
+5. **Skills A∪B:** слой A (выбор по задаче в `workflow-implement`) + слой B (Impl skills из decompose step) — Read **до** prod-кода
+6. Red: тесты написаны; **targeted** `.venv/bin/pytest` из корня репо падает до кода — не полный suite
+7. §0.11: counterpart для key/env/event/col/route — missing = bug
+8. Green: только новые/затронутые тесты через `.venv/bin/pytest` (cwd=root); полный suite → BACK QA
+9. implement step-файл + decompose index обновлены; `implement/index` — навигация only, без status; tasks append-only
+10. Перед финальным ответом сверить 3 точки: `decompose-*/index.md` (`sNN` -> `completed`), `activeContext.md` (next -> следующий шаг), `implement/index.md` (без `done`/`completed`/status suffix)
+
+## Level delta
+
+| L | Фокус |
+|---|--------|
+| L1 | targeted fix; minimal diff |
+| L2 | по step; component TDD (targeted) |
+| L3 | phased; creative если flagged |
+| L4 | phased + integration tests между фазами |
+
+## Abort
+
+- Shard/step missing → не код
+- Red skipped → не merge
+- Полный pytest в IMPLEMENT → BACK QA
+- Голый `pytest` (не `.venv/bin/…`, не из корня) → FAIL / перезапуск
+- Слой A или B skills не Read → no FINISH
+- service/deps/endpoints без anti-patterns (A и/или B) → no FINISH

@@ -1,0 +1,20 @@
+---
+description: "Режим BACK VAN — инициализация, memory bank, уровень сложности"
+alwaysApply: false
+---
+### Команда: BACK VAN
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/van.mdc
+
+**Процесс**:
+1. `OK BACK VAN - Запускаю инициализацию проекта`
+1a. Прочитай **Gates** (+ `memory-bank-paths.mdc` если создаёшь структуру)
+2–4. `tasks.md`, `projectbrief.md`, `activeContext.md`
+5. Структура проекта (`list_dir` / search)
+6. Level L1–L4 (см. gates)
+7. `tasks.md` append-only (уровень + контекст)
+7b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) — init `load_now` для next mode
+8. Next: L1 → IMPLEMENT; L2–4 → PLAN
+9. Опц. лог: `memory-bank/back/van/van-YYYYMMDD.md`
+
+**Верификация**: gates + next mode

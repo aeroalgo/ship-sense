@@ -1,0 +1,47 @@
+---
+description: "FINISH hook — update activeContext doc-router (referenced by workflow finish steps)"
+alwaysApply: false
+---
+# FINISH — Doc Router Update
+
+**Mandatory** before handoff at end of role commands that complete work.
+
+Entry: @.cursor/rules/shared/finish-block.mdc → этот файл → graphify (если code) → new chat.
+
+**Fill-in (канон содержимого):** @.cursor/templates/finish-doc-router.md — применить все секции шаблона к `activeContext.md` и role artifact. Не копировать скелет в rules.
+
+## By command
+
+| Command | load_now update |
+|---------|-----------------|
+| `BACK/FRONT/INTEG IMPLEMENT` | next substep (same T-xxx) OR next task |
+| `BACK/FRONT/INTEG QA` (pass) | usually unchanged; append QA link to shard |
+| `BACK/FRONT/INTEG REFLECT` | align load_now with post-task state |
+| `ARCHIVE NOW` | clear stale load_now; set «await VAN» or next T-xxx |
+| `BACK/FRONT/INTEG CREATIVE` | load_now → next IMPLEMENT shard; **обязательно** rewire зависимых `sNN`/`eNN` (ссылка + `needs_creative — closed` + index `✅`) — см. `workflow-creative.mdc` §5a / INTEG §3a |
+| `INTEG PLAN` | integration plan shard + BACK/FRONT implement по домену (не decompose/plan shards) |
+| `INTEG GAP` | gap shard + source implement; BACK/FRONT plan refs |
+| `INTEG GAP CLOSE` | implement + close artifact; next eNN или unblock BACK/FRONT |
+| `BACK/FRONT/INTEG DECOMPOSE` | set load_now for **first step file** `decompose-<plan_id>/s01|e01-*.md` (step file, not the plan index and not the decompose index) |
+| `VAN` | init load_now for recommended next mode |
+| `TASK` / `BUGFIX` | update if focus shifted |
+
+## graphify update (после правок кода)
+
+Если команда делала правки кода (`BACK/FRONT/INTEG IMPLEMENT`, `BUGFIX`, `REFACTOR`, `TASK`), перестрой граф:
+- **cwd = корень репо** (где `.venv/` и канон `graphify-out/`). Shell `working_directory` = root. Не из `frontend/` / `apps/…` — иначе появятся nested `graphify-out` (см. @.cursor/rules/graphify.mdc HARD RULE)
+- `.venv/bin/graphify update .` (~6s, AST-only, no API cost, no LLM; CLI не в PATH; `.` = repo root)
+- `--force` — **только** если узлов стало меньше (удалили файлы, переименовали символы); защита #479 иначе откажется писать меньший граф
+- Пропускать для `PLAN`/`DECOMPOSE`/`VAN`/`QA`/`REFLECT`/`ARCHIVE` — код не менялся
+- Nested `frontend/graphify-out`, `apps/**/graphify-out` — удалить, не использовать
+
+## Forbidden at FINISH
+
+- Do NOT leave completed work in `load_now`
+- Do NOT add full index files to `load_now` (index → shard link only)
+- Prefer **shard path** in `load_now`, not index + shard
+
+## After template
+
+1. `## Handoff` — поля из шаблона §Handoff (**только** `activeContext.md`, перезапись)
+2. New chat: @.cursor/rules/shared/context-session-economy.mdc §2; текст пользователю — шаблон §«Сообщение пользователю» (то же, что economy §6)

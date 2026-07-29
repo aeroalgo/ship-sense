@@ -1,0 +1,30 @@
+scenarios:
+  - name: baseline
+    enabled: true
+    seed: 42
+    injectors: []
+
+  - name: dirty_full
+    enabled: false
+    seed: 99
+    injectors:
+      - type: connection_drop
+        params: {protocol: modbus_tcp, at_sec: 120, duration_sec: 30}
+      - type: out_of_range
+        params: {signal_ids: [MAIN_ENGINE_TEMP], at_sec: 200, duration_sec: 10}
+      - type: signal_chatter
+        params: {signal_ids: [SIGNAL_0001], at_sec: 300, duration_sec: 5}
+      - type: stuck_value
+        params: {signal_ids: [MAIN_ENGINE_RPM], at_sec: 400, duration_sec: 30}
+      - type: time_jump
+        params: {at_sec: 500, duration_sec: 10, offset_sec: 3600}
+      - type: tag_map_change
+        params: {at_sec: 600, duration_sec: 10, add: [ns=2;s=DIRT0001]}
+      - type: modbus_bad_frame
+        params: {protocol: modbus_tcp, at_sec: 700, duration_sec: 10}
+      - type: nan_inf
+        params: {signal_ids: [MAIN_ENGINE_TEMP], at_sec: 800, duration_sec: 10, value: nan}
+      - type: duplicate_delivery
+        params: {at_sec: 900, duration_sec: 10}
+      - type: opc_bad_quality
+        params: {signal_ids: [MAIN_ENGINE_TEMP], at_sec: 1000, duration_sec: 10}

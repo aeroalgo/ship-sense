@@ -1,0 +1,20 @@
+---
+description: "FRONT REFACTOR gates (lean)"
+alwaysApply: false
+---
+# FRONT REFACTOR — gates
+
+**Артефакты:** `memory-bank/front/refactor/analysis-[id].md`, `plan-[id].md`, `session-YYYYMMDD-<slug>.md`
+
+## Gates
+
+1. Analysis + plan созданы
+2. Self-check
+3. Tests green before/after; Playwright если UI; запуск **только parent** (never subagent)
+4. Priority Critical → Low
+5. session-файл
+6. §0.11 если refs
+
+## Abort
+
+- Без tests → tests first

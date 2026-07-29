@@ -1,0 +1,21 @@
+---
+description: "REFACTOR gates — analysis, TDD (lean)"
+alwaysApply: false
+---
+# REFACTOR — gates
+
+**Артефакты:** `memory-bank/back/refactor/analysis-[id].md`, `plan-[id].md`, `session-YYYYMMDD-<slug>.md`
+
+## Gates
+
+1. Analysis + plan созданы
+2. Self-check: re-read analysis/plan
+3. Per fix: tests green before → refactor → green after
+4. Priority: Critical → High → Medium → Low
+5. session-файл с итогом
+6. §0.11 если external refs
+
+## Abort
+
+- Без тестов на затронутый код → tests first
+- Behavior change без scope → stop / split to IMPLEMENT

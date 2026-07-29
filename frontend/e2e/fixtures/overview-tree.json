@@ -1,0 +1,125 @@
+{
+  "root": {
+    "id": "ship",
+    "kind": "plant",
+    "name": "Ледокол",
+    "status": "quarantine",
+    "children": [
+      {
+        "id": "aux_bow",
+        "kind": "system",
+        "name": "Вспомогательные нос",
+        "status": "quarantine",
+        "children": [
+          {
+            "id": "eq_pump",
+            "kind": "equipment",
+            "name": "Насос",
+            "status": "quarantine",
+            "children": [
+              {
+                "id": "tag_q",
+                "kind": "tag",
+                "tag_id": "tag-quarantine",
+                "name": "P1",
+                "unit": "bar",
+                "status": "quarantine",
+                "last_value": 1.2,
+                "last_quality": "quarantine"
+              },
+              {
+                "id": "tag_g1",
+                "kind": "tag",
+                "tag_id": "tag-good-1",
+                "name": "P2",
+                "unit": "bar",
+                "status": "good",
+                "last_value": 2.0,
+                "last_quality": "good"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "propulsion",
+        "kind": "system",
+        "name": "Движительная установка",
+        "status": "good",
+        "children": [
+          {
+            "id": "geu1",
+            "kind": "equipment",
+            "name": "ГЭУ1",
+            "status": "good",
+            "children": [
+              {
+                "id": "tag_t",
+                "kind": "tag",
+                "tag_id": "TAI4101",
+                "name": "T1",
+                "unit": "°C",
+                "status": "good",
+                "last_value": 70,
+                "last_quality": "good"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "power_bow",
+        "kind": "system",
+        "name": "Электростанция нос",
+        "status": "good",
+        "children": [
+          {
+            "id": "dg1",
+            "kind": "equipment",
+            "name": "ДГ1",
+            "status": "good",
+            "children": [
+              {
+                "id": "tag_dg",
+                "kind": "tag",
+                "tag_id": "tag-dg",
+                "name": "U1",
+                "unit": "V",
+                "status": "good",
+                "last_value": 380,
+                "last_quality": "good"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "stern_aux",
+        "kind": "system",
+        "name": "Вспомогательные корма",
+        "status": "good",
+        "children": [
+          {
+            "id": "eq_aft",
+            "kind": "equipment",
+            "name": "Насос кормы",
+            "status": "good",
+            "children": [
+              {
+                "id": "tag_aft",
+                "kind": "tag",
+                "tag_id": "tag-aft",
+                "name": "P3",
+                "unit": "bar",
+                "status": "good",
+                "last_value": 1.5,
+                "last_quality": "good"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "generated_at": "2026-07-26T14:00:00Z"
+}

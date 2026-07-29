@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ship-sense"
+version = "0.1.0"
+description = "ShipSense monorepo tooling"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.0",
+    "PyYAML>=6.0",
+    "aiomqtt>=2.3",
+    "paho-mqtt>=2.1.0",
+    "pymodbus>=3.14.0",
+    "asyncua>=2.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=1.0",
+    "testcontainers>=4.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "apps/edge/collector/tests",
+    "apps/edge/emulator/tests",
+]
+markers = [
+    "integration: requires external broker or emulator",
+    "slow: long-running soak or endurance test",
+]
+asyncio_mode = "strict"

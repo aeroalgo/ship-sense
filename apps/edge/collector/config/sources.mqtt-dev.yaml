@@ -1,0 +1,42 @@
+version: 1
+collector:
+  raw_queue_maxsize: 10000
+  canonical_queue_maxsize: 10000
+  health_snapshot_path: /var/lib/shipsense/health/collector.json
+  health_interval_sec: 5
+  stale_threshold_sec: 3.0
+sources:
+  - id: panel_aps
+    protocol: mqtt
+    endpoint: mosquitto:1883
+    readonly_profile: true
+    connection:
+      host: mosquitto
+      port: 1883
+      tls: false
+      client_id: shipsense-collector-aps
+      username: null
+      password: null
+    subscribe:
+      topic_prefix: shipsense/v1/aps/#
+      qos: 1
+    map: maps/mqtt_channels_aps.yaml
+    options:
+      publish_allowed: false
+  - id: panel_geu
+    protocol: mqtt
+    endpoint: mosquitto:1883
+    readonly_profile: true
+    connection:
+      host: mosquitto
+      port: 1883
+      tls: false
+      client_id: shipsense-collector-geu
+      username: null
+      password: null
+    subscribe:
+      topic_prefix: shipsense/v1/geu/#
+      qos: 1
+    map: maps/mqtt_channels_geu.yaml
+    options:
+      publish_allowed: false

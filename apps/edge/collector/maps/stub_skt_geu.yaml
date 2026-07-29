@@ -1,0 +1,15 @@
+version: 1
+source_id: skt_geu
+tags:
+  - {native_id: '40101', tag_id: TGEU4101, type: float32, unit: degC, range: {min: -40, max: 120}, fc: 3}
+  - {native_id: '40103', tag_id: TGEU4102, type: float32, unit: bar, range: {min: 0, max: 25}, fc: 3}
+  - {native_id: '40105', tag_id: TGEU4103, type: float32, unit: rpm, range: {min: 0, max: 4000}, fc: 3}
+  - {native_id: '40201', tag_id: XGEU1201, type: int16, unit: count, fc: 3}
+  - {native_id: '40202', tag_id: XGEU1202, type: int16, unit: degC, scale: 0.1, fc: 3}
+  - {native_id: '40301', tag_id: XGEU1203, type: int32, unit: count, fc: 3}
+  - {native_id: '40401', tag_id: XGEU1204, type: uint16, unit: percent, fc: 3}
+  - {native_id: '40501', tag_id: XGEU1205, type: uint32, unit: count, fc: 3}
+  - {native_id: '40200.0', tag_id: XGEU1206, type: bit, fc: 4}
+  - {native_id: '40200.1', tag_id: XGEU1207, type: bit, fc: 4}
+  - {native_id: '40701', tag_id: XGEU1208, type: boolean, fc: 2}
+  - {native_id: '40601', tag_id: XGEU1209, type: string, unit: text, fc: 4}

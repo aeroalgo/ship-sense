@@ -1,0 +1,3 @@
+# Anonymous local-dev clients may subscribe/publish to telemetry topics.
+# dev only — production uses authenticated publisher ACL.
+topic readwrite shipsense/#

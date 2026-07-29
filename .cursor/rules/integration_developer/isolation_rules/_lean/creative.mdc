@@ -1,0 +1,18 @@
+---
+description: "INTEG CREATIVE gates — contract decisions (lean)"
+alwaysApply: false
+---
+# INTEG CREATIVE — gates
+
+**Артефакт:** `memory-bank/integration/creative/creative-<feature>.md`
+
+## Gates
+
+1. Спорные решения до кода (filters, facets, period, state)
+2. 2+ варианта + recommended
+3. creative-файл; contract draft updated
+4. **Rewire dependents:** каждый `eNN` с этим creative — markdown-ссылка + `needs_creative … — closed` + index `✅` / `yes (done)` (workflow §3a). Без rewire → FAIL FINISH
+
+## Abort
+
+- Решение без вариантов → incomplete

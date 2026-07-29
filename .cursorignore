@@ -1,0 +1,12 @@
+_archive/
+.cursor/hooks-artifacts/
+.cursor/hooks/
+**/*.pyc
+**/__pycache__/
+node_modules/
+.venv/
+venv/
+htmlcov/
+.pytest_cache/
+dist/
+build/

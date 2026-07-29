@@ -1,0 +1,17 @@
+---
+description: "INTEG REFACTOR gates (lean)"
+alwaysApply: false
+---
+# INTEG REFACTOR — gates
+
+**Артефакты:** `memory-bank/integration/refactor/analysis-<id>.md`, `plan-<id>.md`
+
+## Gates
+
+1. Analysis + plan
+2. Tests green before/after
+3. Contract unchanged unless in scope
+
+## Abort
+
+- Ломает filter key contract → update contract + tests

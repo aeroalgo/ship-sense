@@ -1,0 +1,17 @@
+[project]
+name = "shipsense-collector"
+version = "0.1.0"
+description = "ShipSense edge collector"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.0",
+    "PyYAML>=6.0",
+    "aiomqtt>=2.3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: requires external broker or emulator",
+    "slow: long-running soak or endurance test",
+]

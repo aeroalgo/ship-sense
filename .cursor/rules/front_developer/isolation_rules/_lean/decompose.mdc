@@ -1,0 +1,30 @@
+---
+description: "FRONT DECOMPOSE gates — atomic steps (lean)"
+alwaysApply: false
+---
+# FRONT DECOMPOSE — gates
+
+**Артефакт:** `memory-bank/front/plan/decompose-<plan_id>/` (`index.md` + `sNN-*.md`)
+
+## Gates
+
+1. План из `load_now` или `plan-<id>`
+2. L3–L4: все plan shards
+3. Шаг = один FRONT IMPLEMENT; `step_id`, files, `needs_creative`, `visible_ui`, `tdd`
+4. Каждый `sNN`: блок **Impl skills** (always 6 из `workflow-decompose.mdc` + playwright если E2E/scenario)
+5. Каждый `sNN`: `**visible_ui:** yes|no` — если `yes` → полный блок Design skills (6 путей); если `no` → `**Design skills:** —` + причина
+6. Папка создана
+7. Plan: index = единственный трекер; нет sNN-чеклистов
+8. `load_now` → `s01-*.md`
+
+## Abort
+
+- Нет design в плане → `needs_creative`
+- Не писать код/тесты реализации
+- Полные interface/TSX в `sNN` → incomplete
+- Plan с дубль-чеклистом sNN → incomplete
+- `sNN` без Impl skills (always) → incomplete
+- `sNN` без `visible_ui` → incomplete
+- `visible_ui: yes` без 6 Design skills paths → incomplete
+- `visible_ui: no` без причины в Design skills → incomplete
+- User-visible scenario в step без `playwright-best-practices` (+ generate если новый E2E) в Impl skills → incomplete

@@ -1,0 +1,35 @@
+---
+description: "BACK SECURITY — аудит безопасности, SAST, supply chain"
+alwaysApply: false
+---
+### Команда: BACK SECURITY
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Скиллы:**
+- @.agents/skills/owasp-security-check/SKILL.md
+- @.agents/skills/security-auditor/SKILL.md
+- @.agents/skills/security-auditor-owasp/SKILL.md
+- @.agents/skills/codeql/SKILL.md
+- @.agents/skills/supply-chain-risk-auditor/SKILL.md
+- @.agents/skills/insecure-defaults/SKILL.md
+- @.agents/skills/agentic-actions-auditor/SKILL.md
+- @.agents/skills/secure-workflow-guide/SKILL.md
+- @.agents/skills/agentsec/SKILL.md
+- @.agents/skills/sarif-parsing/SKILL.md
+- @.agents/skills/semgrep-rule-creator/SKILL.md (кастомные правила)
+- @.agents/skills/semgrep-rule-variant-creator/SKILL.md
+- @.agents/skills/skill-security-audit/SKILL.md
+- @.agents/skills/sigil-scan/SKILL.md
+- @.agents/skills/variant-analysis/SKILL.md
+
+**Цель:** глубокий security-аудит (отдельно от ежедневного QA). Isolation maps не грузить.
+
+**Процесс**:
+1. `OK BACK SECURITY - Security audit`
+2. `tasks.md`, `techContext.md`, scope
+3. OWASP + SAST (semgrep/codeql по наличию)
+4. Supply chain + insecure defaults + Actions
+5. `memory-bank/back/security/security-audit-YYYYMMDD-<slug>.md` — findings, severity, skills
+6. `tasks.md` append-only
+7. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`, artifact: `security-audit-*.md`)
+
+**Next:** BUGFIX / IMPLEMENT (фиксы) → QA

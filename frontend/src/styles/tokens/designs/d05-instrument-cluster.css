@@ -1,0 +1,106 @@
+/* CR-UI-01 — d05 Instrument Cluster — chrome + day|night|dim */
+
+html[data-design="d05"][data-theme="day"] {
+  --font-sans: "Barlow", "IBM Plex Sans", sans-serif;
+  --font-mono: "Barlow Semi Condensed", "IBM Plex Mono", monospace;
+  --font-display: "Barlow Condensed", "Barlow", sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --border-width: 1px;
+  --border-width-strong: 2px;
+  --space-unit: 8px;
+  --gap-grid: 16px;
+  --panel-pad: 18px;
+  --content-pad-x: 24px;
+  --font-display-size: 64px;
+  --font-critical: 48px;
+  --font-title: 32px;
+  --font-body: 19px;
+  --font-caption: 14px;
+  --font-mono-value: 24px;
+  --tracking-label: 0.05em;
+  --surface-0: #14181c;
+  --surface-1: #1c2228;
+  --surface-2: #262e36;
+  --text-primary: #e6ecf0;
+  --text-secondary: #8a9aa8;
+  --text-muted: #5c6a78;
+  --border-subtle: #343e48;
+  --border-strong: #46525e;
+  --focus-ring: #5a9e8a;
+  --chrome-accent: #3d7a6a;
+  --statusbar-height: 60px;
+}
+
+html[data-design="d05"][data-theme="night"] {
+  --font-sans: "Barlow", "IBM Plex Sans", sans-serif;
+  --font-mono: "Barlow Semi Condensed", "IBM Plex Mono", monospace;
+  --font-display: "Barlow Condensed", "Barlow", sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --border-width: 1px;
+  --border-width-strong: 2px;
+  --space-unit: 8px;
+  --gap-grid: 16px;
+  --panel-pad: 18px;
+  --content-pad-x: 24px;
+  --font-display-size: 64px;
+  --font-critical: 48px;
+  --font-title: 32px;
+  --font-body: 19px;
+  --font-caption: 14px;
+  --font-mono-value: 24px;
+  --tracking-label: 0.05em;
+  --surface-0: #0e1216;
+  --surface-1: #161a20;
+  --surface-2: #1e262e;
+  --text-primary: #d4dce2;
+  --text-secondary: #7a8a98;
+  --text-muted: #506070;
+  --border-subtle: #2c3640;
+  --border-strong: #3e4a56;
+  --focus-ring: #4a8a78;
+  --chrome-accent: #346858;
+  --statusbar-height: 60px;
+}
+
+html[data-design="d05"][data-theme="dim"] {
+  --font-sans: "Barlow", "IBM Plex Sans", sans-serif;
+  --font-mono: "Barlow Semi Condensed", "IBM Plex Mono", monospace;
+  --font-display: "Barlow Condensed", "Barlow", sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --border-width: 1px;
+  --border-width-strong: 2px;
+  --space-unit: 8px;
+  --gap-grid: 16px;
+  --panel-pad: 18px;
+  --content-pad-x: 24px;
+  --font-display-size: 64px;
+  --font-critical: 48px;
+  --font-title: 32px;
+  --font-body: 19px;
+  --font-caption: 14px;
+  --font-mono-value: 24px;
+  --tracking-label: 0.05em;
+  --surface-0: #0a0e12;
+  --surface-1: #12161a;
+  --surface-2: #1a2026;
+  --text-primary: #b4bcc4;
+  --text-secondary: #687888;
+  --text-muted: #44505c;
+  --border-subtle: #242c34;
+  --border-strong: #343c44;
+  --focus-ring: #3a7060;
+  --chrome-accent: #2a5848;
+  --statusbar-height: 52px;
+}
+
+html[data-design="d05"] {
+  background-color: var(--surface-0);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}

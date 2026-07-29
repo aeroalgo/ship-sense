@@ -1,0 +1,28 @@
+---
+description: "PLAN gates — memory bank, level scope (lean)"
+alwaysApply: false
+---
+# PLAN — gates
+
+**Артефакт:** `memory-bank/back/plan/plan-<task_id>.md`  
+**SUSPENSION GUARD:** @.cursor/rules/token-economy-core.mdc §0.0 — plan без telegraph / 200-line cap
+
+## Gates
+
+1. `tasks.md` прочитан; level зафиксирован
+2. L2 substep → L2 scope, не L4 по умолчанию
+3. План сохранён в path выше
+4. `tasks.md` append-only со ссылкой
+5. CREATIVE need (да/нет) перед next mode
+
+## Level delta
+
+| L | Секции |
+|---|--------|
+| L2 | обзор, файлы, шаги, риски, тест-стратегия, AC |
+| L3–L4 | + требования, компоненты, архитектура, зависимости, creative |
+
+## Abort
+
+- Нет task context → VAN
+- Блокирующие неясности → grill-me (skill из workflow)

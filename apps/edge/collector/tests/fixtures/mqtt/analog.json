@@ -1,0 +1,17 @@
+{
+  "@type": "analog",
+  "schema_version": "1.0",
+  "channel_id": "APS.TAI4101",
+  "source_ts": "2026-07-27T12:00:00.000Z",
+  "value": 82.5,
+  "threshold_vvu": 90.0,
+  "threshold_vu": 85.0,
+  "threshold_nu": 15.0,
+  "threshold_nnu": 10.0,
+  "control_vvu": true,
+  "control_vu": true,
+  "control_nu": false,
+  "control_nnu": true,
+  "aps_state": "normal",
+  "channel_test_enabled": false
+}

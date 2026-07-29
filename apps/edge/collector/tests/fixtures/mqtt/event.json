@@ -1,0 +1,9 @@
+{
+  "@type": "event",
+  "schema_version": "1.0",
+  "channel_id": "APS.EV0101",
+  "source_ts": "2026-07-27T12:00:00.000Z",
+  "event_state": "enabled",
+  "input_active": true,
+  "channel_test_enabled": false
+}

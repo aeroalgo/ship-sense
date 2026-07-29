@@ -1,0 +1,21 @@
+---
+description: "FRONT CREATIVE gates — UI/UX design batch (lean)"
+alwaysApply: false
+---
+# FRONT CREATIVE — gates
+
+**Артефакт:** `memory-bank/front/creative/creative-[feature_name].md`  
+Batch обязателен. Формат фазы — в `workflow-creative.mdc`.
+
+## Gates
+
+1. Компоненты из plan/decompose
+2. UI/UX: 2+ варианта + recommended
+3. Один creative-файл; decompose link если от шага
+4. Design tokens / layout / signature задокументированы
+5. `tasks.md` append-only
+6. **Rewire dependents:** каждый `sNN` с этим CR-ID — markdown-ссылка на creative + `needs_creative … — closed` + index blockers `✅` / `yes (done)` (см. workflow §5a). Без rewire → FAIL FINISH
+
+## Abort
+
+- Блокеры → grill-me

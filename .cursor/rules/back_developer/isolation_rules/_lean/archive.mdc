@@ -1,0 +1,25 @@
+---
+description: "ARCHIVE gates — reflection required (lean)"
+alwaysApply: false
+---
+# ARCHIVE NOW — gates
+
+**Артефакт:** `memory-bank/back/archive/archive-[task_id].md`
+
+## Gates
+
+1. `reflection-[task_id].md` exists
+2. archive: overview, changes, creative refs, reflection summary, links
+3. `tasks.md` append-only: archive + ЗАВЕРШЕНА И АРХИВИРОВАНА
+4. FINISH: clear `load_now`; «await VAN» или next T-xxx
+
+## Level delta
+
+| L | Depth |
+|---|--------|
+| L2 | краткий |
+| L3–L4 | + creative, phased summary |
+
+## Abort
+
+- Reflection missing → BACK REFLECT first

@@ -1,0 +1,26 @@
+---
+description: "BUGFIX gates — root cause, TDD (lean)"
+alwaysApply: false
+---
+# BUGFIX — gates
+
+**Артефакт:** `memory-bank/back/bugfix/bugfix-YYYYMMDD-<slug>.md`
+
+## Gates
+
+1. Описание бага получено
+2. `load_now` first; projectbrief/systemPatterns/techContext — только cross-cutting (§8)
+3. Root cause — не симптом; no fallback/mask
+4. Regression test red → fix → green через `.venv/bin/pytest` из корня репо
+5. bugfix-файл: root cause, fix, files, tests
+6. §0.11 если keys/env/routes/cols
+
+## L1
+
+1–2 файла → level delta L1 из `_lean/implement.mdc`
+
+## Abort
+
+- Mask (catch-all, silent default) → reject
+- Tests skipped → не FINISH
+- Голый `pytest` (не `.venv/bin/…`) → FAIL / перезапуск

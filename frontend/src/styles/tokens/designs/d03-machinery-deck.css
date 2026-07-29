@@ -1,0 +1,106 @@
+/* CR-UI-01 — d03 Machinery Deck — chrome + day|night|dim */
+
+html[data-design="d03"][data-theme="day"] {
+  --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", monospace;
+  --font-display: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --border-width: 2px;
+  --border-width-strong: 3px;
+  --space-unit: 8px;
+  --gap-grid: 12px;
+  --panel-pad: 14px;
+  --content-pad-x: 20px;
+  --font-display-size: 56px;
+  --font-critical: 48px;
+  --font-title: 28px;
+  --font-body: 18px;
+  --font-caption: 14px;
+  --font-mono-value: 22px;
+  --tracking-label: 0.08em;
+  --surface-0: #1c1a18;
+  --surface-1: #26221e;
+  --surface-2: #302a24;
+  --text-primary: #ece6dc;
+  --text-secondary: #a89880;
+  --text-muted: #706858;
+  --border-subtle: #443c34;
+  --border-strong: #5a5044;
+  --focus-ring: #c4a35a;
+  --chrome-accent: #8a7040;
+  --statusbar-height: 56px;
+}
+
+html[data-design="d03"][data-theme="night"] {
+  --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", monospace;
+  --font-display: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --border-width: 2px;
+  --border-width-strong: 3px;
+  --space-unit: 8px;
+  --gap-grid: 12px;
+  --panel-pad: 14px;
+  --content-pad-x: 20px;
+  --font-display-size: 56px;
+  --font-critical: 48px;
+  --font-title: 28px;
+  --font-body: 18px;
+  --font-caption: 14px;
+  --font-mono-value: 22px;
+  --tracking-label: 0.08em;
+  --surface-0: #141210;
+  --surface-1: #1c1a16;
+  --surface-2: #26221c;
+  --text-primary: #dcd4c8;
+  --text-secondary: #968870;
+  --text-muted: #605848;
+  --border-subtle: #3a342c;
+  --border-strong: #4e463c;
+  --focus-ring: #a88848;
+  --chrome-accent: #746038;
+  --statusbar-height: 56px;
+}
+
+html[data-design="d03"][data-theme="dim"] {
+  --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", monospace;
+  --font-display: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --border-width: 2px;
+  --border-width-strong: 3px;
+  --space-unit: 8px;
+  --gap-grid: 12px;
+  --panel-pad: 14px;
+  --content-pad-x: 20px;
+  --font-display-size: 56px;
+  --font-critical: 48px;
+  --font-title: 28px;
+  --font-body: 18px;
+  --font-caption: 14px;
+  --font-mono-value: 22px;
+  --tracking-label: 0.08em;
+  --surface-0: #100e0c;
+  --surface-1: #181612;
+  --surface-2: #201c18;
+  --text-primary: #bcb4a8;
+  --text-secondary: #807060;
+  --text-muted: #504840;
+  --border-subtle: #302c26;
+  --border-strong: #403830;
+  --focus-ring: #8a7038;
+  --chrome-accent: #5e4c30;
+  --statusbar-height: 48px;
+}
+
+html[data-design="d03"] {
+  background-color: var(--surface-0);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}

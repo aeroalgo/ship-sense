@@ -1,0 +1,36 @@
+---
+description: "Режим INTEG PLAN — master-план wire портала"
+alwaysApply: false
+---
+### Команда: INTEG PLAN
+**Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/plan.mdc
+**Скиллы:**
+- @.agents/skills/query-builder/SKILL.md
+- @.agents/skills/brainstorming/SKILL.md
+- @.agents/skills/architecture-patterns/SKILL.md
+- @.agents/skills/fastapi-templates/SKILL.md
+- @.agents/skills/frontend-patterns/SKILL.md
+- @.agents/skills/vercel-react-best-practices/SKILL.md
+
+**Цель:** Master-план wire портала — route × UI × API × БД.  
+**§0.0:** после OK — `SUSPENSION GUARD active — plan output unlimited`. Артефакт exhaustive; chat brief OK.
+
+**Scope в plan:** `portal` (default) | `journey` | `section` (только если явно).  
+Gap опционален — не блокирует PLAN. Не читать as input: gap/, contracts/, BACK/FRONT decompose.
+
+**Процесс**:
+1. `OK INTEG PLAN - Создаю master-план wire портала` + SUSPENSION GUARD
+1a. Прочитай **Gates**
+1b. QueryBuilder + graphify (routes/components/endpoints)
+2. `load_now`
+2a. **Portal inventory:** все `frontend/src/app/**/page.tsx` + UI elements; back/front epic `implement-*/index.md` (follow links); exclude infra-only
+2b. §0.11 endpoint ↔ fetch; mocks в registry
+3. `memory-bank/integration/plan/plan-<task_id>.md` по @.cursor/templates/integration-plan.md (все секции; Rollout без `- [ ]` / status-checkboxes)
+4. `contracts/` не обязателен
+5. `tasks.md` append-only
+5a. **Acceptance:** `wc -l` ≥ 400 (portal) или FAIL; нет layer-first rollout
+6. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)
+7. → **INTEG DECOMPOSE** → IMPLEMENT e01
+
+**После DECOMPOSE:** статусы только в `implement/eNN-*.md` и `decompose/index.md`; `implement/index` = навигационный hub без status; plan без дубль-чеклиста eNN

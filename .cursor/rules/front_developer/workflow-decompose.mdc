@@ -1,0 +1,82 @@
+---
+description: "Режим FRONT DECOMPOSE — план → атомарные шаги sNN"
+alwaysApply: false
+---
+### Команда: FRONT DECOMPOSE
+**Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/decompose.mdc
+**Скиллы (сессия DECOMPOSE):** @.agents/skills/writing-plans/SKILL.md; @.agents/skills/brainstorming/SKILL.md (если размыто)  
+**Не грузить:** `executing-plans`, `breakdown-plan`
+
+**Цель:** `plan-<id>.md` → `memory-bank/front/plan/decompose-<plan_id>/` (`index.md` + `sNN-*.md`). НЕ писать код.  
+**Вход:** `load_now` или `FRONT DECOMPOSE plan-<id>` (в одном сообщении).
+
+---
+
+## Skills map → каждый `sNN` (HARD)
+
+Канон для IMPLEMENT живёт **в step**. Каждый FRONT `sNN` содержит:
+
+1. `**visible_ui:**` yes | no  
+2. блок **Impl skills (REQUIRED Read до кода)** — always + surface  
+3. блок **Design skills** — полный канон 6 при `yes`, или `—` + причина при `no`
+
+### Always (копировать в каждый FRONT `sNN`)
+
+- `.agents/skills/tdd/SKILL.md`
+- `.agents/skills/frontend-testing/SKILL.md`
+- `.agents/skills/frontend-patterns/SKILL.md`
+- `.agents/skills/next-best-practices/SKILL.md`
+- `.agents/skills/vercel-react-best-practices/SKILL.md`
+- `.agents/skills/vercel-composition-patterns/SKILL.md`
+
+### По характеру шага (+ к always)
+
+| Сигнал | Когда | Доп. Impl skills |
+|--------|--------|------------------|
+| E2E / scenario в step | user-visible flow, новый Playwright с нуля | `.agents/skills/playwright-best-practices/SKILL.md` + `.agents/skills/playwright-generate-test/SKILL.md` |
+| только PW suite / fixtures | шаг = e2e harness без нового UI | `playwright-best-practices` (+ generate если новый spec) |
+| pure lib | `lib/api`, `lib/ws`, `lib/quality`… без JSX | — (только always; Design = `—`) |
+
+### `visible_ui` + Design skills
+
+| `visible_ui` | Когда | Design skills |
+|--------------|--------|---------------|
+| `yes` | user-facing JSX/TSX (`features/`, `components/`, `app/`), shell, DS, theme/tokens UI, print chrome | **все 6** путей ниже |
+| `no` | pure lib, scaffold без UI-кода, только E2E/fixtures | `**Design skills:** —` + краткая причина |
+
+**Design skills (канон, копировать при `visible_ui: yes`):**
+- `.agents/skills/frontend-design/SKILL.md`
+- `.agents/skills/design-taste-frontend/SKILL.md`
+- `.agents/skills/emil-design-eng/SKILL.md`
+- `.agents/skills/impeccable/SKILL.md`
+- `.agents/skills/high-end-visual-design/SKILL.md`
+- `.agents/skills/ui-ux-pro-max/SKILL.md`
+
+**Сессия DECOMPOSE:** если в плане есть ≥1 шаг с `visible_ui: yes` — **Read design stack (6) один раз** до нарезки этих `sNN` (не только копировать пути).
+
+**FINISH-only** (не в `sNN`): `verification-before-completion`, `requesting-code-review`.
+
+**Index:** общие skills декомпозиции кратко; **не** дублировать design/impl пути — они в каждом `sNN`.
+
+IMPLEMENT: слой A (выбор по задаче в `workflow-implement`) **∪** слой B (Impl + Design из этого step) — усиление, не замена.
+
+---
+
+**Процесс**:
+1. `OK FRONT DECOMPOSE - [plan_id]`
+1a. Прочитай **Gates**
+2. Прочитай план (L3–4: все shards)
+2b. UI в scope → Read Design skills (канон 6) до нарезки `visible_ui: yes`
+3. Skills в `decompose-<plan_id>/index.md` (writing-plans + кратко; per-step — в `sNN`)
+4. Атомарные шаги IMPLEMENT: files, `step_id`, `needs_creative`, `visible_ui`, next (`creative`|`implement`), `tdd: true`
+5. Каждый `sNN-<slug>.md` (@.cursor/templates/decompose/step.md): meta (`visible_ui` + Impl skills + Design skills), lean-интерфейсы (имена props/hooks, **без** полных interface/TSX), процесс, тест-кейсы, checkpoint
+5a. **FAIL** если FRONT-шаг без `**visible_ui:**`, без блока Impl skills (always ± surface), или (`yes` без полного Design / `no` без причины)
+6. Папка из `.cursor/templates/decompose/`
+7. Plan: ссылка на index как единственный трекер; удали дубль-чеклисты sNN
+7b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) — `load_now` → `s01-*.md`
+8. `tasks.md` append-only
+9. Next: CREATIVE или IMPLEMENT
+10. **Новый чат** для IMPLEMENT
+
+**Верификация**: gates + каждый `sNN` имеет `visible_ui` + Impl skills (+ Design block)

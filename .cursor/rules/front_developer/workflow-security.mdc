@@ -1,0 +1,37 @@
+---
+description: "FRONT SECURITY — аудит безопасности UI/client, XSS, deps, supply chain"
+alwaysApply: false
+---
+### Команда: FRONT SECURITY
+**Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
+**Скиллы:**
+- @.agents/skills/owasp-security-check/SKILL.md
+- @.agents/skills/security-auditor/SKILL.md
+- @.agents/skills/security-auditor-owasp/SKILL.md
+- @.agents/skills/codeql/SKILL.md
+- @.agents/skills/supply-chain-risk-auditor/SKILL.md
+- @.agents/skills/insecure-defaults/SKILL.md
+- @.agents/skills/agentic-actions-auditor/SKILL.md
+- @.agents/skills/secure-workflow-guide/SKILL.md
+- @.agents/skills/agentsec/SKILL.md
+- @.agents/skills/sarif-parsing/SKILL.md
+- @.agents/skills/semgrep-rule-creator/SKILL.md (кастомные правила)
+- @.agents/skills/semgrep-rule-variant-creator/SKILL.md
+- @.agents/skills/skill-security-audit/SKILL.md
+- @.agents/skills/sigil-scan/SKILL.md
+- @.agents/skills/variant-analysis/SKILL.md
+
+**Цель:** глубокий security-аудит frontend (отдельно от ежедневного QA). Isolation maps не грузить.
+
+**Scope:** `frontend/` — XSS/DOM, auth tokens в browser, CSP/headers client, secrets в client bundle, deps (`package.json`/lock), CI Actions для front, insecure defaults UI.
+
+**Процесс**:
+1. `OK FRONT SECURITY - Security audit`
+2. `tasks.md`, `techContext.md`, scope (`frontend/`)
+3. OWASP (client) + SAST (semgrep/codeql по наличию) по `frontend/`
+4. Supply chain + insecure defaults + Actions (front CI)
+5. `memory-bank/front/security/security-audit-YYYYMMDD-<slug>.md` — findings, severity, skills
+6. `tasks.md` append-only
+7. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`, artifact: `security-audit-*.md`)
+
+**Next:** BUGFIX / IMPLEMENT (фиксы) → QA

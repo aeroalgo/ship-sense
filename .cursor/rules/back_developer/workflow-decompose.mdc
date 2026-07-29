@@ -1,0 +1,66 @@
+---
+description: "Режим BACK DECOMPOSE — план → атомарные шаги"
+alwaysApply: false
+---
+### Команда: BACK DECOMPOSE
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/decompose.mdc
+**Скиллы (сессия DECOMPOSE):** @.agents/skills/writing-plans/SKILL.md; @.agents/skills/brainstorming/SKILL.md (если фаза размыта)  
+**Не грузить:** `executing-plans`, `breakdown-plan`
+
+**Цель:** `plan-<id>.md` → `decompose-<plan_id>/` (`index.md` + `sNN-*.md`). НЕ писать код.  
+**Вход:** план из `load_now` или `BACK DECOMPOSE plan-<id>` (в одном сообщении).
+
+---
+
+## Skills map → каждый `sNN` (HARD)
+
+Канон для IMPLEMENT живёт **в step**, не только в `workflow-implement`.  
+Каждый `sNN`: строка `**code_surface:**` + блок **Impl skills (REQUIRED Read до кода)**.
+
+### Always (копировать в каждый BACK `sNN`)
+
+- `.agents/skills/tdd/SKILL.md`
+- `.agents/skills/python-testing-patterns/SKILL.md`
+- `.agents/skills/modern-python/SKILL.md`
+
+### По `code_surface` (+ к always)
+
+| `code_surface` | Когда | Доп. skills (пути) |
+|----------------|--------|---------------------|
+| `service` | domain logic, connectors, pipeline, IPC, clients, supervisors, deps wiring | `.agents/skills/python-anti-patterns/SKILL.md` |
+| `api` | FastAPI routes / schemas / route-deps | `.agents/skills/fastapi-templates/SKILL.md` + `.agents/skills/python-anti-patterns/SKILL.md` |
+| `sql` | ORM models с таблицами, Alembic, raw SQL | `.agents/skills/supabase-postgres-best-practices/SKILL.md` |
+| `model` | pure dataclasses / domain types / enums без I/O | — (только always) |
+| `infra` | config load, scaffold, docker, packaging без бизнес-логики | —; если lifecycle/deps → добавь `python-anti-patterns` |
+| `test` | только тестовые фикстуры/харнесс без prod-кода | — (только always) |
+
+**Смешанный шаг:** выбери **доминирующий** surface; если есть service/api **и** sql — перечисли union доп. skills (не дроби step ради map).
+
+**FINISH-only** (не копировать в `sNN`; остаются в IMPLEMENT): `verification-before-completion`, `requesting-code-review`.
+
+**Index:** в `## Skills в контексте` — кратко writing-plans + ссылка «per-step: `code_surface` + Impl skills в каждом sNN». Не дублировать полные списки путей.
+
+IMPLEMENT: слой A (выбор по задаче в `workflow-implement`) **∪** слой B (Impl skills из этого step) — усиление, не замена.
+
+---
+
+**Процесс**:
+1. `OK BACK DECOMPOSE - [plan_id]`
+1a. Прочитай **Gates**
+2. Прочитай план (L3–4: **все** shards)
+3. Skills list в `decompose-<plan_id>/index.md` (см. map выше — кратко)
+4. Атомарные шаги IMPLEMENT: files, `step_id`, `needs_creative`, `code_surface`, next phase (`creative`|`implement`), `tdd: true` по умолчанию
+4a. Если шаг **требует** unresolved `CR-*` для корректной реализации, это должен быть **hard stop**: `needs_creative: yes (CR-...)`, `Next Phase: BACK CREATIVE`, ссылка на CR в `index.md`. Упоминание CR только в тексте шага / blockers-секции без `needs_creative` = FAIL
+5. Каждый `sNN-<slug>.md` (@.cursor/templates/decompose/step.md): meta (`code_surface` + Impl skills), lean-интерфейсы (имена/поля/наследование, **без** тел и полных type), процесс словами, тест-кейсы, checkpoint. Не дублировать буллеты плана, не вставлять код
+5a. **FAIL** если BACK-шаг без `**code_surface:**` или без полного блока Impl skills (always + доп. по map)
+6. Папка `memory-bank/back/plan/decompose-<plan_id>/` из `@.cursor/templates/decompose/`
+7. Обнови plan: ссылка на index как единственный трекер; удали дубль-чеклисты sNN; сохрани Goal/AC/архитектуру/risks
+7b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) — `load_now` → `s01-*.md`, status `active`
+8. `tasks.md` append-only
+9. Next: `needs_creative` → CREATIVE; иначе IMPLEMENT
+10. **Новый чат** для IMPLEMENT (context-session §2)
+
+**Границы:** нет кода/тестов реализации; нет арх-решений вне плана (`needs_creative`); не путать с TASK.
+
+**Верификация**: gates (все пункты)

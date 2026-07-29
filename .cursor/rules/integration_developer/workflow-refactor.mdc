@@ -1,0 +1,16 @@
+---
+description: "Режим INTEG REFACTOR — filter-utils, api clients"
+alwaysApply: false
+---
+### Команда: INTEG REFACTOR
+**Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/refactor.mdc
+**Скиллы:** @.agents/skills/architecture-patterns/SKILL.md
+
+**Процесс**:
+1. `OK INTEG REFACTOR`
+1a. Прочитай **Gates**
+2. Типовые цели: dedupe filters, shared buildApiUrl, typed api
+3. `integration/refactor/analysis-<id>.md`, `plan-<id>.md`
+4. Tests green before/after
+5. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) → QA (new chat)

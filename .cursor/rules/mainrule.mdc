@@ -1,0 +1,95 @@
+---
+description: "Корневая карта команд — роутер workflow (always)"
+alwaysApply: true
+---
+# WORKFLOW ROUTER
+
+**Layer 0:** @.cursor/rules/token-economy-core.mdc (token economy, approval gate, doc format)
+
+`memory-bank/` — канон артефактов. **Router:** `activeContext.md` → `load_now`. Index-only: `tasks.md`, `systemPatterns.md`, `plan-*`. Shards: `domain/` (SP), `back/creative/shards/` (ERD/TG). Plan/gap не резать — `plan-*.md` + `decompose-*/`. Скиллы — `@.agents/skills/` (читать по цепочке, не индексировать весь каталог).
+
+## Когда что грузить
+
+| Сообщение | Действие |
+|-----------|----------|
+| Обычный вопрос, без команды роли | **Не** читай workflow, isolation rules, `.agents/skills/` |
+| Идея продукта без команды роли, но явный запрос «примени workflow» / «от идеи до реализации» | **IDEA PIPELINE** — @.cursor/rules/shared/workflow-idea-pipeline.mdc |
+| Есть команда (`BACK IMPLEMENT`, `PM PLAN`, `IDEA PIPELINE`, …) | Цепочка ниже, **до** ответа |
+
+## Цепочка при распознанной команде
+
+0. **graphify (ориентация по графу)** — @.cursor/rules/graphify.mdc. Только для команд с кодом/ориентацией по codebase: `BACK/FRONT/INTEG IMPLEMENT`, `TASK`, `BUGFIX`, `REFACTOR`, `QA`; также `PM DISCOVER`, `TL SYNC DEV`. **Пропуск:** VAN, PLAN, DECOMPOSE, CREATIVE, REFLECT, ARCHIVE NOW, SECURITY, GAP (если только docs). CONTENT/MARKETING/SEO — пропускают.
+1. **Индекс роли** — таблица «Префикс → индекс»
+2. **Core роли** — `mainrule-core` (BACK/FRONT) или `*-core.mdc` (остальные роли)
+3. **Workflow** — файл из индекса роли для этой команды (`workflow-*.mdc`)
+4. **Скиллы** — только пути из шага 3; читай `SKILL.md`. `references/FULL-GUIDE.md` — только если workflow явно требует полный гайд
+
+Распознавание: токен префикса + режим в **UPPERCASE** (`BACK`, `FRONT`, `PM`, `TL`, `CONTENT`, `MARKETING`, `SEO`). Многословные: `BACK ARCHIVE NOW`, `PM DISCOVER MARKET`, `SEO CONTENT OPS`.
+
+## Префикс → индекс → core
+
+| Префикс | Индекс | Core (шаг 2) |
+|---------|--------|--------------|
+| `BACK` | @.cursor/rules/back_developer/mainrule.mdc | @.cursor/rules/back_developer/mainrule-core.mdc |
+| `FRONT` | @.cursor/rules/front_developer/mainrule.mdc | @.cursor/rules/front_developer/mainrule-core.mdc |
+| `INTEG` | @.cursor/rules/integration_developer/mainrule.mdc | @.cursor/rules/integration_developer/mainrule-core.mdc |
+| `PM` | @.cursor/rules/project_manager/mainrule-pm.mdc | @.cursor/rules/project_manager/pm-core.mdc |
+| `TL` | @.cursor/rules/team_lead/mainrule-tl.mdc | @.cursor/rules/team_lead/tl-core.mdc |
+| `CONTENT` | @.cursor/rules/content_growth/mainrule-content.mdc | @.cursor/rules/content_growth/content-core.mdc |
+| `MARKETING` | @.cursor/rules/marketing_growth/mainrule-marketing.mdc | @.cursor/rules/marketing_growth/marketing-core.mdc |
+| `SEO` | @.cursor/rules/seo_ops/mainrule-seo.mdc | @.cursor/rules/seo_ops/seo-core.mdc |
+
+В индексе роли — таблица «команда → workflow». Isolation rules — шаг `1a` внутри workflow.
+
+## Команды (распознавание)
+
+**BACK:** `VAN` `PLAN` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `REFLECT` `ARCHIVE NOW`
+
+**FRONT:** `VAN` `PLAN` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `REFLECT` `ARCHIVE NOW`
+
+**INTEG:** `VAN` `GAP` `GAP CLOSE` `PLAN` `DECOMPOSE` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `REFLECT` `ARCHIVE NOW`
+
+**PM:** `INIT` `DISCOVER` `DISCOVER MARKET` `PLAN` `ROADMAP` `BACKLOG` `SPRINT PLAN` `JIRA` `STATUS` `SESSION` `RETRO` `ARCHIVE`
+
+**TL:** `STANDUP` `SPRINT` `DELIVERY` `BLOCKERS` `CAPACITY` `SYNC DEV`
+
+**CONTENT:** `INIT` `PLAN` `WRITE` `SEO` `AUDIT` `LAUNCH` `OPTIMIZE` `INTERVIEW`
+
+**MARKETING:** `PLAN` `ADS` `EMAIL` `MONETIZE` `RETAIN` `SOCIAL` `PR` `REVOPS`
+
+**SEO:** `TECH` `LOCAL` `LINKS` `GEO` `CONTENT OPS` `ECOMMERCE` `DATA` `COMPETITORS` `ASO`
+
+## IDEA PIPELINE (cross-role)
+
+**Команда:** `IDEA PIPELINE` · `IDEA PIPELINE CONTINUE` · `IDEA PIPELINE FINISH` · `IDEA PIPELINE STATUS`
+**Workflow:** @.cursor/rules/shared/workflow-idea-pipeline.mdc
+**Артефакты:** `memory-bank/idea/idea-<slug>.md`
+**Суть:** идея пользователя → classify intent → цепочка **существующих** role workflow → реализация по фазам (one chat = one phase).
+
+Пример: `IDEA PIPELINE главная идея — продажа эмоций` → см. `memory-bank/idea/idea-emotions-selling.md`
+
+## Быстрый выбор
+
+| Ситуация | Команда |
+|----------|---------|
+| Идея → реализация (полный цикл) | `IDEA PIPELINE <идея>` |
+| Продолжить pipeline | `IDEA PIPELINE CONTINUE` |
+| Backend API | `BACK IMPLEMENT` |
+| Frontend UI | `FRONT IMPLEMENT` |
+| Сверка BACK↔FRONT / Gaps из implement | `INTEG GAP` (`@implement` → §Gaps станет link на gap) |
+| Закрыть Gaps implement после BACK/FRONT | `INTEG GAP CLOSE` `@implement` |
+| Сквозная интеграция (API + filters + UI) | `INTEG PLAN` → `DECOMPOSE` → `IMPLEMENT` (+ GAP/CLOSE по долгу) |
+| Каталог / таблица / dashboard filters | `INTEG PLAN` → `DECOMPOSE` → `IMPLEMENT` |
+| Security audit | `BACK SECURITY` · `FRONT SECURITY` · `INTEG SECURITY` |
+| SEO-гайды | `CONTENT PLAN` |
+| ТехSEO | `SEO TECH` |
+| Paid ads | `MARKETING ADS` |
+| Рынок / конкуренты | `PM DISCOVER MARKET` |
+
+## Скиллы без workflow
+
+`find-skills` · `git-commit` · `memory-management` — только по явному запросу.
+
+## Вызов
+
+Достаточно написать команду в чате: `BACK IMPLEMENT сделай эндпоинт`. @-упоминание rules опционально.

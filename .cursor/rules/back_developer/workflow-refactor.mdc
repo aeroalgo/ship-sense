@@ -1,0 +1,29 @@
+---
+description: "Режим BACK REFACTOR — анализ качества, memory-bank/back/refactor/"
+alwaysApply: false
+---
+### Команда: BACK REFACTOR
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/refactor.mdc
+**Скиллы:**
+- @.agents/skills/improve-codebase-architecture/SKILL.md
+- @.agents/skills/architecture-patterns/SKILL.md
+- @.agents/skills/python-anti-patterns/SKILL.md
+- @.agents/skills/differential-review/SKILL.md
+- @.agents/skills/requesting-code-review/SKILL.md
+
+**Процесс**:
+1. `OK BACK REFACTOR - Начинаю анализ кода`
+1a. Прочитай **Gates**
+2. `tasks.md` + реализованные файлы; skills в `back/refactor/`
+3. ФАЗА 1 АНАЛИЗ: Architecture, quality, perf, stack idioms
+4. Critical / High / Medium / Low
+5. ФАЗА 2: 2–4 варианта на проблему
+6. `analysis-[id].md`, `plan-[id].md`
+7. Self-check
+8. ФАЗА 3: Critical→Low; tests green before/after
+9. `session-YYYYMMDD-<slug>.md`
+10. §0.11 если refs
+11. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`, artifact: `session-*.md`) → QA или REFLECT
+
+**Верификация**: gates + FINISH + graphify

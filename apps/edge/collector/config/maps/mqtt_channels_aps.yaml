@@ -1,0 +1,30 @@
+version: 1
+source_id: panel_aps
+channels:
+  - channel_id: APS.TAI4101
+    tag_id: TAI4101
+    kind: analog
+    unit: degC
+    thresholds:
+      expose: true
+  - channel_id: APS.TAI4102
+    tag_id: TAI4102
+    kind: analog
+    unit: degC
+    thresholds:
+      expose: true
+  - channel_id: APS.TAI4103
+    tag_id: TAI4103
+    kind: analog
+    unit: bar
+    thresholds:
+      expose: true
+  - channel_id: APS.DI1401
+    tag_id: DIA1401
+    kind: discrete
+  - channel_id: APS.DI1402
+    tag_id: DIA1402
+    kind: discrete
+  - channel_id: APS.EV0101
+    tag_id: EVA0101
+    kind: event

@@ -1,0 +1,26 @@
+---
+description: "QA gates — lint, types, tests, security (lean)"
+alwaysApply: false
+---
+# QA — gates
+
+**Артефакт:** `memory-bank/back/qa/qa-YYYYMMDD-<slug>.md` (шаблон `.cursor/templates/review.md`)
+
+## Gates
+
+1. Lean load §7: `activeContext` + ONE task/implement shard + diff; plan shard — только если AC неясен
+2. **Parent сам** гоняет suite / smoke из handoff — **не** spawn explore «найти QA scope» при ясном `load_now`
+3. verification-before-completion
+4. §0.11 integration verification на изменённых refs
+5. Линт · типы · **полный** suite: из корня `.venv/bin/pytest` (не голый `pytest`; не targeted IMPLEMENT)
+6. Security spot-check (OWASP / semgrep если настроен)
+7. qa-артефакт + tasks append-only (pass/fail + blockers)
+8. FINISH → finish-block (`code_changed: no`); pass → new chat REFLECT / следующий IMPLEMENT
+
+## Abort
+
+- PASS при failing suite → reject
+- Голый `pytest` / не из корня репо → FAIL / перезапуск через `.venv/bin/pytest`
+- Plan / весь decompose / template «на всякий» при ясном AC → нарушает lean §7
+- Explore/task при известном scope из `load_now` → FAIL vibe (раздувание)
+- Subagent запускает frontend-тесты → FAIL (N/A для BACK; всё равно parent-only)

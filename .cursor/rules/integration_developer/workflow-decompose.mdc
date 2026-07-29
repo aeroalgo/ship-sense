@@ -1,0 +1,25 @@
+---
+description: "Режим INTEG DECOMPOSE — batch всех eNN за один проход"
+alwaysApply: false
+---
+### Команда: INTEG DECOMPOSE
+**Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/decompose.mdc
+**Скиллы:** @.agents/skills/query-builder/SKILL.md; @.agents/skills/writing-plans/SKILL.md  
+**Не грузить:** `executing-plans`
+
+**Цель:** Plan Element registry → `decompose-*/` (`index.md` + **все** `eNN-*.md`) за **один** проход. НЕ писать код.  
+DECOMPOSE = весь batch; IMPLEMENT = один eNN.
+
+**Нарезка:** по UI-элементам, не по слоям. Не читать: gap/, contracts/, BACK/FRONT decompose.
+
+**Процесс**:
+1. `OK INTEG DECOMPOSE - Разбиваю план по UI-элементам (batch)`
+1a. Прочитай **Gates**
+2. Source: `integration/plan/plan-<task_id>.md`
+3. Папка `integration/plan/decompose-<plan_id>/`: index + все eNN  
+   Шаблоны: @.cursor/templates/decompose/integration-index.md + integration-step.md  
+   Шаг: §UI · §Data · §API today · **§Contract lean** · §BACK/FRONT/DB · §0.11 · §Verify
+4. Обнови plan → ссылка на index; удали `- [ ] e01…`
+5. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) — `load_now` → `e01-*.md`
+6. → INTEG IMPLEMENT e01 (**новый чат**)

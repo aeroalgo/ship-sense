@@ -1,0 +1,18 @@
+---
+description: "Команда FRONT ARCHIVE NOW"
+alwaysApply: false
+---
+### Команда: FRONT ARCHIVE NOW
+**Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/archive.mdc
+
+**Процесс**:
+1. `OK ARCHIVE - Архивирую документацию`
+1a. Прочитай **Gates**
+2. Reflection complete
+3. `memory-bank/front/archive/archive-[task_id].md` — overview, changes, creative, reflection, links
+4. `tasks.md` append-only: archive + ЗАВЕРШЕНА И АРХИВИРОВАНА
+5. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) — clear `load_now`
+6. «Задача завершена. VAN для следующей»
+
+**Верификация**: gates + FINISH

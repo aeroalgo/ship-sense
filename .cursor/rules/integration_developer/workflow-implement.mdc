@@ -1,0 +1,47 @@
+---
+description: "Режим INTEG IMPLEMENT — wire одного UI-элемента back+front"
+alwaysApply: false
+---
+### Команда: INTEG IMPLEMENT
+**Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/implement.mdc
+**Скиллы:**
+- @.agents/skills/query-builder/SKILL.md — lazy `references/*`
+- @.agents/skills/tdd/SKILL.md
+- @.agents/skills/fastapi-templates/SKILL.md
+- @.agents/skills/frontend-patterns/SKILL.md
+- @.agents/skills/frontend-testing/SKILL.md
+- @.agents/skills/vercel-react-best-practices/SKILL.md
+- @.agents/skills/verification-before-completion/SKILL.md
+
+**Цель:** Один UI-элемент — live API, без mock в prod path.
+
+**Процесс**:
+1. `OK INTEG IMPLEMENT - Wire UI-элемента`
+1a. Прочитай **Gates**
+1b. graphify: @.cursor/rules/graphify.mdc
+1c. `load_now` + ONE `decompose-*/eNN-*.md`
+1d. QueryBuilder если list/filter
+1e. Epic hub: `implement-<plan_id>/index.md` (@.cursor/templates/implement/integ-index.md) если нет
+1f. Step: `eNN-<slug>.md` (@.cursor/templates/implement/integ-step.md)
+
+**Contract gate:** §Contract из шага; пуст → допиши до кода.
+
+## Фазы A–F (один элемент)
+
+**A Discovery:** §UI/API/Data/DB; grep mock/fetch; §Gaps в `eNN-*.md` (`нет` | bullets | рекомендовать GAP)  
+**B BACK** (если §BACK): schema → endpoint + mapping_filters → targeted `.venv/bin/pytest` из корня; QB канон  
+**C FRONT:** api client/types → filter-utils → targeted vitest → убрать mock  
+**D Wire:** fetch + loading/error + URL sync  
+**E §0.11:** endpoint ↔ fetch; mock удалён; live check  
+**E2 Scenario:** user-visible flow → Playwright targeted **или** `.venv/bin/pytest` HTTP outcome; путь в step (не только unit)  
+**F FINISH:** step-файл + sync обоих index; перед FINISH (HARD): в `decompose-*/index.md` текущий `eNN` = `completed`, следующий шаг остаётся `pending`, `activeContext.md` указывает следующий `eNN`, а `implement/index.md` не содержит `done` / `completed`; затем @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`)  
+→ Gaps open → `INTEG GAP` → … → `INTEG GAP CLOSE`; иначе eNN+1 / QA (new chat)
+
+## Уровни
+
+L1 static · L2 один GET · L3 list+filters · L4 N API в элементе
+
+## Антипаттерны
+
+@.agents/skills/query-builder/references/ANTI-PATTERNS.md — mock forever; шаг шире eNN; читать gap вместо step; flat implement для нового эпика; user-visible без scenario; Handoff «manual smoke only»

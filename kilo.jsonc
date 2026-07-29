@@ -1,0 +1,215 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "model": "omniroute/cx/gpt-5.6-luna",
+  "instructions": [
+    ".kilo/instructions/bootstrap.md",
+    ".kilo/instructions/workflow-gate.md",
+    ".kilo/instructions/spawn-hard.md"
+  ],
+  "agent": {
+    "code": {
+      "description": "Primary implementer. MUST Task→explore|explorer for search; Task→worker|general for isolated edits; Task→reviewer for review.",
+      "mode": "primary",
+      "model": "omniroute/cx/gpt-5.6-luna",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "explorer": "allow",
+          "worker": "allow",
+          "general": "allow",
+          "reviewer": "allow"
+        }
+      }
+    },
+    "build": {
+      "description": "Primary ship-sense (Codex luna parity). Delegate via Task only.",
+      "mode": "primary",
+      "model": "omniroute/cx/gpt-5.6-luna",
+      "color": "#3B82F6",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "explorer": "allow",
+          "worker": "allow",
+          "general": "allow",
+          "reviewer": "allow"
+        }
+      }
+    },
+    "luna": {
+      "description": "Parent PLAN/IMPLEMENT — cx/gpt-5.6-luna. MUST spawn Flash subagents via Task.",
+      "mode": "primary",
+      "model": "omniroute/cx/gpt-5.6-luna",
+      "color": "#6366F1",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "explorer": "allow",
+          "worker": "allow",
+          "general": "allow",
+          "reviewer": "allow"
+        }
+      }
+    },
+    "grok": {
+      "description": "Parent PLAN/IMPLEMENT — gc/grok-build. MUST spawn Flash subagents via Task.",
+      "mode": "primary",
+      "model": "omniroute/gc/grok-build",
+      "color": "#F59E0B",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "explorer": "allow",
+          "worker": "allow",
+          "general": "allow",
+          "reviewer": "allow"
+        }
+      }
+    },
+    "glm": {
+      "description": "Parent PLAN/IMPLEMENT — glm/glm-5.2. MUST spawn Flash subagents via Task.",
+      "mode": "primary",
+      "model": "omniroute/glm/glm-5.2",
+      "color": "#10B981",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "explorer": "allow",
+          "worker": "allow",
+          "general": "allow",
+          "reviewer": "allow"
+        }
+      }
+    },
+    "flash": {
+      "description": "Cheap parent — flash-high. Still spawn explore/worker for isolation.",
+      "mode": "primary",
+      "model": "omniroute/antigravity/gemini-3.5-flash-high",
+      "color": "#22D3EE",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "explore": "allow",
+          "explorer": "allow",
+          "worker": "allow",
+          "general": "allow",
+          "reviewer": "allow"
+        }
+      }
+    },
+    "explore": {
+      "description": "Explore via graphify only (grep/glob denied). Flash-low.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-low",
+      "color": "#94A3B8",
+      "steps": 18,
+      "permission": {
+        "edit": "deny",
+        "write": "deny",
+        "grep": "deny",
+        "glob": "deny",
+        "bash": {
+          "*": "deny",
+          ".venv/bin/graphify *": "allow",
+          "ls *": "allow",
+          "git status*": "allow",
+          "git log*": "allow",
+          "git diff*": "allow",
+          "head *": "allow",
+          "wc *": "allow"
+        },
+        "task": { "*": "deny" }
+      }
+    },
+    "explorer": {
+      "description": "Alias explore — graphify only, grep/glob denied. Flash-low.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-low",
+      "color": "#94A3B8",
+      "steps": 18,
+      "permission": {
+        "edit": "deny",
+        "write": "deny",
+        "grep": "deny",
+        "glob": "deny",
+        "bash": {
+          "*": "deny",
+          ".venv/bin/graphify *": "allow",
+          "ls *": "allow",
+          "git status*": "allow",
+          "git log*": "allow",
+          "git diff*": "allow",
+          "head *": "allow",
+          "wc *": "allow"
+        },
+        "task": { "*": "deny" }
+      }
+    },
+    "general": {
+      "description": "Worker flash-low. Narrow files. ≤15 reads. Targeted tests.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-low",
+      "color": "#A78BFA",
+      "steps": 22,
+      "permission": {
+        "task": { "*": "deny" },
+        "bash": {
+          "npm test*": "deny",
+          "pnpm test*": "deny",
+          "yarn test*": "deny",
+          "npx vitest*": "deny",
+          "vitest*": "deny",
+          "npx playwright*": "deny",
+          "playwright*": "deny",
+          "npm run test*": "deny",
+          "pnpm run test*": "deny"
+        }
+      }
+    },
+    "worker": {
+      "description": "Alias general. Narrow impl flash-low. ≤15 reads.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-low",
+      "color": "#A78BFA",
+      "steps": 22,
+      "permission": {
+        "task": { "*": "deny" },
+        "bash": {
+          "npm test*": "deny",
+          "pnpm test*": "deny",
+          "yarn test*": "deny",
+          "npx vitest*": "deny",
+          "vitest*": "deny",
+          "npx playwright*": "deny",
+          "playwright*": "deny",
+          "npm run test*": "deny",
+          "pnpm run test*": "deny"
+        }
+      }
+    },
+    "reviewer": {
+      "description": "Review flash-high. ≤10 reads. Text-only finish.",
+      "mode": "subagent",
+      "model": "omniroute/antigravity/gemini-3.5-flash-high",
+      "color": "#FB7185",
+      "steps": 18,
+      "permission": {
+        "edit": "deny",
+        "write": "deny",
+        "bash": {
+          "*": "deny",
+          "rg *": "allow",
+          "git diff*": "allow",
+          "git status*": "allow",
+          "ls *": "allow"
+        },
+        "task": { "*": "deny" }
+      }
+    }
+  }
+}

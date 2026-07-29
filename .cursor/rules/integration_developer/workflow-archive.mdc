@@ -1,0 +1,13 @@
+---
+description: "Команда INTEG ARCHIVE NOW"
+alwaysApply: false
+---
+### Команда: INTEG ARCHIVE NOW
+**Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/archive.mdc
+
+**Процесс**:
+1. `OK INTEG ARCHIVE NOW`
+1a. Прочитай **Gates**
+2. `integration/archive/archive-<task_id>.md`
+3. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) — clear `load_now`, await INTEG VAN

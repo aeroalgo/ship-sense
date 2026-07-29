@@ -1,0 +1,24 @@
+---
+description: "FRONT BUGFIX gates — root cause, Playwright (lean)"
+alwaysApply: false
+---
+# FRONT BUGFIX — gates
+
+**Артефакт:** `memory-bank/front/bugfix/bugfix-YYYYMMDD-<slug>.md`
+
+## Gates
+
+1. Описание бага получено
+2. `load_now` first; core docs — только cross-cutting (§8)
+3. Root cause; no mask/fallback
+4. Regression red → fix → green
+5. **Scenario:** user-visible UI symptom → Playwright targeted **обязателен** (не только Vitest); parent runs
+6. bugfix-файл complete; scenario path в Handoff
+7. §0.11 если applicable
+
+## Abort
+
+- Workaround → reject
+- Tests skipped → no FINISH
+- User-visible fix без Playwright scenario → no FINISH
+- Handoff «manual smoke only» без scenario path → reject

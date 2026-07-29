@@ -1,0 +1,19 @@
+---
+description: "Режим BACK REFLECT — reflection-[task_id].md"
+alwaysApply: false
+---
+### Команда: BACK REFLECT
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/reflect.mdc
+
+**Процесс**:
+1. `OK BACK REFLECT - Начинаю рефлексию`
+1a. Прочитай **Gates**
+2. `tasks.md`; убедись что реализация завершена
+3. Анализ: vs plan · successes · problems · lessons · improvements
+4. `memory-bank/back/reflection/reflection-[task_id].md`
+5. `tasks.md` append-only
+6b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`); new chat → ARCHIVE NOW
+7. Предложи ARCHIVE NOW (**новый чат**)
+
+**Верификация**: gates

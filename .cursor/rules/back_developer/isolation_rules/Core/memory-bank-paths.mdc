@@ -1,0 +1,70 @@
+---
+description: Defines canonical paths for core Memory Bank files.
+globs: memory-bank/**
+alwaysApply: false
+---
+
+# MEMORY BANK PATHS
+
+Канон: `memory-bank/` в корне. Сессия: `activeContext.md` → `load_now` (§0.5.1 token-economy).
+
+**Когда грузить этот файл:** VAN (создание структуры) или если lean-gate не хватает пути.  
+**Не грузить** на IMPLEMENT/TASK/QA — путь режима уже в `_lean/<mode>.mdc`.
+
+**Корень (все роли):** `activeContext.md`, `tasks.md` (index + progress + last 5 events), `tasks/log/` (сквозная хронология, append на FINISH, не грузить на IMPLEMENT), `projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `style-guide.md`
+
+**Шаблоны (вне memory-bank):** `.cursor/templates/` — копируются с `.cursor`, без всей `memory-bank/`. Состав: `plan.md` · `decompose/{index,step}.md` · `implement.md` (legacy) · `implement/{index,step}.md` · `implement/integ-{index,step}.md` (INTEG IMPLEMENT) · `integration-{plan,gap,gap-close,contract}.md` · `review.md` · `task-shard.md` · `idea-pipeline.md` · `finish-doc-router.md`
+
+**Split (non-plan, >200 → index + shards).** Plan/gap не резать (§0.0).
+
+| Index | Shard dir | Prefix |
+|-------|-----------|--------|
+| `systemPatterns.md` | `domain/` | SP |
+| `back/creative/creative-booking-erd.md` | `back/creative/shards/` | ERD |
+| `back/creative/creative-telegram-*.md` | `back/creative/shards/` | TG |
+
+**Backend `memory-bank/back/`:**
+
+| Режим | Папка | Именование |
+|-------|--------|------------|
+| VAN | `back/van/` | `van-YYYYMMDD.md` (опц.) |
+| PLAN | `back/plan/` | `plan-<task_id>.md` |
+| DECOMPOSE | `back/plan/decompose-<plan_id>/` | `index.md` + `sNN-<slug>.md` (+ `implement`) |
+| CREATIVE | `back/creative/` | `creative-<feature_name>.md` |
+| IMPLEMENT | `back/implement/implement-<plan_id>/` | `index.md` + `sNN-<slug>.md` (= decompose). Legacy: `_legacy/` |
+| TASK | `back/task/` | `task-YYYYMMDD-<slug>.md` |
+| BUGFIX | `back/bugfix/` | `bugfix-YYYYMMDD-<slug>.md` |
+| REFACTOR | `back/refactor/` | `analysis-<id>.md`, `plan-<id>.md`, `session-YYYYMMDD-<slug>.md` |
+| REFLECT | `back/reflection/` | `reflection-<task_id>.md` |
+| ARCHIVE NOW | `back/archive/` | `archive-<task_id>.md` |
+| QA | `back/qa/` | `qa-YYYYMMDD-<slug>.md` |
+| SECURITY | `back/security/` | `security-audit-YYYYMMDD-<slug>.md` |
+
+**Front `memory-bank/front/`** — та же схема, префикс `front/` (VAN…QA + SECURITY).
+
+| Режим | Папка | Именование |
+|-------|--------|------------|
+| SECURITY | `front/security/` | `security-audit-YYYYMMDD-<slug>.md` |
+
+**Integration `memory-bank/integration/`:**
+
+| Режим | Папка | Именование |
+|-------|--------|------------|
+| VAN | `integration/van/` | `van-YYYYMMDD-<slug>.md` |
+| GAP | `integration/gap/` | `gap-YYYYMMDD-<slug>.md` |
+| GAP CLOSE | `integration/gap/` | `close-YYYYMMDD-<slug>.md` |
+| PLAN | `integration/plan/` | `plan-<task_id>.md` |
+| DECOMPOSE | `integration/plan/decompose-<plan_id>/` | `index.md` + `eNN-<slug>.md` (+ `implement`) |
+| CREATIVE | `integration/creative/` | `creative-<feature>.md` |
+| IMPLEMENT | `integration/implement/implement-<plan_id>/` | `index.md` + `eNN-<slug>.md` |
+| TASK | `integration/task/` | `task-YYYYMMDD-<slug>.md` |
+| BUGFIX | `integration/bugfix/` | `bugfix-YYYYMMDD-<slug>.md` |
+| REFACTOR | `integration/refactor/` | `analysis-<id>.md`, `plan-<id>.md` |
+| REFLECT | `integration/reflection/` | `reflection-<task_id>.md` |
+| ARCHIVE NOW | `integration/archive/` | `archive-<task_id>.md` |
+| QA | `integration/qa/` | `qa-YYYYMMDD-<slug>.md` |
+| SECURITY | `integration/security/` | `security-audit-YYYYMMDD-<slug>.md` |
+| Contracts | `integration/contracts/` | `<domain-slug>.md` |
+| Reference | `integration/reference/` | stubs → query-builder skill |
+
+`slug` — латиница. `tasks.md` — append-only. Артефакты режимов — под `back/` | `front/` | `integration/` (не корень, кроме общих index).

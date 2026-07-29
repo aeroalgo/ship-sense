@@ -1,0 +1,31 @@
+---
+description: "INTEG IMPLEMENT gates — one UI element, phases A–F (lean)"
+alwaysApply: false
+---
+# INTEG IMPLEMENT — gates
+
+**Артефакт:** `memory-bank/integration/implement/implement-<plan_id>/eNN-<slug>.md` (+ hub `index.md`)  
+**Шаблоны:** `@.cursor/templates/implement/integ-index.md` · `@.cursor/templates/implement/integ-step.md`
+
+## Gates
+
+1. `load_now`: ONE `decompose-*/eNN-*.md` (не index/gap/contracts)
+2. §Contract из шага; `contracts/` не обязателен
+3. Phases A→F = один UI-элемент
+4. QueryBuilder для list/filter
+5. §0.11; mock убран
+6. TDD **targeted** only через `.venv/bin/pytest` из корня → полный suite в QA
+7. **Scenario:** user-visible flow в eNN → Playwright targeted **или** `.venv/bin/pytest` HTTP outcome (не только unit); путь в step/Handoff
+8. Hub index + implement step; hub = ссылки/Gaps only, без status; §Gaps (`нет` | bullets | link)
+9. Статус обновляется в implement step и decompose index; hub `implement/index` не хранит status
+10. Перед финальным ответом сверить 3 точки: `decompose-*/index.md` (`eNN` -> `completed`), `activeContext.md` (next -> следующий шаг), `implement/index.md` (без `done`/`completed`/status suffix)
+
+## Abort
+
+- Шире одного eNN → split
+- Читать gap вместо step → GAP CLOSE
+- Phase E skipped → no FINISH
+- Mock in prod при live API → fix
+- Flat `implement-<task_id>.md` для нового эпика → abort
+- User-visible без scenario test → no FINISH
+- Handoff «manual smoke only» без scenario path → reject

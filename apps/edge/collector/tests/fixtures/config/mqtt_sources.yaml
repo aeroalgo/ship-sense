@@ -1,0 +1,29 @@
+version: 1
+sources:
+  - id: panel_aps
+    protocol: mqtt
+    endpoint: mqtt://mqtt-broker:1883
+    connection:
+      host: mqtt-broker
+      port: 1883
+      tls: false
+      client_id: shipsense-panel-aps
+    subscribe:
+      topic_prefix: shipsense/panel/aps
+    map: maps/mqtt_panel_aps.yaml
+    options: {}
+  - id: panel_geu
+    protocol: mqtt
+    endpoint: mqtt://mqtt-broker:1883
+    connection:
+      host: mqtt-broker
+      port: 1883
+      tls: false
+      client_id: shipsense-panel-geu
+    subscribe:
+      topic_prefix: shipsense/panel/geu
+      qos: 2
+      shared_subscription: true
+    map: maps/mqtt_panel_geu.yaml
+    options:
+      publish_allowed: false

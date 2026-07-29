@@ -1,0 +1,32 @@
+# units.yaml — canon для collector (s12 / AC-B4-03, AC-B4-09)
+# Unit conversion: alias resolution + scale/offset conversion table.
+# Изменение правил = редактирование этого файла, без правки кода.
+# Reload = restart коллектора (load once при старте NormalizerWorker, s13).
+#
+# Два уровня:
+#   1. Per-tag scale/offset из TagMapEntry — калибровка raw register → engineering
+#      (plan §14.3 per-tag override). Применяется ДО conversion-словаря.
+#   2. Conversion-словарь ниже — unit→unit по (from, to).
+
+version: 1
+
+# Алиасы → каноническое имя единицы. Канон = ключ в conversions.
+# Resolve происходит до identity-check и lookup.
+aliases:
+  "°C": degC
+  "deg C": degC
+  "degC": degC
+  "C": degC
+  "°K": K
+  "K": K
+  "kelvin": K
+  "bar": bar
+  "kPa": kPa
+
+# Conversion-правила: value_out = scale * value_in + offset.
+# (from, to) должен быть уникален; reverse-правило задаётся явно.
+conversions:
+  - {from: degC, to: K, scale: 1.0, offset: 273.15}
+  - {from: K, to: degC, scale: 1.0, offset: -273.15}
+  - {from: bar, to: kPa, scale: 100.0, offset: 0.0}
+  - {from: kPa, to: bar, scale: 0.01, offset: 0.0}

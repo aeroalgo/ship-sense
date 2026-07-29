@@ -1,0 +1,20 @@
+---
+description: "CREATIVE gates — design decisions, batch (lean)"
+alwaysApply: false
+---
+# CREATIVE — gates
+
+**Артефакт:** `memory-bank/back/creative/creative-[feature_name].md` (все компоненты в одном файле)  
+Batch обязателен. Шаблоны phase-файлов — **нет** (удалены); формат — в `workflow-creative.mdc`.
+
+## Gates
+
+1. Компоненты из plan/decompose step
+2. Тип Architecture / Algorithm / UI-UX; 2+ варианта + pros/cons
+3. Один creative-файл; decompose link если от шага
+4. `tasks.md` append-only
+5. **Rewire dependents:** каждый `sNN` с этим CR-ID — markdown-ссылка на creative + `needs_creative … — closed` + index blockers `✅` / `yes (done)` (см. workflow §5a). Без rewire → FAIL FINISH
+
+## Abort
+
+- Блокирующие неясности → grill-me; не выбирать вслепую

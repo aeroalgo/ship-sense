@@ -1,0 +1,38 @@
+---
+description: "Режим FRONT CREATIVE — UI/UX дизайн batch"
+alwaysApply: false
+---
+### Команда: FRONT CREATIVE
+**Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/creative.mdc
+**Скиллы:**
+- @.agents/skills/frontend-design/SKILL.md
+- @.agents/skills/design-taste-frontend/SKILL.md
+- @.agents/skills/emil-design-eng/SKILL.md
+- @.agents/skills/impeccable/SKILL.md
+- @.agents/skills/high-end-visual-design/SKILL.md
+- @.agents/skills/ui-ux-pro-max/SKILL.md
+- @.agents/skills/grill-me/SKILL.md (только блокеры)
+- @.agents/skills/brainstorming/SKILL.md (batch)
+- @.agents/skills/frontend-patterns/SKILL.md
+
+**Batch:** все компоненты в одном `creative-*.md`.
+
+**Процесс**:
+1. `OK FRONT CREATIVE - Начинаю творческую фазу`
+1a. Прочитай **Gates**
+2. `tasks.md` + plan/decompose из `load_now`
+2a. Skills в `memory-bank/front/creative/creative-[feature_name].md`
+3. Компоненты; при размытости — brainstorming
+4. На каждый: тип Architecture / Algorithm / UI-UX; 2+ варианта + recommended + implementation guide
+5. Один creative-файл + **Decompose link** (creative → `sNN-*.md`) если от шага
+5a. **Rewire dependents (обязательно до FINISH):** все `decompose-*/sNN-*.md` и `decompose-*/index.md`, где `needs_creative` / blockers ссылаются на этот CR-ID:
+   - markdown-ссылка на creative: `[CR-…/creative-….md](../../creative/…)` (+ пути SVG/spec/assets если есть)
+   - в шаге: строка `**Creative:**` со ссылками; `needs_creative: … — **closed**`; `Next Phase:` → `FRONT IMPLEMENT` (не CREATIVE)
+   - в index: blockers `CR-… ✅`; строка шага `needs_creative` → `yes (done)`; `next_phase` → `FRONT IMPLEMENT`; `status` снять `needs_creative` → `pending` (если ещё не implement)
+   - **FAIL** если creative closed, а зависимый `sNN` без кликабельной ссылки / всё ещё `needs_creative` без closed
+6. `tasks.md` append-only
+7. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) — только после 5a
+8. → FRONT IMPLEMENT (новый чат если только что DECOMPOSE)
+
+**Верификация**: 2+ вариантов, обоснованная рекомендация, tokens/signature; dependents rewired (5a)

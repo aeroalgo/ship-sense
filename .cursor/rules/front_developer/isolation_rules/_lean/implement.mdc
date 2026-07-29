@@ -1,0 +1,41 @@
+---
+description: "FRONT IMPLEMENT gates — shards, TDD, Playwright (lean)"
+alwaysApply: false
+---
+# FRONT IMPLEMENT — gates
+
+**Артефакт:** `memory-bank/front/implement/implement-<plan_id>/sNN-<slug>.md` (+ `index.md`; `.cursor/templates/implement/`)
+
+## Gates
+
+1. `activeContext` → `load_now` non-empty
+2. ONE task shard + ONE front plan/decompose **step file**
+3. Level из step — L2 substep → L2
+4. `needs_creative` без `creative-*.md` → FRONT CREATIVE
+5. TDD red: Vitest/RTL **targeted** — не полный suite; запуск **только parent** (never subagent)
+6. Green: только новые/затронутые; E2E — файл шага если написан; полный suite/Playwright → FRONT QA; запуск **только parent**
+7. **Scenario:** user-visible flow в step → Playwright targeted **обязателен** (не только RTL); путь в step/Handoff; parent runs
+8. **Skills A∪B:** слой A (выбор по задаче в `workflow-implement`) + слой B (Impl/Design из decompose step) — Read **до** prod-кода
+9. **Visible UI → DESIGN:** Read design из A и/или B **до** UI-кода. `visible_ui: no` / pure lib — design skip
+10. UI следует plan/creative + design skills (не «склейка DS без Read»)
+11. §0.11: API/env/keys — counterpart
+12. implement step + decompose index обновлены; `implement/index` — навигация only, без status; tasks append-only
+13. Перед финальным ответом сверить 3 точки: `decompose-*/index.md` (`sNN` -> `completed`), `activeContext.md` (next -> следующий шаг), `implement/index.md` (без `done`/`completed`/status suffix)
+
+## Level delta
+
+| L | Фокус |
+|---|--------|
+| L1 | targeted UI fix |
+| L2 | step, component-by-component |
+| L3–L4 | phased; creative если flagged |
+
+## Abort
+
+- Shard missing → no code
+- Plan требует E2E шага, файла нет → не FINISH
+- User-visible без Playwright scenario → no FINISH
+- Handoff «manual smoke only» без scenario path → reject
+- Слой A или B skills не Read → no FINISH
+- **Visible UI без Read design stack → no FINISH**
+- Полный vitest/Playwright suite в IMPLEMENT → FRONT QA

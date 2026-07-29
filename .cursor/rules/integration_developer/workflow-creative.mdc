@@ -1,0 +1,19 @@
+---
+description: "Режим INTEG CREATIVE — решения контракта/filters"
+alwaysApply: false
+---
+### Команда: INTEG CREATIVE
+**Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/creative.mdc
+**Скиллы:** @.agents/skills/brainstorming/SKILL.md, @.agents/skills/architecture-patterns/SKILL.md
+
+**Процесс**:
+1. `OK INTEG CREATIVE - Проектирую контракт интеграции`
+1a. Прочитай **Gates**
+2. ≥2 варианта: facets vs meta · period · key style · URL vs context
+3. `integration/creative/creative-<feature>.md`; contract draft
+3a. **Rewire dependents (обязательно до FINISH):** все `decompose-*/eNN-*.md` и index, где `needs_creative` / blockers ссылаются на этот creative:
+   - markdown-ссылка на creative в шаге (`**Creative:**` + Consumes); `needs_creative … — **closed**`; Next Phase → IMPLEMENT
+   - index: blockers `✅`; `yes (done)`; status снять `needs_creative`
+   - **FAIL** если creative closed без кликабельной ссылки в зависимом `eNN`
+4. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) — только после 3a → PLAN или IMPLEMENT

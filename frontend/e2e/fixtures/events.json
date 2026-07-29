@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "id": "evt_alarm",
+      "ts": "2026-07-26T07:58:12.000Z",
+      "event_name": "alarm.HH",
+      "severity": "alarm",
+      "source": "aps",
+      "asset_id": "propulsion.geu.engine_1",
+      "params": { "kks": "TAI4101", "threshold": 80, "value": 82.1 },
+      "quality": null
+    },
+    {
+      "id": "evt_info",
+      "ts": "2026-07-26T08:00:01.000Z",
+      "event_name": "session_started",
+      "severity": "info",
+      "source": "edge",
+      "asset_id": null,
+      "params": { "session_id": "sess" },
+      "quality": null
+    },
+    {
+      "id": "evt_warn",
+      "ts": "2026-07-26T08:01:00.000Z",
+      "event_name": "warning.drift",
+      "severity": "warning",
+      "source": "aps",
+      "asset_id": "propulsion.geu.engine_1",
+      "params": { "kks": "TAI4101" },
+      "quality": null
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false
+}

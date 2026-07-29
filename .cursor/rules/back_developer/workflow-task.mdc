@@ -1,0 +1,24 @@
+---
+description: "Режим BACK TASK — внеплановая задача с memory-bank"
+alwaysApply: false
+---
+### Команда: BACK TASK
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/task.mdc
+**Скиллы:** @.agents/skills/tdd/SKILL.md, @.agents/skills/python-testing-patterns/SKILL.md, @.agents/skills/fastapi-templates/SKILL.md (если API), @.agents/skills/modern-python/SKILL.md (если Python-стиль), @.agents/skills/verification-before-completion/SKILL.md, @.agents/skills/requesting-code-review/SKILL.md
+
+**Процесс**:
+1. `OK BACK TASK - [суть]` — задача в **том же** сообщении
+1a. Прочитай **Gates**
+2. `load_now` + handoff (`implement-*.md` / `back/task/task-*.md`); `tasks.md` index
+2a. Skills list в `memory-bank/back/task/task-YYYYMMDD-<slug>.md`
+3. ONE domain/plan shard; wide search → subagent (context-session §4)
+4–7. Компоненты → место → reuse/паттерны → краткий план
+8. TDD red → green: `.venv/bin/pytest` из корня (targeted; полный suite → QA)
+9. `tasks.md` append-only
+10. §0.11 если external refs
+11. Pre-FINISH skills
+12. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`, artifact: `task-YYYYMMDD-<slug>.md`)
+13. Дополни task-файл: формулировка, план, ход, итог, файлы, тесты
+
+**Верификация**: gates + FINISH/Handoff + graphify

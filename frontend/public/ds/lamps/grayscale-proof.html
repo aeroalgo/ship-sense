@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>DS0-1 grayscale proof — CR-UI-03</title>
+  <style>
+    :root {
+      --alarm-critical-fg: #ff4d4f;
+      --alarm-warning-fg: #faad14;
+      --alarm-info-fg: #69b1ff;
+      --quality-bad-fg: #ff7875;
+      --quality-quarantine-fg: #b37feb;
+      --quality-stale-fg: #8c8c8c;
+      --quality-uncertain-fg: #ffc069;
+      --text-secondary: #9aa0a8;
+      --surface-0: #1a1d21;
+      --surface-1: #22262c;
+      --border-subtle: #3a4048;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      background: #fff;
+      color: #111;
+    }
+    h1 { font-size: 18px; margin: 0 0 8px; }
+    p { margin: 0 0 16px; font-size: 13px; max-width: 72ch; }
+    .toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; }
+    button {
+      font: inherit;
+      padding: 8px 14px;
+      border: 1px solid #333;
+      background: #f3f3f3;
+      cursor: pointer;
+    }
+    body.grayscale .sheet { filter: grayscale(1); }
+    .sheet { background: #fff; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 28px; }
+    th, td {
+      border: 1px solid #bbb;
+      padding: 8px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 11px;
+    }
+    th { background: #eee; font-weight: 600; }
+    .lamp {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      margin: 0 auto;
+    }
+    .lamp img, .lamp .layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .lamp[data-lifecycle="acked"] { opacity: 0.55; }
+    .lamp[data-lifecycle="cleared"] { opacity: 0.4; filter: contrast(0.85); }
+    .lamp[data-lifecycle="cleared"] .base { opacity: 0.85; }
+    .sev-norm { color: #6b7280; }
+    .sev-warning { color: var(--alarm-warning-fg); }
+    .sev-alarm { color: var(--alarm-critical-fg); }
+    .sev-protection { color: var(--alarm-critical-fg); }
+    .sev-no-data { color: #5c6370; }
+    .sev-info { color: var(--alarm-info-fg); }
+    .q-uncertain { color: var(--quality-uncertain-fg); }
+    .q-bad { color: var(--quality-bad-fg); }
+    .q-stale { color: var(--quality-stale-fg); }
+    .q-quarantine { color: var(--quality-quarantine-fg); }
+    .legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-top: 12px; }
+    .legend-item { display: flex; gap: 8px; align-items: center; font-size: 12px; border: 1px solid #ccc; padding: 6px 8px; }
+    .note { font-size: 12px; color: #444; margin-top: 8px; }
+    @media print {
+      .toolbar { display: none; }
+      body { padding: 8px; }
+      body.grayscale .sheet { filter: grayscale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button type="button" id="toggle-gray">Toggle grayscale</button>
+    <button type="button" onclick="window.print()">Print</button>
+    <span class="note">G-DS0-1-01: в grayscale каждая ячейка должна иметь уникальный силуэт.</span>
+  </div>
+  <div class="sheet">
+    <h1>CR-UI-03 / DS0-1 — матрица ламп (severity × quality), lifecycle=active</h1>
+    <p>
+      Ортогональная композиция: база = severity SVG; оверлей = quality SVG; lifecycle — CSS opacity/outline.
+      Q4 mode A: колонки lifecycle помечаются в легенде как «реконструкция».
+    </p>
+    <table id="matrix">
+      <thead>
+        <tr>
+          <th>severity \\ quality</th>
+          <th>good</th>
+          <th>uncertain</th>
+          <th>bad</th>
+          <th>stale</th>
+          <th>quarantine</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <h1>Lifecycle sample (alarm × good)</h1>
+    <table>
+      <thead><tr><th>active</th><th>acked</th><th>cleared</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="lamp sev-alarm" data-lifecycle="active"><img class="base" src="severity-alarm.svg" alt="" /></div></td>
+          <td><div class="lamp sev-alarm" data-lifecycle="acked"><img class="base" src="severity-alarm.svg" alt="" /></div></td>
+          <td><div class="lamp sev-alarm" data-lifecycle="cleared"><img class="base" src="severity-alarm.svg" alt="" /></div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h1>Легенда силуэтов</h1>
+    <div class="legend" id="legend"></div>
+    <p class="note">
+      Печать: включите grayscale → Print → проверьте, что norm≠no-data, quarantine≠norm, acked/cleared приглушены.
+      AC G-DS0-1-01..05 evidence для CREATIVE; G-DS0-1-06 закрывается в s06 (&lt;Lamp /&gt;).
+    </p>
+  </div>
+  <script>
+    const severities = [
+      { id: "norm", file: "severity-norm.svg", cls: "sev-norm" },
+      { id: "warning-drift", file: "severity-warning.svg", cls: "sev-warning" },
+      { id: "alarm", file: "severity-alarm.svg", cls: "sev-alarm" },
+      { id: "protection-shutdown", file: "severity-protection.svg", cls: "sev-protection" },
+      { id: "no-data", file: "severity-no-data.svg", cls: "sev-no-data" },
+      { id: "info", file: "severity-info.svg", cls: "sev-info" },
+    ];
+    const qualities = [
+      { id: "good", file: null, cls: null },
+      { id: "uncertain", file: "overlay-uncertain.svg", cls: "q-uncertain" },
+      { id: "bad", file: "overlay-bad.svg", cls: "q-bad" },
+      { id: "stale", file: "overlay-stale.svg", cls: "q-stale" },
+      { id: "quarantine", file: "overlay-quarantine.svg", cls: "q-quarantine" },
+    ];
+    const tbody = document.querySelector("#matrix tbody");
+    for (const s of severities) {
+      const tr = document.createElement("tr");
+      const th = document.createElement("th");
+      th.textContent = s.id;
+      tr.appendChild(th);
+      for (const q of qualities) {
+        const td = document.createElement("td");
+        const lamp = document.createElement("div");
+        lamp.className = "lamp " + s.cls;
+        lamp.dataset.severity = s.id;
+        lamp.dataset.quality = q.id;
+        lamp.dataset.lifecycle = "active";
+        const base = document.createElement("img");
+        base.className = "base";
+        base.src = s.file;
+        base.alt = "";
+        lamp.appendChild(base);
+        if (q.file) {
+          const ov = document.createElement("img");
+          ov.className = "layer " + q.cls;
+          ov.src = q.file;
+          ov.alt = "";
+          lamp.appendChild(ov);
+        }
+        td.appendChild(lamp);
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+    const legend = document.getElementById("legend");
+    const items = [
+      ["norm", "severity-norm.svg", "sev-norm", "горизонтальная капсула"],
+      ["warning", "severity-warning.svg", "sev-warning", "треугольник outline"],
+      ["alarm", "severity-alarm.svg", "sev-alarm", "ромб solid"],
+      ["protection", "severity-protection.svg", "sev-protection", "двойная рамка"],
+      ["no-data", "severity-no-data.svg", "sev-no-data", "разорванная рамка + точка"],
+      ["info", "severity-info.svg", "sev-info", "круг + i"],
+      ["uncertain", "overlay-uncertain.svg", "q-uncertain", "точечное кольцо"],
+      ["bad", "overlay-bad.svg", "q-bad", "крест/штриховка"],
+      ["stale", "overlay-stale.svg", "q-stale", "пунктирная рамка"],
+      ["quarantine", "overlay-quarantine.svg", "q-quarantine", "диагонали + ?"],
+    ];
+    for (const [id, file, cls, desc] of items) {
+      const el = document.createElement("div");
+      el.className = "legend-item";
+      el.innerHTML = `<div class="lamp ${cls}" style="width:28px;height:28px"><img class="base" src="${file}" alt="" /></div><span><b>${id}</b> — ${desc}</span>`;
+      legend.appendChild(el);
+    }
+    document.getElementById("toggle-gray").onclick = () => {
+      document.body.classList.toggle("grayscale");
+    };
+  </script>
+</body>
+</html>

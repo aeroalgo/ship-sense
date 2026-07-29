@@ -1,0 +1,65 @@
+version: 1
+source_id: aps_main
+tags:
+  - {native_id: '40101', tag_id: TAI4101, type: float32, unit: degC, range: {min: -40, max: 120}, fc: 3}
+  - {native_id: '40103', tag_id: TAI4102, type: float32, unit: degC, range: {min: 0, max: 200}, fc: 3}
+  - {native_id: '40105', tag_id: TAI4103, type: float32, unit: bar, range: {min: 0, max: 25}, fc: 3}
+  - {native_id: '40107', tag_id: TAI4104, type: float32, unit: rpm, range: {min: 0, max: 4000}, fc: 3}
+  - {native_id: '40109', tag_id: TAI4105, type: float32, unit: percent, range: {min: 0, max: 100}, fc: 3}
+  - {native_id: '40111', tag_id: TAI4106, type: float32, unit: mm, range: {min: 0, max: 1000}, fc: 3}
+  - {native_id: '40113', tag_id: TAI4107, type: float32, unit: m3/h, range: {min: 0, max: 500}, fc: 3}
+  - {native_id: '40115', tag_id: TAI4108, type: float32, unit: kPa, range: {min: 0, max: 1000}, fc: 3}
+  - {native_id: '40117', tag_id: TAI4109, type: float32, unit: V, range: {min: 0, max: 500}, fc: 3}
+  - {native_id: '40119', tag_id: TAI4110, type: float32, unit: A, range: {min: 0, max: 1000}, fc: 3}
+  - {native_id: '40201', tag_id: TAI4111, type: int16, unit: count, scale: 1, fc: 3}
+  - {native_id: '40202', tag_id: TAI4112, type: int16, unit: rpm, scale: 1, fc: 3}
+  - {native_id: '40203', tag_id: TAI4113, type: int16, unit: degC, scale: 0.1, fc: 3}
+  - {native_id: '40204', tag_id: TAI4114, type: int16, unit: bar, scale: 0.01, fc: 3}
+  - {native_id: '40205', tag_id: TAI4115, type: int16, unit: percent, scale: 0.1, fc: 3}
+  - {native_id: '40206', tag_id: TAI4116, type: int16, unit: mm, scale: 1, fc: 3}
+  - {native_id: '40207', tag_id: TAI4117, type: int16, unit: count, scale: 1, fc: 3}
+  - {native_id: '40208', tag_id: TAI4118, type: int16, unit: count, scale: 1, fc: 3}
+  - {native_id: '40209', tag_id: TAI4119, type: int16, unit: count, scale: 1, fc: 3}
+  - {native_id: '40210', tag_id: TAI4120, type: int16, unit: count, scale: 1, fc: 3}
+  - {native_id: '40301', tag_id: TAI4121, type: int32, unit: count, fc: 3}
+  - {native_id: '40303', tag_id: TAI4122, type: int32, unit: m, scale: 0.001, fc: 3}
+  - {native_id: '40305', tag_id: TAI4123, type: int32, unit: Wh, fc: 3}
+  - {native_id: '40307', tag_id: TAI4124, type: int32, unit: seconds, fc: 3}
+  - {native_id: '40309', tag_id: TAI4125, type: int32, unit: count, fc: 3}
+  - {native_id: '40311', tag_id: TAI4126, type: int32, unit: count, fc: 3}
+  - {native_id: '40313', tag_id: TAI4127, type: int32, unit: count, fc: 3}
+  - {native_id: '40315', tag_id: TAI4128, type: int32, unit: count, fc: 3}
+  - {native_id: '40401', tag_id: TAI4129, type: uint16, unit: count, fc: 3}
+  - {native_id: '40402', tag_id: TAI4130, type: uint16, unit: count, fc: 3}
+  - {native_id: '40403', tag_id: TAI4131, type: uint16, unit: rpm, fc: 3}
+  - {native_id: '40404', tag_id: TAI4132, type: uint16, unit: percent, fc: 3}
+  - {native_id: '40405', tag_id: TAI4133, type: uint16, unit: count, fc: 3}
+  - {native_id: '40406', tag_id: TAI4134, type: uint16, unit: count, fc: 3}
+  - {native_id: '40407', tag_id: TAI4135, type: uint16, unit: count, fc: 3}
+  - {native_id: '40408', tag_id: TAI4136, type: uint16, unit: count, fc: 3}
+  - {native_id: '40501', tag_id: TAI4137, type: uint32, unit: count, fc: 3}
+  - {native_id: '40503', tag_id: TAI4138, type: uint32, unit: Wh, fc: 3}
+  - {native_id: '40505', tag_id: TAI4139, type: uint32, unit: seconds, fc: 3}
+  - {native_id: '40507', tag_id: TAI4140, type: uint32, unit: count, fc: 3}
+  - {native_id: '40509', tag_id: TAI4141, type: uint32, unit: count, fc: 3}
+  - {native_id: '40511', tag_id: TAI4142, type: uint32, unit: count, fc: 3}
+  - {native_id: '40513', tag_id: TAI4143, type: uint32, unit: count, fc: 3}
+  - {native_id: '40515', tag_id: TAI4144, type: uint32, unit: count, fc: 3}
+  - {native_id: '40200.0', tag_id: XA1200, type: bit, fc: 4}
+  - {native_id: '40200.1', tag_id: XA1201, type: bit, fc: 4}
+  - {native_id: '40200.2', tag_id: XA1202, type: bit, fc: 4}
+  - {native_id: '40200.3', tag_id: XA1203, type: bit, fc: 4}
+  - {native_id: '40200.4', tag_id: XA1204, type: bit, fc: 4}
+  - {native_id: '40200.5', tag_id: XA1205, type: bit, fc: 4}
+  - {native_id: '40200.6', tag_id: XA1206, type: bit, fc: 4}
+  - {native_id: '40200.7', tag_id: XA1207, type: bit, fc: 4}
+  - {native_id: '40201.0', tag_id: XA1208, type: bitfield, fc: 4}
+  - {native_id: '40201.4', tag_id: XA1209, type: bitfield, fc: 4}
+  - {native_id: '40601', tag_id: XSA1001, type: string, unit: text, fc: 4}
+  - {native_id: '40617', tag_id: XSA1002, type: string, unit: text, fc: 4}
+  - {native_id: '40633', tag_id: XSA1003, type: string, unit: text, fc: 4}
+  - {native_id: '40649', tag_id: XSA1004, type: string, unit: text, fc: 4}
+  - {native_id: '40701', tag_id: XSA1005, type: boolean, fc: 2}
+  - {native_id: '40702', tag_id: XSA1006, type: boolean, fc: 2}
+  - {native_id: '40703', tag_id: XSA1007, type: boolean, fc: 2}
+  - {native_id: '40704', tag_id: XSA1008, type: boolean, fc: 2}

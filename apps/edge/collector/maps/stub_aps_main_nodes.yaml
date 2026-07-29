@@ -1,0 +1,11 @@
+version: 1
+source_id: aps_main_opcua
+nodes:
+  - {node_id: 'ns=2;s=AI4101', tag_id: TAI4101, type: float32, unit: degC}
+  - {node_id: 'ns=2;s=AI4102', tag_id: TAI4102, type: float32, unit: degC}
+  - {node_id: 'ns=2;s=AI4103', tag_id: TAI4103, type: float32, unit: bar}
+  - {node_id: 'ns=2;s=AI4104', tag_id: TAI4104, type: float32, unit: rpm}
+  - {node_id: 'ns=2;s=AI4105', tag_id: TAI4105, type: float32, unit: percent}
+  - {node_id: 'ns=2;s=DI1201', tag_id: XA1201, type: boolean}
+  - {node_id: 'ns=2;s=DI1202', tag_id: XA1202, type: boolean}
+  - {node_id: 'ns=2;s=AI4201', tag_id: TAI4121, type: int16, unit: count}

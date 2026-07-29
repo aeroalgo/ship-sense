@@ -1,0 +1,49 @@
+@media print {
+  [data-testid="status-bar"],
+  [data-testid="app-nav"],
+  [data-testid="ws-status"],
+  [data-testid="theme-switcher"],
+  [data-print-hide="true"] {
+    display: none !important;
+  }
+
+  .journal-print-only {
+    display: block !important;
+  }
+
+  .journal-print-only[hidden] {
+    display: block !important;
+  }
+
+  [data-testid="print-layout"] {
+    color: #000 !important;
+    background: #fff !important;
+  }
+
+  [data-testid="event-row"] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    color: #000 !important;
+    background: #fff !important;
+    border-color: #000 !important;
+  }
+
+  [data-testid="event-row"]:nth-child(40n) {
+    break-after: page;
+    page-break-after: always;
+  }
+
+  [data-testid="lamp"] {
+    filter: grayscale(1) contrast(1.2);
+  }
+}
+
+@media screen {
+  .journal-print-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}

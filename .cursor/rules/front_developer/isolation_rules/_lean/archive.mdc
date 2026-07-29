@@ -1,0 +1,18 @@
+---
+description: "FRONT ARCHIVE gates (lean)"
+alwaysApply: false
+---
+# FRONT ARCHIVE NOW — gates
+
+**Артефакт:** `memory-bank/front/archive/archive-[task_id].md`
+
+## Gates
+
+1. Reflection complete
+2. archive-файл
+3. `tasks.md`: ЗАВЕРШЕНА И АРХИВИРОВАНА
+4. FINISH: clear `load_now`
+
+## Abort
+
+- Reflection missing → FRONT REFLECT first

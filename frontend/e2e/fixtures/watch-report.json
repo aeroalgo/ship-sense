@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-07-26T16:00:00Z",
+  "watchkeeper": {
+    "person_id": "ivanov",
+    "name": "Иванов И.И.",
+    "rank": "вахтенный механик"
+  },
+  "period": {
+    "from": "2026-07-26T08:00:00Z",
+    "to": "2026-07-26T16:00:00Z"
+  },
+  "data_quality": {
+    "quarantine_tags": ["unknown_native_40099"],
+    "stale_intervals": [
+      { "from": "2026-07-26T10:00:00Z", "to": "2026-07-26T10:05:00Z" }
+    ],
+    "banner": "Часть периода под сверкой — см. quarantine_tags"
+  },
+  "summary": {
+    "events_count": 4,
+    "alarms_count": 3,
+    "protections_count": 1,
+    "verdict": "Были тревоги по ГЭУ1; защит 1"
+  },
+  "highlights": [],
+  "tags_snapshot": []
+}

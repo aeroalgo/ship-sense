@@ -1,0 +1,35 @@
+---
+description: "Режим FRONT PLAN — детальный план, E2E, design"
+alwaysApply: false
+---
+### Команда: FRONT PLAN
+**Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/plan.mdc
+**Скиллы:**
+- @.agents/skills/grill-me/SKILL.md (только блокеры)
+- @.agents/skills/brainstorming/SKILL.md (L3–4 / размытая — batch)
+- @.agents/skills/frontend-design/SKILL.md
+- @.agents/skills/design-taste-frontend/SKILL.md
+- @.agents/skills/impeccable/SKILL.md
+- @.agents/skills/high-end-visual-design/SKILL.md
+- @.agents/skills/ui-ux-pro-max/SKILL.md
+- @.agents/skills/next-best-practices/SKILL.md
+- @.agents/skills/vercel-react-best-practices/SKILL.md
+- @.agents/skills/frontend-patterns/SKILL.md
+- @.agents/skills/playwright-best-practices/SKILL.md
+
+**Важно:** §0.0 — plan без telegraph / 200-line cap. **Batch:** шаги за один проход.
+
+**Процесс**:
+1. `OK FRONT PLAN - Создаю детальный план` + `SUSPENSION GUARD active — plan output unlimited`
+1a. Прочитай **Gates**
+2. `tasks.md` → level
+3. Skills по UI (design stack + next); skills list в `plan-<task_id>.md`
+4. Содержание по level delta в gates; E2E сценарии в плане; после DECOMPOSE трекер только в `decompose/index.md`
+5. CREATIVE need?
+6. Сохрани `memory-bank/front/plan/plan-<task_id>.md`
+7. `tasks.md` append-only
+7b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)
+8. Next: L2+ → **FRONT DECOMPOSE**; CREATIVE если дизайн; L1 → IMPLEMENT
+
+**Верификация**: gates + AC + E2E в плане + CREATIVE need

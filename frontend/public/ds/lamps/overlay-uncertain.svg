@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+  <title>overlay-quality-uncertain</title>
+  <circle cx="16" cy="3" r="1.6" fill="currentColor"/>
+  <circle cx="25.5" cy="7.5" r="1.6" fill="currentColor"/>
+  <circle cx="29" cy="16" r="1.6" fill="currentColor"/>
+  <circle cx="25.5" cy="24.5" r="1.6" fill="currentColor"/>
+  <circle cx="16" cy="29" r="1.6" fill="currentColor"/>
+  <circle cx="6.5" cy="24.5" r="1.6" fill="currentColor"/>
+  <circle cx="3" cy="16" r="1.6" fill="currentColor"/>
+  <circle cx="6.5" cy="7.5" r="1.6" fill="currentColor"/>
+</svg>

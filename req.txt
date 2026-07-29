@@ -1,0 +1,34 @@
+# ShipSense — Python deps (edge: collector ‖ writer ‖ api)
+# Python >= 3.12
+# Источник: memory-bank/techContext.md + plan-v1-p1-{collector,storage,api}
+
+# --- shared ---
+pydantic>=2.0,<3
+pydantic-settings>=2.0
+PyYAML>=6.0
+structlog>=24.0
+
+# --- api (FastAPI REST + WebSocket) ---
+fastapi>=0.115
+uvicorn[standard]>=0.30
+httpx>=0.27
+websockets>=12.0
+
+# --- storage / writer (PostgreSQL 16 + TimescaleDB) ---
+SQLAlchemy[asyncio]>=2.0,<3
+asyncpg>=0.29
+psycopg2-binary>=2.9
+alembic>=1.13
+psutil>=5.9
+
+# --- collector protocols (B2 / B3) ---
+pymodbus>=3.6
+asyncua>=1.1
+
+# --- metrics (optional health / scrape) ---
+prometheus-client>=0.20
+
+# --- tests / dev ---
+pytest>=8.0
+pytest-asyncio>=0.24
+testcontainers[postgres]>=4.0

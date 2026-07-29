@@ -1,0 +1,17 @@
+---
+description: "INTEG ARCHIVE gates (lean)"
+alwaysApply: false
+---
+# INTEG ARCHIVE NOW — gates
+
+**Артефакт:** `memory-bank/integration/archive/archive-<task_id>.md`
+
+## Gates
+
+1. Reflection exists
+2. archive-файл
+3. FINISH: clear `load_now`; «await INTEG VAN»
+
+## Abort
+
+- No reflection → INTEG REFLECT first

@@ -1,0 +1,11 @@
+{
+  "items": [
+    {
+      "tag_id": "sp_TAI4101_HH",
+      "value": 80.0,
+      "unit": "°C",
+      "label": "HH TAI4101",
+      "effective_from": "2026-01-15T00:00:00Z"
+    }
+  ]
+}

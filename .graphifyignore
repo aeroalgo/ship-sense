@@ -1,0 +1,9 @@
+# graphify exclude rules (gitignore syntax, anchored at scan root)
+# Vendor / artifact dirs — not project code, pollute the graph
+.agents/
+memory-bank/
+_archive/
+.venv/
+node_modules/
+data/
+.claude

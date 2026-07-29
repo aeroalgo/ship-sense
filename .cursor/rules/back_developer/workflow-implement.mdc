@@ -1,0 +1,50 @@
+---
+description: "Режим BACK IMPLEMENT — реализация кода по плану, уровни 1–4, TDD"
+alwaysApply: false
+---
+### Команда: BACK IMPLEMENT
+**Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/implement.mdc
+
+**Скиллы — два слоя (усиление, не замена)**
+
+### A. Выбор по задаче (REQUIRED = применимые пункты)
+
+- @.agents/skills/tdd/SKILL.md — если `tdd: yes` или правка тестов
+- @.agents/skills/python-testing-patterns/SKILL.md — то же
+- @.agents/skills/modern-python/SKILL.md — если Python-код в файлах шага (не чистый docs/README)
+- @.agents/skills/fastapi-templates/SKILL.md (если FastAPI)
+- @.agents/skills/supabase-postgres-best-practices/SKILL.md (если SQL/миграции)
+- @.agents/skills/python-anti-patterns/SKILL.md (если service/deps/endpoints)
+- @.agents/skills/requesting-code-review/SKILL.md (перед FINISH / PR; skip docs-only)
+- @.agents/skills/verification-before-completion/SKILL.md (перед FINISH; skip docs-only)
+
+Docs-only / `tdd: no` без Python: условные пункты A (fastapi/sql/…) — **skip**. Слой B из step — **всегда Read** (parity Cursor/Claude Code). Не обнулять `Impl skills` в decompose ради economy.
+
+### B. Decompose step (усиление — REQUIRED дополнительно)
+
+Прочитай блок **Impl skills** (+ `code_surface`) из `load_now` / decompose `sNN` — **Read каждого пути до кода** (если блок `—` / пуст — B пуст).  
+Union A∪B: путь из step, которого нет в A — тоже Read. Не пропускать **применимые** пункты A, даже если step уже перечислил always. Условные («если FastAPI») — только при true. Economy §3.7: не читать скиллы «на всякий случай».
+
+**FORBIDDEN:** пропуск применимого A («есть step — хватит»); пропуск непустого B («есть workflow — хватит»); слепой Read всего списка A включая false-предикаты. Дублировать полный список в implement-артефакте не обязательно (канон: workflow A + step B).
+
+**Процесс**:
+1. `OK BACK IMPLEMENT - Начинаю реализацию`
+1a. Прочитай **Gates** (файл выше)
+2. Задача из команды и/или `load_now` / decompose step — не ждать отдельного сообщения
+3. `activeContext.md` → `load_now`; ONE task shard; ONE decompose/plan **step** (не index)
+3a. Артефакт: `memory-bank/back/implement/implement-<plan_id>/sNN-<slug>.md` (+ index по `.cursor/templates/implement/`). Legacy flat — только без decompose
+3b. Skills: слой A по задаче + слой B из step — Read, без обязательной копии в артефакт
+3c. **Read A∪B до первого prod-edit** (после TDD red-теста ок)
+4. Level из step (L2 substep → L2). Один step из `load_now`; без multi-step loop
+5. TDD targeted (см. core + gates): red → code → green **только** затронутых тестов через `.venv/bin/pytest` из **корня репо**. Полный suite → **BACK QA**. **FORBIDDEN:** голый `pytest`
+6. Реализация по level delta в gates
+7. Green: пути прогона в step-файле (команда = `.venv/bin/pytest …`)
+8. tasks + decompose index: `done`; implement step = источник истины статуса; `implement/index` = ссылки only (без status); append-only
+8a. Pre-FINISH verify (HARD): в `decompose-*/index.md` текущий `sNN` = `completed`, следующий шаг остаётся `pending`; `activeContext.md` указывает следующий `sNN`; в `implement/index.md` **нет** суффиксов `done` / `completed`
+9. §0.11 integration verification
+10. Pre-FINISH skills (verification + code-review; anti-patterns если service/deps/endpoints)
+11. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`, artifact: step-файл)
+12. → BACK QA (**новый чат**) → REFLECT
+
+**Верификация**: gates + §0.11 + FINISH/Handoff + из корня репо `graphify update .`

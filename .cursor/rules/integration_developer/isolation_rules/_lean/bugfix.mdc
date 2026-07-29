@@ -1,0 +1,22 @@
+---
+description: "INTEG BUGFIX gates — contract drift (lean)"
+alwaysApply: false
+---
+# INTEG BUGFIX — gates
+
+**Артефакт:** `memory-bank/integration/bugfix/bugfix-YYYYMMDD-<slug>.md`
+
+## Gates
+
+1. Classify: BACK / FRONT / CONTRACT drift
+2. TDD failing test before fix
+3. **Scenario:** user-visible symptom (кнопка/Open/flow) → Playwright targeted **или** `.venv/bin/pytest` HTTP outcome assert user result; unit alone insufficient
+4. Root cause — не mock/fallback
+5. bugfix-файл; contract update if keys; scenario path в Handoff
+6. §0.11 re-verify
+
+## Abort
+
+- Symptom-only → reject
+- User-visible fix без scenario test → no FINISH
+- Handoff «manual smoke only» без scenario path → reject

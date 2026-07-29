@@ -1,0 +1,13 @@
+version: 1
+sources:
+  - id: panel_aps
+    protocol: mqtt
+    endpoint: mqtt://mqtt-broker:1883
+    connection:
+      host: mqtt-broker
+      port: 1883
+      unknown_field: true
+    subscribe:
+      topic_prefix: shipsense/panel/aps
+    map: maps/mqtt_panel_aps.yaml
+    options: {}
