@@ -8,17 +8,14 @@ alwaysApply: false
 
 ## Gates
 
-1. Описание бага получено
-2. `load_now` first; core docs — только cross-cutting (§8)
-3. Root cause; no mask/fallback
-4. Regression red → fix → green
-5. **Scenario:** user-visible UI symptom → Playwright targeted **обязателен** (не только Vitest); parent runs
-6. bugfix-файл complete; scenario path в Handoff
-7. §0.11 если applicable
+1. Баг описан; `load_now` first; core — cross-cutting (§8)
+2. Root cause; no mask; regression red → fix → green
+3. **Scenario:** user-visible UI → Playwright targeted обязателен; **parent** runs
+4. Visible UI → Read design stack (6 из workflow-implement) **до** UI edit
+5. bugfix-файл; scenario path; **Источник:** qa §Fix plan
+6. §0.11 если applicable
+7. FINISH → Handoff/повторный `FRONT QA` — `finish-doc-router.md` §BUGFIX FINISH
 
 ## Abort
 
-- Workaround → reject
-- Tests skipped → no FINISH
-- User-visible fix без Playwright scenario → no FINISH
-- Handoff «manual smoke only» без scenario path → reject
+- Workaround · tests skipped · user-visible без Playwright · «manual smoke only» → no FINISH

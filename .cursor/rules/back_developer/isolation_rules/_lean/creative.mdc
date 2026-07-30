@@ -5,7 +5,8 @@ alwaysApply: false
 # CREATIVE — gates
 
 **Артефакт:** `memory-bank/back/creative/creative-[feature_name].md` (все компоненты в одном файле)  
-Batch обязателен. Шаблоны phase-файлов — **нет** (удалены); формат — в `workflow-creative.mdc`.
+Batch обязателен. Шаблоны phase-файлов — **нет** (удалены); формат — в `workflow-creative.mdc`.  
+Brainstorming: только секция **OVERRIDE — CREATIVE** (без one-at-a-time / wait-for-approval).
 
 ## Gates
 

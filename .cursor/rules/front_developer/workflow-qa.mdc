@@ -5,26 +5,13 @@ alwaysApply: false
 ### Команда: FRONT QA
 **Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/qa.mdc
-**Скиллы:**
-- @.agents/skills/playwright-generate-test/SKILL.md (exploratory browser)
-- @.agents/skills/playwright-best-practices/SKILL.md
-- @.agents/skills/web-design-guidelines/SKILL.md
-- @.agents/skills/impeccable/SKILL.md
-- @.agents/skills/emil-design-eng/SKILL.md
-- @.agents/skills/high-end-visual-design/SKILL.md
-- @.agents/skills/ui-ux-pro-max/SKILL.md
-- @.agents/skills/frontend-testing/SKILL.md
-- @.agents/skills/performance-reporter/SKILL.md (по необходимости)
-- @.agents/skills/nextjs-seo-audit/SKILL.md (если SEO в scope)
+**Скиллы:** playwright-generate-test · playwright-best-practices · web-design-guidelines · impeccable · emil-design-eng · high-end-visual-design · ui-ux-pro-max · frontend-testing · performance-reporter · nextjs-seo-audit
 
 **Процесс**:
-1. `OK FRONT QA - Выполняю техническую валидацию`
-1a. Прочитай **Gates**
-1b. Lean load: @.cursor/rules/shared/context-session-economy.mdc §7
-2. Проверки: линт · типы · unit/component suite · UX/a11y · Playwright smoke/full · perf · security — **suite/Playwright только parent**
-2b. **Scenario:** P0/P1 user flows; дыры → дописать Playwright до PASS
-2e. **Exploratory browser** (playwright-generate-test): нужен live dev-server; иначе `skip: no live app`. Критические флоу задачи; ловить console/broken states; новые регрессионные тесты до зелёного; scope-lock; runner — **parent**
-3. `memory-bank/front/qa/qa-YYYYMMDD-<slug>.md` — findings + exploratory + scenario paths
-4. Проблемы → фиксы
-5. `tasks.md` append-only
-5b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no` | `yes` если дописали тесты); FAIL если «manual smoke only»; new chat → REFLECT/IMPLEMENT
+1. `OK FRONT QA - Выполняю техническую валидацию` → **Gates**
+2. Проверки + exploratory browser (live app) — gates; suite/Playwright **parent only**
+3. `memory-bank/front/qa/qa-YYYYMMDD-<slug>.md`
+4. fail|blocked → §Fix plan (`FRONT BUGFIX <subject>`)
+5. **FINISH:** finish-block (`code_changed: no`|`yes` если дописали тесты) + Handoff
+
+**Верификация**: gates + scenario paths + Handoff

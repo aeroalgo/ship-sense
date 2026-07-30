@@ -1,7 +1,7 @@
 # Шаг s16: Compression + retention policy (Alembic 006, after CREATIVE)
 **Plan ID:** v1-p1-storage
 **Next Phase:** BACK CREATIVE
-**needs_creative:** yes (CR-STO-01/02) | **tdd:** no
+**needs_creative:** yes (CR-STO-01/02) — **closed** | **tdd:** no
 **AC:** AC-STO-S16 (из плана §527–538, §973: compress after 7d, segmentby tag_id, orderby ts DESC; retention 1095d soft; add_compression_policy)
 **code_surface:** sql
 

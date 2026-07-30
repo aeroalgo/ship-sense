@@ -5,7 +5,9 @@ alwaysApply: false
 ### Команда: INTEG CREATIVE
 **Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/creative.mdc
-**Скиллы:** @.agents/skills/brainstorming/SKILL.md, @.agents/skills/architecture-patterns/SKILL.md
+**Скиллы:**
+- @.agents/skills/brainstorming/SKILL.md → секция **OVERRIDE — BACK/FRONT/INTEG CREATIVE** (batch; без one-at-a-time / wait-for-approval)
+- @.agents/skills/architecture-patterns/SKILL.md
 
 **Процесс**:
 1. `OK INTEG CREATIVE - Проектирую контракт интеграции`

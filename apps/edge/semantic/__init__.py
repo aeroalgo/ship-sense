@@ -11,6 +11,9 @@ from apps.edge.semantic.models import (
     MechanismNode,
     NativeMap,
     NativeMapMapping,
+    QuarantineEntry,
+    QuarantineKind,
+    QuarantineReport,
     SemanticMetaNode,
     SemanticPack,
     SignalType,
@@ -18,6 +21,7 @@ from apps.edge.semantic.models import (
     TagMeta,
     VesselDef,
 )
+from apps.edge.semantic import quarantine as quarantine  # s15: diff/apply/ack/refresh
 
 __all__ = [
     "AlarmClass",

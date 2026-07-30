@@ -150,6 +150,7 @@ tunnel.log
 # Cursor token economy — не раздувают git_status
 .cursor/hooks-artifacts/
 .claude/settings.local.json
+.claude/runtime/
 _archive/
 # Byte-compiled / optimized / DLL files
 __pycache__/

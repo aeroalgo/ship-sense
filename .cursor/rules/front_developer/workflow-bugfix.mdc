@@ -5,28 +5,13 @@ alwaysApply: false
 ### Команда: FRONT BUGFIX
 **Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/bugfix.mdc
-**Скиллы:**
-- @.agents/skills/tdd/SKILL.md
-- @.agents/skills/playwright-best-practices/SKILL.md
-- @.agents/skills/playwright-generate-test/SKILL.md
-- @.agents/skills/next-best-practices/SKILL.md
-- @.agents/skills/vercel-react-best-practices/SKILL.md
-- @.agents/skills/verification-before-completion/SKILL.md
-- @.agents/skills/requesting-code-review/SKILL.md
-
-**Visible UI fix → DESIGN STACK HARD** (6 из `workflow-implement.mdc`): Read до UI-правки + list в bugfix shard.
+**Скиллы:** tdd · playwright-best-practices · playwright-generate-test · next-best-practices · vercel-react-best-practices · verification-before-completion · requesting-code-review
 
 **Процесс**:
-1. `OK FRONT BUGFIX - [суть]`
-1a. Прочитай **Gates**
-2. `activeContext`, `tasks.md`; skills в `front/bugfix/bugfix-YYYYMMDD-<slug>.md` (+ design stack если UI)
-2b. Visible UI → Read design stack до UI edit
-3–6. Reproduce → root cause (не mask) → regression red → fix → green
-6b. **Scenario:** user-visible UI → Playwright targeted **обязателен** (не только Vitest); **parent** runs
-7. §0.11 если refs; заполни bugfix-файл; scenario path в Handoff
-8. Pre-FINISH skills
-9. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) → FRONT QA (new chat)
-   - FAIL: без scenario; Handoff «manual smoke only»
-   - FAIL: visible UI без design stack
+1. `OK FRONT BUGFIX - [суть]` → **Gates**
+2. **Вход из QA:** §Fix plan → `FRONT BUGFIX <subject>`; visible UI → design stack Read до UI edit
+3. Reproduce → root cause → regression → fix → green; scenario Playwright если user-visible — **parent**
+4. §0.11 · pre-FINISH skills
+5. **FINISH:** finish-block (`code_changed: yes`) → `FRONT QA` — §BUGFIX FINISH
 
-**Верификация**: root cause + TDD + scenario + FINISH + graphify
+**Верификация**: gates + scenario + FINISH + graphify

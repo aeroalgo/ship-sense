@@ -10,23 +10,17 @@ alwaysApply: false
 ## Gates
 
 1. `load_now`: ONE `decompose-*/eNN-*.md` (не index/gap/contracts)
-2. §Contract из шага; `contracts/` не обязателен
-3. Phases A→F = один UI-элемент
-4. QueryBuilder для list/filter
-5. §0.11; mock убран
-6. TDD **targeted** only через `.venv/bin/pytest` из корня → полный suite в QA
-7. **Scenario:** user-visible flow в eNN → Playwright targeted **или** `.venv/bin/pytest` HTTP outcome (не только unit); путь в step/Handoff
-8. Hub index + implement step; hub = ссылки/Gaps only, без status; §Gaps (`нет` | bullets | link)
-9. **FINISH:** @.cursor/rules/shared/finish-block.mdc — step + Handoff **до** decompose completed (5 точек там)
-10. Статус в implement step и decompose index; hub `implement/index` не хранит status
+2. §Contract из шага; пуст → допиши до кода
+3. Phases A→F = один UI-элемент; QueryBuilder для list/filter
+4. §0.11; mock убран из prod path
+5. TDD targeted `.venv/bin/pytest` из корня → полный suite в QA
+6. **Scenario:** user-visible → Playwright **или** `.venv/bin/pytest` HTTP outcome; путь в step
+7. Hub index + step; §Gaps (`нет` | bullets | link)
+8. **FINISH:** finish-block — step + Handoff **до** decompose completed
+8a. **Epic complete:** `finish-doc-router.md` §Handoff epic complete
 
 ## Abort
 
-- Шире одного eNN → split
-- Читать gap вместо step → GAP CLOSE
-- Phase E skipped → no FINISH
-- Mock in prod при live API → fix
-- Flat `implement-<task_id>.md` для нового эпика → abort
-- User-visible без scenario test → no FINISH
-- Handoff «manual smoke only» без scenario path → reject
-- FINISH без step-файла / Handoff / с нарушением порядка → FAIL (см. finish-block)
+- Шире eNN · gap вместо step · Phase E skipped · mock in prod → no FINISH
+- Flat implement для нового эпика · user-visible без scenario · «manual smoke only» → reject
+- FINISH без step/Handoff → FAIL (finish-block)

@@ -213,8 +213,16 @@ def mqtt_broker() -> tuple[str, int]:
     """Start an ephemeral Mosquitto broker for MQTT integration tests."""
     if MosquittoContainer is None or aiomqtt is None:
         pytest.skip("MQTT integration dependencies are not installed")
+    import concurrent.futures
+
     try:
-        broker = MosquittoContainer("eclipse-mosquitto:2").start()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            future = pool.submit(
+                lambda: MosquittoContainer("eclipse-mosquitto:2").start()
+            )
+            broker = future.result(timeout=60)
+    except concurrent.futures.TimeoutError:
+        pytest.fail("MosquittoContainer.start timed out after 60s")
     except Exception as exc:
         pytest.skip(f"Mosquitto container is unavailable: {exc}")
     try:

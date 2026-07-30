@@ -16,7 +16,7 @@ sources:
           hz: 1.0
         - name: discrete
           hz: 1.0
-    tag_map_ref: maps/stub_aps_main.yaml
+    tag_map_ref: maps/stub_aps_main_runtime.yaml
     readonly_profile: true
   - id: aps_main_opcua
     protocol: opcua

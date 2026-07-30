@@ -9,7 +9,7 @@ from typing import Any
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from apps.edge.collector.src.collector.domain.models import Event, TelemetrySample
+from apps.edge.collector.src.collector.domain.models import Event, Quality, TelemetrySample
 from apps.edge.storage.events_repo import EventsRepo
 from apps.edge.storage.samples_repo import SamplesRepo
 
@@ -39,6 +39,7 @@ class WriterService:
         flush_interval_ms: int = 100,
         max_batch_size: int = 5000,
         socket_path: str | None = None,
+        quarantined_tags: Callable[[], frozenset[str]] | None = None,
     ) -> None:
         self.session = session
         self.samples_repo = samples_repo
@@ -46,6 +47,7 @@ class WriterService:
         self.flush_interval = flush_interval_ms / 1000
         self.max_batch_size = max_batch_size
         self.socket_path = socket_path
+        self.quarantined_tags = quarantined_tags
         self._queue: asyncio.Queue[Message] = asyncio.Queue(maxsize=max_batch_size * 2)
         self._stopping = False
         self._server: asyncio.AbstractServer | None = None
@@ -54,6 +56,14 @@ class WriterService:
         messages = _deduplicate(messages)
         samples = [item for item in messages if isinstance(item, TelemetrySample)]
         events = [item for item in messages if isinstance(item, Event)]
+
+        # Dual-path: force quality=4 for quarantined tags (override good/uncertain/stale, not bad)
+        if samples and self.quarantined_tags is not None:
+            qset = self.quarantined_tags()
+            for i, s in enumerate(samples):
+                if s.tag_id in qset and s.quality not in (Quality.BAD, Quality.QUARANTINE):
+                    samples[i] = s.model_copy(update={"quality": Quality.QUARANTINE})
+
         inserted = 0
         if samples:
             inserted += await self.samples_repo.insert_batch(samples)
@@ -67,6 +77,36 @@ class WriterService:
         if self.socket_path is None:
             raise ValueError("socket_path is required")
         self._server = await asyncio.start_unix_server(self._handle_client, self.socket_path)
+        try:
+            await self.writer_loop()
+        finally:
+            await self.shutdown()
+
+    async def start_tcp(self, host: str = "0.0.0.0", port: int = 0) -> tuple[str, int]:
+        """Start TCP server and return the bound (host, port).
+
+        If port=0, OS assigns an ephemeral port. Raises RuntimeError with
+        explicit message if no sockets after start_server (defensive).
+        """
+        self._server = await asyncio.start_server(self._handle_client, host, port)
+        sockets = getattr(self._server, "sockets", None) or []
+        if not sockets:
+            raise RuntimeError("writer TCP server has no sockets")
+        sockname = sockets[0].getsockname()
+        if isinstance(sockname, (list, tuple)) and len(sockname) >= 2:
+            bound_host = str(sockname[0])
+            bound_port = int(sockname[1])
+        else:
+            bound_host = str(sockname)
+            bound_port = 0
+        return bound_host, bound_port
+
+    async def run_tcp(self, host: str = "0.0.0.0", port: int = 9009) -> None:
+        """Run TCP server by delegating to start_tcp + writer_loop + shutdown.
+
+        API and behavior for __main__.py callers unchanged (default port 9009).
+        """
+        await self.start_tcp(host, port)
         try:
             await self.writer_loop()
         finally:

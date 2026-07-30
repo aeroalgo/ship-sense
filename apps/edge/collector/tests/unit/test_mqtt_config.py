@@ -45,4 +45,4 @@ def test_docker_compose_mqtt_maps_dir() -> None:
     
     collector_mqtt = compose_data.get("services", {}).get("collector-mqtt", {})
     env = collector_mqtt.get("environment", {})
-    assert env.get("COLLECTOR_MAPS_DIR") == "/app/config/maps"
+    assert env.get("COLLECTOR_MAPS_DIR") == "/app/maps"

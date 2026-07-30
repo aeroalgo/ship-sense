@@ -4,43 +4,21 @@ alwaysApply: false
 ---
 # FRONT — общий контекст
 
-## ТЕСТИРОВАНИЕ (один раз)
+## ТЕСТИРОВАНИЕ
 
-- **HARD:** frontend-тесты (Vitest/RTL/Playwright) запускает **только parent** — never subagent. Канон: `~/.claude/rules/02-front-tests-parent-only.md` · `.claude/rules/front-tests-parent-only.md` · `.cursor/rules/front-tests-parent-only.mdc`
-- TDD: Vitest/RTL перед UI-кодом (**parent** shell)
-- **IMPLEMENT / TASK:** только targeted unit/component (+ E2E файла шага, если писали). Полный suite / полный Playwright → **FRONT QA**
-- Playwright — видимый UI (IMPLEMENT = targeted; QA = smoke/full)
-- FRONT QA: UX/a11y по изменённым файлам + suite + scenario gaps
-- Spawn: в промпт subagent — строка HARD RULE из `front-tests-parent-only` (запрет запуска тестов)
+- **HARD:** Vitest/RTL/Playwright — **только parent** (never subagent): `.cursor/rules/front-tests-parent-only.mdc`
+- TDD targeted в IMPLEMENT/TASK; полный suite/Playwright → **FRONT QA**
+- **Scenario:** user-visible flow → Playwright targeted до FINISH; QA дописывает дыры. **FORBIDDEN Handoff:** «manual smoke only» без spec path
+- Skill TDD: только `tdd/SKILL.md` из workflow; spawn → HARD RULE строка в промпт subagent
 
-### Scenario tests (user-visible)
+## DESIGN STACK (visible UI)
 
-Симптом «кнопка / flow / Open не работает» → **scenario test** до FINISH в IMPLEMENT/BUGFIX (Playwright targeted; parent runs). Unit alone = FAIL.  
-QA: прогон wired scenarios + дописать дыры.  
-**FORBIDDEN Handoff:** `Next: manual smoke` без пути к spec. Exception: visual-only / `skip:` infra.
-
-Skill TDD: только `@.agents/skills/tdd/SKILL.md` из workflow (не дублировать вторым TDD-skill).  
-Остальные скиллы — только из текущего `workflow-*.mdc`.
-
-## DESIGN STACK (видимый UI) — HARD
-
-**Источник списка:** decompose `sNN` (`**visible_ui:**` + **Design skills**) или, без decompose, канон из `workflow-implement.mdc` / `workflow-decompose.mdc`.
-
-При `FRONT IMPLEMENT` / `FRONT TASK` / `FRONT BUGFIX`, если шаг трогает **видимый UI** (JSX/TSX экрана, shell, DS, theme/print chrome) **или** в step `visible_ui: yes`:
-
-1. **Read** до UI-кода все пути из блока Design skills шага (канон = 6: `frontend-design` · `design-taste-frontend` · `emil-design-eng` · `impeccable` · `high-end-visual-design` · `ui-ux-pro-max`)
-2. **IMPLEMENT:** не дублировать список в implement-артефакте — канон в decompose `sNN`. **TASK / BUGFIX** (без decompose): запиши Read skills в `## Skills` артефакта
-3. **FORBIDDEN:** пропуск «ради economy» / «дизайн уже в CREATIVE» / свой урезанный набор вместо step
-
-`visible_ui: no` / pure lib без JSX (`lib/api`, `lib/ws`, `lib/quality`…) — design stack не грузить.  
-DECOMPOSE обязан проставить `visible_ui` + skills в каждом `sNN`.  
-Детали: `workflow-decompose.mdc` · `workflow-implement.mdc` · `_lean/implement.mdc` gate 8.
+Канон: decompose `visible_ui` + Design skills **или** workflow-implement A + `_lean/implement` gate 6. Read **до** UI-кода. `visible_ui: no` / pure lib — skip. DECOMPOSE обязан проставить `visible_ui` в каждом `sNN`.
 
 ## MEMORY BANK
 
-- `activeContext.md` → **`load_now`** first (§0.5.1 token-economy)
-- Session start: @.cursor/rules/shared/context-session-economy.mdc §3
-- Артефакты: `memory-bank/front/<режим>/` — путь в `_lean/<mode>.mdc`; полная таблица — `memory-bank-paths.mdc` (VAN)
+- `activeContext` → `load_now` first (§0.5.1); session start: context-session-economy §3
+- Артефакты: `memory-bank/front/<режим>/` — путь в `_lean/<mode>.mdc`
 
 ## ПЕРЕХОДЫ
 

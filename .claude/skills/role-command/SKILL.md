@@ -4,6 +4,10 @@
 
 **FRONT + любой frontend:** тесты (vitest/playwright/npm test/e2e) — **только parent**. Subagent spawn → в промпт вставить HARD RULE из `@.claude/rules/front-tests-parent-only.md` / `~/.claude/rules/02-front-tests-parent-only.md`.
 
+**Claude Code:** делегирование через `Agent` как обычно. Overlay `.claude/agents/`: `explorer` · `verify` · `reviewer`.  
+**Hooks spawn-gate:** `.claude/settings.json` + `.claude/hooks/*.py`. FINISH без `@verify` / QA без `@reviewer` / QA без Handoff — Stop hook блокирует.  
+**Spawn HARD:** `.claude/instructions/spawn-hard.md` — для verify/reviewer packed секции + `ALLOW READ` ≤5 (иначе PreToolUse deny).
+
 Parse: `{PREFIX} {MODE}` or `{PREFIX} {MODE} FINISH`.
 
 | Prefix | Role dir | Core (полный путь) | Isolation |
@@ -84,7 +88,7 @@ Fallback на Read/Grep — только после ориентации по г
 | GAP CLOSE | `{role_dir}workflow-gap-close.mdc` |
 
 **ЗАПРЕЩЕНО угадывать:**
-- `workflow-back-bugfix.mdc` / `workflow-front-*.mdc` / `workflow-integ-*.mdc`
+- `workflow-{role}-{mode}.mdc`
 - `workflow-BACK-bugfix.mdc`
 - любой путь с удвоенным префиксом роли в имени файла
 

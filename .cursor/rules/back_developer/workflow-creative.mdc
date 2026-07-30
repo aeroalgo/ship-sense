@@ -7,7 +7,7 @@ alwaysApply: false
 **Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/creative.mdc
 **Скиллы:**
 - @.agents/skills/grill-me/SKILL.md (только блокеры)
-- @.agents/skills/brainstorming/SKILL.md (batch, без HARD-GATE пауз)
+- @.agents/skills/brainstorming/SKILL.md → секция **OVERRIDE — BACK/FRONT/INTEG CREATIVE** (batch; без one-at-a-time / wait-for-approval)
 - @.agents/skills/architecture-patterns/SKILL.md
 - @.agents/skills/improve-codebase-architecture/SKILL.md
 - @.agents/skills/property-based-testing/SKILL.md (алгоритм/инварианты)

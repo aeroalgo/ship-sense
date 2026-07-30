@@ -26,7 +26,7 @@ paths:
 
 - Для **codebase** (`app/`, `api/`, `core/`, `jobs/`, `tests/`, `frontend/`) сначала используй `.venv/bin/graphify query "..."` из корня репо
 - `find` / `grep -R` по **кодовой** части репо без попытки graphify — нежелательны; используй их только как fallback, если graphify не покрывает запрос или явно недоступен
-- Для `memory-bank/`, `.cursor/`, `.claude/`, `.kilo/`, `tasks/log/` и прочих **неиндексируемых / docs-only** зон fallback-поиск через `rg`, `Glob`, `ReadFile` разрешён сразу
+- Для `memory-bank/`, `.cursor/`, `.claude/`, `tasks/log/` и прочих **неиндексируемых / docs-only** зон fallback-поиск через `rg`, `Glob`, `ReadFile` разрешён сразу
 - Предпочтение fallback: `rg` / `Glob` / `ReadFile`; shell `find` и `grep -R` — только если tool-поиск не решает задачу
 
 ## Workflow load (Session once)
@@ -38,11 +38,17 @@ paths:
 
 **FAIL:** повторный Read workflow «для уверенности» / после каждого крупного шага.
 
-## Agent spawn — IMPLEMENT L1–L2
+## Agent spawn — IMPLEMENT
 
-Не spawn Agent если parent уже прочитал decompose **shard** и shard содержит:
-- уровень L1 или L2
-- явные file paths create/edit
-- deps/pyproject известны
+Claude Code делегирует через `Agent` как обычно. Overlay: `@explorer` (поиск) · `@verify` · `@reviewer`.
 
-Parent сам: TDD red → Edit/Write → green `.venv/bin/pytest` **или** один Task/Agent с упакованным prompt (AC + paths + VERIFY). Explorer + worker + reviewer на один L1 s01 = FAIL.
+**Обязательные gate:** перед FINISH при `code_changed: yes` — `@verify`; BACK QA после suite — `@reviewer`. Packed prompt для gate’ов (`.claude/instructions/spawn-hard.md`).
+
+## Bash / logs / pytest (HARD — anti-bloat)
+
+- pytest: `.venv/bin/pytest … -q --tb=line` (или `--tb=short`). **FORBIDDEN** default `-vv -s` на больших suite
+- docker logs: `docker compose logs --tail=80 --no-color SERVICE` + `rg` по нужному. **FORBIDDEN** безлимитный dump / `--since=30m` целиком в контекст
+- Большой вывод: `cmd > /tmp/x.log 2>&1; rg -n PATTERN /tmp/x.log | head`; не Read весь log
+- Hook `bash-output-cap` (hybrid): (1) signal extract с **дедупом** повторов (`[×N same]`, max 12 unique / 4KB) (2) иначе cheap LLM summary (3) иначе head+tail. Полный лог → `.claude/runtime/bash-dumps/*.log`
+- Отключить LLM-шаг: `SHIPSENSE_OUTPUT_SUMMARY=0`
+- Skills BUGFIX: **не** грузить все 6 SKILL.md разом — max 1–2 нужных (systematic-debugging **или** diagnosing-bugs + tdd)

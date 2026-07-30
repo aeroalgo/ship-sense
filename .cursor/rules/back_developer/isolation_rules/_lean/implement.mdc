@@ -4,36 +4,31 @@ alwaysApply: false
 ---
 # IMPLEMENT — gates
 
-**Артефакт:** `memory-bank/back/implement/implement-<plan_id>/sNN-<slug>.md` (+ `index.md`; шаблон `.cursor/templates/implement/`)
+**Артефакт:** `memory-bank/back/implement/implement-<plan_id>/sNN-<slug>.md` (+ `index.md`; `.cursor/templates/implement/`)
 
 ## Gates
 
-1. `activeContext.md` → `load_now` non-empty
-2. ONE task shard + ONE plan/decompose **step file** (не index)
-3. Level из step/plan — L2 substep → L2, не L4 по умолчанию
-4. **Creative hard-stop (любой L):** `needs_creative: yes` без `— **closed**` / без `creative-*.md` ссылки, **или** `Next Phase: * CREATIVE`, **или** index blocker `CR-*` без `✅` → **abort сразу** → сообщить `REJECT IMPLEMENT — нужен BACK CREATIVE <CR-ID>`; **запрещено** код/тесты/`completed`. Нельзя рационализировать («quarantine later», «другой sNN», «scope без CR»).
-5. **Skills A∪B:** слой A (выбор по задаче в `workflow-implement`) + слой B (Impl skills из decompose step) — Read **целиком до** prod-кода (**без** `limit≤300` на `SKILL.md`)
-6. Red: тесты написаны; **targeted** `.venv/bin/pytest` из корня репо падает до кода — не полный suite
-7. §0.11: counterpart для key/env/event/col/route — missing = bug
-8. Green: только новые/затронутые тесты через `.venv/bin/pytest` (cwd=root); полный suite → BACK QA
-9. **FINISH:** @.cursor/rules/shared/finish-block.mdc — step-файл + Handoff **до** decompose `completed` / next `load_now` (5 точек + FAIL там)
+1. `load_now` non-empty; ONE task shard + ONE step file (не index)
+2. Level из step — L2 substep → L2
+3. **Creative hard-stop:** `needs_creative: yes` без closed/`creative-*.md`, или `Next Phase: * CREATIVE`, или `CR-*` без `✅` → **REJECT** (`REJECT IMPLEMENT — нужен BACK CREATIVE <CR-ID>`); не код/`completed`
+4. **Skills A∪B:** Read **целиком** до prod-кода (workflow A + step Impl skills; без `limit≤300`)
+5. Red: targeted `.venv/bin/pytest` из корня до кода — не полный suite
+6. §0.11: missing counterpart = bug
+7. Green: только затронутые; полный suite → BACK QA
+8. **FINISH:** @.cursor/rules/shared/finish-block.mdc — step + Handoff **до** decompose completed (5 точек там)
+8a. **Epic complete:** Handoff/`BACK QA` — `@.cursor/templates/finish-doc-router.md` §Handoff epic complete
 
 ## Level delta
 
 | L | Фокус |
 |---|--------|
-| L1 | targeted fix; minimal diff |
-| L2 | по step; component TDD (targeted) |
-| L3 | phased; creative если flagged |
-| L4 | phased + integration tests между фазами |
+| L1 | targeted fix |
+| L2 | step; component TDD |
+| L3–L4 | phased; creative если flagged |
 
 ## Abort
 
-- Shard/step missing → не код
-- `needs_creative` open / `Next Phase: * CREATIVE` / `CR-*` без closed → **REJECT** (не код, не `completed`)
-- Red skipped → не merge
-- Полный pytest в IMPLEMENT → BACK QA
-- Голый `pytest` (не `.venv/bin/…`, не из корня) → FAIL / перезапуск
-- Слой A или B skills не Read **целиком** → no FINISH
-- service/deps/endpoints без anti-patterns (A и/или B) → no FINISH
-- FINISH без step-файла / Handoff / с нарушением порядка → FAIL (см. finish-block)
+- Shard/step missing · creative open · red skipped → no code/FINISH
+- Полный pytest / голый `pytest` / не из корня → BACK QA или FAIL
+- Skills A∪B не Read · anti-patterns skip на service/deps → no FINISH
+- FINISH без step/Handoff/порядка → FAIL (finish-block)

@@ -6,58 +6,19 @@ alwaysApply: false
 **Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/implement.mdc
 
-**Скиллы — два слоя (усиление, не замена)**
+**Скиллы — A∪B**
 
-### A. Выбор по задаче (как раньше — REQUIRED)
+**A (always + design если visible_ui):** tdd · frontend-testing · playwright-best-practices · next-best-practices · vercel-react-best-practices · vercel-composition-patterns · frontend-patterns · playwright-generate-test · verification-before-completion · requesting-code-review; design stack (6) — если `visible_ui: yes` или JSX под `features/`|`components/`|`app/`. Pure lib / `visible_ui: no` — design skip.
 
-**Always:**
-- @.agents/skills/tdd/SKILL.md
-- @.agents/skills/frontend-testing/SKILL.md
-- @.agents/skills/playwright-best-practices/SKILL.md
-- @.agents/skills/next-best-practices/SKILL.md
-- @.agents/skills/vercel-react-best-practices/SKILL.md
-- @.agents/skills/vercel-composition-patterns/SKILL.md
-- @.agents/skills/frontend-patterns/SKILL.md
-- @.agents/skills/playwright-generate-test/SKILL.md (новый E2E с нуля)
-- @.agents/skills/verification-before-completion/SKILL.md (перед FINISH)
-- @.agents/skills/requesting-code-review/SKILL.md (перед FINISH / PR)
-
-**Design stack — если visible UI** (`visible_ui: yes` в step **или** JSX/theme под `features/`|`components/`|`app/`):
-- @.agents/skills/frontend-design/SKILL.md
-- @.agents/skills/design-taste-frontend/SKILL.md
-- @.agents/skills/emil-design-eng/SKILL.md
-- @.agents/skills/impeccable/SKILL.md
-- @.agents/skills/high-end-visual-design/SKILL.md
-- @.agents/skills/ui-ux-pro-max/SKILL.md
-
-Pure lib / `visible_ui: no` без JSX — design stack в слое A **пропуск**.
-
-### B. Decompose step (усиление — REQUIRED дополнительно)
-
-Прочитай блоки **Impl skills** + **Design skills** (если `visible_ui: yes`) из decompose `sNN` — **Read каждого пути до кода** (Design — до UI).  
-Union A∪B. Не пропускать **применимые** пункты A (always + design если visible_ui), даже если step уже перечислил. Условные / «новый E2E» — только при true. Economy §3.7: не читать скиллы «на всякий случай».
-
-**FORBIDDEN:** пропуск применимого A («есть step — хватит»); пропуск непустого B; свой набор вместо A∪B; слепой Read design stack при `visible_ui: no`.
+**B:** Impl skills + Design skills из decompose `sNN` — Read до кода/UI. Union A∪B; **FORBIDDEN:** пропуск применимого A/B; design Read при `visible_ui: no`.
 
 **Процесс**:
-1. `OK FRONT IMPLEMENT - Начинаю реализацию`
-1a. Прочитай **Gates**
-2. Задача из команды / `load_now` / decompose step
-3. `load_now`; ONE task shard; ONE step (не index)
-3a. Артефакт: `memory-bank/front/implement/implement-<plan_id>/sNN-<slug>.md` (+ index). Legacy flat — только без decompose
-3b. Skills: слой A по задаче + слой B из step — Read, без обязательной копии в артефакт
-3c. **Read A∪B до первого prod-edit**; Design (A и/или B) — **до** первого UI edit (после TDD red ок)
-4. Level из step; один step; без multi-step loop
-5. TDD targeted Vitest/RTL; полный suite/Playwright → **FRONT QA**; запуск тестов — **только parent** (never subagent)
-5b. **Scenario:** user-visible flow в step → Playwright targeted **обязателен**; путь в step/Handoff
-6. Реализация по level delta в gates; UI — **только после** design Read; следование plan/creative + design skills
-7. Green: затронутые unit/component + scenario E2E шага — **parent** shell
-8. Green: затронутые unit/component + scenario E2E шага — **parent** shell
-9. §0.11 если API/env/keys
-10. Pre-FINISH skills
-11. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) — порядок/артефакты **только там**
-    - FAIL: user-visible без scenario; Handoff «manual smoke only»
-    - FAIL: visible UI без Read design (A и/или B)
-12. → FRONT QA (**новый чат**) → REFLECT
+1. `OK FRONT IMPLEMENT - Начинаю реализацию` → **Gates**
+2. `load_now` → ONE step; артефакт `implement-<plan_id>/sNN-<slug>.md`
+3. Read A∪B до prod-edit; Design — до UI-кода
+4. TDD targeted Vitest/RTL; scenario E2E если user-visible — **parent** runs
+5. §0.11 · pre-FINISH skills
+6. **FINISH:** finish-block (`code_changed: yes`); epic complete → §Handoff epic complete
+7. → `FRONT IMPLEMENT sNN+1` **или** epic complete → `FRONT QA` (new chat)
 
 **Верификация**: gates + FINISH/Handoff + graphify

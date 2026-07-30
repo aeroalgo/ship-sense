@@ -5,22 +5,13 @@ alwaysApply: false
 ### Команда: BACK QA
 **Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/qa.mdc
-**Скиллы:**
-- @.agents/skills/verification-before-completion/SKILL.md
-- @.agents/skills/python-testing-patterns/SKILL.md
-- @.agents/skills/owasp-security-check/SKILL.md
-- @.agents/skills/security-auditor-owasp/SKILL.md (по необходимости)
-- @.agents/skills/semgrep/SKILL.md (если настроен)
-- @.agents/skills/mutation-testing/SKILL.md (если mewt/muton)
+**Скиллы:** verification-before-completion · python-testing-patterns · owasp-security-check · security-auditor-owasp · semgrep · mutation-testing — `@.agents/skills/<name>/SKILL.md`
 
 **Процесс**:
-1. `OK BACK QA - Выполняю техническую валидацию`
-1a. Прочитай **Gates** (файл выше)
-1b. Lean load §7: `activeContext` → `load_now` + ONE task/implement shard + `git diff`; **не** plan/decompose/template если AC ясен
-1c. **FORBIDDEN:** spawn explore «найти QA scope» / `kilo_local_recall` прошлых сессий — команды прогона уже в handoff/`load_now`
-2. verification-before-completion
-2a. Проверки: §0.11 · линт · типы · тесты (полный suite здесь: cwd=корень, `.venv/bin/pytest`) · perf · security
-3. `memory-bank/back/qa/qa-YYYYMMDD-<slug>.md` (шаблон `.cursor/templates/review.md` — Read **только** если пишешь новый qa-файл и формат забыт)
-4. Проблемы → предложи фиксы
-5. task shard + index append-only (QA pass/fail + blockers)
-5b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`); pass → new chat REFLECT/IMPLEMENT
+1. `OK BACK QA - Выполняю техническую валидацию` → **Gates**
+2. Lean load §7; verification-before-completion; проверки — gates
+3. `memory-bank/back/qa/qa-YYYYMMDD-<slug>.md` (шаблон `review.md` — Read если формат забыт)
+4. fail|blocked → §Fix plan (конкретные `BACK BUGFIX <subject>`, не общий BUGFIX)
+5. **FINISH:** finish-block (`code_changed: no`) + `## Handoff BACK QA` обязателен
+
+**Верификация**: gates + reviewer + Handoff

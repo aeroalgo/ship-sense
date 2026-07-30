@@ -13,7 +13,7 @@ alwaysApply: false
 - @.agents/skills/high-end-visual-design/SKILL.md
 - @.agents/skills/ui-ux-pro-max/SKILL.md
 - @.agents/skills/grill-me/SKILL.md (только блокеры)
-- @.agents/skills/brainstorming/SKILL.md (batch)
+- @.agents/skills/brainstorming/SKILL.md → секция **OVERRIDE — BACK/FRONT/INTEG CREATIVE** (batch; без one-at-a-time / wait-for-approval)
 - @.agents/skills/frontend-patterns/SKILL.md
 
 **Batch:** все компоненты в одном `creative-*.md`.

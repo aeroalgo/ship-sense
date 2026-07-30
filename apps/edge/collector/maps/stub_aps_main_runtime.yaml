@@ -1,0 +1,6 @@
+version: 1
+source_id: aps_main
+tags:
+  - {native_id: '40101', tag_id: TAI4101, type: float32, unit: degC, range: {min: -40, max: 120}, fc: 3}
+  - {native_id: '40105', tag_id: TAI4103, type: float32, unit: bar, range: {min: 0, max: 25}, fc: 3}
+  - {native_id: '40107', tag_id: TAI4104, type: float32, unit: rpm, range: {min: 0, max: 4000}, fc: 3}

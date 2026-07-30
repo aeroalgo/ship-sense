@@ -281,8 +281,10 @@ def test_diff_native_map_added(tmp_path: Path) -> None:
     assert len(report.added) == 1
     assert report.added[0].kind.value == "added"
     assert "GHOST999" in report.added[0].reason or "native_to_unknown" in report.added[0].reason
-    # engine should have marked it internally
-    assert "GHOST999" in eng._quarantined
+    # unknown tag reported but NOT put into quarantine cache (only real tags get QUARANTINE state)
+    assert "GHOST999" not in eng.quarantined_tags
+    # for unknown tag_id get_tag_state is NO_DATA (not QUARANTINE)
+    assert eng.get_tag_state("GHOST999") == TagDisplayState.NO_DATA
 
 
 def test_diff_native_map_removed_and_changed(tmp_path: Path) -> None:

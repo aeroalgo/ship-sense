@@ -202,8 +202,8 @@ class ModbusTcpConnector(BaseSourceConnector):
                         )
                         if self._on_sample is not None:
                             await self._on_sample(bad)
-            except (ModbusClientError, ModbusTimeoutError) as e:
-                # Вся группа → bad (Modbus PDU атомарен)
+            except (ModbusClientError, ModbusTimeoutError, ModbusException) as e:
+                # Вся группа → bad (Modbus PDU атомарен); ExceptionResponse не crash
                 for nid in group.native_ids:
                     bad = RawSample(
                         source_id=self.source_id,

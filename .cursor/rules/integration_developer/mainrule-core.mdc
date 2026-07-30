@@ -6,73 +6,42 @@ alwaysApply: false
 
 ## ELEMENT-FIRST
 
-Один UI-элемент за сессию IMPLEMENT. Портал: от поиска до CRM.
+Один UI-элемент за сессию IMPLEMENT. `INTEG PLAN` → registry · `DECOMPOSE` → eNN+§Contract · `IMPLEMENT` → BACK+FRONT wire+§0.11 · `QA` → journey E2E.
 
-```
-INTEG PLAN → Element registry
-INTEG DECOMPOSE → eNN + §Contract inline
-INTEG IMPLEMENT → BACK (если нет API) + FRONT wire + §0.11
-INTEG QA → journey E2E / scenario tests, no mock in prod path
-```
-
-**Запрещено:** mock «навсегда» без §Contract; layer-first нарезка (`migration→endpoint→api.ts`); raw SQL / ручные WHERE — только QueryBuilder.
+**Запрещено:** mock forever без §Contract; layer-first нарезка; raw SQL — только QueryBuilder.
 
 ## SCENARIO TESTS
 
-User-visible flow (клик, Open, submit, journey symptom) → **scenario test** обязателен до FINISH в IMPLEMENT/BUGFIX; QA — прогон + дописать дыры.
-
-| Слой | Когда |
-|------|-------|
-| Playwright targeted | UI flow / кнопка / admin path |
-| pytest HTTP outcome | контракт + user-visible результат (напр. GET `file_url` → PDF) |
-| vitest/RTL alone | **недостаточно** для «пользователь нажал X» |
-
-**FORBIDDEN в Handoff:** `Next: manual smoke` без пути к scenario-тесту.  
-**Exception:** visual-only без AC; infra skip с явным `skip:` в qa/bugfix.
+User-visible flow → scenario test до FINISH; QA прогон + дыры. Playwright (UI) · pytest HTTP outcome (контракт) · vitest alone **недостаточно** для «пользователь нажал X». **FORBIDDEN Handoff:** «manual smoke only» без scenario path.
 
 ## pytest runner (HARD)
 
-1. Shell **cwd** = корень репо (где `.venv/` и `pyproject.toml`)
-2. Всегда: `.venv/bin/pytest …` (или `.venv/bin/python -m pytest …`)
-3. **FORBIDDEN:** голый `pytest` / system PATH — в песочнице без activate не работает
-4. Shell `working_directory` = root
+cwd = корень репо; `.venv/bin/pytest …`; **FORBIDDEN** голый `pytest`.
 
 ## QUERY BUILDER
 
-**Skill:** @.agents/skills/query-builder/SKILL.md (lazy `references/*`).
-
-```
-HTTP ?filters=&period=&gt=&page= → PaginateQueryParams → QueryBuilder → crud.get_multi
-```
-
-`relation__column` → join в `mapping_filters`. Числа → `gt`/`lt`, не `filters`.
+`@.agents/skills/query-builder/SKILL.md` — `HTTP ?filters= → PaginateQueryParams → QueryBuilder → crud.get_multi`; `relation__column` → join; числа → `gt`/`lt`.
 
 ## КОНТРАКТ
 
-§Contract в `integration/plan/decompose-*/eNN-*.md`: method+path · request · response · DB.  
-`integration/contracts/` — опционально. Skill TDD: только `tdd/SKILL.md` из workflow.
+§Contract в `decompose-*/eNN-*.md`: method+path · request · response · DB. Skill TDD: только из workflow.
 
 ## BACK / FRONT в одном eNN
 
-- BACK: schema, endpoint, mapping_filters, targeted `.venv/bin/pytest` — если §API today = ❌  
-- FRONT: api client, filter-utils, wire, vitest — убрать mock  
-- Wire: §0.11 endpoint ↔ fetch  
+BACK если §API=❌: schema, endpoint, mapping_filters, targeted pytest. FRONT: api client, filter-utils, wire, vitest, убрать mock. Wire: §0.11 endpoint↔fetch.
 
 ## MEMORY BANK
 
-- `activeContext` → `load_now` first  
-- PLAN: portal-relevant `*/implement/…/index.md` + routes grep  
-- IMPLEMENT: ONE `eNN-*.md`; артефакт → `implement-<plan_id>/eNN-*.md`  
-- Не читать as-built: BACK/FRONT plan/decompose; `gap/` в обычном DECOMPOSE/IMPLEMENT  
+- `activeContext` → `load_now` first
+- PLAN: portal implement + routes grep; IMPLEMENT: ONE `eNN-*.md`
+- Не читать as-built BACK/FRONT plan/decompose; gap — только через GAP CLOSE
 
 ## ПЕРЕХОДЫ
 
 ```
 INTEG IMPLEMENT eNN → (Gaps) INTEG GAP → BACK/FRONT → INTEG GAP CLOSE @implement
-INTEG PLAN → DECOMPOSE eNN → IMPLEMENT eNN+1 → QA → REFLECT → ARCHIVE NOW
+INTEG PLAN → DECOMPOSE → IMPLEMENT eNN+1 → QA → REFLECT → ARCHIVE NOW
 ```
-
-Gap **не вход** в обычный DECOMPOSE/IMPLEMENT (только через CLOSE).
 
 ## ФОРМАТ
 

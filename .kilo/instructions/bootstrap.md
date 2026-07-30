@@ -1,6 +1,6 @@
 # Kilo bootstrap (slim — Cursor / Claude Code vibe)
 
-Не дублируй `AGENTS.md` / `CLAUDE.md` в каждый ход. Канон workflow — файлы ниже + role-command.
+Не дублируй `CLAUDE.md` в каждый ход. Канон workflow — файлы ниже + role-command.
 
 | Тема | Куда |
 |------|------|

@@ -5,24 +5,13 @@ alwaysApply: false
 ### Команда: BACK BUGFIX
 **Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/bugfix.mdc
-**Скиллы:**
-- @.agents/skills/systematic-debugging/SKILL.md
-- @.agents/skills/diagnosing-bugs/SKILL.md
-- @.agents/skills/tdd/SKILL.md
-- @.agents/skills/python-testing-patterns/SKILL.md
-- @.agents/skills/verification-before-completion/SKILL.md
-- @.agents/skills/requesting-code-review/SKILL.md
+**Скиллы:** systematic-debugging · diagnosing-bugs · tdd · python-testing-patterns · verification-before-completion · requesting-code-review
 
 **Процесс**:
-1. `OK BACK BUGFIX - [суть]`
-1a. Прочитай **Gates**
-2. `activeContext`, `tasks.md`; handoff если есть
-2a. Skills в `memory-bank/back/bugfix/bugfix-YYYYMMDD-<slug>.md`
-3–6. systematic-debugging + diagnosing-bugs → target → reproduce → **root cause** (не fallback/mask)
-7. TDD: regression red → fix → green через `.venv/bin/pytest` из корня репо
-8–9. Verify edge cases; §0.11 если refs
-10. Заполни bugfix-файл
-11. Pre-FINISH skills
-12. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`, artifact: `bugfix-*.md`) → BACK QA (new chat)
+1. `OK BACK BUGFIX - [суть]` → **Gates**
+2. **Вход из QA:** qa §Fix plan — одна строка → `BACK BUGFIX <subject>`; skills в `bugfix-YYYYMMDD-<slug>.md`
+3. Reproduce → root cause (не mask) → regression red → fix → green (`.venv/bin/pytest` из корня)
+4. §0.11 если refs · pre-FINISH skills
+5. **FINISH:** finish-block (`code_changed: yes`) → повторный `BACK QA` — `finish-doc-router.md` §BUGFIX FINISH
 
-**Верификация**: root cause + TDD + bugfix-файл + FINISH/Handoff + graphify
+**Верификация**: gates + root cause + FINISH + graphify

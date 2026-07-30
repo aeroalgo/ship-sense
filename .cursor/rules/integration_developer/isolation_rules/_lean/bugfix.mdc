@@ -9,14 +9,12 @@ alwaysApply: false
 ## Gates
 
 1. Classify: BACK / FRONT / CONTRACT drift
-2. TDD failing test before fix
-3. **Scenario:** user-visible symptom (кнопка/Open/flow) → Playwright targeted **или** `.venv/bin/pytest` HTTP outcome assert user result; unit alone insufficient
-4. Root cause — не mock/fallback
-5. bugfix-файл; contract update if keys; scenario path в Handoff
-6. §0.11 re-verify
+2. TDD failing test before fix; root cause — не mock/fallback
+3. **Scenario:** user-visible → Playwright **или** `.venv/bin/pytest` HTTP outcome; unit alone insufficient
+4. bugfix-файл; contract update if keys; **Источник:** qa §Fix plan
+5. §0.11 re-verify
+6. FINISH → Handoff/повторный `INTEG QA` — `finish-doc-router.md` §BUGFIX FINISH
 
 ## Abort
 
-- Symptom-only → reject
-- User-visible fix без scenario test → no FINISH
-- Handoff «manual smoke only» без scenario path → reject
+- Symptom-only · user-visible без scenario · «manual smoke only» → no FINISH

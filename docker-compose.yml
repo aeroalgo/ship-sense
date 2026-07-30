@@ -3,8 +3,8 @@
 # Сервисы:
 #   emulator — I3 industrial test source (Modbus TCP 5020/5021 + OPC UA 4840)
 #   collector — edge telemetry collector (skeleton; runtime wiring-from-config — будущий шаг)
-#   writer — T-002 day-1 stub: drain-only framing server (length-prefixed JSON)
-#   db / api / web — stubs (заглушки под полный edge stack; реальные — T-003/T-004)
+#   writer — storage writer: length-prefixed JSON → TimescaleDB
+#   db / api / web — db is real storage; api/web remain stubs
 #
 # Smoke (s23 чекпоинт):
 #   docker compose up -d emulator writer collector
@@ -48,9 +48,18 @@ services:
 
   writer:
     build:
-      context: apps/edge/writer-stub
-    image: shipsense/writer-stub:dev
+      context: .
+      dockerfile: apps/edge/storage/Dockerfile
+    image: shipsense/writer:dev
     container_name: shipsense-writer
+    entrypoint: ["python", "-m", "apps.edge.storage"]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://shipsense:shipsense@db:5432/shipsense
+      SHIPSSENSE_WRITER_ENDPOINT: "0.0.0.0:9009"
+      SHIPSSENSE_PACK_DIR: /app/ship-pack/makarov
     ports:
       - "9009:9009"   # IPC framing collector → writer (AC-INT-01)
     healthcheck:
@@ -71,9 +80,12 @@ services:
         condition: service_healthy
       writer:
         condition: service_healthy
+      db:
+        condition: service_healthy
     environment:
       # IpcCanonicalSink endpoint: TCP tuple host:port (README §framing).
       SHIPSSENSE_WRITER_ENDPOINT: "writer:9009"
+      SHIPSSENSE_SMOKE_SOURCES: "aps_main"
     volumes:
       # Health snapshot (sources.dev.yaml → /var/lib/shipsense/health)
       - collector-health:/var/lib/shipsense/health
@@ -89,7 +101,7 @@ services:
     stop_grace_period: 10s   # drain + disconnect (AC-HLT-05)
     restart: unless-stopped
 
-  # --- Stubs: полный edge stack появится в T-003 (api) / T-004 (web). ---
+  # --- Storage database; api/web remain placeholders until T-003/T-004. ---
   db:
     image: timescale/timescaledb:2.14.2-pg16
     container_name: shipsense-db
@@ -107,7 +119,6 @@ services:
       interval: 5s
       timeout: 3s
       retries: 6
-    profiles: ["storage-dev", "full"]   # поднимается в dev-окружении бэкенда или с полным стеком
 
   api:
     image: nginx:alpine   # placeholder до T-003 FastAPI service
@@ -149,7 +160,7 @@ services:
         condition: service_healthy
     environment:
       COLLECTOR_SOURCES_PATH: /app/config/sources.mqtt-dev.yaml
-      COLLECTOR_MAPS_DIR: /app/config/maps
+      COLLECTOR_MAPS_DIR: /app/maps
       MQTT_BROKER_HOST: "${MQTT_BROKER_HOST:-mosquitto}"
       MQTT_BROKER_PORT: "${MQTT_BROKER_PORT:-1883}"
       MQTT_USER: "${MQTT_USER:-}"

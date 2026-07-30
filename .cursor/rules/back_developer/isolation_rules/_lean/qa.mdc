@@ -4,23 +4,19 @@ alwaysApply: false
 ---
 # QA — gates
 
-**Артефакт:** `memory-bank/back/qa/qa-YYYYMMDD-<slug>.md` (шаблон `.cursor/templates/review.md`)
+**Артефакт:** `memory-bank/back/qa/qa-YYYYMMDD-<slug>.md` (`.cursor/templates/review.md`)
 
 ## Gates
 
-1. Lean load §7: `activeContext` + ONE task/implement shard + diff; plan shard — только если AC неясен
-2. **Parent сам** гоняет suite / smoke из handoff — **не** spawn explore «найти QA scope» при ясном `load_now`
-3. verification-before-completion
-4. §0.11 integration verification на изменённых refs
-5. Линт · типы · **полный** suite: из корня `.venv/bin/pytest` (не голый `pytest`; не targeted IMPLEMENT)
-6. Security spot-check (OWASP / semgrep если настроен)
-7. qa-артефакт + tasks append-only (pass/fail + blockers)
-8. FINISH → finish-block (`code_changed: no`); pass → new chat REFLECT / следующий IMPLEMENT
+1. Lean load §7: `load_now` + ONE shard + diff; plan — только если AC неясен; parent гоняет suite — не spawn explore
+2. verification-before-completion · §0.11 · линт · типы · **полный** `.venv/bin/pytest` из корня
+3. После suite → **1× reviewer** обязателен (`Suite results` · `AC+` · `AC−` · `§0.11` · `ALLOW READ` ≤5). Claude Code: `Agent`→`reviewer` (`spawn-hard.md`); Kilo: `task`→`reviewer`
+4. Security spot-check (OWASP/semgrep если настроен)
+5. qa-артефакт + tasks append-only
+5a. **fail|blocked:** `review.md` (§Fix plan, §Epic QA) + Handoff — `finish-doc-router.md`
+6. FINISH: finish-block (`code_changed: no`); pass → REFLECT/IMPLEMENT
 
 ## Abort
 
-- PASS при failing suite → reject
-- Голый `pytest` / не из корня репо → FAIL / перезапуск через `.venv/bin/pytest`
-- Plan / весь decompose / template «на всякий» при ясном AC → нарушает lean §7
-- Explore/task при известном scope из `load_now` → FAIL vibe (раздувание)
-- Subagent запускает frontend-тесты → FAIL (N/A для BACK; всё равно parent-only)
+- PASS при failing suite · голый `pytest` · explore при ясном scope → reject/FAIL
+- BACK QA без reviewer после suite → FAIL

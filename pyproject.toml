@@ -24,12 +24,20 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
+pythonpath = [
+    ".",
+    "apps/edge/collector/src",
+    "apps/edge/emulator/src",
+]
 testpaths = [
     "apps/edge/collector/tests",
     "apps/edge/emulator/tests",
+    "tests/storage",
+    "tests/pipeline",
 ]
 markers = [
     "integration: requires external broker or emulator",
     "slow: long-running soak or endurance test",
+    "load: throughput and endurance harness",
 ]
 asyncio_mode = "strict"

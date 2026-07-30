@@ -1,4 +1,4 @@
-# Kilo workflow gate (Cursor / Claude Code / Codex parity)
+# Kilo workflow gate (Cursor / Claude Code parity)
 
 Ты работаешь в **Kilo Code** на репозитории ship-sense. Канон workflow тот же, что у Cursor и Claude Code.
 
@@ -99,11 +99,11 @@ Tool result уже в контексте = источник истины. Re-rea
 
 **Бюджет ≤8 tool calls** (типично):
 
-0. **`task`→`verify`** — если `code_changed: yes` и verify ещё не гоняли в этой сессии (packed AC + VERIFY). FAIL → не FINISH, чини.
+0. **`task`→`verify`** — если `code_changed: yes` и verify ещё не гоняли (packed **AC+ · AC− · §0.11 · VERIFY с именами тестов**). FAIL → не FINISH; чини **только blockers** из отчёта, не второй полный verify до фикса.
 1. Следуй **порядку** @.cursor/rules/shared/finish-block.mdc (step-файл → Handoff → delivery log → **потом** decompose/`load_now`)
 2. `.venv/bin/graphify update .` — **только** если `code_changed: yes`
 
-Канон: `finish-block.mdc` + `finish-doc-router.mdc` + шаблон `finish-doc-router.md` — Read **только если** ещё не читал в этой сессии; иначе действуй по уже известному чеклисту.
+Канон FINISH: `finish-block.mdc` = порядок/FAIL, `finish-doc-router.mdc` = by-command routing, `finish-doc-router.md` = fill-in шаблон. Read **только если** ещё не читал в этой сессии; иначе действуй по уже известному чеклисту.
 
 После правок — сразу краткий ответ на русском. Без повторного cat activeContext.
 
@@ -121,10 +121,10 @@ Kilo-напоминание: `decompose`=`completed` / next `load_now` **без*
 |-------|-----------|
 | `memory-bank/...` | `Memory-bank/...`, `MEMORY-BANK/...` |
 | `.cursor/rules/back_developer/isolation_rules/_lean/qa.mdc` | `.cursor/rules/back_developer/_lean/qa.mdc` (угадывание без `isolation_rules`) |
-| `.cursor/rules/back_developer/workflow-bugfix.mdc` | `workflow-back-bugfix.mdc` (удвоенный префикс роли) |
+| `.cursor/rules/back_developer/workflow-bugfix.mdc` | `workflow-{role}-{mode}.mdc` (удвоенный префикс роли) |
 | путь из строки **Gates** в `workflow-*.mdc` | склеивать `{role_dir}+_lean` самому |
 
-Шаблон workflow: `workflow-{mode}.mdc` где mode = `bugfix`|`implement`|`qa`|… — **не** `workflow-back-{mode}`.
+Шаблон workflow: `workflow-{mode}.mdc` где mode = `bugfix`|`implement`|`qa`|… — **не** `workflow-{role}-{mode}`.
 
 Перед Read: если сомневаешься — `Glob` / `ls`, не выдумывай регистр и сегменты пути.
 
@@ -134,7 +134,7 @@ Kilo-напоминание: `decompose`=`completed` / next `load_now` **без*
 
 Делегирование: tool **`task`** у primary (`code`/`luna`/…). См. `.kilo/instructions/spawn-hard.md`.
 
-**Parent packs context:** workflow/skills Read — **только parent**. В task prompt worker/reviewer — AC, paths, verify-команды из shard.
+**Parent packs context:** workflow/skills Read — **только parent**. В task prompt: worker — AC+/paths/VERIFY; **verify** — AC+ · AC− · §0.11 · VERIFY (имена тестов) — см. spawn-hard.
 
 ### FORBIDDEN subagent (любой child)
 
@@ -152,13 +152,21 @@ Kilo-напоминание: `decompose`=`completed` / next `load_now` **без*
 
 **Parent сам:** red test → код → green targeted `.venv/bin/pytest`.  
 **Storage / service (s08–s11 и аналоги):** parent сам, без worker/test-writer/explore.  
-**Перед FINISH** (`code_changed: yes`): **`task`→`verify`** с packed AC + VERIFY — **обязательно**.
+**Перед FINISH** (`code_changed: yes`): **`task`→`verify`** с **AC+ · AC− · §0.11 · VERIFY** — **обязательно**.
+
+### BACK QA: parent suite + reviewer (HARD)
+
+1. Parent сам: lean load + `.venv/bin/pytest` / compose / §0.11 draft  
+2. **После suite** → **`task`→`reviewer`** с packed Suite results · AC+ · AC− · §0.11 · ALLOW ≤5 — **обязательно**  
+3. Reviewer → blockers в `qa-*.md`; FINISH QA без reviewer = **FAIL**  
+4. **Не** spawn explore при ясном `load_now`
 
 **Explore только если:** «где в коде X» неизвестно · shard без file paths · cross-package цикл импорта.  
 **bugfix 1×** только если pytest FAIL 2× или >3 файлов.
 
 **FAIL parent:** explore + worker + reviewer на один L1–L2 sNN — раздувание.  
 **FAIL parent:** worker×2+ на один AC; FINISH без verify.  
+**FAIL parent:** BACK QA без `reviewer` после suite.  
 **FAIL parent:** Read `plan-*.md` целиком на IMPLEMENT; re-read «для уверенности»; prompt worker «реализуй по shard» без AC.  
 Канон метрик: `.kilo/metrics/spawn-baseline-2026-07-29.md`.
 
@@ -170,7 +178,7 @@ Kilo-напоминание: `decompose`=`completed` / next `load_now` **без*
 | `refactor` | flash-low | surgical multi-file refactor |
 | `bugfix` | flash-high | root-cause: reproduce → fix → prove |
 | `verify` | flash-high | pre-FINISH AC↔VERIFY (read-only) |
-| `reviewer` | flash-high | review, QA prep |
+| `reviewer` | flash-high | BACK QA после suite (mandatory) / review |
 
 `explore`/`general` — встроенные имена Kilo. `explorer`/`worker` — алиасы.
 `test-writer` / `refactor` / `bugfix` / `verify` — task-specific system prompts.

@@ -17,7 +17,9 @@
 
 @.claude/rules/language.md
 
-**Cursor, Claude Code, Codex и Kilo — один workflow.** Канон: `.cursor/rules/` + `memory-bank/`. Kilo: `kilo.jsonc` + `.kilo/agent/` + `.kilo/instructions/{bootstrap,workflow-gate,spawn-hard}.md` + OmniRoute в `~/.config/kilo/kilo.jsonc` (см. `AGENTS.md`).
+**Cursor, Claude Code и Kilo — один workflow.** Канон: `.cursor/rules/` + `memory-bank/`.  
+Claude Code: `.claude/agents/` + `.claude/instructions/spawn-hard.md` + `.claude/hooks/` + `.claude/settings.json`.  
+Kilo: `kilo.jsonc` + `.kilo/agent/` + `.kilo/instructions/{bootstrap,workflow-gate,spawn-hard}.md` + OmniRoute в `~/.config/kilo/kilo.jsonc`.
 
 Token economy: @.cursor/rules/token-economy-core.mdc — для PLAN / architecture смотри **только §0.0 + §0.0.1**; §§0.2/0.5 **не применять** к `plan-*.md` / `architecture/**`.
 
@@ -60,7 +62,7 @@ Token economy: @.cursor/rules/token-economy-core.mdc — для PLAN / architect
 - **TodoWrite ≤2** за сессию (старт + FINISH); не обновлять на каждый шаг
 - **Re-read запрещён** для файла, уже прочитанного / отредактированного в этой сессии
 - Для codebase сначала **`.venv/bin/graphify query`**; для `memory-bank` / `.cursor` / `.claude` / `.kilo` разрешён fallback через `rg` / `Glob` / `ReadFile`
-- **IMPLEMENT L1–L2 без spawn** если shard + paths уже известны parent'у
+- Claude Code делегирует через `Agent` как обычно. Overlay: `@explorer` · `@verify` · `@reviewer`; перед FINISH при code_changed — **`@verify`**; BACK QA — **`@reviewer`** (`.claude/instructions/spawn-hard.md`)
 
 ## Stack (кратко)
 

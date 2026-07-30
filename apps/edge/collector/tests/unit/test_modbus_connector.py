@@ -272,6 +272,34 @@ async def test_poll_group_error_yields_bad_quality(connector: ModbusTcpConnector
 
 
 @pytest.mark.asyncio
+async def test_poll_group_modbus_exception_yields_bad_quality_without_crash_log(
+    connector: ModbusTcpConnector,
+    mock_client: MagicMock,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """ExceptionResponse/ModbusException → bad quality, не poll group crashed (AC-B2-08)."""
+    from pymodbus.exceptions import ModbusException
+
+    mock_client.read_holding.side_effect = ModbusException(
+        "modbus exception: ExceptionResponse(dev_id=1, function_code=131, exception_code=2)"
+    )
+
+    received: list[RawSample] = []
+
+    async def on_sample(s: RawSample) -> None:
+        received.append(s)
+
+    with caplog.at_level("ERROR", logger="collector.plugins.modbus.connector"):
+        sub = await connector.subscribe(["40101", "40103"], on_sample)
+        await asyncio.sleep(0.05)
+        await sub.cancel()
+
+    bad = [s for s in received if s.native_quality and s.native_quality.startswith("modbus.exception")]
+    assert len(bad) >= 1
+    assert not any("poll group" in r.message and "crashed" in r.message for r in caplog.records)
+
+
+@pytest.mark.asyncio
 async def test_diag_mode_logs_raw_and_decoded(
     connector: ModbusTcpConnector, mock_client: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:

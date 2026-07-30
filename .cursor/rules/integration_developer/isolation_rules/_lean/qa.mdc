@@ -9,13 +9,11 @@ alwaysApply: false
 ## Gates
 
 1. Lean load §7: ONE eNN §Contract + implement + diff
-2. §0.11 + INTEG-CHECKLIST
-3. Tests: `.venv/bin/pytest` из корня + vitest + **scenario** (Playwright smoke / wired journeys); **FORBIDDEN** голый `pytest`
-4. Missing scenario for P0/P1 user-visible flow → **write** before PASS (parent runs FRONT tests)
-5. Contract drift = FAIL
-6. Handoff: no «manual smoke only» if scenario path exists or was required
+2. §0.11 + INTEG-CHECKLIST; contract drift = FAIL
+3. Tests: `.venv/bin/pytest` из корня + vitest + scenario (Playwright); FRONT runners **parent only**
+4. P0/P1 user-visible без scenario → **write** before PASS
+5. **fail|blocked:** `review.md` + Handoff — `finish-doc-router.md`
 
 ## Abort
 
-- PASS без scenario на user-visible AC → reject
-- Subagent runs vitest/playwright → FAIL (parent only)
+- PASS без scenario · subagent runs vitest/playwright · голый `pytest` → reject/FAIL

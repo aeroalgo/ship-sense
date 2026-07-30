@@ -5,23 +5,13 @@ alwaysApply: false
 ### Команда: INTEG QA
 **Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/qa.mdc
-**Скиллы:**
-- @.agents/skills/query-builder/SKILL.md — INTEG-CHECKLIST
-- @.agents/skills/verification-before-completion/SKILL.md
-- @.agents/skills/frontend-testing/SKILL.md
-- @.agents/skills/python-testing-patterns/SKILL.md
-- @.agents/skills/playwright-best-practices/SKILL.md
-- @.agents/skills/playwright-generate-test/SKILL.md
+**Скиллы:** query-builder · verification-before-completion · frontend-testing · python-testing-patterns · playwright-best-practices · playwright-generate-test
 
 **Процесс**:
-1. `OK INTEG QA - Верификация интеграции`
-1a. Прочитай **Gates**
-1b. Lean load: context-session §7 — ONE `eNN` §Contract + implement refs + diff
-2. Load §Contract + §0.11 + query-builder/references/INTEG-CHECKLIST.md
-3. §0.11: endpoint↔fetch · filter keys · no raw SQL · mapping keys
-4. Tests: targeted/suite `.venv/bin/pytest` (cwd=корень репо) + vitest + **scenario** (Playwright smoke / wired journeys) — FRONT runners **parent only**; **FORBIDDEN** голый `pytest`
-4b. P0/P1 user-visible без scenario → **дописать** до PASS
-5. Contract drift = FAIL
-6. `memory-bank/integration/qa/qa-YYYYMMDD-<slug>.md` — scenario paths + gaps closed
-7. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no` | `yes` если дописали тесты)
-8. PASS → REFLECT (new chat); FAIL → BUGFIX
+1. `OK INTEG QA - Верификация интеграции` → **Gates**
+2. §Contract + §0.11 + INTEG-CHECKLIST; tests — gates (`.venv/bin/pytest` из корня)
+3. `memory-bank/integration/qa/qa-YYYYMMDD-<slug>.md`
+4. fail|blocked → §Fix plan (`INTEG|BACK|FRONT BUGFIX <subject>`)
+5. **FINISH:** finish-block (`code_changed: no`|`yes` если дописали тесты) + Handoff
+
+**Верификация**: gates + contract + scenario + Handoff

@@ -10,7 +10,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Iterable
 
 from apps.edge.semantic.loader import load_pack
 from apps.edge.semantic.models import (
@@ -24,6 +24,7 @@ from apps.edge.semantic.models import (
     TagDisplayState,
     TagMeta,
 )
+from . import quarantine as _qmod
 
 
 def _default_now() -> datetime:
@@ -207,63 +208,25 @@ class SemanticEngine:
     # ------------------------------------------------------------------ #
 
     def diff_native_map(self, new_map: NativeMap) -> QuarantineReport:
-        if self._approved_native is None:
-            # no approved yet -> everything added
-            added = [
-                QuarantineEntry(
-                    tag_id=m.tag_id,
-                    native_id=m.native_id,
-                    reason=f"native_unmapped:{m.native_id}",
-                    kind=QuarantineKind.ADDED,
-                )
-                for m in new_map.mappings
-            ]
-            for e in added:
-                if e.tag_id in self._tags or True:  # even unknown
-                    self._quarantined.add(e.tag_id)
-            return QuarantineReport(added=added)
-
-        approved_map = {m.native_id: m.tag_id for m in self._approved_native.mappings}
-        new_map_dict = {m.native_id: m.tag_id for m in new_map.mappings}
-
-        added: list[QuarantineEntry] = []
-        removed: list[QuarantineEntry] = []
-        changed: list[QuarantineEntry] = []
-
-        # added or changed
-        for nid, tag in new_map_dict.items():
-            if nid not in approved_map:
-                reason = (
-                    f"native_to_unknown_tag:{nid}:{tag}"
-                    if tag not in self._tags
-                    else f"native_unmapped:{nid}"
-                )
-                e = QuarantineEntry(tag_id=tag, native_id=nid, reason=reason, kind=QuarantineKind.ADDED)
-                added.append(e)
-                self._quarantined.add(tag)
-            elif approved_map[nid] != tag:
-                old = approved_map[nid]
-                e = QuarantineEntry(
-                    tag_id=tag,
-                    native_id=nid,
-                    reason=f"native_remap:{nid}:{old}:{tag}",
-                    kind=QuarantineKind.CHANGED,
-                )
-                changed.append(e)
-                # quarantine the new tag mapping
-                self._quarantined.add(tag)
-
-        # removed
-        for nid, tag in approved_map.items():
-            if nid not in new_map_dict:
-                e = QuarantineEntry(tag_id=tag, native_id=nid, reason=f"native_removed:{nid}", kind=QuarantineKind.REMOVED)
-                removed.append(e)
-                # removal does not auto-quarantine the tag (it may become no_data later)
-
-        return QuarantineReport(added=added, removed=removed, changed=changed)
+        """Delegate to pure diff (s15). Update local unacked cache for added/changed (real tags only)."""
+        known = set(self._tags.keys())
+        report = _qmod.diff_native_map(self._approved_native, new_map, known_tags=known)
+        for e in list(report.added) + list(report.changed):
+            if e.tag_id in self._tags:
+                self._quarantined.add(e.tag_id)
+        # removed: do not auto-quarantine; may become no_data later
+        return report
 
     def acknowledge_quarantine(self, tag_id: str) -> None:
+        """Local cache only. Persist + reload via quarantine.acknowledge(session) + refresh."""
         self._quarantined.discard(tag_id)
+
+    def refresh_quarantine_from(self, tag_ids: Iterable[str]) -> None:
+        """Replace local unacked cache from persisted source (called after apply/ack)."""
+        self._quarantined.clear()
+        for tid in tag_ids:
+            if tid in self._tags:
+                self._quarantined.add(tid)
 
     # ------------------------------------------------------------------ #
     # Introspection for tests / s15

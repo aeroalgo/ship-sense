@@ -1,16 +1,50 @@
 ---
 name: brainstorming
-description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation. Under BACK/FRONT/INTEG CREATIVE: batch override — no one-at-a-time questions, no wait-for-approval pauses."
 ---
 
 # Brainstorming Ideas Into Designs
 
 Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
 
+## OVERRIDE — BACK / FRONT / INTEG CREATIVE (HARD)
+
+**Trigger:** user command contains `BACK CREATIVE`, `FRONT CREATIVE`, or `INTEG CREATIVE` (any CR-ID / batch).
+
+When this override is active, **this entire skill's dialogue/pause rules are SUSPENDED**. Follow the role `workflow-creative.mdc` instead.
+
+### FORBIDDEN under CREATIVE override
+
+- One question per message / ask clarifying questions one at a time
+- Wait for user reply between sections
+- «Present design → get approval after each section»
+- Visual Companion as its own message / wait for consent
+- User Review Gate / «please review the spec before we continue»
+- Checklist items 2, 3, 5 (approval-after-section), 8, 9 (writing-plans)
+- Path `docs/superpowers/specs/…` and auto-commit
+- Stopping mid-batch to ask «looks good?» / «which option?»
+
+### REQUIRED under CREATIVE override
+
+1. Role command **is** approval to design and write the artifact (no extra OK).
+2. **Batch one pass:** explore context → all components → 2+ options each → pick recommendation → write **one** `memory-bank/<role>/creative/creative-*.md` → rewire dependents → FINISH (`finish-block.mdc`).
+3. Defaults already in plan/decompose → use them; do not re-interview.
+4. Blocking ambiguity only → `grill-me` (rare); otherwise decide and document.
+5. After FINISH: next phase from workflow (usually `* IMPLEMENT`), **not** writing-plans skill.
+6. Chat to user: brief summary after artifact is written — do **not** pause before writing.
+
+**FAIL:** stopped after one clarifying question; waited for approval before writing `creative-*.md`; finished without rewire of `needs_creative` dependents.
+
+---
+
+## Default mode (NOT role CREATIVE)
+
+Use the sections below only when **not** under BACK/FRONT/INTEG CREATIVE.
+
 Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design and get user approval.
 
 <HARD-GATE>
-Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity.
+Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity. **Does NOT apply under CREATIVE override above** — writing `memory-bank/**/creative/*.md` + rewire is the CREATIVE deliverable, not «implementation».
 </HARD-GATE>
 
 ## Anti-Pattern: "This Is Too Simple To Need A Design"
@@ -19,7 +53,9 @@ Every project goes through this process. A todo list, a single-function utility,
 
 ## Checklist
 
-You MUST create a task for each of these items and complete them in order:
+**Under CREATIVE override:** skip this checklist; use workflow-creative batch (explore → options → write `creative-*.md` → rewire → FINISH).
+
+You MUST create a task for each of these items and complete them in order (**default mode only**):
 
 1. **Explore project context** — check files, docs, recent commits
 2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
@@ -137,11 +173,13 @@ Wait for the user's response. If they request changes, make them and re-run the 
 
 ## Key Principles
 
-- **One question at a time** - Don't overwhelm with multiple questions
+**Under CREATIVE override:** batch, decide, write artifact — ignore «one question» / «incremental validation» below.
+
+- **One question at a time** - Don't overwhelm with multiple questions (**default mode only**)
 - **Multiple choice preferred** - Easier to answer than open-ended when possible
 - **YAGNI ruthlessly** - Remove unnecessary features from all designs
 - **Explore alternatives** - Always propose 2-3 approaches before settling
-- **Incremental validation** - Present design, get approval before moving on
+- **Incremental validation** - Present design, get approval before moving on (**default mode only**)
 - **Be flexible** - Go back and clarify when something doesn't make sense
 
 ## Visual Companion

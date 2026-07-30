@@ -28,4 +28,9 @@
 | **s15** | [s15-quarantine-diff.md](../../plan/decompose-v1-p1-storage/s15-quarantine-diff.md) | [s15-quarantine-diff.md](s15-quarantine-diff.md) |
 | **s16** | [s16-compression-policy.md](../../plan/decompose-v1-p1-storage/s16-compression-policy.md) | [s16-compression-policy.md](s16-compression-policy.md) |
 | **s17** | [s17-integration-t001.md](../../plan/decompose-v1-p1-storage/s17-integration-t001.md) | [s17-integration-t001.md](s17-integration-t001.md) |
-| **s18** | [s18-tests-storage.md](../../plan/decompose-v1-p1-storage/s18-tests-storage.md) | [s18-tests-storage.md](s18-tests-storage.md) |
+| **s18** | [s18-tests-storage.md](../../plan/decompose-v1-p1-storage/s18-tests-storage.md) | [s18-tests-storage.md](s18-tests-storage.md) — QA blocked (QA-1..QA-5) |
+
+## QA
+
+- [QA report](../../qa/qa-20260729-v1-p1-storage.md) — **blocked**: storage suite 63 passed, но полный suite/package imports и live compose acceptance не подтверждены.
+- [QA report 2026-07-30](../../qa/qa-20260730-v1-p1-storage.md) — **blocked**: storage 65 passed, backend без slow 394 passed, live DB/Compose state подтверждены; slow/full suite не завершён, runtime logs содержат ошибки, lint/types/security tools отсутствуют.

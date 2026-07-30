@@ -7,8 +7,9 @@ alwaysApply: false
 **Единая точка FINISH для BACK / FRONT / INTEG** (и остальных ролей).  
 Workflow `* IMPLEMENT` **не** дублирует чеклист — только ссылается сюда.
 
-Checklist + Handoff fill-in: @.cursor/templates/finish-doc-router.md  
-Процедура (By command / graphify / Forbidden): @.cursor/rules/shared/finish-doc-router.mdc
+Entry point FINISH: сначала этот файл.  
+Handoff fill-in: @.cursor/templates/finish-doc-router.md  
+By-command routing / graphify: @.cursor/rules/shared/finish-doc-router.mdc
 
 ## Порядок (обязательно)
 
@@ -18,9 +19,10 @@ Checklist + Handoff fill-in: @.cursor/templates/finish-doc-router.md
    Секции: Реализация (или Сделано/Файлы) · Верификация/Тесты · Статус=`completed`. Без навигации / без `## Handoff` внутри step.  
    **До** `decompose`=`completed` и **до** смены `load_now`
 3. **## Handoff** в `activeContext.md` only — шаблон §Handoff. **ЗАПРЕЩЕНО** `## Handoff` в implement step. Handoff **этого** `sNN|eNN` обязателен
+3a. **Epic complete** (все шаги `decompose-*/index.md` = `completed`): Handoff **обязан** содержать блок **Epic QA** — `BACK|FRONT|INTEG QA <plan_id>` + предмет + scope + suite. Следующий режим = QA эпики (не REFLECT)
 4. **Delivery log:** append `tasks/log/YYYY-MM.md` + §Последние события в `tasks.md`
-5. **Status sync (только после 2–4):** `decompose-*/index.md` текущий → `completed`; next остаётся `pending`; `load_now` → следующий step-файл; `implement/index` — ссылки only, **без** status suffix
-6. **doc-router:** @.cursor/rules/shared/finish-doc-router.mdc + шаблон
+5. **Status sync (только после 2–4):** `decompose-*/index.md` текущий → `completed`; next остаётся `pending`; `load_now` → следующий step-файл **или** при epic complete → qa-artifact / implement index эпики; `implement/index` — ссылки only, **без** status suffix
+6. **doc-router:** применить by-command routing из `finish-doc-router.mdc` + шаблон
 7. **graphify** — если `code_changed: yes`: cwd = корень репо → `.venv/bin/graphify update .` (см. @.cursor/rules/graphify.mdc)
 8. **new chat:** @.cursor/rules/shared/context-session-economy.mdc §2; текст — шаблон §«Сообщение пользователю»
 
@@ -32,7 +34,7 @@ Checklist + Handoff fill-in: @.cursor/templates/finish-doc-router.md
 2. В `activeContext.md` есть `## Handoff …` **этого** шага (не только flipped `load_now`)
 3. В `decompose-*/index.md` текущий шаг = `completed`
 4. Следующий в decompose = `pending`
-5. `load_now` указывает на следующий step; `implement/index.md` без `done`/`completed`/status suffix
+5. `load_now` указывает на следующий step **или** при epic complete — на qa-scope эпики (`implement-<plan_id>/index.md` + plan AC); `implement/index.md` без `done`/`completed`/status suffix
 
 ## FAIL
 
@@ -40,6 +42,9 @@ Checklist + Handoff fill-in: @.cursor/templates/finish-doc-router.md
 - Нет `## Handoff` текущего шага → **не** FINISH
 - `decompose`=`completed` / `load_now`=next **раньше** step-файла + Handoff → **FAIL**; дописать артефакты, затем sync
 - Объявить шаг завершённым только по коду/тестам без step-файла → **FAIL**
+- Epic complete без рекомендации `* QA <plan_id>` в Handoff → **FAIL**
+- QA `fail`/`blocked` без §Fix plan в qa-артефакте → **FAIL**
+- QA blocked без конкретной команды `* BUGFIX <subject>` в Handoff → **FAIL**
 
 ## Missing artifact / «где implement файл?» (anti-loop)
 

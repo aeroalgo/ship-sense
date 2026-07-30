@@ -5,21 +5,13 @@ alwaysApply: false
 ### Команда: INTEG BUGFIX
 **Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/bugfix.mdc
-**Скиллы:**
-- @.agents/skills/query-builder/SKILL.md
-- @.agents/skills/diagnosing-bugs/SKILL.md
-- @.agents/skills/systematic-debugging/SKILL.md
-- @.agents/skills/tdd/SKILL.md
-- @.agents/skills/playwright-best-practices/SKILL.md
-- @.agents/skills/playwright-generate-test/SKILL.md
-- @.agents/skills/frontend-testing/SKILL.md
+**Скиллы:** query-builder · diagnosing-bugs · systematic-debugging · tdd · playwright-best-practices · playwright-generate-test · frontend-testing
 
 **Процесс**:
-1. `OK INTEG BUGFIX - Ищу причину рассинхрона`
-1a. Прочитай **Gates**
-2. Classify BACK / FRONT / CONTRACT
-3. TDD failing test → fix root cause (не mock)
-3b. **Scenario:** user-visible symptom → Playwright targeted **или** `.venv/bin/pytest` HTTP outcome (cwd=корень); unit alone = FAIL; FRONT tests — **parent only**
-4. `integration/bugfix/bugfix-YYYYMMDD-<slug>.md`; contract update if keys; scenario path в Handoff
-5. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) → QA (new chat)
-   - FAIL если Handoff = «manual smoke only» без scenario path
+1. `OK INTEG BUGFIX - Ищу причину рассинхрона` → **Gates**
+2. **Вход из QA:** §Fix plan → `INTEG|BACK|FRONT BUGFIX <subject>` по владельцу
+3. TDD failing test → root cause → fix; scenario если user-visible — **parent** runs FRONT tests
+4. `integration/bugfix/bugfix-*.md`; contract update if keys
+5. **FINISH:** finish-block (`code_changed: yes`) → `INTEG QA` — §BUGFIX FINISH
+
+**Верификация**: gates + scenario + FINISH + graphify

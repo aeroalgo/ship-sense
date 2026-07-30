@@ -38,7 +38,7 @@ def _register_builtins(maps_dir: Path) -> None:
     def modbus_factory(config: SourceConfig) -> SourceConnector:
         if not config.tag_map_ref:
             raise ConfigError(f"source {config.id} has no tag_map_ref")
-        tag_map = load_tag_map(maps_dir / config.tag_map_ref)
+        tag_map = load_tag_map(_resolve_map_path(config, maps_dir))
         host, port = parse_modbus_endpoint(config.endpoint)
         from collector.plugins.modbus.client import AsyncModbusClient
 
@@ -52,7 +52,7 @@ def _register_builtins(maps_dir: Path) -> None:
         ref = _map_ref(config)
         if ref is None:
             raise ConfigError(f"source {config.id} has no OPC UA node map")
-        tag_map = load_tag_map(maps_dir / ref)
+        tag_map = load_tag_map(_resolve_map_path(config, maps_dir))
         return OpcUaConnector(config, tag_map=tag_map)
 
     def mqtt_factory(config: SourceConfig) -> SourceConnector:
@@ -176,7 +176,7 @@ def build_runtime(
 
     from collector.app import build_collector_app
 
-    normalizer = build_normalizer(tag_map, maps_dir.parent)
+    normalizer = build_normalizer(tag_map, sources_path.parent)
     app = build_collector_app(
         raw_queue=raw_queue,
         sink=build_sink(writer_endpoint),

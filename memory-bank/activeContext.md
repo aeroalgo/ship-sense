@@ -1,66 +1,59 @@
 ## load_now
-1. `memory-bank/back/plan/decompose-v1-p1-storage/s15-quarantine-diff.md` — next shard BACK IMPLEMENT s15 (parallel to s14)
+1. `memory-bank/back/plan/decompose-v1-p1-pipeline-db-e2e/s06-l1-modbus-pipeline-samples.md` — следующий шаг после s05
 
-## Handoff BACK IMPLEMENT s14
-- **Предыдущий:** BACK IMPLEMENT s13-semantic-engine
-- **Следующий:** BACK IMPLEMENT s15-quarantine-diff (parallel s14 done)
-- **Кратко:** создан production-ready ship-pack/makarov: vessel.yaml, assets.yaml (полная иерархия NDO/GDU), tag_map.yaml (ровно 586 KKS с representative + сгенерированными), native_map_stub.yaml (approved=true, 25 synthetic MODBUS/OPC/SKT), timezone.yaml (Asia/Vladivostok + rules). Полностью валиден под loader s12: 586 unique, tree coverage 100%, count_expected совпадает, checksum deterministic. Без creative (needs_creative: no).
-- **Верификация:** `PYTHONPATH=. .venv/bin/python -c 'from apps.edge.semantic.loader import load_pack; p=load_pack("ship-pack/makarov"); assert len(p.tags)==586 and p.native_map.approved'` — SUCCESS. task→verify PASS.
+## Handoff BACK IMPLEMENT T-002 s03
+
+- **Предыдущий:** [s02-timescale-testcontainer-fixture.md](memory-bank/back/implement/implement-v1-p1-pipeline-db-e2e/s02-timescale-testcontainer-fixture.md) — done
+- **Следующий:** [s04-l1-mqtt-pipeline-samples.md](memory-bank/back/plan/decompose-v1-p1-pipeline-db-e2e/s04-l1-mqtt-pipeline-samples.md)
+- **Кратко:** L0 IPC framed → DB rows без моков repos. `tests/pipeline/test_writer_ipc_db.py`: `test_ipc_sample_persists_to_samples` (AC-PIPE-01) и `test_ipc_event_persists_to_events` (AC-PIPE-02) — оба PASSED. `IpcCanonicalSink` → `WriterService.start_tcp` + `writer_loop` + `flush_batches` → `samples`/`events` с COUNT≥1, value≈, quality=0. Poll bounded loop с AssertionError на timeout. TDD red→green. Фиксы: `pytest_asyncio.fixture()`, `pg_isready` poll вместо `wait_for_logs`, `PYTHONPATH` + `.venv/bin/alembic` для subprocess alembic, `with_kwargs(shm_size="512m")`, `tests/conftest.py` explicit `pytest_plugins=["pytest_asyncio"]`. code_changed=yes.
+- **Артефакт:** memory-bank/back/implement/implement-v1-p1-pipeline-db-e2e/s03-l0-writer-ipc-db.md
+- **Верификация:** `.venv/bin/pytest tests/pipeline/test_writer_ipc_db.py -m "integration and slow" -q` → 2 passed. AC-PIPE-01/02 green; нет AsyncMock на insert_batch; compose/runtime entrypoint и публичный API writer не затронуты.
 - **code_changed:** yes
+- **graphify:** требуется из корня репо: `.venv/bin/graphify update .` (после FINISH)
+- **New chat:** yes (context economy, epic mode — один шаг за сессию)
 
-## Handoff BACK IMPLEMENT s13
-- **Предыдущий:** BACK IMPLEMENT s12-semantic-loader
-- **Следующий:** BACK IMPLEMENT s14-ship-pack-makarov (parallel s15)
-- **Кратко:** реализован SemanticEngine: in-memory дерево + индексы из loader, aggregate_status (worst-of), get_tag_state (precedence CR-STO-03: stop>quarantine>no_data>stale>normal), diff_native_map → QuarantineReport + acknowledge. TDD 13 targeted тестов + loader regression. 27 passed.
-- **Верификация:** `PYTHONPATH=. .venv/bin/pytest tests/storage/test_semantic_engine.py tests/storage/test_semantic_loader.py -q --tb=line` — 27 passed. task→verify PASS.
-- **code_changed:** yes
+## Handoff BACK QA T-002 v1-p1-storage (re-QA PASS)
+- **Предыдущий:** BACK BUGFIX T-002 qa-storage-runtime — [bugfix-20260730](../bugfix/bugfix-20260730-qa-storage-runtime.md) — completed
+- **Следующий:** `BACK IMPLEMENT` — s01-writer-start-tcp из decompose-v1-p1-pipeline-db-e2e
+- **Кратко:** re-QA после bugfix → VERDICT: PASS. Storage suite 67 passed; full suite 400 passed (EXIT:0); runtime logs clean (ModbusException=0); live DB data flowing (>200k samples, >4k events); все AC+/AC−/§0.11 подтверждены; reviewer: Agent→reviewer.
+- **Артефакт:** `memory-bank/back/qa/qa-20260730-v1-p1-storage-reqa.md`
+- **Верификация:** targeted + full pytest 400 passed; compose services healthy; DB tables/counts verified; runtime logs без ModbusException
+- **code_changed:** no (re-QA, без новых правок)
+- **New chat:** yes (context economy)
 
-## Handoff BACK IMPLEMENT s12
-
-- **Предыдущий:** BACK CREATIVE CR-STO-03
-- **Следующий:** BACK IMPLEMENT s13-semantic-engine
-- **Кратко:** реализован semantic loader: Pydantic v2 модели (`models.py`: VesselPack/AssetNode tree/TagMeta/NativeMap, enums SignalType/AlarmClass/AssetNodeKind) и `loader.py` с `load_pack()` + fail-fast валидацией (unique keys YAML, duplicate tag, orphan, source ref, count_expected ±0, native_map orphan=warning) и deterministic sha256 checksum. UniqueKeyLoader ловит дубли ключей YAML с line number.
-- **Верификация:** `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/test_semantic_loader.py -q` — 14 passed; regression `tests/storage/` — 33 passed.
-- **code_changed:** yes
-
-## Handoff BACK CREATIVE CR-STO-03
-
-- **Предыдущий:** BACK IMPLEMENT s11-health-snapshots
-- **Следующий:** BACK IMPLEMENT s12-semantic-loader
-- **Кратко:** закрыт CR-STO-03 в batch creative (6 компонентов): SampleQuality enum (4=quarantine), TagDisplayState machine (normal/quarantine/no_data/stale/stop), AggregateStatus worst-of, QuarantineReport (added/removed/changed + reason vocabulary), full-reconcile tag_quarantine + acknowledge, dual-path writer quality=4. Rewired s12/s13/s15 + decompose index.
-- **Артефакт:** [creative-cr-sto-03-quarantine-ux.md](memory-bank/back/creative/creative-cr-sto-03-quarantine-ux.md)
-- **code_changed:** no
-
-## Handoff BACK IMPLEMENT s08
-
-- **Предыдущий:** BACK IMPLEMENT s07-events-repo
-- **Следующий:** BACK IMPLEMENT s09-writer-service
-- **Кратко:** реализован `TimeAxisService`: official timestamp, clock shift detection и FK-safe идемпотентная запись event/log.
-- **Верификация:** `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/test_time_axis.py -k "time_axis or clock_shift"` — 5 passed.
-- **code_changed:** yes
-
-## Handoff BACK IMPLEMENT s11
-
-- **Предыдущий:** BACK IMPLEMENT s10-quota-manager
-- **Следующий:** BACK IMPLEMENT s12-semantic-loader
-- **Кратко:** реализован `HealthSnapshotService`: периодический loop, psutil/pg metrics, queue depth, disk alert, persistence и structured log.
-- **Верификация:** `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/test_health_snapshot.py -q` — 2 passed.
+## Handoff BACK BUGFIX T-002 qa-storage-runtime
+- **Предыдущий:** BACK QA storage — [qa-20260730](memory-bank/back/qa/qa-20260730-v1-p1-storage.md) — blocked
+- **Следующий:** `BACK QA` — повторный QA storage/full suite после BUGFIX
+- **Кратко:** ModbusException → bad quality + runtime map ⊆ emulator; compression `if_not_exists`; mqtt_broker start timeout 60s. Full suite 400 passed ~79s; live collector logs без ModbusException.
+- **Артефакт:** `memory-bank/back/bugfix/bugfix-20260730-qa-storage-runtime.md`
+- **Верификация:** targeted + full pytest 400 passed; compose collector rebuild healthy
 - **code_changed:** yes
 - **New chat:** yes
 
-## Handoff BACK IMPLEMENT s09
+## Handoff BACK IMPLEMENT T-002 s04
 
-- **Предыдущий:** BACK IMPLEMENT s09-writer-service
-- **Следующий:** BACK IMPLEMENT s10-quota-manager
-- **Кратко:** реализован `WriterService`: Unix IPC length-prefix listener, bounded queue, batch flush по таймеру/размеру, dedup sample/event и PostgreSQL NOTIFY после flush.
-- **Верификация:** `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/test_writer_batch.py -q` — 2 passed.
+- **Предыдущий:** [s03-l0-writer-ipc-db.md](memory-bank/back/implement/implement-v1-p1-pipeline-db-e2e/s03-l0-writer-ipc-db.md) — done
+- **Следующий:** [s05-l1-mqtt-lifecycle-events.md](memory-bank/back/plan/decompose-v1-p1-pipeline-db-e2e/s05-l1-mqtt-lifecycle-events.md)
+- **Кратко:** L1 MQTT: publisher → mosquitto (testcontainers) → collector stack (MqttConnector+Normalizer+SourceSupervisor+IpcCanonicalSink) → writer → `samples.tag_id='TAI4101'` COUNT≥1, value≈82.5. `tests/pipeline/test_mqtt_pipeline_db.py`: `test_mqtt_emulator_persists_analog_to_db` (AC-PIPE-03) — PASSED. TDD red→green. Fix: TagMapEntry conversion (MqttChannelMapEntry → native_id/tag_id/datatype/unit) вместо передачи entry напрямую (AttributeError range_min). Poll bounded loop + AssertionError на timeout. Не мокать repos. code_changed=yes.
+- **Артефакт:** memory-bank/back/implement/implement-v1-p1-pipeline-db-e2e/s04-l1-mqtt-pipeline-samples.md
+- **Верификация:** `.venv/bin/pytest tests/pipeline/test_mqtt_pipeline_db.py::test_mqtt_emulator_persists_analog_to_db -q` → 1 passed. AC-PIPE-03 green; compose/runtime entrypoint и публичный API не затронуты.
 - **code_changed:** yes
-- **New chat:** yes
+- **graphify:** требуется из корня реpo: `.venv/bin/graphify update .` (после FINISH)
+- **New chat:** yes (context economy, epic mode — один шаг за сессию)
 
-## Handoff BACK IMPLEMENT s10
+## Handoff BACK IMPLEMENT T-002 s05
 
-- **Предыдущий:** BACK IMPLEMENT s10-quota-manager
-- **Следующий:** BACK IMPLEMENT s11-health-snapshots
-- **Кратко:** реализован `QuotaManager`: disk/Postgres usage, alert на 80%, samples-only chunk degradation, degrade log и watermark update.
-- **Верификация:** `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/test_quota_degrade.py -q` — 2 passed.
+- **Предыдущий:** [s04-l1-mqtt-pipeline-samples.md](memory-bank/back/plan/decompose-v1-p1-pipeline-db-e2e/s04-l1-mqtt-pipeline-samples.md) — done
+- **Следующий:** [s06-l1-modbus-pipeline-samples.md](memory-bank/back/plan/decompose-v1-p1-pipeline-db-e2e/s06-l1-modbus-pipeline-samples.md)
+- **Кратко:** AC-PIPE-04 зелёный. L1 MQTT lifecycle (exceeded) → `events` с `event_name='aps.threshold.exceeded'`, COUNT≥1. TDD red→green. `MqttConnector(on_event=sink.write_event)` + `IpcCanonicalSink` + `WriterService` → DB. Poll bounded. s04 регрессия зелёная. code_changed=yes.
+- **Артефакт:** `memory-bank/back/implement/implement-v1-p1-pipeline-db-e2e/s05-l1-mqtt-lifecycle-events.md`
+- **Верификация:** `.venv/bin/pytest tests/pipeline/test_mqtt_pipeline_db.py -q` → оба теста PASSED. AC-PIPE-04 green; compose/runtime entrypoint и публичный API writer не затронуты.
 - **code_changed:** yes
+- **graphify:** требуется из корня реpo: `.venv/bin/graphify update .` (после FINISH)
+- **New chat:** yes (context economy, epic mode — один шаг за сессию)
+
+## done — do NOT load
+- `memory-bank/back/bugfix/bugfix-20260729-package-path-compose-runtime.md`
+- `memory-bank/back/qa/qa-20260729-v1-p1-storage.md`
+- `memory-bank/back/implement/implement-v1-p1-storage/` — s01–s18 done
+- `memory-bank/back/plan/decompose-v1-p1-pipeline-db-e2e/` — Handoff DECOMPOSE снят; s01–s04 done, s05 ждёт IMPLEMENT
