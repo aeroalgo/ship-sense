@@ -16,7 +16,7 @@ from pathlib import Path
 import pytest
 from sqlalchemy import text
 
-from apps.edge.collector.src.collector.domain.models import Quality
+from app.telemetry.models import Quality
 from apps.edge.collector.src.collector.sink.ipc_sink import IpcCanonicalSink
 from apps.edge.storage.writer import WriterService
 
@@ -36,7 +36,7 @@ POLL_INTERVAL_S = 0.1
 
 def _passthrough_normalize(sample):
     """Minimal passthrough to match writer_ipc_db pattern (B4 normalization later)."""
-    from apps.edge.collector.src.collector.domain.models import TelemetrySample
+    from app.telemetry.models import TelemetrySample
 
     return TelemetrySample(
         tag_id=sample.native_id,

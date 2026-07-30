@@ -4,17 +4,10 @@ import pytest
 from pydantic import ValidationError
 
 from collector.domain.errors import ConfigError, ConnectError
-from collector.domain.models import (
-    CollectorHealthSnapshot,
-    Event,
-    EventSeverity,
-    HealthStatus,
-    Quality,
-    RawSample,
-    RawTagDescriptor,
-    SourceState,
-    TelemetrySample,
-)
+from collector.domain.health_models import CollectorHealthSnapshot, HealthStatus, SourceState
+from app.events.models import Event, EventSeverity
+from app.telemetry.models import Quality, TelemetrySample
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 
 
 UTC_NOW = datetime(2026, 7, 26, 12, 0, tzinfo=timezone.utc)

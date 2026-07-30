@@ -8,7 +8,7 @@ import pytest
 
 from collector.app import CollectorApp
 from collector.config.models import SourceConfig
-from collector.domain.models import RawSample
+from collector.domain.raw_models import RawSample
 from collector.health.aggregator import HealthAggregator
 from collector.health.snapshot_writer import SnapshotWriter
 from collector.runtime.endpoints import parse_writer_endpoint
@@ -37,7 +37,7 @@ class _Supervisor:
         return None
 
     async def healthcheck(self):
-        from collector.domain.models import HealthStatus, SourceState
+        from collector.domain.health_models import HealthStatus, SourceState
 
         return HealthStatus(source_id=self._source_id, state=SourceState.UP)
 

@@ -18,7 +18,8 @@ By-command routing / graphify: @.cursor/rules/shared/finish-doc-router.mdc
    `memory-bank/{back|front|integration}/implement/implement-<plan>/sNN|eNN-<slug>.md`  
    Секции: Реализация (или Сделано/Файлы) · Верификация/Тесты · Статус=`completed`. Без навигации / без `## Handoff` внутри step.  
    **До** `decompose`=`completed` и **до** смены `load_now`
-3. **## Handoff** в `activeContext.md` only — шаблон §Handoff. **ЗАПРЕЩЕНО** `## Handoff` в implement step. Handoff **этого** `sNN|eNN` обязателен
+3. **## Handoff** в `activeContext.md` only — шаблон §Handoff. **ЗАПРЕЩЕНО** `## Handoff` в implement step. Handoff **этого** `sNN|eNN` обязателен  
+   **ONE Handoff (HARD):** в `activeContext.md` ровно **один** блок `## Handoff …`. FINISH = **полная перезапись** этого блока (replace), не append/prepend второго. Старые Handoff → в `tasks/log/` / step/qa/bugfix артефакты, **не** копилка в activeContext. Структура файла: `## load_now` → **один** `## Handoff …` → `## done — do NOT load` (опционально прочие секции без второго Handoff).
 3a. **Epic complete** (все шаги `decompose-*/index.md` = `completed`): Handoff **обязан** содержать блок **Epic QA** — `BACK|FRONT|INTEG QA <plan_id>` + предмет + scope + suite. Следующий режим = QA эпики (не REFLECT)
 4. **Delivery log:** append `tasks/log/YYYY-MM.md` + §Последние события в `tasks.md`
 5. **Status sync (только после 2–4):** `decompose-*/index.md` текущий → `completed`; next остаётся `pending`; `load_now` → следующий step-файл **или** при epic complete → qa-artifact / implement index эпики; `implement/index` — ссылки only, **без** status suffix
@@ -31,7 +32,7 @@ By-command routing / graphify: @.cursor/rules/shared/finish-doc-router.mdc
 Все обязательны:
 
 1. Step-файл `implement-*/sNN|eNN-*.md` **существует**, не stub (есть Реализация + Верификация + Статус)
-2. В `activeContext.md` есть `## Handoff …` **этого** шага (не только flipped `load_now`)
+2. В `activeContext.md` есть **ровно один** `## Handoff …` **этого** шага (не только flipped `load_now`; не стопка старых)
 3. В `decompose-*/index.md` текущий шаг = `completed`
 4. Следующий в decompose = `pending`
 5. `load_now` указывает на следующий step **или** при epic complete — на qa-scope эпики (`implement-<plan_id>/index.md` + plan AC); `implement/index.md` без `done`/`completed`/status suffix
@@ -40,6 +41,7 @@ By-command routing / graphify: @.cursor/rules/shared/finish-doc-router.mdc
 
 - Нет step-файла (или stub) → **не** FINISH
 - Нет `## Handoff` текущего шага → **не** FINISH
+- В `activeContext.md` **≥2** заголовка `## Handoff` → **FAIL** (схлопнуть до одного текущего; append запрещён)
 - `decompose`=`completed` / `load_now`=next **раньше** step-файла + Handoff → **FAIL**; дописать артефакты, затем sync
 - Объявить шаг завершённым только по коду/тестам без step-файла → **FAIL**
 - Epic complete без рекомендации `* QA <plan_id>` в Handoff → **FAIL**

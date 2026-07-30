@@ -8,8 +8,8 @@ alwaysApply: false
 **Скиллы:** systematic-debugging · diagnosing-bugs · tdd · python-testing-patterns · verification-before-completion · requesting-code-review
 
 **Процесс**:
-1. `OK BACK BUGFIX - [суть]` → **Gates**
-2. **Вход из QA:** qa §Fix plan — одна строка → `BACK BUGFIX <subject>`; skills в `bugfix-YYYYMMDD-<slug>.md`
+1. `OK BACK BUGFIX - [суть]` → **Gates** + @.cursor/rules/shared/epic-scoped-paths.mdc
+2. **Вход из QA:** qa §Fix plan — одна строка → `BACK BUGFIX <subject>`; skills в `bugfix-YYYYMMDD-<slug>.md` под `bugfix/<epic_id>/` если эпик, иначе плоско в `bugfix/`
 3. Reproduce → root cause (не mask) → regression red → fix → green (`.venv/bin/pytest` из корня)
 4. §0.11 если refs · pre-FINISH skills
 5. **FINISH:** finish-block (`code_changed: yes`) → повторный `BACK QA` — `finish-doc-router.md` §BUGFIX FINISH

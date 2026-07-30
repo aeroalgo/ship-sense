@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from collector.domain.models import CollectorHealthSnapshot, HealthStatus
+from collector.domain.health_models import CollectorHealthSnapshot, HealthStatus
 from collector.health.metrics import Metrics
 
 

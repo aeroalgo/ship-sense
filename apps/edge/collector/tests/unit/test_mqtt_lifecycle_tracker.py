@@ -2,7 +2,8 @@ from datetime import datetime, timezone
 
 import pytest
 
-from collector.domain.models import EventSeverity, Quality
+from app.events.models import EventSeverity
+from app.telemetry.models import Quality
 from collector.plugins.mqtt.lifecycle_tracker import MqttLifecycleTracker
 from collector.plugins.mqtt.payloads import DiscreteApsState
 

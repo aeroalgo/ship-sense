@@ -4,7 +4,7 @@ alwaysApply: false
 ---
 # INTEG CREATIVE — gates
 
-**Артефакт:** `memory-bank/integration/creative/creative-<feature>.md`
+**Артефакт:** с эпиком `memory-bank/integration/creative/<epic_id>/creative-<feature>.md`; без — плоско. @.cursor/rules/shared/epic-scoped-paths.mdc
 
 ## Gates
 

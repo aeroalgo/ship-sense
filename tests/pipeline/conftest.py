@@ -118,8 +118,8 @@ def _alembic_migrated(timescale_url: str) -> Iterator[str]:
     sync_url = timescale_url.replace("+asyncpg", "+psycopg")
 
     # Build PYTHONPATH for the alembic subprocess so that env.py can import
-    # apps.edge.storage.schemas → collector.domain.models without relying on
-    # pytest's internal sys.path augmentation (which does not propagate to child processes).
+    # apps.edge.storage.schemas without relying on pytest's internal sys.path
+    # augmentation (which does not propagate to child processes).
     root = os.getcwd()
     collector_src = os.path.join(root, "apps/edge/collector/src")
     emulator_src = os.path.join(root, "apps/edge/emulator/src")

@@ -7,7 +7,8 @@ from collector.core.event_detector import EventDetector
 from collector.core.normalizer import Normalizer
 from collector.core.quality_engine import QualityEngine
 from collector.core.unit_converter import UnitConverter, UnitRules
-from collector.domain.models import Event, RawSample
+from app.events.models import Event
+from collector.domain.raw_models import RawSample
 
 EDGE_NOW = datetime(2026, 7, 28, 12, 0, tzinfo=timezone.utc)
 

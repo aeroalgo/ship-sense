@@ -4,18 +4,22 @@ alwaysApply: false
 ---
 # CREATIVE — gates
 
-**Артефакт:** `memory-bank/back/creative/creative-[feature_name].md` (все компоненты в одном файле)  
+**Артефакт:**  
+- с эпиком: `memory-bank/back/creative/<epic_id>/creative-[feature_name].md`  
+- без эпика: `memory-bank/back/creative/creative-[feature_name].md`  
+Канон: @.cursor/rules/shared/epic-scoped-paths.mdc  
 Batch обязателен. Шаблоны phase-файлов — **нет** (удалены); формат — в `workflow-creative.mdc`.  
 Brainstorming: только секция **OVERRIDE — CREATIVE** (без one-at-a-time / wait-for-approval).
 
 ## Gates
 
-1. Компоненты из plan/decompose step
+1. Компоненты из plan/decompose step; определить `epic_id` (есть → подпапка)
 2. Тип Architecture / Algorithm / UI-UX; 2+ варианта + pros/cons
-3. Один creative-файл; decompose link если от шага
+3. Один creative-файл по таблице paths; decompose link если от шага
 4. `tasks.md` append-only
-5. **Rewire dependents:** каждый `sNN` с этим CR-ID — markdown-ссылка на creative + `needs_creative … — closed` + index blockers `✅` / `yes (done)` (см. workflow §5a). Без rewire → FAIL FINISH
+5. **Rewire dependents:** каждый `sNN` с этим CR-ID — markdown-ссылка на creative (`../../creative/<epic_id>/…` или `../../creative/…`) + `needs_creative … — closed` + index blockers `✅` / `yes (done)` (см. workflow §5a). Без rewire → FAIL FINISH
 
 ## Abort
 
 - Блокирующие неясности → grill-me; не выбирать вслепую
+- Epic известен, но файл записан плоско в `creative/` без `<epic_id>/` → FAIL

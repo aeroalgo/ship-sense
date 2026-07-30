@@ -5,7 +5,8 @@
 **Роль:** BACK  
 **Режим:** BACK PLAN  
 **Дата:** 2026-07-26  
-**Статус:** planned  
+**Статус:** decomposed  
+
 **SUSPENSION GUARD:** active — plan output unlimited (exhaustive, без telegraph-сокращений)
 
 **Зависимости:** T-001 (collector + emulator; IPC canonical → writer), T-002 (storage B5–B8, contracts, SQL repos)  
@@ -1121,22 +1122,24 @@ apps/edge/
 
 ---
 
-## 15. Draft decompose (для BACK DECOMPOSE — без checkbox здесь)
+## 15. Decompose tracker
 
-| Step | Slug | Scope |
-|------|------|-------|
-| s01 | scaffold | main.py config docker health 503 |
-| s02 | assets-tree | GET tree rollup cache |
-| s03 | series-downsample | GET series aggregate SQL CREATIVE-01 |
-| s04 | events-rest | pagination filters cursor |
-| s05 | setpoints | current history yaml |
-| s06 | ws-fanout | bridge ring resume CREATIVE-02 04 |
-| s07 | session-b11 | roster POST DELETE B6 CREATIVE-03 |
-| s08 | reports-watch | stub screen 6 CREATIVE-05 |
-| s09 | health-sources | health checks rate limits |
-| s10 | tests-i1 | full pytest import audit |
+**Единственный трекер шагов:** [decompose-v1-p1-api/index.md](decompose-v1-p1-api/index.md) (`index.md` + `s01`–`s10`).
 
-Трекер checkbox — только `memory-bank/back/plan/decompose-v1-p1-api/index.md` после DECOMPOSE.
+| Step | Slug | needs_creative |
+|------|------|----------------|
+| s01 | scaffold | no |
+| s02 | assets-tree | no |
+| s03 | series-downsample | CR-API-01 |
+| s04 | events-rest | CR-API-04 |
+| s05 | setpoints | no |
+| s06 | ws-fanout | CR-API-02, CR-API-04 |
+| s07 | session-b11 | CR-API-03 |
+| s08 | reports-watch | CR-API-05 |
+| s09 | health-sources-rate | no |
+| s10 | tests-i1-openapi | no |
+
+Чеклисты/статусы sNN — **только** в decompose index; здесь не дублировать.
 
 ---
 
@@ -1244,7 +1247,7 @@ def test_openapi_no_telemetry_mutations(openapi_spec):
 | **CR-API-04** | **Cursor format** | int64 monotonic vs ULID; per-channel vs global; opaque REST cursor encoding | int64 per channel; REST cursor base64 json {ts,id} |
 | **CR-API-05** | **Report stub screen 6** | verdict rules; debounce grouping; KPI tags; HTML template scope | rule-based verdict from alarms; top 5 highlights; 3 KPI tags; minimal HTML |
 
-**Команда:** `BACK CREATIVE` batch CR-API-01..05 → `memory-bank/back/creative/creative-api-*.md`
+**Команда:** `BACK CREATIVE` batch CR-API-01..05 → `memory-bank/back/creative/<epic_id>/creative-api-*.md`
 
 **Gate:** IMPLEMENT s03 s06 s07 s08 blocked until CREATIVE approved.
 
@@ -1346,28 +1349,26 @@ No telemetry write routes; import audit pass.
 
 ## 22. Handoff
 
-**Статус:** PLAN T-003 готов (L3–L4 exhaustive).
+**Статус:** DECOMPOSE T-003 готов (s01–s10) — см. [decompose-v1-p1-api/index.md](decompose-v1-p1-api/index.md).
 
-**Артефакт:** `memory-bank/back/plan/plan-v1-p1-api.md`
+**Артефакт плана:** `memory-bank/back/plan/plan-v1-p1-api.md`
 
-**CREATIVE gates (список):**
-1. CR-API-01 — Downsample algorithm  
-2. CR-API-02 — WS fanout 6 posts  
-3. CR-API-03 — Session tiles vs auth  
-4. CR-API-04 — Cursor format  
-5. CR-API-05 — Report stub screen 6  
+**CREATIVE gates (open):**
+1. CR-API-01 — Downsample → блокирует s03  
+2. CR-API-02 — WS fanout → блокирует s06  
+3. CR-API-03 — Session → блокирует s07  
+4. CR-API-04 — Cursor → блокирует s04, s06  
+5. CR-API-05 — Report stub → блокирует s08  
 
 **Next commands:**
-1. `BACK CREATIVE` — batch CR-API-01..05  
-2. `BACK DECOMPOSE plan-v1-p1-api` → `decompose-v1-p1-api/index.md`  
-3. T-002 freeze `storage/contracts/*` before IMPLEMENT s03+  
-4. `FRONT PLAN` / `INTEG PLAN` wire with this OpenAPI  
+1. `BACK CREATIVE` — batch CR-API-01..05 → `memory-bank/back/creative/v1-p1-api/`  
+2. **или** `BACK IMPLEMENT` s01 (scaffold без CREATIVE)  
+3. После CREATIVE: IMPLEMENT s03→s04→s06→s07→s08→s09→s10  
+4. `INTEG PLAN` wire с OpenAPI после API green  
 
-**Parallel dependency:** T-001 live queues + T-002 samples/events schema.
+**Scaffold без CREATIVE:** s01 → s02 → s05.
 
-**Блокеры:** Ф0 Q4 не блокирует stub; live path = NOTIFY writer→api (не shared queue с T-001).
-
-**Session recommendation:** новый чат на `BACK CREATIVE` или `BACK DECOMPOSE` после review.
+**Блокеры:** live path = NOTIFY writer→api; Ф0 Q4 не блокирует stub.
 
 ---
 

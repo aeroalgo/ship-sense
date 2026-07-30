@@ -3,7 +3,7 @@
 **Next Phase:** FRONT IMPLEMENT
 **needs_creative:** yes (CR-UI-03 / DS0-1) — **closed** | **tdd:** yes
 **AC:** G-DS0-4-01..05; G-DS0-1-06; plan §3.4 component table
-**Creative:** [CR-UI-03-alarm-grammar.md](../../creative/CR-UI-03-alarm-grammar.md) · SVG [`frontend/public/ds/lamps/`](../../../../frontend/public/ds/lamps/) · spec [`lamp-grammar-spec.ts`](../../../../frontend/src/lib/ds/lamp-grammar-spec.ts)
+**Creative:** [CR-UI-03-alarm-grammar.md](../../creative/v1-p1-screens/CR-UI-03-alarm-grammar.md) · SVG [`frontend/public/ds/lamps/`](../../../../frontend/public/ds/lamps/) · spec [`lamp-grammar-spec.ts`](../../../../frontend/src/lib/ds/lamp-grammar-spec.ts)
 
 
 **visible_ui:** yes
@@ -19,7 +19,7 @@
 Библиотека `components/ds/*` фазы 1 + SVG lamps + Storybook; gate до вёрстки экранов.
 
 ## Контекст
-- **Consumes:** s01–s03, s02 tokens; [CR-UI-03-alarm-grammar.md](../../creative/CR-UI-03-alarm-grammar.md) + DS0-1 SVG в `frontend/public/ds/lamps/`; `lamp-grammar-spec.ts`
+- **Consumes:** s01–s03, s02 tokens; [CR-UI-03-alarm-grammar.md](../../creative/v1-p1-screens/CR-UI-03-alarm-grammar.md) + DS0-1 SVG в `frontend/public/ds/lamps/`; `lamp-grammar-spec.ts`
 - **Produces:** все компоненты §3.4 (кроме TrendChartContainer → s11)
 
 ## Файлы

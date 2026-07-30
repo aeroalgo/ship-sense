@@ -2,7 +2,7 @@
 **Plan ID:** v1-p1-screens
 **Next Phase:** FRONT IMPLEMENT
 **needs_creative:** CR-UI-04 / DS0-3 — **closed** | **tdd:** yes
-**Creative:** [CR-UI-04-watch-compression.md](../../creative/CR-UI-04-watch-compression.md) · [watch-compression-spec.ts](../../../../frontend/src/lib/watch/watch-compression-spec.ts)
+**Creative:** [CR-UI-04-watch-compression.md](../../creative/v1-p1-screens/CR-UI-04-watch-compression.md) · [watch-compression-spec.ts](../../../../frontend/src/lib/watch/watch-compression-spec.ts)
 **AC:** AC-6-01..05 (AC-6-06 → T-006); plan §5.4
 
 
@@ -19,7 +19,7 @@
 Вахтенный прототип: verdict, protections never collapse, alarms debounce groups, drifts stub, data_quality, print.
 
 ## Контекст
-- **Consumes:** s04 reports, s06 Watch*, PrintLayout; [CR-UI-04](../../creative/CR-UI-04-watch-compression.md) + DS0-3
+- **Consumes:** s04 reports, s06 Watch*, PrintLayout; [CR-UI-04](../../creative/v1-p1-screens/CR-UI-04-watch-compression.md) + DS0-3
 - **Produces:** features/watch/*
 
 ## Файлы

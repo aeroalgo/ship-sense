@@ -19,7 +19,8 @@ except ImportError:  # pragma: no cover - integration dependency
 
 from collector.config.loader import load_tag_map
 from collector.config.models import SourceConfig
-from collector.domain.models import Quality, RawSample, TelemetrySample
+from app.telemetry.models import Quality, TelemetrySample
+from collector.domain.raw_models import RawSample
 from collector.plugins.modbus.client import AsyncModbusClient
 from collector.plugins.modbus.connector import ModbusTcpConnector
 from collector.plugins.opcua.connector import OpcUaConnector

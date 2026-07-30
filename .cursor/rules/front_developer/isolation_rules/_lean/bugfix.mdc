@@ -4,7 +4,7 @@ alwaysApply: false
 ---
 # FRONT BUGFIX — gates
 
-**Артефакт:** `memory-bank/front/bugfix/bugfix-YYYYMMDD-<slug>.md`
+**Артефакт:** с эпиком `memory-bank/front/bugfix/<epic_id>/bugfix-YYYYMMDD-<slug>.md`; без — `memory-bank/front/bugfix/bugfix-YYYYMMDD-<slug>.md`. @.cursor/rules/shared/epic-scoped-paths.mdc
 
 ## Gates
 

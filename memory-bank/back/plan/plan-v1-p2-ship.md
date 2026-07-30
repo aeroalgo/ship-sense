@@ -127,7 +127,7 @@ flowchart TB
 | Task | План | Что должно быть сдано до старта T-005 IMPLEMENT | Использование в фазе 2 |
 |------|------|--------------------------------------------------|------------------------|
 | **T-001** | `plan-v1-p1-collector.md` | B1–B4, I3 emulator, health snapshots, ~586 tags @1Hz | I1 перед collector; T1 soak; OTA healthcheck «данные идут» |
-| **T-002** | `plan-v1-p1-storage.md` | B5 Timescale samples, B6 events append-only, B7 time axis, B8 assets.yaml loader | B12 inputs; B13 historical reads; setpoints history; rebrowse T7 |
+| **T-002** | [`plan-v1-p1-storage.md`](../../archive/back/plan/plan-v1-p1-storage.md) | B5 Timescale samples, B6 events append-only, B7 time axis, B8 assets.yaml loader | B12 inputs; B13 historical reads; setpoints history; rebrowse T7 |
 | **T-003** | `plan-v1-p1-api.md` | REST+WS для экранов 1/5/8/6 proto; session B11; reports stub | Расширение без breaking; watch stub → B12 |
 | **T-004** | `plan-v1-p1-screens.md` (FRONT) | Экраны 1,5,8,6 proto на API p1 | Потребитель API p2; T10 совместно |
 | **Ф2.5** | I4 early visit (фаза 1) | Сырой съём живой АПС, список расхождений | Калибровка B12/B13, mnemo bindings, acceptance data |

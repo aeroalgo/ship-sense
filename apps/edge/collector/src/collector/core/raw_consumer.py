@@ -7,7 +7,9 @@ import logging
 from collections.abc import Awaitable, Callable
 
 from collector.domain.interfaces import CanonicalSink
-from collector.domain.models import Event, RawSample, TelemetrySample
+from app.events.models import Event
+from collector.domain.raw_models import RawSample
+from app.telemetry.models import TelemetrySample
 
 
 NormalizerResult = (

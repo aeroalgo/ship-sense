@@ -13,7 +13,7 @@ from collector.health.aggregator import HealthAggregator
 from collector.plugins.modbus.client import AsyncModbusClient
 from collector.plugins.modbus.connector import ModbusTcpConnector
 from collector.plugins.opcua.connector import OpcUaConnector
-from collector.domain.models import RawSample
+from collector.domain.raw_models import RawSample
 from emulator.protocols.modbus_server import ModbusServerAdapter
 from emulator.protocols.opcua_server import OpcUaServerAdapter
 from emulator.tag_model import TagGenerator

@@ -3,7 +3,8 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from apps.edge.collector.src.collector.domain.models import Event, EventSeverity, Quality, TelemetrySample
+from app.events.models import Event, EventSeverity
+from app.telemetry.models import Quality, TelemetrySample
 from apps.edge.storage.writer import WriterService
 
 

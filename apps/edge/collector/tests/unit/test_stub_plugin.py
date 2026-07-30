@@ -7,7 +7,7 @@ import pytest
 
 from collector.config.models import SourceConfig
 from collector.domain.interfaces import BaseSourceConnector, SourceConnector
-from collector.domain.models import RawSample
+from collector.domain.raw_models import RawSample
 from collector.plugins.registry import PluginRegistry
 
 # AC-B1-08: demo third-party stub plugin — регистрируется импортом,

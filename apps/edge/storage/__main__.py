@@ -7,7 +7,7 @@ from pathlib import Path
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from apps.edge.semantic.engine import SemanticEngine
+from app.semantic.engine import SemanticEngine
 from apps.edge.storage.events_repo import EventsRepo
 from apps.edge.storage.samples_repo import SamplesRepo
 from apps.edge.storage.writer import WriterService

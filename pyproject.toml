@@ -28,16 +28,23 @@ pythonpath = [
     ".",
     "apps/edge/collector/src",
     "apps/edge/emulator/src",
+    "apps/api",
 ]
 testpaths = [
     "apps/edge/collector/tests",
     "apps/edge/emulator/tests",
     "tests/storage",
     "tests/pipeline",
+    "apps/api/tests",
+]
+addopts = [
+    "-m",
+    "not slow",
 ]
 markers = [
     "integration: requires external broker or emulator",
     "slow: long-running soak or endurance test",
     "load: throughput and endurance harness",
+    "e2e: end-to-end pipeline tests (compose or external dependencies)",
 ]
 asyncio_mode = "strict"

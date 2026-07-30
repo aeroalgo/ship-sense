@@ -15,7 +15,8 @@ from pathlib import Path
 
 from collector.core.raw_consumer import RawConsumer
 from collector.domain.interfaces import CanonicalSink, SourceConnector
-from collector.domain.models import RawSample, TelemetrySample
+from collector.domain.raw_models import RawSample
+from app.telemetry.models import TelemetrySample
 from collector.health.aggregator import HealthAggregator
 from collector.health.snapshot_writer import SnapshotWriter
 
@@ -158,7 +159,7 @@ async def _passthrough_normalize(sample: RawSample) -> TelemetrySample:
         unit="unknown",
         source_ts=sample.source_ts or sample.recv_ts,
         edge_ts=sample.recv_ts,
-        quality=__import__("collector.domain.models", fromlist=["Quality"]).Quality.GOOD,
+        quality=Quality.GOOD,
         source_id=sample.source_id,
         native_id=sample.native_id,
     )

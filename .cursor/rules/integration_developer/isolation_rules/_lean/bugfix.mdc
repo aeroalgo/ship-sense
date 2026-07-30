@@ -4,7 +4,7 @@ alwaysApply: false
 ---
 # INTEG BUGFIX — gates
 
-**Артефакт:** `memory-bank/integration/bugfix/bugfix-YYYYMMDD-<slug>.md`
+**Артефакт:** с эпиком `memory-bank/integration/bugfix/<epic_id>/bugfix-YYYYMMDD-<slug>.md`; без — плоско. @.cursor/rules/shared/epic-scoped-paths.mdc
 
 ## Gates
 

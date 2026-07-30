@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from apps.edge.collector.src.collector.domain.models import Quality, TelemetrySample
+from app.telemetry.models import Quality, TelemetrySample
 from apps.edge.storage.samples_repo import SamplesRepo
 
 

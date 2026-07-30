@@ -4,7 +4,7 @@ alwaysApply: false
 ---
 # INTEG QA — gates
 
-**Артефакт:** `memory-bank/integration/qa/qa-YYYYMMDD-<slug>.md`
+**Артефакт:** с эпиком `memory-bank/integration/qa/<epic_id>/qa-YYYYMMDD-<slug>.md`; без — плоско. @.cursor/rules/shared/epic-scoped-paths.mdc
 
 ## Gates
 

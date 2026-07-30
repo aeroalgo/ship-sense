@@ -90,7 +90,7 @@ flowchart LR
 | SRC-0a | График §0a | `/tmp/shipsense-docs/extracted/00a_schedule.txt` | Сроки v2, состав |
 | SRC-SP | System patterns | `memory-bank/systemPatterns.md` | Mermaid sequence, инфра-таблица |
 | SRC-CHAT | Протокол чата | `memory-bank/chat/2026-07-протокол-чата-решения.md` | Cursor, объём данных, health |
-| SRC-STO | Storage plan | `memory-bank/back/plan/plan-v1-p1-storage.md` | DDL events/samples, idempotency |
+| SRC-STO | Storage plan | `memory-bank/archive/back/plan/plan-v1-p1-storage.md` | DDL events/samples, idempotency |
 | SRC-TC | Tech context | `memory-bank/techContext.md` | Стек, нагрузка |
 
 ---
@@ -1061,7 +1061,7 @@ class ChannelProtocol(Protocol):
 - Health snapshots RAM/CPU.
 - API `/health` на edge.
 
-**Ссылка:** `memory-bank/systemPatterns.md` §Observability; `plan-v1-p1-storage.md` §disk_quotas.
+**Ссылка:** `memory-bank/systemPatterns.md` §Observability; [`plan-v1-p1-storage.md`](../../archive/back/plan/plan-v1-p1-storage.md) §disk_quotas.
 
 ### 12.2 v2 extensions
 
@@ -1095,7 +1095,7 @@ class ChannelProtocol(Protocol):
 | CR-KEY-01 | Q4 event id | APS native id in hash? | idempotency formula |
 | CR-BATCH-01 | Split oversized batch | Algorithm on 413 | batch_builder |
 
-**Workflow:** `BACK CREATIVE` → shards `memory-bank/back/creative/creative-v2-shore-*.md`.
+**Workflow:** `BACK CREATIVE` → shards `memory-bank/back/creative/<epic_id>/creative-v2-shore-*.md`.
 
 ---
 
@@ -1345,7 +1345,7 @@ BACK CREATIVE collector / BACK DECOMPOSE plan-v1-p1-collector
 | Task | Plan | Relation |
 |------|------|----------|
 | T-007 | this file | v2 shore forward — master plan |
-| T-002 | plan-v1-p1-storage.md | events/samples schema source |
+| T-002 | [plan-v1-p1-storage.md](../../archive/back/plan/plan-v1-p1-storage.md) | events/samples schema source |
 | T-001 | plan-v1-p1-collector.md | no forwarder in v1 |
 
 ---

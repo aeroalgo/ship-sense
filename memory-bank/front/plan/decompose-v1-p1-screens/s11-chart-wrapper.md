@@ -4,7 +4,7 @@
 **needs_creative:** yes (CR-UI-02) — **closed** | **tdd:** yes
 **Implement:** [s11-chart-wrapper.md](../../implement/implement-v1-p1-screens/s11-chart-wrapper.md)
 **AC:** plan §7; AC-8-01/04/05 partial; G chart not bare Grafana
-**Creative:** [CR-UI-02-chart-lib.md](../../creative/CR-UI-02-chart-lib.md) · spike [`frontend/src/features/trends/spike/`](../../../../frontend/src/features/trends/spike/) · spec [`chart-lib-spec.ts`](../../../../frontend/src/lib/trends/chart-lib-spec.ts) · dep `uplot`
+**Creative:** [CR-UI-02-chart-lib.md](../../creative/v1-p1-screens/CR-UI-02-chart-lib.md) · spike [`frontend/src/features/trends/spike/`](../../../../frontend/src/features/trends/spike/) · spec [`chart-lib-spec.ts`](../../../../frontend/src/lib/trends/chart-lib-spec.ts) · dep `uplot`
 
 
 **visible_ui:** yes
@@ -20,7 +20,7 @@
 Обёртка графика: series gaps, setpoint lines, event markers; библиотека **uPlot** (CR-UI-02 closed).
 
 ## Контекст
-- **Consumes:** s02 tokens, s06 DS chrome; [CR-UI-02-chart-lib.md](../../creative/CR-UI-02-chart-lib.md) + spike + `chart-lib-spec.ts` + `uplot`
+- **Consumes:** s02 tokens, s06 DS chrome; [CR-UI-02-chart-lib.md](../../creative/v1-p1-screens/CR-UI-02-chart-lib.md) + spike + `chart-lib-spec.ts` + `uplot`
 - **Produces:** `TrendChartContainer` + fixture tests
 
 ## Файлы

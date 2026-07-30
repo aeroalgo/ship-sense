@@ -5,7 +5,8 @@ import json
 import struct
 from typing import TYPE_CHECKING
 
-from collector.domain.models import Event, TelemetrySample
+from app.events.models import Event
+from app.telemetry.models import TelemetrySample
 
 if TYPE_CHECKING:
     from os import PathLike

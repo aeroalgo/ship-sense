@@ -10,10 +10,10 @@
 
 **Триггер:** после s01–s25 (почти весь T-001) и docker-compose (s23) **непонятно, работает ли стек вместе**. Компоненты собраны и покрыты unit/integration *in-process*, но production entrypoint — skeleton: нет источников, `NullSink`, env writer не читается. Контракт данных в PSQL / схемы БД **вне scope** этого плана (T-002/T-003).
 
-**Родитель:** [`plan-v1-p1-collector.md`](plan-v1-p1-collector.md) → [`decompose-v1-p1-collector/`](decompose-v1-p1-collector/index.md)  
-**Implement index:** [`implement-v1-p1-collector/`](../implement/implement-v1-p1-collector/index.md)  
+**Родитель:** [`plan-v1-p1-collector.md`](../../archive/back/plan/plan-v1-p1-collector.md) → [`decompose-v1-p1-collector/`](../../archive/back/plan/decompose-v1-p1-collector/index.md)  
+**Implement index:** [`implement-v1-p1-collector/`](../../archive/back/implement/implement-v1-p1-collector/index.md)  
 **Compose:** `/docker-compose.yml`  
-**Bugfix blocker emulator overlap:** [`bugfix-20260727-emulator-modbus-overlap.md`](../bugfix/bugfix-20260727-emulator-modbus-overlap.md) — **снят** (2026-07-27)
+**Bugfix blocker emulator overlap:** [`bugfix-20260727-emulator-modbus-overlap.md`](../../archive/back/bugfix/v1-p1-collector/bugfix-20260727-emulator-modbus-overlap.md) — **снят** (2026-07-27)
 
 **Refs:**
 - AC-INT-01 / AC-INT-02 / AC-INT-03, AC-I3-16, AC-HLT-04/05 — `plan-v1-p1-collector.md` §6
@@ -262,7 +262,7 @@ def _make_modbus(maps_dir: Path):
 
 - Compose-based pytest через `testcontainers` **или** script `scripts/smoke-edge-stack.sh` + exit codes (без обязательного pytest-docker).
 - writer-stub unit: parse one frame → counter++.
-- Документ `memory-bank/back/qa/qa-YYYYMMDD-edge-runtime-smoke.md` после BACK QA.
+- Документ `memory-bank/back/qa/v1-p1-edge-runtime-smoke/qa-YYYYMMDD-edge-runtime-smoke.md` после BACK QA.
 
 ---
 
@@ -337,8 +337,8 @@ def _make_modbus(maps_dir: Path):
 | `docker-compose.yml` | `COLLECTOR_SOURCES_PATH`, optional `SHIPSSENSE_SMOKE_SOURCES`; комментарии smoke |
 | `apps/edge/collector/README.md` | §Docker: реальный data-path smoke, AC-RT, limits |
 | `apps/edge/writer-stub/` (optional) | лёгкий unit / counter endpoint — YAGNI unless needed |
-| `memory-bank/back/plan/plan-v1-p1-collector.md` | checkbox AC-INT-03 → link на этот plan / done after QA |
-| `memory-bank/back/plan/decompose-v1-p1-collector/index.md` | note: gap-close plan; s25 status sync |
+| `memory-bank/archive/back/plan/plan-v1-p1-collector.md` | checkbox AC-INT-03 → link на этот plan / done after QA |
+| `memory-bank/archive/back/plan/decompose-v1-p1-collector/index.md` | note: gap-close plan; s25 status sync |
 
 ### Do not touch (YAGNI)
 

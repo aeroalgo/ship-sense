@@ -9,7 +9,9 @@ from collector.config.models import TagMapEntry
 from collector.core.event_detector import EventDetector
 from collector.core.quality_engine import QualityEngine
 from collector.core.unit_converter import UnitConverter
-from collector.domain.models import Event, RawSample, TelemetrySample
+from app.events.models import Event
+from collector.domain.raw_models import RawSample
+from app.telemetry.models import TelemetrySample
 from collector.util.time import utc_now
 
 logger = logging.getLogger(__name__)

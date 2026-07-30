@@ -7,7 +7,7 @@ import pytest
 
 from collector.config.models import PollConfig, SourceConfig, TagMapEntry
 from collector.domain.interfaces import SourceConnector, Subscription
-from collector.domain.models import RawSample, RawTagDescriptor
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 from collector.plugins.modbus.client import AsyncModbusClient, ModbusTimeoutError
 from collector.plugins.modbus.connector import ModbusTcpConnector
 from collector.plugins.modbus.poll_scheduler import PollGroup, PollScheduler

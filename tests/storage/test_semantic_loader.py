@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from apps.edge.semantic.loader import SemanticPackError, load_pack
+from app.semantic.loader import SemanticPackError, load_pack
 
 
 # --------------------------------------------------------------------------- #

@@ -7,7 +7,9 @@ from collector.core.event_detector import EventDetector
 from collector.core.normalizer import Normalizer
 from collector.core.quality_engine import QualityEngine
 from collector.core.unit_converter import UnitConverter, UnitRules
-from collector.domain.models import Event, Quality, RawSample
+from app.events.models import Event
+from app.telemetry.models import Quality
+from collector.domain.raw_models import RawSample
 from collector.util.time import utc_now
 
 

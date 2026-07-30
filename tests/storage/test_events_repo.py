@@ -4,7 +4,8 @@ from uuid import uuid4
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 
-from apps.edge.collector.src.collector.domain.models import Event as DomainEvent, EventSeverity, Quality
+from app.events.models import Event as DomainEvent, EventSeverity
+from app.telemetry.models import Quality
 from apps.edge.storage.events_repo import EventsRepo, EventFilters, EventRow
 from apps.edge.storage.schemas import Event as DBEvent, Sample as DBSample
 

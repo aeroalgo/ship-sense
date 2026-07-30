@@ -3,7 +3,8 @@ description: EPIC RUN — автоцикл decompose (fresh session на каж�
 ---
 Arm epic loop for a decompose index, then run the external fresh-session runner.
 
-**Аргумент:** id или путь decompose, напр. `decompose-v1-p1-pipeline-db-e2e` или `memory-bank/back/plan/decompose-v1-p1-pipeline-db-e2e`
+**Аргумент:** id или путь decompose, напр. `decompose-v1-p1-pipeline-db-e2e` или `memory-bank/back/plan/decompose-v1-p1-pipeline-db-e2e`  
+Refactor M/L: `memory-bank/back/refactor/plan/decompose-<id>` (шаги `rNN`, команда `BACK REFACTOR`).
 
 Сделай сейчас (parent):
 
@@ -18,9 +19,11 @@ python3 .claude/hooks/epic_resolve.py status
 ./scripts/epic-loop.sh decompose-v1-p1-pipeline-db-e2e YOUR_EXACT_MODEL_ID
 # или сразу с arm:
 # ./scripts/epic-loop.sh decompose-v1-p1-pipeline-db-e2e provider/your-model-id
+# refactor:
+# ./scripts/epic-loop.sh memory-bank/back/refactor/plan/decompose-<id> provider/your-model-id
 ```
 
-Каждая итерация = новый `claude -p` (чистый контекст). Handoff → следующая команда (IMPLEMENT|CREATIVE|QA|BUGFIX). Halt: QA blocked без BUGFIX, grill-me, no progress, stop×3 без FINISH.
+Каждая итерация = новый `claude -p` (чистый контекст). Handoff → следующая команда (IMPLEMENT|REFACTOR|CREATIVE|QA|BUGFIX). Halt: QA blocked без BUGFIX, grill-me, no progress, stop×3 без FINISH.
 
 Статус / стоп:
 

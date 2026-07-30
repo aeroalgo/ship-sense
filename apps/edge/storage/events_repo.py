@@ -7,7 +7,7 @@ from sqlalchemy import and_, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from apps.edge.collector.src.collector.domain.models import Event as DomainEvent, EventSeverity
+from app.events.models import Event as DomainEvent, EventSeverity
 from apps.edge.storage.schemas import Event as DBEvent, Sample as DBSample
 from apps.edge.storage.samples_repo import SamplePoint
 

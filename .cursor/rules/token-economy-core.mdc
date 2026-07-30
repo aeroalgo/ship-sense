@@ -36,7 +36,7 @@ Cross-cutting. Restricts **format**, not **content**. Quality (TDD, review, edge
 
 This section **supersedes** every conflicting brevity rule. Workflow PLAN / brownfield VAN files must restate it; if ignored → FAIL.
 
-## 0.0.1 Load ≠ Write (Claude Code / Cursor / Kilo)
+## 0.0.1 Load ≠ Write (Claude Code / Cursor)
 
 | | Economy applies? | Notes |
 |--|------------------|-------|
@@ -137,6 +137,8 @@ Applies when **создаёшь/правишь** non-plan artifacts. **Does NOT*
 
 When passing work between roles: 2–3 lines + file path. Not "read everything".
 
+**activeContext ONE Handoff (HARD):** ровно один блок `## Handoff …` — полная перезапись на FINISH. Append/стопка = FAIL. История → `tasks/log/` + role artifacts. Detail: `finish-block.mdc` / `finish-doc-router.mdc`.
+
 ## 0.8 Code comments
 
 Minimal. WHY only, not WHAT. Max 1 line. No comments unless non-obvious.
@@ -184,7 +186,7 @@ Mandatory in **BACK IMPLEMENT** (before finish) and **BACK QA**.
 
 - Collect ALL edits per file → one Write/Edit pass
 - Read file once per session; plan edits from that read
-- **Subagents:** parent **MAY** spawn for wide search / multi-file explore / review / независимые подзадачи. Skip only trivial (1 file, простой grep, мелкий edit). Frontend-тесты only parent: `.cursor/rules/front-tests-parent-only.mdc` / `~/.claude/rules/02-front-tests-parent-only.md`.
+- **Subagents:** **обязательные gate’ы** — codebase search → `explorer`; pre-FINISH `verify` (`code_changed`); BACK QA `reviewer` — `.claude/instructions/spawn-hard.md`. Прочие Agent — свободно. Frontend-тесты only parent: `.cursor/rules/front-tests-parent-only.mdc` / `~/.claude/rules/02-front-tests-parent-only.md`.
 - `tasks.md` updates: append index row + update shard; checkbox-only edits allowed on shards
 - **PLAN:** prefer one comprehensive Write of `plan-*.md`; size is not a reason to truncate
 
@@ -210,7 +212,7 @@ On role command / FINISH: recommend tool if unclear — Cursor + fast-editing (d
 Detail: @.cursor/rules/shared/context-session-economy.mdc
 
 - **One chat = one atomic subtask** (not whole epic); new chat on role switch or subtask done
-- **FINISH:** write `## Handoff` в `activeContext.md` → doc-router → recommend new chat (@.cursor/templates/finish-doc-router.md + @.cursor/rules/shared/finish-doc-router.mdc)
+- **FINISH:** **перезаписать** единственный `## Handoff` в `activeContext.md` (не append) → doc-router → recommend new chat (@.cursor/templates/finish-doc-router.md + @.cursor/rules/shared/finish-doc-router.mdc)
 - **Session start:** `load_now` + handoff file; never depend on prior chat transcript
 - **Skills:** lazy — only skills for current subtask
 - **QA:** task shard + diff + §0.11 grep; skip plan shard unless AC unclear

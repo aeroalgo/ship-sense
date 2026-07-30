@@ -3,7 +3,9 @@
 **Task:** T-xxx  
 **Command:** BACK IMPLEMENT | QA | REFLECT | ARCHIVE | PLAN | VAN | INTEG …
 
-Канон заполнения `activeContext.md` (единственный Handoff). Rules (`finish-doc-router.mdc`) дают **когда** и **By command** / graphify / Forbidden — не дублировать здесь.
+Канон заполнения `activeContext.md`: **ровно один** `## Handoff` — **перезапись**, не append.  
+**FAIL:** два и более `## Handoff` в файле. История шагов → `tasks/log/` + implement/qa/bugfix shards, не сюда.  
+Rules (`finish-doc-router.mdc`) дают **когда** и **By command** / graphify / Forbidden — не дублировать здесь.
 
 ## Перенести в done
 
@@ -58,7 +60,11 @@
 
 ## Handoff (только `activeContext.md`)
 
-Единый каркас — **перезаписать**, не копить старые блоки. Писать **до** sync decompose/`load_now`:
+**HARD — ONE block:** в файле после FINISH должен остаться **единственный** заголовок `## Handoff …`.  
+Действие: **replace** всего предыдущего блока (или удалить все старые `## Handoff` и записать один новый).  
+**FORBIDDEN:** prepend/append второго Handoff; стопка «s03, s04, QA, REFLECT»; дублировать Handoff в implement step.  
+Порядок секций: `## load_now` → **один** `## Handoff …` → `## done — do NOT load`.  
+Писать **до** sync decompose/`load_now`:
 
 ```markdown
 ## Handoff BACK IMPLEMENT T-xxx sNN
@@ -74,12 +80,14 @@ QA (обязателен всегда — pass и blocked). Роль: `BACK` | `
 ```markdown
 ## Handoff BACK QA T-xxx <plan_id>
 
-- **Предыдущий:** BACK QA — [qa-YYYYMMDD-<plan_id>](memory-bank/back/qa/qa-….md) — pass|fail|blocked
+- **Предыдущий:** BACK QA — [qa-YYYYMMDD-<plan_id>](memory-bank/back/qa/<epic_id>/qa-….md) — pass|fail|blocked
 - **Verdict:** pass | fail | blocked
-- **Артефакт:** memory-bank/back/qa/qa-YYYYMMDD-<plan_id>.md
+- **Артефакт:** memory-bank/back/qa/<epic_id>/qa-YYYYMMDD-<plan_id>.md
 - **Epic:** T-xxx / `<plan_id>` — что проверяли (шаги, сервисы)
 - **code_changed:** no
 ```
+
+Без эпика: путь плоско `memory-bank/back/qa/qa-….md`. Канон: @.cursor/rules/shared/epic-scoped-paths.mdc.
 
 **pass** — добавить:
 - **Следующий:** BACK REFLECT | BACK IMPLEMENT sNN+1 | ARCHIVE NOW

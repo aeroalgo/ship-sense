@@ -6,26 +6,38 @@
 
 | ID | Title | Role | Plan | Step | Status |
 |----|-------|------|------|------|--------|
-| T-002 | storage + semantic | BACK | [plan](back/plan/plan-v1-p1-storage.md) · [dec](back/plan/decompose-v1-p1-storage/index.md) · [pipeline-db-e2e](back/plan/plan-v1-p1-pipeline-db-e2e.md) · [dec-e2e](back/plan/decompose-v1-p1-pipeline-db-e2e/index.md) | s01–s18 ✅ · QA blocked→BUGFIX ✅ · pipeline-db-e2e s01 pending | next: BACK QA (re) → IMPLEMENT pipeline-db-e2e s01 |
-| T-001 | collector + emulator | BACK | [plan](back/plan/plan-v1-p1-collector.md) · [dec](back/plan/decompose-v1-p1-collector/index.md) · [gap](back/plan/plan-v1-p1-edge-runtime-smoke.md) | gap-close | in_progress |
-| T-008 | MQTT connector | BACK | [plan](back/plan/plan-v1-p1-mqtt.md) · [dec](back/plan/decompose-v1-p1-mqtt/index.md) · [smoke](back/plan/plan-v1-p1-mqtt-smoke.md) | s12 ✅ · smoke BUGFIX ✅ · QA ✅ | next BACK REFLECT |
+| RF-01 | fastapi-template ownership | BACK | [plan](back/refactor/plan/plan-rf-fastapi-template-ownership.md) · [dec](back/refactor/plan/decompose-rf-fastapi-template-ownership/index.md) | r04 import-graph audit | REFACTOR r04 done · next REFACTOR @r05 |
+| T-003 | API + session (B10/B11) | BACK | [plan](back/plan/plan-v1-p1-api.md) · [dec](back/plan/decompose-v1-p1-api/index.md) | s01 scaffold | **blocked** until RF-01 r01+r02+r05 |
 
 ### Progress (компактно)
 
-- **T-002** [dec](back/plan/decompose-v1-p1-storage/index.md): s01–s18 ✅ · BUGFIX QA runtime ✅ · [pipeline-db-e2e](back/plan/decompose-v1-p1-pipeline-db-e2e/index.md) s01 ждёт после re-QA
-- **T-001** [dec](back/plan/decompose-v1-p1-collector/index.md): s01–s26 ✅ · gap-close smoke ⏳ ([plan](back/plan/plan-v1-p1-edge-runtime-smoke.md) — DECOMPOSE pending)
-- **T-008** [dec](back/plan/decompose-v1-p1-mqtt/index.md): s01–s12 ✅ · smoke BUGFIX ✅ · QA ✅ → next BACK REFLECT
+- RF-01: DECOMPOSE r01–r06; r01 scaffold + r02 canonical models + r03 semantic done; next `BACK REFACTOR` @r04 import-graph audit
+- T-003: IMPLEMENT s01 blocked until RF-01 r01+r02+r05
+
+## Архив эпиков
+
+| ID | Title | Role | Paths | Status |
+|----|-------|------|-------|--------|
+| T-001 | collector + emulator | BACK | [plan](archive/back/plan/plan-v1-p1-collector.md) · [dec](archive/back/plan/decompose-v1-p1-collector/index.md) · [impl](archive/back/implement/implement-v1-p1-collector/index.md) · [qa](archive/back/qa/v1-p1-collector/) · [reflection](back/reflection/reflection-T-001-v1-p1-collector.md) · gap live: [edge-runtime-smoke](back/plan/plan-v1-p1-edge-runtime-smoke.md) | **ЗАВЕРШЕНА И АРХИВИРОВАНА** |
+| T-002 | storage + semantic | BACK | [plan](archive/back/plan/plan-v1-p1-storage.md) · [dec](archive/back/plan/decompose-v1-p1-storage/index.md) · [impl](archive/back/implement/implement-v1-p1-storage/index.md) · [qa](archive/back/qa/v1-p1-storage/) · [creative](archive/back/creative/v1-p1-storage/) · [reflection](back/reflection/reflection-T-002-v1-p1-storage.md) | **ЗАВЕРШЕНА И АРХИВИРОВАНА** |
+| T-002 / pipeline-db-e2e | pipeline → Timescale e2e | BACK | [plan](archive/back/plan/plan-v1-p1-pipeline-db-e2e.md) · [dec](archive/back/plan/decompose-v1-p1-pipeline-db-e2e/index.md) · [impl](archive/back/implement/implement-v1-p1-pipeline-db-e2e/index.md) · [qa](archive/back/qa/v1-p1-pipeline-db-e2e/) · [reflection](back/reflection/reflection-T-002-v1-p1-pipeline-db-e2e.md) | **ЗАВЕРШЕНА И АРХИВИРОВАНА** |
+| T-008 | MQTT connector | BACK | [plan](archive/back/plan/plan-v1-p1-mqtt.md) · [dec](archive/back/plan/decompose-v1-p1-mqtt/index.md) · [impl](archive/back/implement/implement-v1-p1-mqtt/index.md) · [smoke](archive/back/plan/plan-v1-p1-mqtt-smoke.md) · [qa](archive/back/qa/v1-p1-mqtt/) · [reflection](back/reflection/reflection-T-008-v1-p1-mqtt.md) | **ЗАВЕРШЕНА И АРХИВИРОВАНА** |
 
 ## Последние события
 
 | Дата | Task | Событие |
 |------|------|---------|
-| 2026-07-30 | T-002 | BACK IMPLEMENT pipeline-db-e2e s01 — WriterService.start_tcp + run_tcp refactor; 2 unit passed; AC-PIPE-06 | [implement](back/implement/implement-v1-p1-pipeline-db-e2e/s01-writer-start-tcp.md) |
-| 2026-07-30 | T-002 | BACK BUGFIX QA runtime — ModbusException+runtime map, compression if_not_exists, mqtt broker timeout; full 400 passed | [bugfix](back/bugfix/bugfix-20260730-qa-storage-runtime.md) |
-| 2026-07-30 | T-002 | BACK QA v1-p1-storage — BLOCKED: storage 65 / без slow 394; slow/full + runtime logs | [qa](back/qa/qa-20260730-v1-p1-storage.md) |
-| 2026-07-29 | T-002 | BACK DECOMPOSE pipeline-db-e2e — s01–s08; CREATIVE нет; next IMPLEMENT s01 |
-| 2026-07-29 | T-002 | BACK PLAN pipeline-db-e2e — emulator→collector→writer→Timescale SQL assert |
-| 2026-07-29 | T-002 | BACK BUGFIX package-path + compose runtime |
+| 2026-07-30 | RF-01 | BACK REFACTOR r01 — scaffold `apps/api`, health stub, pythonpath/testpaths; next REFACTOR @r02 | [session](back/refactor/session-20260730-r01-scaffold-apps-api.md) · [dec](back/refactor/plan/decompose-rf-fastapi-template-ownership/index.md) |
+| 2026-07-30 | RF-01 | BACK REFACTOR r02 — canonical Quality/TelemetrySample/Event* перенесены в `apps/api/app`, collector domain разделён на Raw*/health, storage/tests rewired; targeted pytest PASS (373 passed). Следующий шаг: r03 | [session](back/refactor/implement/implement-rf-fastapi-template-ownership/r02-move-canonical-models.md) · [dec](back/refactor/plan/decompose-rf-fastapi-template-ownership/index.md) |
+| 2026-07-30 | RF-01 | BACK REFACTOR r04 — import-graph audit tests + README ownership; three regression tests green; pre-FINISH verify PASS; next REFACTOR @r05 | [session](back/refactor/session-20260730-r04-import-graph-audit.md) · [r04](back/refactor/implement/implement-rf-fastapi-template-ownership/r04-import-graph-audit.md) · [dec](back/refactor/plan/decompose-rf-fastapi-template-ownership/index.md) |
+| 2026-07-30 | RF-01 | BACK REFACTOR r03 — semantic перенесён в `apps/api/app/semantic`, импорты rewired, старый пакет удалён; targeted pytest PASS (33 passed), import smoke PASS. Следующий шаг: r04 | [session](back/refactor/session-20260730-r03-move-semantic.md) · [dec](back/refactor/plan/decompose-rf-fastapi-template-ownership/index.md) |
+| 2026-07-30 | RF-01 | BACK REFACTOR PLAN rf-fastapi-template-ownership — skill layout `apps/api`; next DECOMPOSE | [plan](back/refactor/plan/plan-rf-fastapi-template-ownership.md) |
+| 2026-07-30 | T-003 | BACK DECOMPOSE v1-p1-api — index + s01–s10; CREATIVE CR-API-01..05 open; IMPLEMENT blocked by RF-01 | [dec](back/plan/decompose-v1-p1-api/index.md) |
+| 2026-07-30 | T-002 | BACK ARCHIVE NOW v1-p1-storage — plan/decompose/implement/creative/qa/bugfix → archive/back/; ЗАВЕРШЕНА И АРХИВИРОВАНА | [impl](archive/back/implement/implement-v1-p1-storage/index.md) |
+| 2026-07-30 | T-002 | BACK REFLECT v1-p1-storage — L4 s01–s18; re-QA PASS / BUGFIX cycles; next BACK ARCHIVE NOW | [reflection](back/reflection/reflection-T-002-v1-p1-storage.md) |
+| 2026-07-30 | T-008 | BACK ARCHIVE NOW v1-p1-mqtt (+ mqtt-smoke) — дерево в archive/back/; reflection на месте; ЗАВЕРШЕНА И АРХИВИРОВАНА | [impl](archive/back/implement/implement-v1-p1-mqtt/index.md) |
+| 2026-07-30 | T-008 | BACK REFLECT v1-p1-mqtt — L4 s01–s12 + smoke; Topic/ENTRYPOINT lessons; next BACK ARCHIVE NOW | [reflection](back/reflection/reflection-T-008-v1-p1-mqtt.md) |
+| 2026-07-30 | T-002 | BACK ARCHIVE NOW v1-p1-pipeline-db-e2e — plan/decompose/implement/qa → archive/back/; reflection на месте | [impl](archive/back/implement/implement-v1-p1-pipeline-db-e2e/index.md) |
 
 → полная лента: [`tasks/log/2026-07.md`](tasks/log/2026-07.md) (обновлять на FINISH)
 
@@ -33,7 +45,7 @@
 
 | ID | Title | Role | Plan | Status |
 |----|-------|------|------|--------|
-| T-003 | API + session | BACK | [plan](back/plan/plan-v1-p1-api.md) | planned |
+| T-003 | API + session | BACK | [plan](back/plan/plan-v1-p1-api.md) · [dec](back/plan/decompose-v1-p1-api/index.md) | **активна, blocked RF-01** — см. §Активные |
 | T-004 | screens 1/5/8/6 | FRONT | [plan](front/plan/plan-v1-p1-screens.md) · [dec](front/plan/decompose-v1-p1-screens/index.md) | done |
 | T-005 | ship backend v1 p2 | BACK | [plan](back/plan/plan-v1-p2-ship.md) | planned |
 | T-006 | screens rest v1 p2 | FRONT | [plan](front/plan/plan-v1-p2-screens.md) | planned |

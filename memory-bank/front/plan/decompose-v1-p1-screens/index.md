@@ -31,11 +31,11 @@
 
 | ID | Шаги | Артефакт |
 |----|------|----------|
-| CR-UI-01 ✅ | s02 | `memory-bank/front/creative/CR-UI-01-tokens.md` + `frontend/src/styles/tokens/**` (5×3 skins) — creative closed; s02 = providers/switchers |
-| CR-UI-03 ✅ | s06 | `memory-bank/front/creative/CR-UI-03-alarm-grammar.md` + `frontend/public/ds/lamps/*` + `lamp-grammar-spec.ts` — creative closed; s06 = Lamp/Storybook |
-| CR-UI-02 ✅ | s11 | [CR-UI-02-chart-lib.md](../../creative/CR-UI-02-chart-lib.md) + spike `frontend/src/features/trends/spike/` + `chart-lib-spec.ts` + `uplot` — creative closed; s11 = TrendChartContainer |
-| CR-UI-04 ✅ | s13 | [CR-UI-04-watch-compression.md](../../creative/CR-UI-04-watch-compression.md) + `frontend/src/lib/watch/watch-compression-spec.ts` — creative closed; s13 = WatchPage |
-| CR-UI-05 ✅ | soft: s02/s09 final AC | [CR-UI-05-post-density.md](../../creative/CR-UI-05-post-density.md) + `post-density-spec.ts` + token floor (Q9 waiver; photo AC open) |
+| CR-UI-01 ✅ | s02 | `memory-bank/front/creative/v1-p1-screens/CR-UI-01-tokens.md` + `frontend/src/styles/tokens/**` (5×3 skins) — creative closed; s02 = providers/switchers |
+| CR-UI-03 ✅ | s06 | `memory-bank/front/creative/v1-p1-screens/CR-UI-03-alarm-grammar.md` + `frontend/public/ds/lamps/*` + `lamp-grammar-spec.ts` — creative closed; s06 = Lamp/Storybook |
+| CR-UI-02 ✅ | s11 | [CR-UI-02-chart-lib.md](../../creative/v1-p1-screens/CR-UI-02-chart-lib.md) + spike `frontend/src/features/trends/spike/` + `chart-lib-spec.ts` + `uplot` — creative closed; s11 = TrendChartContainer |
+| CR-UI-04 ✅ | s13 | [CR-UI-04-watch-compression.md](../../creative/v1-p1-screens/CR-UI-04-watch-compression.md) + `frontend/src/lib/watch/watch-compression-spec.ts` — creative closed; s13 = WatchPage |
+| CR-UI-05 ✅ | soft: s02/s09 final AC | [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md) + `post-density-spec.ts` + token floor (Q9 waiver; photo AC open) |
 
 **Рекомендуемый порядок CREATIVE:** CR-UI-01 → CR-UI-03 → CR-UI-02 → CR-UI-04 → CR-UI-05 (Q9).
 

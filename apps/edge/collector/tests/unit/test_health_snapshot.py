@@ -8,11 +8,7 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
-from collector.domain.models import (
-    CollectorHealthSnapshot,
-    HealthStatus,
-    SourceState,
-)
+from collector.domain.health_models import CollectorHealthSnapshot, HealthStatus, SourceState
 from collector.health.aggregator import HealthAggregator
 from collector.health.metrics import Metrics
 from collector.health.snapshot_writer import SnapshotWriter

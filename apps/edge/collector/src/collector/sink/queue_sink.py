@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import asyncio
 
-from collector.domain.models import Event, TelemetrySample
+from app.events.models import Event
+from app.telemetry.models import TelemetrySample
 
 
 class QueueSink:

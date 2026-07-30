@@ -19,7 +19,8 @@ from asyncua import Client
 
 from collector.config.models import SourceConfig, TagMapEntry
 from collector.domain.interfaces import BaseSourceConnector, OnSampleCallback, Subscription
-from collector.domain.models import HealthStatus, RawSample, RawTagDescriptor, SourceState
+from collector.domain.health_models import HealthStatus, SourceState
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 from collector.plugins.opcua.browse import browse_diff as _browse_diff, browse_nodes
 from collector.plugins.opcua.security import build_client_security
 from collector.plugins.opcua.subscription import SubscriptionManager

@@ -7,12 +7,8 @@ from collector.core.restart_policy import RestartPolicy
 from collector.core.supervisor import SourceSupervisor
 from collector.domain.errors import ConnectError
 from collector.domain.interfaces import OnSampleCallback, Subscription
-from collector.domain.models import (
-    HealthStatus,
-    RawSample,
-    RawTagDescriptor,
-    SourceState,
-)
+from collector.domain.health_models import HealthStatus, SourceState
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 from collector.util.backoff import compute_backoff
 
 

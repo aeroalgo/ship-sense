@@ -17,7 +17,7 @@ def test_compose_uses_real_storage_writer_and_database_health_dependency():
 
 
 def test_storage_package_exports_writer_and_semantic_engine():
-    from apps.edge.semantic.engine import SemanticEngine
+    from app.semantic.engine import SemanticEngine
     from apps.edge.storage import SamplesRepo, SemanticEngine as ExportedEngine, WriterService
 
     assert SamplesRepo is not None

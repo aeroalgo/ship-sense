@@ -10,15 +10,15 @@ from pathlib import Path
 
 import pytest
 
-from apps.edge.semantic.loader import load_pack
-from apps.edge.semantic.models import (
+from app.semantic.loader import load_pack
+from app.semantic.models import (
     AggregateStatus,
     NativeMap,
     NativeMapMapping,
     QuarantineReport,
     TagDisplayState,
 )
-from apps.edge.semantic.engine import SemanticEngine
+from app.semantic.engine import SemanticEngine
 
 
 # --------------------------------------------------------------------------- #

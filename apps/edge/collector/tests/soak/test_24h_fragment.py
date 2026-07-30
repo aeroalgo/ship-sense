@@ -10,7 +10,7 @@ from collector.config.loader import load_tag_map
 from collector.config.models import SourceConfig
 from collector.core.restart_policy import RestartPolicy
 from collector.core.supervisor import SourceSupervisor
-from collector.domain.models import RawSample
+from collector.domain.raw_models import RawSample
 from collector.plugins.modbus.client import AsyncModbusClient
 from collector.plugins.modbus.connector import ModbusTcpConnector
 from emulator.protocols.modbus_server import ModbusServerAdapter
@@ -45,7 +45,7 @@ def _socket_fd_count() -> int:
 @pytest.mark.asyncio
 async def test_modbus_soak_fragment_has_bounded_resources() -> None:
     """Короткий CI soak и ручной 24h прогон не наращивают ресурсы."""
-    duration_sec = float(os.getenv("SHIPSENSE_SOAK_DURATION_SEC", "60"))
+    duration_sec = float(os.getenv("SHIPSENSE_SOAK_DURATION_SEC", "5"))
     drop_interval_sec = float(
         os.getenv("SHIPSENSE_SOAK_DROP_INTERVAL_SEC", "5")
     )

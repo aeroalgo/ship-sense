@@ -23,7 +23,7 @@ AC met · next substep differs · role switch · long debug trace · user confus
 ## 3. Session start
 
 1. `activeContext.md` → `load_now` only (PLAN: inventory per workflow-plan)
-2. **§Handoff** — единственный канон навигации
+2. **§Handoff** — единственный канон навигации: в `activeContext.md` **ровно один** блок `## Handoff` (перезапись на FINISH; стопка = FAIL)
 3. Не опираться на transcript
 4. ONE task shard + ONE plan shard (shard, not index)
 5. Skills: только для subtask
@@ -32,7 +32,7 @@ AC met · next substep differs · role switch · long debug trace · user confus
 
 ## 4. During session
 
-Read once per file · parent MAY spawn for wide work · index = link only · isolation level из task.
+Read once per file · search → обязательный `@explorer` · прочие Agent свободно · index = link only · isolation level из task.
 
 ## 5. FINISH
 
@@ -52,4 +52,4 @@ New chat: текст из `finish-doc-router.md` §«Сообщение поль
 
 ## 9. Forbidden
 
-`done — do NOT load` · plan prose в shard/chat · completed substep в `load_now` · over-refusal spawn · trivial-only skip spawn
+`done — do NOT load` · plan prose в shard/chat · completed substep в `load_now` · over-refusal spawn

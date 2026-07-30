@@ -6,13 +6,9 @@ from datetime import datetime, timezone
 
 from collector.core.raw_consumer import RawConsumer
 from collector.domain.interfaces import CanonicalSink
-from collector.domain.models import (
-    Event,
-    EventSeverity,
-    Quality,
-    RawSample,
-    TelemetrySample,
-)
+from app.events.models import Event, EventSeverity
+from app.telemetry.models import Quality, TelemetrySample
+from collector.domain.raw_models import RawSample
 from collector.sink.mock_sink import MockSink
 from collector.sink.null_sink import NullSink
 from collector.sink.queue_sink import QueueSink

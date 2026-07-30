@@ -20,7 +20,8 @@ from collector.core.event_detector import EventDetector
 from collector.core.normalizer import Normalizer
 from collector.core.quality_engine import QualityEngine
 from collector.core.unit_converter import UnitConverter, UnitRules
-from collector.domain.models import Quality, RawSample
+from app.telemetry.models import Quality
+from collector.domain.raw_models import RawSample
 
 EDGE_NOW = datetime(2026, 7, 27, 12, 0, tzinfo=timezone.utc)
 QUALITY_RULES = "apps/edge/collector/config/quality_rules.yaml"

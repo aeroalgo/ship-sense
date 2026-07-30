@@ -18,7 +18,7 @@ alwaysApply: false
 1. `OK BACK CREATIVE - Начинаю творческую фазу`
 1a. Прочитай **Gates**
 2. `tasks.md` + plan/decompose step из `load_now`
-2a. Skills list в `memory-bank/back/creative/creative-[feature_name].md`
+2a. Skills list в creative-файле: с эпиком `memory-bank/back/creative/<epic_id>/creative-[feature_name].md`; без — `memory-bank/back/creative/creative-[feature_name].md` (@.cursor/rules/shared/epic-scoped-paths.mdc)
 3. Компоненты для дизайна; при размытости — brainstorming
 4. На каждый компонент — тип Architecture / Algorithm / UI-UX; 2+ варианта:
 
@@ -34,9 +34,9 @@ Decompose step: [sNN-*.md](…) (если от шага)
 🎨🎨🎨 EXITING CREATIVE PHASE
 ```
 
-5. Один файл `creative-[feature_name].md` + **Decompose link** (creative → `sNN-*.md`) если от шага
+5. Один файл `creative-[feature_name].md` (путь: `creative/<epic_id>/` или плоско) + **Decompose link** (creative → `sNN-*.md`) если от шага
 5a. **Rewire dependents (обязательно до FINISH):** все `decompose-*/sNN-*.md` и `decompose-*/index.md`, где `needs_creative` / blockers ссылаются на этот CR-ID:
-   - markdown-ссылка на creative: `[CR-…/creative-….md](../../creative/…)` (+ пути кода/spec если CREATIVE их создал)
+   - markdown-ссылка на creative: `[CR-…/creative-….md](../../creative/<epic_id>/…)` или `(../../creative/…)` без эпика (+ пути кода/spec если CREATIVE их создал)
    - в шаге: строка `**Creative:**` со ссылками; `needs_creative: … — **closed**`; `Next Phase:` → `BACK IMPLEMENT` (не CREATIVE)
    - в index: blockers `CR-… ✅`; строка шага `needs_creative` → `yes (done)`; `next_phase` → `BACK IMPLEMENT`; `status` снять `needs_creative` → `pending` (если ещё не implement)
    - **FAIL** если creative closed, а зависимый `sNN` без кликабельной ссылки / всё ещё `needs_creative` без closed

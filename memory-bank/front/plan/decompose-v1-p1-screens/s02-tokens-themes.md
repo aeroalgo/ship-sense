@@ -4,7 +4,7 @@
 **needs_creative:** yes (CR-UI-01) — **closed**; soft CR-UI-05 — **closed** | **tdd:** yes
 **AC:** G-DS0-4-03 (theme no flash — partial); CR-UI-01 AC; CR-UI-05 floor tokens; 5×3 attr switch
 
-**Creative:** [CR-UI-01-tokens.md](../../creative/CR-UI-01-tokens.md); [CR-UI-05-post-density.md](../../creative/CR-UI-05-post-density.md) + `frontend/src/lib/theme/post-density-spec.ts`
+**Creative:** [CR-UI-01-tokens.md](../../creative/v1-p1-screens/CR-UI-01-tokens.md); [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md) + `frontend/src/lib/theme/post-density-spec.ts`
 
 
 **visible_ui:** yes
@@ -20,7 +20,7 @@
 Подключить уже созданные token CSS (CR-UI-01): ThemeProvider + DesignProvider, blocking script anti-flash, ThemeSwitcher (продукт) + DesignSwitcher (preview), persist localStorage. Type/touch floor — CR-UI-05.
 
 ## Контекст
-- **Consumes:** s01; [CR-UI-01-tokens.md](../../creative/CR-UI-01-tokens.md); [CR-UI-05-post-density.md](../../creative/CR-UI-05-post-density.md); plan §2.2–2.5
+- **Consumes:** s01; [CR-UI-01-tokens.md](../../creative/v1-p1-screens/CR-UI-01-tokens.md); [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md); plan §2.2–2.5
 - **Produces:** providers, hooks, switchers; layout import tokens
 - **Already on disk:** `styles/tokens/**` (5 skins × day/night/dim + semantic + density floor), `lib/theme/types.ts`, `switcher-spec.ts`, `post-density-spec.ts`
 

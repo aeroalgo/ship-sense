@@ -5,17 +5,15 @@ from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from collector.config.models import SourceConfig
-from collector.domain.models import (
-    Event,
-    HealthStatus,
-    RawSample,
-    RawTagDescriptor,
-    SourceState,
-    TelemetrySample,
-)
+from collector.domain.health_models import HealthStatus, SourceState
+from collector.domain.raw_models import RawSample, RawTagDescriptor
+
+if TYPE_CHECKING:
+    from app.events.models import Event
+    from app.telemetry.models import TelemetrySample
 
 
 @dataclass(frozen=True)

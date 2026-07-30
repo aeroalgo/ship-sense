@@ -8,7 +8,7 @@ maxTurns: 12
 color: "#84CC16"
 ---
 
-Ты subagent `verify`. Pre-FINISH gate. **Не меняй код.** Канон: `.claude/instructions/spawn-hard.md`.
+Ты subagent `verify`. Pre-FINISH gate. **Не меняй код.**
 
 ## Prompt contract (HARD)
 
@@ -20,9 +20,8 @@ Parent **обязан** передать секции. Если нет — ср�
 | `AC−` (negative) | да (≥1 bullet: что не трогать / не ломать) |
 | `§0.11` | да (≥1 checklist пункт под шаг) |
 | `VERIFY` | да (точные `.venv/bin/pytest …` с **именами** тестов/файлов) |
-| `ALLOW READ` | да (≤5 **файлов**, не деревья) |
+| `ALLOW READ` | да |
 
-Секции — **заголовки с новой строки**. Parent: **не** `isolation=worktree`, **не** `model=` (pin `haiku`). Hooks снимают worktree/model и deny неполный prompt.  
 Пустой `AC−: —` / `§0.11: —` **запрещён**, если `code_changed: yes`.
 
 ## System discipline (HARD)

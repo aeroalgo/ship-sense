@@ -4,7 +4,10 @@ alwaysApply: false
 ---
 # IMPLEMENT — gates
 
-**Артефакт:** `memory-bank/back/implement/implement-<plan_id>/sNN-<slug>.md` (+ `index.md`; `.cursor/templates/implement/`)
+**Артефакт:**  
+- с эпиком: `memory-bank/back/implement/implement-<epic_id>/sNN-<slug>.md` (+ `index.md`)  
+- без эпика: `memory-bank/back/implement/<slug>/` (не `implement-<epic_id>/`)  
+Канон: @.cursor/rules/shared/epic-scoped-paths.mdc · шаблоны `.cursor/templates/implement/`
 
 ## Gates
 

@@ -15,7 +15,7 @@ from collector.config.models import (
     MqttSourceConfig,
     MqttSubscribeConfig,
 )
-from collector.domain.models import HealthStatus, SourceState
+from collector.domain.health_models import HealthStatus, SourceState
 from collector.health.aggregator import HealthAggregator
 from collector.health.snapshot_writer import SnapshotWriter
 from collector.plugins.mqtt.connector import MqttConnector

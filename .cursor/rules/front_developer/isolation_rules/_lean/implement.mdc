@@ -4,7 +4,7 @@ alwaysApply: false
 ---
 # FRONT IMPLEMENT — gates
 
-**Артефакт:** `memory-bank/front/implement/implement-<plan_id>/sNN-<slug>.md` (+ `index.md`; `.cursor/templates/implement/`)
+**Артефакт:** с эпиком `memory-bank/front/implement/implement-<epic_id>/…`; без эпика — `memory-bank/front/implement/<slug>/`. @.cursor/rules/shared/epic-scoped-paths.mdc · `.cursor/templates/implement/`
 
 ## Gates
 

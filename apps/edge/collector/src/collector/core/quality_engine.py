@@ -21,7 +21,8 @@ import yaml
 from pydantic import BaseModel, Field
 
 from collector.config.models import TagMapEntry
-from collector.domain.models import Quality, RawSample
+from app.telemetry.models import Quality
+from collector.domain.raw_models import RawSample
 
 # Приоритет правил: выше = раньше. Порядок = семантика, не configurable.
 # quarantine > native_quality > NaN/Inf > range > stale > good

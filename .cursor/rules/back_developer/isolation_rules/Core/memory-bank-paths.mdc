@@ -31,19 +31,19 @@ alwaysApply: false
 | Режим | Папка | Именование |
 |-------|--------|------------|
 | VAN | `back/van/` | `van-YYYYMMDD.md` (session; карта → `architecture/`) |
-| PLAN | `back/plan/` | `plan-<task_id>.md` |
-| DECOMPOSE | `back/plan/decompose-<plan_id>/` | `index.md` + `sNN-<slug>.md` (+ `implement`) |
-| CREATIVE | `back/creative/` | `creative-<feature_name>.md` |
-| IMPLEMENT | `back/implement/implement-<plan_id>/` | `index.md` + `sNN-<slug>.md` (= decompose). Legacy: `_legacy/` |
+| PLAN | `back/plan/` | `plan-<epic_id>.md` + `decompose-<epic_id>/` |
+| DECOMPOSE | `back/plan/decompose-<epic_id>/` | `index.md` + `sNN-<slug>.md` (+ `implement`) |
+| CREATIVE | `back/creative/<epic_id>/` или `back/creative/` | `creative-<feature>.md` — **с эпиком** под `<epic_id>/`; без эпика — плоско. @.cursor/rules/shared/epic-scoped-paths.mdc |
+| IMPLEMENT | `back/implement/implement-<epic_id>/` | `index.md` + `sNN-<slug>.md`. Без эпика: `back/implement/<slug>/` |
 | TASK | `back/task/` | `task-YYYYMMDD-<slug>.md` |
-| BUGFIX | `back/bugfix/` | `bugfix-YYYYMMDD-<slug>.md` |
+| BUGFIX | `back/bugfix/<epic_id>/` или `back/bugfix/` | `bugfix-YYYYMMDD-<slug>.md` — с эпиком / без |
 | REFACTOR | `back/refactor/` | `analysis-<id>.md`, `plan-<id>.md`, `session-YYYYMMDD-<slug>.md` |
-| REFLECT | `back/reflection/` | `reflection-<task_id>.md` |
-| ARCHIVE NOW | `back/archive/` | `archive-<task_id>.md` |
-| QA | `back/qa/` | `qa-YYYYMMDD-<slug>.md` |
+| REFLECT | `back/reflection/` | `reflection-<task_id>.md` — **не** под epic; **не** переносится ARCHIVE |
+| ARCHIVE NOW | `memory-bank/archive/back/` | **move** epic tree (plan/decompose/implement/creative/qa/bugfix); манифест `archive-*.md` **убран**. Канон: @.cursor/rules/shared/epic-scoped-paths.mdc |
+| QA | `back/qa/<epic_id>/` или `back/qa/` | `qa-YYYYMMDD-<slug>.md` — с эпиком / без |
 | SECURITY | `back/security/` | `security-audit-YYYYMMDD-<slug>.md` |
 
-**Front `memory-bank/front/`** — та же схема, префикс `front/` (VAN…QA + SECURITY).
+**Front `memory-bank/front/`** — та же схема, префикс `front/` + ARCHIVE → `memory-bank/archive/front/`.
 
 | Режим | Папка | Именование |
 |-------|--------|------------|
@@ -56,18 +56,20 @@ alwaysApply: false
 | VAN | `integration/van/` | `van-YYYYMMDD-<slug>.md` (session; полная карта → `architecture/`) |
 | GAP | `integration/gap/` | `gap-YYYYMMDD-<slug>.md` |
 | GAP CLOSE | `integration/gap/` | `close-YYYYMMDD-<slug>.md` |
-| PLAN | `integration/plan/` | `plan-<task_id>.md` |
-| DECOMPOSE | `integration/plan/decompose-<plan_id>/` | `index.md` + `eNN-<slug>.md` (+ `implement`) |
-| CREATIVE | `integration/creative/` | `creative-<feature>.md` |
-| IMPLEMENT | `integration/implement/implement-<plan_id>/` | `index.md` + `eNN-<slug>.md` |
+| PLAN | `integration/plan/` | `plan-<epic_id>.md` |
+| DECOMPOSE | `integration/plan/decompose-<epic_id>/` | `index.md` + `eNN-<slug>.md` (+ `implement`) |
+| CREATIVE | `integration/creative/<epic_id>/` или плоско | `creative-<feature>.md` |
+| IMPLEMENT | `integration/implement/implement-<epic_id>/` | `index.md` + `eNN-<slug>.md` |
 | TASK | `integration/task/` | `task-YYYYMMDD-<slug>.md` |
-| BUGFIX | `integration/bugfix/` | `bugfix-YYYYMMDD-<slug>.md` |
+| BUGFIX | `integration/bugfix/<epic_id>/` или плоско | `bugfix-YYYYMMDD-<slug>.md` |
 | REFACTOR | `integration/refactor/` | `analysis-<id>.md`, `plan-<id>.md` |
-| REFLECT | `integration/reflection/` | `reflection-<task_id>.md` |
-| ARCHIVE NOW | `integration/archive/` | `archive-<task_id>.md` |
-| QA | `integration/qa/` | `qa-YYYYMMDD-<slug>.md` |
+| REFLECT | `integration/reflection/` | `reflection-<task_id>.md` — не переносится ARCHIVE |
+| ARCHIVE NOW | `memory-bank/archive/integration/` | move epic tree; без `archive-*.md` манифеста |
+| QA | `integration/qa/<epic_id>/` или плоско | `qa-YYYYMMDD-<slug>.md` |
 | SECURITY | `integration/security/` | `security-audit-YYYYMMDD-<slug>.md` |
 | Contracts | `integration/contracts/` | `<domain-slug>.md` |
 | Reference | `integration/reference/` | stubs → query-builder skill |
 
-`slug` — латиница. `tasks.md` — append-only. Артефакты режимов — под `back/` | `front/` | `integration/` (не корень, кроме общих index + **`architecture/`**).
+**Корневой архив эпиков:** `memory-bank/archive/{back\|front\|integration}/` — рядом с `back/` / `front/` / `integration/`. Legacy `memory-bank/{role}/archive/` не использовать для новых файлов.
+
+`slug` — латиница. `tasks.md` — append-only. Артефакты режимов — под `back/` | `front/` | `integration/` пока активны; после ARCHIVE NOW — под `archive/…`. Исключение общих index + **`architecture/`**.

@@ -4,7 +4,7 @@ alwaysApply: false
 ---
 # FRONT CREATIVE — gates
 
-**Артефакт:** `memory-bank/front/creative/creative-[feature_name].md`  
+**Артефакт:** с эпиком `memory-bank/front/creative/<epic_id>/creative-[feature_name].md`; без — `memory-bank/front/creative/creative-[feature_name].md`. @.cursor/rules/shared/epic-scoped-paths.mdc
 Batch обязателен. Формат фазы — в `workflow-creative.mdc`.
 
 ## Gates

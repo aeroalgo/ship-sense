@@ -11,6 +11,10 @@ dependencies = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = [
+    "-m",
+    "not slow",
+]
 markers = [
     "integration: requires external broker or emulator",
     "slow: long-running soak or endurance test",

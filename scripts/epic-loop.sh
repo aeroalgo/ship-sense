@@ -23,7 +23,7 @@ Examples:
   ./scripts/epic-loop.sh --interactive decompose-… provider/your-model-id
 
 Modes (default = headless auto-chain):
-  headless     — claude -p; стрим в терминал + лог session-N.log; шаги s01→s02→… без /exit
+  headless     — claude -p; стрим в терминал + лог session-N.log; шаги s01/r01→… без /exit
   --interactive — полный UI Claude Code; после FINISH нужен /exit вручную
 
 Options:

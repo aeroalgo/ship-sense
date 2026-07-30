@@ -9,7 +9,7 @@ import logging
 from collections.abc import Awaitable, Callable
 from pathlib import Path
 
-from collector.domain.models import CollectorHealthSnapshot
+from collector.domain.health_models import CollectorHealthSnapshot
 
 logger = logging.getLogger(__name__)
 SnapshotFactory = Callable[[], Awaitable[CollectorHealthSnapshot]]

@@ -13,7 +13,8 @@ from datetime import datetime, timezone
 import pytest
 from sqlalchemy import text
 
-from apps.edge.collector.src.collector.domain.models import Event, EventSeverity, Quality, TelemetrySample
+from app.events.models import Event, EventSeverity
+from app.telemetry.models import Quality, TelemetrySample
 from apps.edge.collector.src.collector.sink.ipc_sink import IpcCanonicalSink
 
 # Fixed UTC timestamp for determinism

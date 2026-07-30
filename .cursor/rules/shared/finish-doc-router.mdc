@@ -16,7 +16,7 @@ alwaysApply: false
 | `* QA` | `## Handoff * QA` + qa link; fail/blocked → `review.md` §Fix plan + §Epic QA |
 | `* BUGFIX` | bugfix-artifact + §BUGFIX FINISH → `* QA` пока pass |
 | `* REFLECT` | align post-task |
-| `ARCHIVE NOW` | clear stale; «await VAN» or next T-xxx |
+| `ARCHIVE NOW` | move epic → `memory-bank/archive/{role}/` via `scripts/mb-archive-epic.py`; reflection остаётся; clear `load_now`; «await VAN» / next T-xxx |
 | `* CREATIVE` | next IMPLEMENT shard + rewire `sNN`/`eNN` (`needs_creative — closed`) |
 | `INTEG PLAN/GAP/GAP CLOSE` | см. шаблон |
 | `* DECOMPOSE` | first step file `s01|e01-*.md` (не index) |
@@ -31,8 +31,10 @@ alwaysApply: false
 - Completed work в `load_now`; full index в `load_now`
 - `decompose=completed` / next `load_now` **до** step-файл + `## Handoff`
 - IMPLEMENT done без step-файл
+- **≥2** блока `## Handoff` в `activeContext.md` (append/история) — хронология только в `tasks/log/` и role-артефактах
+- Оставлять предыдущий Handoff «на всякий случай» рядом с новым
 
 ## After template
 
-1. `## Handoff` в `activeContext.md` (перезапись)
+1. `## Handoff` в `activeContext.md` — **ровно один**, полная **перезапись** (replace). Epic-loop читает первый `## Handoff`; стопка = дрейф и FAIL
 2. New chat: context-session-economy §2

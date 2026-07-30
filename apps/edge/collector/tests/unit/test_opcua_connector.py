@@ -6,7 +6,7 @@ import pytest
 
 from collector.config.models import SourceConfig, SubscribeConfig, TagMapEntry
 from collector.domain.interfaces import SourceConnector, Subscription
-from collector.domain.models import RawSample, RawTagDescriptor
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 from collector.plugins.opcua.connector import OpcUaConnector
 
 

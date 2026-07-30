@@ -5,7 +5,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-from collector.domain.models import Event, RawSample
+from app.events.models import Event
+from collector.domain.raw_models import RawSample
 from collector.plugins.mqtt.lifecycle_tracker import MqttLifecycleTracker
 from collector.plugins.mqtt.payloads import (
     AnalogChannelPayload,

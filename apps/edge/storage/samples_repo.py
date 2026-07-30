@@ -6,7 +6,7 @@ from sqlalchemy import and_, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from apps.edge.collector.src.collector.domain.models import Quality, TelemetrySample
+from app.telemetry.models import Quality, TelemetrySample
 from apps.edge.storage.schemas import Sample
 
 

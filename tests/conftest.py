@@ -21,3 +21,4 @@ for source_dir in (ROOT / "apps/edge/collector/src", ROOT / "apps/edge/emulator/
 def pytest_configure(config: pytest.Config) -> None:
     config.addinivalue_line("markers", "integration: storage integration tests")
     config.addinivalue_line("markers", "load: storage throughput tests")
+    config.addinivalue_line("markers", "e2e: end-to-end pipeline tests (compose or external dependencies)")

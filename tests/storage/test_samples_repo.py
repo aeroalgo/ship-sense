@@ -4,7 +4,7 @@ import pytest
 from unittest.mock import AsyncMock
 from unittest.mock import MagicMock
 
-from apps.edge.collector.src.collector.domain.models import Quality, TelemetrySample
+from app.telemetry.models import Quality, TelemetrySample
 from apps.edge.storage.samples_repo import SamplesRepo
 
 

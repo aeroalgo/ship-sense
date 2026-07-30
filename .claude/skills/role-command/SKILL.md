@@ -4,9 +4,7 @@
 
 **FRONT + любой frontend:** тесты (vitest/playwright/npm test/e2e) — **только parent**. Subagent spawn → в промпт вставить HARD RULE из `@.claude/rules/front-tests-parent-only.md` / `~/.claude/rules/02-front-tests-parent-only.md`.
 
-**Claude Code:** делегирование через `Agent` как обычно. Overlay `.claude/agents/`: `explorer` · `verify` · `reviewer`.  
-**Hooks spawn-gate:** `.claude/settings.json` + `.claude/hooks/*.py`. FINISH без `@verify` / QA без `@reviewer` / QA без Handoff — Stop hook блокирует.  
-**Spawn HARD:** `.claude/instructions/spawn-hard.md` — для verify/reviewer packed секции + `ALLOW READ` ≤5 (иначе PreToolUse deny).
+**Claude Code subagents:** `.claude/agents/` — `reviewer` · `verify` · `explorer` + built-in. **Обязательные gate’ы** (packed — `.claude/instructions/spawn-hard.md`): codebase search → `@explorer`; FINISH + `code_changed` → `@verify`; BACK QA → `@reviewer`. Прочие Agent — свободно.
 
 Parse: `{PREFIX} {MODE}` or `{PREFIX} {MODE} FINISH`.
 
@@ -36,7 +34,7 @@ Multi-word: `ARCHIVE NOW`, `IDEA PIPELINE CONTINUE`, `INTEG GAP` (алиас `IN
 .venv/bin/graphify explain "<concept>"
 ```
 
-Fallback на Read/Grep — только после ориентации по графу, или если root `graphify-out/graph.json` нет / stale. Не пропускай graphify «потому что файлы уже известны». В промпт каждого code-exploration subagent: «сначала `.venv/bin/graphify query|path|explain` из корня репо, затем Read/Grep; не создавать nested graphify-out».
+Fallback на Read/Grep — только после ориентации по графу **или** после отчёта `@explorer`, или если root `graphify-out/graph.json` нет / stale. Не пропускай graphify «потому что файлы уже известны». **Codebase search / multi-file discovery** в IMPLEMENT·REFACTOR·BUGFIX·TASK → обязательный `Agent`→`explorer` (не серия parent `rg`) — `.claude/instructions/spawn-hard.md`. В промпт explorer: «сначала `.venv/bin/graphify`, затем Grep/Glob/`rg` fallback до ответа; не создавать nested graphify-out».
 
 **После правок кода (FINISH):** из корня репо `.venv/bin/graphify update .` — см. @.cursor/rules/shared/finish-block.mdc.
 
@@ -88,7 +86,7 @@ Fallback на Read/Grep — только после ориентации по г
 | GAP CLOSE | `{role_dir}workflow-gap-close.mdc` |
 
 **ЗАПРЕЩЕНО угадывать:**
-- `workflow-{role}-{mode}.mdc`
+- `workflow-back-bugfix.mdc` / `workflow-front-*.mdc` / `workflow-integ-*.mdc`
 - `workflow-BACK-bugfix.mdc`
 - любой путь с удвоенным префиксом роли в имени файла
 

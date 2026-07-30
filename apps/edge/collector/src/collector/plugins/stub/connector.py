@@ -12,7 +12,7 @@ import itertools
 
 from collector.config.models import SourceConfig
 from collector.domain.interfaces import BaseSourceConnector, OnSampleCallback, Subscription
-from collector.domain.models import RawSample, RawTagDescriptor
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 
 STUB_DESCRIPTORS = (
     RawTagDescriptor(native_id="ai4101", name="stub_analog", unit="-"),

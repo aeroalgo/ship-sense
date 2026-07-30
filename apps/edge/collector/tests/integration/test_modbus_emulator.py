@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import pytest
 
-from collector.domain.models import Quality
+from app.telemetry.models import Quality
 
 
 @pytest.mark.asyncio

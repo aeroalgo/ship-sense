@@ -9,7 +9,8 @@ from typing import Any
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from apps.edge.collector.src.collector.domain.models import Event, Quality, TelemetrySample
+from app.events.models import Event
+from app.telemetry.models import Quality, TelemetrySample
 from apps.edge.storage.events_repo import EventsRepo
 from apps.edge.storage.samples_repo import SamplesRepo
 

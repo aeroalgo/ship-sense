@@ -3,6 +3,17 @@
 Edge-судовой сбор телеметрии (T-001). Производит канонический поток
 `TelemetrySample` / `Event` и отдаёт его процессу **writer** (T-002) по IPC.
 
+## Ownership (RF-01 r04)
+
+Канонические модели (`TelemetrySample`, `Event`, `EventSeverity`, `Quality`) принадлежат **FastAPI-приложению** (`apps/api/app/telemetry`, `apps/api/app/events`).  
+Collector владеет только Raw* (`RawSample`, `RawTagDescriptor`) и health-моделями (`HealthStatus`, `SourceState`, `CollectorHealthSnapshot`) внутри `collector.domain`.
+
+- **Разрешено:** collector core / sink / mapper (lifecycle_tracker, mapper) импортируют `app.telemetry` / `app.events`.
+- **Запрещено:** плагины (`collector/plugins/*`) импортируют `app.telemetry` / `app.events` (только Raw* + health).
+- **Запрещено:** storage и pipeline импортируют `collector.domain` (кроме Raw*/health).
+
+Regression: `apps/api/tests/unit/test_domain_no_fastapi.py`, `tests/storage/test_no_collector_domain_canonical.py`, `apps/edge/collector/tests/unit/test_plugins_no_app_canonical.py`.
+
 ## IPC framing — collector → writer (стык T-002 §21.1)
 
 Collector и writer — **разные процессы** (ADR-COL-001: collector ‖ writer ‖ api).
@@ -30,7 +41,7 @@ Collector и writer — **разные процессы** (ADR-COL-001: collecto
 - **length** — `struct.pack(">I", N)`, беззнаковый 32-бит big-endian.
 - **envelope** — `{"type": "sample" | "event", "payload": {...}}`.
 - **payload** — `model.model_dump(mode="json")` соответствующей pydantic-модели
-  (`TelemetrySample` / `Event` из `collector.domain.models`):
+  (`TelemetrySample` из `app.telemetry.models` / `Event` из `app.events.models`):
   - `datetime` → ISO-8601 строка;
   - `StrEnum` (`Quality`, `EventSeverity`) → строковое значение (`"good"`, `"alarm"`).
 
@@ -93,21 +104,24 @@ socket descriptors не растёт. Тест помечен `slow`, поэто
 
 ### Короткий CI-фрагмент
 
-Запуск из корня репозитория (60 секунд, минимум один drop):
+Default suite (`pyproject` `addopts`) исключает `slow`. Soak нужно запускать явно.
+Default длительности soak = **5 с** (`SHIPSENSE_SOAK_DURATION_SEC`); для CI-фрагмента 60 с задайте env:
 
 ```bash
 PYTHONPATH=apps/edge/collector/src:apps/edge/emulator/src \
   SHIPSENSE_SOAK_DURATION_SEC=60 \
   SHIPSENSE_SOAK_DROP_INTERVAL_SEC=5 \
-  .venv/bin/pytest -q apps/edge/collector/tests/soak/test_24h_fragment.py -m slow
+  .venv/bin/pytest -q apps/edge/collector/tests/soak/test_24h_fragment.py \
+  -m slow --override-ini="addopts="
 ```
 
-Для быстрого локального smoke можно уменьшить длительность, сохранив `-m slow`:
+Быстрый локальный smoke (default 5 с или короче):
 
 ```bash
 PYTHONPATH=apps/edge/collector/src:apps/edge/emulator/src \
-  SHIPSENSE_SOAK_DURATION_SEC=10 \
-  .venv/bin/pytest -q apps/edge/collector/tests/soak/test_24h_fragment.py -m slow
+  SHIPSENSE_SOAK_DURATION_SEC=5 \
+  .venv/bin/pytest -q apps/edge/collector/tests/soak/test_24h_fragment.py \
+  -m slow --override-ini="addopts="
 ```
 
 ### Полный ручной прогон 24h
@@ -121,7 +135,8 @@ PYTHONPATH=apps/edge/collector/src:apps/edge/emulator/src \
   SHIPSENSE_SOAK_DURATION_SEC=86400 \
   SHIPSENSE_SOAK_DROP_INTERVAL_SEC=300 \
   SHIPSENSE_SOAK_DROP_DURATION_SEC=3 \
-  .venv/bin/pytest -q apps/edge/collector/tests/soak/test_24h_fragment.py -m slow \
+  .venv/bin/pytest -q apps/edge/collector/tests/soak/test_24h_fragment.py \
+  -m slow --override-ini="addopts=" \
   2>&1 | tee soak-24h-$(date -u +%Y%m%dT%H%M%SZ).log
 ```
 
@@ -194,3 +209,65 @@ samples/sec=1.0 total_samples=15 total_events=0
 - publisher deterministic seed 42 (`mqtt_publisher.py`).
 - Health snapshot читается из volume `/var/lib/shipsense/health/collector.json`
   через `collector-mqtt` (режимы `dual`/`sigterm`).
+
+## Pipeline DB E2E smoke (L2, AC-PIPE-07/08)
+
+Скрипт `scripts/smoke-pipeline-db.sh` поднимает compose-стек с реальным `writer` (не stub) и TimescaleDB,
+и ждёт появления данных в таблице `samples`.
+
+```bash
+# Default (Modbus contour): db + writer + emulator + collector
+TIMEOUT=60 ./scripts/smoke-pipeline-db.sh default
+
+# MQTT contour: + mosquitto + collector-mqtt + emulator-mqtt
+TIMEOUT=120 ./scripts/smoke-pipeline-db.sh mqtt
+```
+
+Exit codes:
+- `0` — `COUNT(samples) > 0` в пределах TIMEOUT (PASS)
+- `1` — timeout, samples всё ещё 0 (FAIL loud, дамп writer логов в trap)
+- `2` — неверный MODE
+
+AC-PIPE-08 (mqtt mode): скрипт дополнительно логирует наличие тегов `TAI4101` / `TGEU4101`,
+но exit 0 требует только `samples > 0`.
+
+### Expected SQL после smoke
+
+```sql
+-- Минимум 1 строка появилась
+SELECT count(*) FROM samples;  -- > 0
+
+-- Для mqtt contour: известные теги из карт
+SELECT count(*) FROM samples WHERE tag_id IN ('TAI4101','TGEU4101');  -- > 0 (не обязательно)
+
+-- Примеры данных
+SELECT tag_id, value, quality, ts FROM samples ORDER BY ts DESC LIMIT 5;
+```
+
+### Layer matrix (доказательства)
+
+| Layer | Tool | Маркер | Что доказывает | Команда |
+|-------|------|--------|----------------|---------|
+| L0 | pytest + testcontainers | `integration`, `slow` | IPC frame → `samples`/`events` | `.venv/bin/pytest tests/pipeline/test_writer_ipc_db.py -q` |
+| L1 MQTT | pytest + testcontainers | `integration`, `slow` | publisher → mosquitto → collector → writer → DB | `.venv/bin/pytest tests/pipeline/test_mqtt_pipeline_db.py -q` |
+| L1 Modbus | pytest + testcontainers | `integration`, `slow` | emulator → connector → writer → DB | `.venv/bin/pytest tests/pipeline/test_modbus_pipeline_db.py -q` |
+| L2 compose | bash + psql poll | — (manual/CI) | full stack up → data in DB | `TIMEOUT=60 ./scripts/smoke-pipeline-db.sh default` |
+| L2 mqtt | bash + psql poll | — (manual/CI) | mqtt path → TAI4101/TGEU4101 | `TIMEOUT=120 ./scripts/smoke-pipeline-db.sh mqtt` |
+| Regression | pytest | — | соседние suite не сломаны | `.venv/bin/pytest tests/storage apps/edge/collector/tests apps/edge/emulator/tests -q` |
+
+Все L0/L1 тесты используют `WriterService.start_tcp()` (ephemeral port) + bounded poll loop.
+L2 smoke — compose + psql, без pytest wrapper (опционально, не требуется для gate).
+
+### pytest runner contract
+
+Из корня репо (НЕ голый `pytest`):
+
+```bash
+.venv/bin/pytest tests/pipeline -q -m "integration and slow"
+.venv/bin/pytest tests/pipeline -q
+```
+
+`pyproject.toml`:
+- `pythonpath` включает `.`, `apps/edge/collector/src`, `apps/edge/emulator/src`
+- `testpaths` включает `tests/pipeline`
+- Маркер `e2e` зарегистрирован (опционален; pipeline suite использует `integration` + `slow`)

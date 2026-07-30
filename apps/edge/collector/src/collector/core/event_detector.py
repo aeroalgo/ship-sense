@@ -3,7 +3,8 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from collector.domain.models import Event, EventSeverity, Quality
+from app.events.models import Event, EventSeverity
+from app.telemetry.models import Quality
 
 
 DiscreteKey = tuple[str, str]

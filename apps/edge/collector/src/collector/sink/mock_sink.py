@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from collector.domain.models import Event, TelemetrySample
+from app.events.models import Event
+from app.telemetry.models import TelemetrySample
 
 
 class MockSink:

@@ -4,7 +4,7 @@
 **needs_creative:** soft CR-UI-05 — **closed** | **tdd:** yes
 **AC:** AC-1-01..06; plan §5.1; gate DS0-4 closed (s06); CR-UI-05 OverviewGroupCard floor
 
-**Creative:** [CR-UI-05-post-density.md](../../creative/CR-UI-05-post-density.md) (`--overview-group-min-*`, type floor)
+**Creative:** [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md) (`--overview-group-min-*`, type floor)
 
 
 **visible_ui:** yes
@@ -20,7 +20,7 @@
 Экран Обзор: AggregateShipStatus + группы нос/корма + WS values + quarantine/stale states + drill stub T-006.
 
 ## Контекст
-- **Consumes:** s03 rollup, s04–s07, s06 DS cards; [CR-UI-05-post-density.md](../../creative/CR-UI-05-post-density.md) density floor
+- **Consumes:** s03 rollup, s04–s07, s06 DS cards; [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md) density floor
 - **Produces:** features/overview/*
 
 ## Файлы

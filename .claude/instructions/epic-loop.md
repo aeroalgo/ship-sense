@@ -6,7 +6,11 @@
 
 ## Зачем
 
-Один чат = один atomic шаг (IMPLEMENT / CREATIVE / QA / BUGFIX). Эпик = очередь из Handoff `Следующий:` + `load_now`.
+Один чат = один atomic шаг (IMPLEMENT / REFACTOR / CREATIVE / QA / BUGFIX). Эпик = очередь из Handoff `Следующий:` + `load_now`.
+
+**activeContext:** ровно **один** `## Handoff` (полная перезапись на FINISH). Loop читает первый блок; стопка старых = дрейф / stop-gate FAIL. История — `tasks/log/`, не activeContext.
+
+**Paths:** epic-scoped CREATIVE/QA/BUGFIX → `{mode}/<epic_id>/`; ARCHIVE = команда `* ARCHIVE NOW` → `memory-bank/archive/{role}/` (скрипт `mb-archive-epic.py` — опциональный хелпер). Канон: `.cursor/rules/shared/epic-scoped-paths.mdc`.
 
 ## Запуск
 
@@ -14,9 +18,13 @@
 cd /path/to/ship-sense
 ./scripts/epic-loop.sh decompose-v1-p1-pipeline-db-e2e provider/your-model-id
 ./scripts/epic-loop.sh --interactive decompose-… provider/your-model-id
+# M/L refactor (rNN):
+./scripts/epic-loop.sh memory-bank/back/refactor/plan/decompose-<id> provider/your-model-id
 ```
 
 Или slash `/epic-run <decompose>` (arm) → в терминале `./scripts/epic-loop.sh [--model …]`.
+
+**REFACTOR:** arm на `memory-bank/{back|front|integration}/refactor/plan/decompose-<id>/`; Handoff `Следующий: BACK REFACTOR`; pending считает `rNN`. `REFACTOR PLAN` / `REFACTOR DECOMPOSE` — вне автоцикла (epic complete).
 
 ## Env
 
@@ -41,7 +49,7 @@ cd /path/to/ship-sense
 - QA `blocked` и next не BUGFIX/QA
 - fingerprint Handoff+load_now не изменился после сессии
 - Stop×3 без FINISH / без Handoff
-- mode вне `allowed_modes` (default: IMPLEMENT, CREATIVE, QA, BUGFIX)
+- mode вне `allowed_modes` (default: IMPLEMENT, CREATIVE, QA, BUGFIX, REFACTOR)
 - `max_iterations`
 
 ## Hooks

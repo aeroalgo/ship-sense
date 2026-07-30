@@ -11,7 +11,8 @@ from pathlib import Path
 
 import pytest
 
-from collector.domain.models import Event, EventSeverity, Quality, TelemetrySample
+from app.events.models import Event, EventSeverity
+from app.telemetry.models import Quality, TelemetrySample
 from collector.sink.ipc_sink import IpcCanonicalSink, SinkUnavailable
 
 # CanonicalSink (interfaces.py) — Protocol без @runtime_checkable;

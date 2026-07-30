@@ -7,7 +7,7 @@ from typing import Sequence
 
 from collector.config.models import SourceConfig, TagMapEntry
 from collector.domain.interfaces import BaseSourceConnector, OnSampleCallback, Subscription
-from collector.domain.models import RawSample, RawTagDescriptor
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 from collector.plugins.modbus.client import AsyncModbusClient, ModbusClientError, ModbusTimeoutError
 from collector.plugins.modbus.decoder import decode_float32, decode_int, extract_bit
 from pymodbus.exceptions import ModbusException

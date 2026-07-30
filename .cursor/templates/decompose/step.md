@@ -90,7 +90,7 @@ BACK — omit весь блок FRONT (`visible_ui` / FRONT Impl / Design skills
 - **Причина:** scaffold / infra / финальный QA без новой бизнес-логики.
 - **Верификация:** smoke / build / E2E (указать команды).
 
-`Impl skills` в Skills meta **оставляй** (слой B для Cursor / Claude Code / Kilo). Фильтр «не читать tdd при docs-only» — в workflow A / Kilo `workflow-gate`, не вырезанием списка из step.
+`Impl skills` в Skills meta **оставляй** (слой B для Cursor / Claude Code). Фильтр «не читать tdd при docs-only» — в workflow A, не вырезанием списка из step.
 
 ## Подробный процесс выполнения
 1. …

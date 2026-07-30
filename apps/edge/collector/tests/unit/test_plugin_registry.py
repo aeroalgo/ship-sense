@@ -16,7 +16,8 @@ from collector.domain.interfaces import (
     SourceConnector,
     Subscription,
 )
-from collector.domain.models import RawSample, RawTagDescriptor, SourceState
+from collector.domain.raw_models import RawSample, RawTagDescriptor
+from collector.domain.health_models import SourceState
 from collector.plugins.registry import PluginRegistry
 
 

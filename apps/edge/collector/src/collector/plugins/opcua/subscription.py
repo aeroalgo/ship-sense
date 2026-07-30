@@ -17,7 +17,7 @@ from asyncua.common import subscription
 
 from collector.config.models import TagMapEntry
 from collector.domain.interfaces import OnSampleCallback, Subscription
-from collector.domain.models import RawSample
+from collector.domain.raw_models import RawSample
 
 logger = logging.getLogger(__name__)
 diag_logger = logging.getLogger("collector.opcua.diag")

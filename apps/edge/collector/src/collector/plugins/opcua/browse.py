@@ -14,7 +14,7 @@ from asyncua import Client, ua
 from asyncua.common import node
 
 from collector.config.models import TagMapEntry
-from collector.domain.models import RawTagDescriptor
+from collector.domain.raw_models import RawTagDescriptor
 
 logger = logging.getLogger(__name__)
 

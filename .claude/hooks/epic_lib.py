@@ -18,12 +18,17 @@ ALLOWED_DEFAULT = (
     "CREATIVE",
     "QA",
     "BUGFIX",
+    "REFACTOR",
+)
+
+_MODE_ALT = (
+    r"REFACTOR(?:\s+(?:PLAN|DECOMPOSE))?|"
+    r"IMPLEMENT|CREATIVE|QA|BUGFIX|REFLECT|ARCHIVE(?:\s+NOW)?|"
+    r"TASK|PLAN|DECOMPOSE|VAN|GAP(?:\s+CLOSE)?"
 )
 
 CMD_RE = re.compile(
-    r"(?i)\b((?:BACK|FRONT|INTEG)\s+"
-    r"(?:IMPLEMENT|CREATIVE|QA|BUGFIX|REFLECT|ARCHIVE(?:\s+NOW)?|"
-    r"TASK|PLAN|DECOMPOSE|VAN|GAP(?:\s+CLOSE)?))\b"
+    rf"(?i)\b((?:BACK|FRONT|INTEG)\s+(?:{_MODE_ALT}))\b"
 )
 
 HALT_RE = re.compile(
@@ -35,9 +40,7 @@ HALT_RE = re.compile(
 )
 
 ROLE_MODE_RE = re.compile(
-    r"(?i)^(BACK|FRONT|INTEG)\s+"
-    r"(IMPLEMENT|CREATIVE|QA|BUGFIX|REFLECT|ARCHIVE(?:\s+NOW)?|"
-    r"TASK|PLAN|DECOMPOSE|VAN|GAP(?:\s+CLOSE)?)$"
+    rf"(?i)^(BACK|FRONT|INTEG)\s+({_MODE_ALT})$"
 )
 
 
@@ -165,6 +168,8 @@ def parse_next_command(handoff: str) -> str | None:
     role = (title.group(1).upper() if title else "BACK")
     if role not in {"BACK", "FRONT", "INTEG"}:
         role = "BACK"
+    if re.search(r"(?i)\br\d{2}\b|refactor/", line):
+        return f"{role} REFACTOR"
     if re.search(r"(?i)\bs\d{2}\b|\be\d{2}\b|implement/", line):
         return f"{role} IMPLEMENT"
     if re.search(r"(?i)creative/", line):
@@ -179,18 +184,47 @@ def command_mode(cmd: str) -> str | None:
     return m.group(2).upper().replace("ARCHIVE NOW", "ARCHIVE")
 
 
-def decompose_pending_left(cwd: str | Path, decompose: str | None) -> int | None:
+def _decompose_index_path(cwd: str | Path, decompose: str | None) -> Path | None:
     if not decompose:
         return None
     root = Path(cwd)
     idx = root / decompose
     if idx.is_dir():
         idx = idx / "index.md"
-    if not idx.is_file() and not str(decompose).endswith(".md"):
-        cand = root / "memory-bank" / "back" / "plan" / decompose / "index.md"
+    if idx.is_file():
+        return idx
+    if str(decompose).endswith(".md"):
+        return None
+    for base in (
+        root / "memory-bank" / "back" / "plan",
+        root / "memory-bank" / "front" / "plan",
+        root / "memory-bank" / "integration" / "plan",
+        root / "memory-bank" / "back" / "refactor" / "plan",
+        root / "memory-bank" / "front" / "refactor" / "plan",
+        root / "memory-bank" / "integration" / "refactor" / "plan",
+    ):
+        cand = base / decompose / "index.md"
         if cand.is_file():
-            idx = cand
-    if not idx.is_file():
+            return cand
+    return None
+
+
+def is_refactor_decompose(cwd: str | Path, decompose: str | None) -> bool:
+    d = str(decompose or "").replace("\\", "/")
+    if "/refactor/" in d:
+        return True
+    idx = _decompose_index_path(cwd, decompose)
+    if not idx or not idx.is_file():
+        return False
+    text = idx.read_text(encoding="utf-8", errors="replace")
+    return bool(re.search(r"(?im)\|\s*\*\*r\d{2}\*\*", text)) or bool(
+        re.search(r"(?i)\br\d{2}-", text)
+    )
+
+
+def decompose_pending_left(cwd: str | Path, decompose: str | None) -> int | None:
+    idx = _decompose_index_path(cwd, decompose)
+    if idx is None:
         return None
     text = idx.read_text(encoding="utf-8", errors="replace")
     pending = len(
@@ -202,6 +236,12 @@ def decompose_pending_left(cwd: str | Path, decompose: str | None) -> int | None
     pending += len(
         re.findall(
             r"(?im)\|\s*\*\*e\d{2}\*\*.*\|\s*(?:pending|active)\s*\|",
+            text,
+        )
+    )
+    pending += len(
+        re.findall(
+            r"(?im)\|\s*\*\*r\d{2}\*\*.*\|\s*(?:pending|active)\s*\|",
             text,
         )
     )
@@ -219,11 +259,14 @@ def normalize_decompose_ref(cwd: str | Path, ref: str) -> str:
         return str(p.as_posix())
     if p.is_dir() and (p / "index.md").is_file():
         return str((p / "index.md").as_posix())
-    # bare id
+    # bare id — feature plan first, then refactor/plan
     for base in (
         root / "memory-bank" / "back" / "plan",
         root / "memory-bank" / "front" / "plan",
         root / "memory-bank" / "integration" / "plan",
+        root / "memory-bank" / "back" / "refactor" / "plan",
+        root / "memory-bank" / "front" / "refactor" / "plan",
+        root / "memory-bank" / "integration" / "refactor" / "plan",
     ):
         for name in (ref, f"decompose-{ref}", ref.replace("decompose-", "")):
             cand = base / name
@@ -295,7 +338,7 @@ def _pick_allow_read_files(load_now: list[str], cmd: str) -> list[str]:
         root_candidates.append(p)
 
     for p in load_now:
-        if "qa/" in p or "bugfix/" in p or "implement/" in p:
+        if "qa/" in p or "bugfix/" in p or "implement/" in p or "refactor/" in p:
             add(p)
     for p in load_now:
         add(p)
@@ -330,7 +373,7 @@ def _extract_verify_commands(cwd: str | Path, load_now: list[str]) -> list[str]:
     prioritized = sorted(
         load_now,
         key=lambda p: (
-            0 if re.search(r"/[se]\d{2}-.*\.md$", p) else 1,
+            0 if re.search(r"/[ser]\d{2}-.*\.md$", p) else 1,
             0 if "qa/" in p else 1,
             p,
         ),
@@ -367,7 +410,7 @@ def _mode_appendix(cmd: str, cwd: str | Path, load_now: list[str]) -> list[str]:
         return [
             "",
             "## spawn-gate BACK QA (обязательно — без этого reviewer DENY)",
-            "1. Parent сам прогоняет suite (не reviewer):",
+            "1. Parent прогоняет suite (не reviewer):",
             "   .venv/bin/pytest tests/storage/ -q",
             "   .venv/bin/pytest -m 'not slow' -q",
             "2. Один раз Agent subagent_type=reviewer. Prompt — секции с новой строки, без markdown-заголовков ##:",
@@ -383,14 +426,32 @@ def _mode_appendix(cmd: str, cwd: str | Path, load_now: list[str]) -> list[str]:
             f"ALLOW READ: {allow_line}",
             "FORBID: edit; pytest; explore; .cursor/rules/**; деревья в ALLOW",
             "Отчёт: VERDICT PASS|BLOCKED|FAIL",
-            "3. FINISH: qa-*.md + переписать ## Handoff BACK QA в activeContext (pass→next; blocked→BUGFIX)",
+            "3. FINISH: qa-*.md + перезаписать ЕДИНСТВЕННЫЙ ## Handoff BACK QA в activeContext "
+            "(replace, не append; pass→next; blocked→BUGFIX)",
             "ЗАПРЕЩЕНО: ALLOW READ с ** или каталогами; >5 файлов; spawn reviewer без Suite results.",
         ]
+
+    explorer_gate = [
+        "",
+        "## spawn-gate SEARCH (обязательно — без этого широкий rg DENY)",
+        "Если нужен codebase search / import audit / where-is / multi-file map:",
+        "сначала один раз Agent subagent_type=explorer (не built-in Explore). Prompt — секции с новой строки:",
+        "Цель:",
+        "- (что найти: imports / owners / paths по текущему step)",
+        "GRAPHIFY:",
+        "- query \"<символы/пакеты текущего step>\"",
+        f"ALLOW READ: {allow_line}",
+        "FORBID: edit; role-command; plan; деревья в ALLOW; >5 файлов",
+        "Отчёт: file:line. На русском.",
+        "FORBIDDEN parent: серия rg/grep -R по apps|tests|frontend вместо explorer.",
+        "Исключение: правки только по явному file list shard без discovery.",
+    ]
 
     if mode == "IMPLEMENT":
         verify_cmds = _extract_verify_commands(cwd, load_now)
         verify_lines = verify_cmds or [".venv/bin/pytest <targeted-test-from-step-shard> -q"]
         return [
+            *explorer_gate,
             "",
             "## spawn-gate IMPLEMENT (обязательно — без этого verify DENY)",
             "Если code_changed=yes: один раз Agent subagent_type=verify. Prompt — секции с новой строки, без markdown-заголовков ##:",
@@ -409,10 +470,36 @@ def _mode_appendix(cmd: str, cwd: str | Path, load_now: list[str]) -> list[str]:
             "Отчёт: VERDICT PASS|FAIL",
         ]
 
+    if mode == "REFACTOR":
+        verify_cmds = _extract_verify_commands(cwd, load_now)
+        verify_lines = verify_cmds or [".venv/bin/pytest <targeted-test-from-rNN-shard> -q"]
+        return [
+            *explorer_gate,
+            "",
+            "## spawn-gate REFACTOR (обязательно — без этого verify DENY)",
+            "Behavior freeze: не менять внешний контракт/API/UX без явного scope.",
+            "green before → refactor → green after. Один rNN за сессию.",
+            "Если code_changed=yes: один раз Agent subagent_type=verify. Prompt — секции с новой строки, без markdown-заголовков ##:",
+            "AC+:",
+            "- targeted pytest green до и после refactor (rNN scope)",
+            "- поведение/контракт сохранены (behavior freeze)",
+            "AC−:",
+            "- не менять публичный API/контракт вне явного scope rNN",
+            "- не выходить за scope текущего rNN / diff",
+            "§0.11:",
+            "- каждый env/event/api/storage counterpart из diff подтверждён в code/tests/config",
+            "VERIFY:",
+            *[f"- {line}" for line in verify_lines],
+            f"ALLOW READ: {allow_line}",
+            "FORBID: edit; .cursor/rules/**; деревья в ALLOW; >5 файлов; пустой AC−/§0.11.",
+            "Отчёт: VERDICT PASS|FAIL",
+        ]
+
     if mode == "BUGFIX":
         verify_cmds = _extract_verify_commands(cwd, load_now)
         verify_lines = verify_cmds or [".venv/bin/pytest <targeted-test-from-bugfix-shard> -q"]
         return [
+            *explorer_gate,
             "",
             "## spawn-gate BUGFIX (если code_changed=yes — без packed verify не FINISH)",
             "Root-cause fix → targeted pytest → при code_changed один раз Agent subagent_type=verify.",
@@ -446,11 +533,12 @@ def build_prompt(cmd: str, cwd: str | Path, load_now: list[str]) -> str:
         cmd,
         "",
         "EPIC MODE (автоцикл): ровно один atomic шаг в этой сессии.",
-        "После FINISH: обнови activeContext ## Handoff + load_now и остановь turn (stop-hook).",
-        "Не начинай следующий sNN/CREATIVE/QA в этой же сессии — epic-loop поднимет новую claude -p.",
+        "После FINISH: в activeContext.md оставь РОВНО ОДИН ## Handoff (полная перезапись/replace, не append стопки) + обнови load_now; остановь turn (stop-hook).",
+        "FORBIDDEN: два и более ## Handoff в activeContext — история только в tasks/log и step/qa shards.",
+        "Не начинай следующий sNN/rNN/CREATIVE/QA в этой же сессии — epic-loop поднимет новую claude -p.",
         "Не /exit и не /clear — loop сам перезапускает сессию с чистым контекстом.",
         "Старт:",
-        "1. memory-bank/activeContext.md → load_now + §Handoff",
+        "1. memory-bank/activeContext.md → load_now + единственный §Handoff",
     ]
     if load_now:
         lines.append(f"2. {load_now[0]}")
@@ -541,7 +629,10 @@ def resolve_next(cwd: str | Path) -> dict[str, Any]:
                 "reason": "epic complete (no pending)",
             }
         role = st.get("role_prefix") or "BACK"
-        cmd = f"{role} IMPLEMENT"
+        if is_refactor_decompose(cwd, st.get("decompose")):
+            cmd = f"{role} REFACTOR"
+        else:
+            cmd = f"{role} IMPLEMENT"
 
     mode = command_mode(cmd)
     if mode is None:
@@ -560,7 +651,18 @@ def resolve_next(cwd: str | Path) -> dict[str, Any]:
     else:
         mode_key = mode
 
-    if mode_key in {"REFLECT", "ARCHIVE", "PLAN", "DECOMPOSE", "VAN", "GAP", "TASK"}:
+    outside_auto = {
+        "REFLECT",
+        "ARCHIVE",
+        "PLAN",
+        "DECOMPOSE",
+        "VAN",
+        "GAP",
+        "TASK",
+        "REFACTOR PLAN",
+        "REFACTOR DECOMPOSE",
+    }
+    if mode_key in outside_auto:
         if mode_key == "REFLECT":
             # last optional reflect then complete after this run
             pass
@@ -585,13 +687,13 @@ def resolve_next(cwd: str | Path) -> dict[str, Any]:
         }
 
     pending = decompose_pending_left(cwd, st.get("decompose"))
-    if pending == 0 and mode_key == "IMPLEMENT":
-        # allow QA after last implement
+    if pending == 0 and mode_key in {"IMPLEMENT", "REFACTOR"}:
+        # allow QA after last implement/refactor step
         if "QA" in allowed:
             cmd = f"{st.get('role_prefix') or 'BACK'} QA"
             mode_key = "QA"
         else:
-            complete_epic(cwd, "no pending implement steps")
+            complete_epic(cwd, "no pending implement/refactor steps")
             return {
                 "ok": False,
                 "status": "complete",

@@ -1094,32 +1094,32 @@ API returns buckets with `{ value, min, max, samples, quality }`.
 ### CR-UI-01 — DS0-4 tokens architecture
 
 **Question:** CSS variables only vs CSS-in-JS vs Tailwind extend?  
-**Output:** `memory-bank/front/creative/CR-UI-01-tokens.md` + `frontend/src/styles/tokens/*`.  
+**Output:** `memory-bank/front/creative/v1-p1-screens/CR-UI-01-tokens.md` + `frontend/src/styles/tokens/*`.  
 **AC:** Theme switch without flash; tokens typed in TS `ThemeTokens`.
 
 ### CR-UI-02 — Chart library selection
 
 **Question:** uPlot vs ECharts for TrendChartContainer?  
-**Output:** `memory-bank/front/creative/CR-UI-02-chart-lib.md` + spike `frontend/src/features/trends/spike/`.  
+**Output:** `memory-bank/front/creative/v1-p1-screens/CR-UI-02-chart-lib.md` + spike `frontend/src/features/trends/spike/`.  
 **AC:** 90d chart interactive on dev laptop; setpoints + markers demo.
 
 ### CR-UI-03 — Alarm grammar visualization
 
 **Question:** Final matrix DS0-1 + animation rules.  
-**Output:** `memory-bank/front/creative/CR-UI-03-alarm-grammar.md`.  
+**Output:** `memory-bank/front/creative/v1-p1-screens/CR-UI-03-alarm-grammar.md`.  
 **Deps:** Q4 for lifecycle labels.  
 **AC:** Grayscale print test passed.
 
 ### CR-UI-04 — Screen 6 compression UX
 
 **Question:** Client vs server debounce; verdict copy templates.  
-**Output:** `memory-bank/front/creative/CR-UI-04-watch-compression.md`.  
+**Output:** `memory-bank/front/creative/v1-p1-screens/CR-UI-04-watch-compression.md`.  
 **AC:** Formal debounce params; user test script for Ф2.5.
 
 ### CR-UI-05 — Density for posts (Q9)
 
 **Question:** Final type scale + OverviewGroupCard size per worst post.  
-**Output:** `memory-bank/front/creative/CR-UI-05-post-density.md`.  
+**Output:** `memory-bank/front/creative/v1-p1-screens/CR-UI-05-post-density.md`.  
 **Deps:** DS0-2 / Q9.  
 **AC:** Readable at worst post 2.5 m measurement photo evidence.
 

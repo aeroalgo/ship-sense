@@ -12,12 +12,8 @@ from collector.domain.interfaces import (
     OnSampleCallback,
     Subscription,
 )
-from collector.domain.models import (
-    HealthStatus,
-    RawSample,
-    RawTagDescriptor,
-    SourceState,
-)
+from collector.domain.health_models import HealthStatus, SourceState
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 from collector.plugins.mqtt.client import AsyncMqttClient
 from collector.plugins.mqtt.lifecycle_tracker import MqttLifecycleTracker
 from collector.plugins.mqtt.mapper import MqttSemanticMapper

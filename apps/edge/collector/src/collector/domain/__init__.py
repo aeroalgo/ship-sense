@@ -1,26 +1,17 @@
 from collector.domain.errors import ConfigError, ConnectError
-from collector.domain.models import (
+from collector.domain.health_models import (
     CollectorHealthSnapshot,
-    Event,
-    EventSeverity,
     HealthStatus,
-    Quality,
-    RawSample,
-    RawTagDescriptor,
     SourceState,
-    TelemetrySample,
 )
+from collector.domain.raw_models import RawSample, RawTagDescriptor
 
 __all__ = [
     "CollectorHealthSnapshot",
     "ConfigError",
     "ConnectError",
-    "Event",
-    "EventSeverity",
     "HealthStatus",
-    "Quality",
     "RawSample",
     "RawTagDescriptor",
     "SourceState",
-    "TelemetrySample",
 ]

@@ -11,9 +11,9 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from apps.edge.collector.src.collector.domain.models import Quality, TelemetrySample
-from apps.edge.semantic.models import NativeMap, NativeMapMapping, QuarantineEntry, QuarantineKind, QuarantineReport
-from apps.edge.semantic.quarantine import (
+from app.telemetry.models import Quality, TelemetrySample
+from app.semantic.models import NativeMap, NativeMapMapping, QuarantineEntry, QuarantineKind, QuarantineReport
+from app.semantic.quarantine import (
     acknowledge,
     apply_quarantine,
     diff_native_map,
@@ -126,7 +126,7 @@ async def test_writer_forces_quality_quarantine_when_tag_quarantined() -> None:
     samples_repo.insert_batch.return_value = 1
 
     # engine with quarantined tag
-    from apps.edge.semantic.engine import SemanticEngine
+    from app.semantic.engine import SemanticEngine
     eng = SemanticEngine()
     # seed directly for test (cache)
     eng._quarantined.add("TAI4101")  # type: ignore[attr-defined]

@@ -38,11 +38,9 @@ paths:
 
 **FAIL:** повторный Read workflow «для уверенности» / после каждого крупного шага.
 
-## Agent spawn — IMPLEMENT
+## Agent spawn — IMPLEMENT / REFACTOR / BUGFIX / QA
 
-Claude Code делегирует через `Agent` как обычно. Overlay: `@explorer` (поиск) · `@verify` · `@reviewer`.
-
-**Обязательные gate:** перед FINISH при `code_changed: yes` — `@verify`; BACK QA после suite — `@reviewer`. Packed prompt для gate’ов (`.claude/instructions/spawn-hard.md`).
+**Обязательные** gate’ы: `@explorer` (codebase search до parent `rg`) · `@verify` (FINISH + `code_changed`) · `@reviewer` (BACK QA после suite). Packed — `.claude/instructions/spawn-hard.md`. Прочие Agent — свободно.
 
 ## Bash / logs / pytest (HARD — anti-bloat)
 

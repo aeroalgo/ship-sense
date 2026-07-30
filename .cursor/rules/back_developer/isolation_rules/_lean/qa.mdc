@@ -4,19 +4,23 @@ alwaysApply: false
 ---
 # QA — gates
 
-**Артефакт:** `memory-bank/back/qa/qa-YYYYMMDD-<slug>.md` (`.cursor/templates/review.md`)
+**Артефакт:**  
+- с эпиком: `memory-bank/back/qa/<epic_id>/qa-YYYYMMDD-<slug>.md`  
+- без эпика: `memory-bank/back/qa/qa-YYYYMMDD-<slug>.md`  
+Канон: @.cursor/rules/shared/epic-scoped-paths.mdc · шаблон `.cursor/templates/review.md`
 
 ## Gates
 
-1. Lean load §7: `load_now` + ONE shard + diff; plan — только если AC неясен; parent гоняет suite — не spawn explore
+1. Lean load §7: `load_now` + ONE shard + diff; plan — только если AC неясен; parent гоняет suite; извлечь `epic_id` → путь артефакта
 2. verification-before-completion · §0.11 · линт · типы · **полный** `.venv/bin/pytest` из корня
-3. После suite → **1× reviewer** обязателен (`Suite results` · `AC+` · `AC−` · `§0.11` · `ALLOW READ` ≤5). Claude Code: `Agent`→`reviewer` (`spawn-hard.md`); Kilo: `task`→`reviewer`
+3. После suite → **1× reviewer** обязателен (`Suite results` · `AC+` · `AC−` · `§0.11` · `ALLOW READ` ≤5). Claude Code: `Agent`→`reviewer` (`.claude/instructions/spawn-hard.md`)
 4. Security spot-check (OWASP/semgrep если настроен)
-5. qa-артефакт + tasks append-only
+5. qa-артефакт в правильной папке + tasks append-only
 5a. **fail|blocked:** `review.md` (§Fix plan, §Epic QA) + Handoff — `finish-doc-router.md`
 6. FINISH: finish-block (`code_changed: no`); pass → REFLECT/IMPLEMENT
 
 ## Abort
 
-- PASS при failing suite · голый `pytest` · explore при ясном scope → reject/FAIL
+- PASS при failing suite · голый `pytest` → reject/FAIL
 - BACK QA без reviewer после suite → FAIL
+- Epic известен, qa-файл в корне `qa/` без `<epic_id>/` → FAIL

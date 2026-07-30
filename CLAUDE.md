@@ -17,9 +17,7 @@
 
 @.claude/rules/language.md
 
-**Cursor, Claude Code и Kilo — один workflow.** Канон: `.cursor/rules/` + `memory-bank/`.  
-Claude Code: `.claude/agents/` + `.claude/instructions/spawn-hard.md` + `.claude/hooks/` + `.claude/settings.json`.  
-Kilo: `kilo.jsonc` + `.kilo/agent/` + `.kilo/instructions/{bootstrap,workflow-gate,spawn-hard}.md` + OmniRoute в `~/.config/kilo/kilo.jsonc`.
+**Cursor и Claude Code — один workflow.** Канон: `.cursor/rules/` + `memory-bank/`. Claude Code agents: `.claude/agents/`.
 
 Token economy: @.cursor/rules/token-economy-core.mdc — для PLAN / architecture смотри **только §0.0 + §0.0.1**; §§0.2/0.5 **не применять** к `plan-*.md` / `architecture/**`.
 
@@ -61,8 +59,8 @@ Token economy: @.cursor/rules/token-economy-core.mdc — для PLAN / architect
 **Коротко (HARD):**
 - **TodoWrite ≤2** за сессию (старт + FINISH); не обновлять на каждый шаг
 - **Re-read запрещён** для файла, уже прочитанного / отредактированного в этой сессии
-- Для codebase сначала **`.venv/bin/graphify query`**; для `memory-bank` / `.cursor` / `.claude` / `.kilo` разрешён fallback через `rg` / `Glob` / `ReadFile`
-- Claude Code делегирует через `Agent` как обычно. Overlay: `@explorer` · `@verify` · `@reviewer`; перед FINISH при code_changed — **`@verify`**; BACK QA — **`@reviewer`** (`.claude/instructions/spawn-hard.md`)
+- Для codebase сначала **`.venv/bin/graphify query`**; для `memory-bank` / `.cursor` / `.claude` разрешён fallback через `rg` / `Glob` / `ReadFile`
+- **Spawn gates (обязательны):** codebase search → `@explorer`; pre-FINISH + `code_changed` → `@verify`; BACK QA после suite → `@reviewer` — `.claude/instructions/spawn-hard.md`. Прочие Agent — свободно
 
 ## Stack (кратко)
 

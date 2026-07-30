@@ -11,7 +11,7 @@ from collector.config.models import (
     MqttSubscribeConfig,
     TagMapEntry,
 )
-from collector.domain.models import RawSample
+from collector.domain.raw_models import RawSample
 from collector.plugins.mqtt.connector import MqttConnector
 from collector.plugins.mqtt.mapper import MqttSemanticMapper
 from collector.plugins.registry import PluginRegistry

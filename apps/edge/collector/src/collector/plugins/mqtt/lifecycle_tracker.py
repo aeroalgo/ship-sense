@@ -4,7 +4,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-from collector.domain.models import Event, EventSeverity, Quality
+from app.events.models import Event, EventSeverity
+from app.telemetry.models import Quality
 from collector.plugins.mqtt.payloads import (
     AnalogApsState,
     DiscreteApsState,

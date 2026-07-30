@@ -62,6 +62,8 @@ M/L: **FORBIDDEN** кодить в PLAN/DECOMPOSE; execute только чере
 | Implement dir | `{role}/implement/implement-<plan>/` | `{role}/refactor/implement/implement-<id>/` |
 | Execute cmd | `* IMPLEMENT` | `* REFACTOR` |
 
+**Epic loop:** `./scripts/epic-loop.sh memory-bank/.../refactor/plan/decompose-<id>` — `REFACTOR` в `allowed_modes`; один `rNN` на сессию. Канон: `.claude/instructions/epic-loop.md`.
+
 ## PLAN output
 
 `refactor/plan/plan-*.md` = **§0.0 SUSPENSION GUARD** (как feature plan): maximally detailed; chat brief OK.

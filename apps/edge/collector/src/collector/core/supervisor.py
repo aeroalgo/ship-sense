@@ -7,7 +7,8 @@ import logging
 from collector.core.restart_policy import RestartPolicy
 from collector.domain.errors import ConnectError
 from collector.domain.interfaces import SourceConnector, Subscription
-from collector.domain.models import RawSample, SourceState
+from collector.domain.raw_models import RawSample
+from collector.domain.health_models import SourceState
 from collector.util.backoff import compute_backoff
 
 logger = logging.getLogger(__name__)
