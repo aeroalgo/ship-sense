@@ -25,7 +25,7 @@ export function QuarantineBanner({
         borderBottom: "var(--border-width, 1px) solid var(--border-subtle)",
       }}
     >
-      {tags.length} тегов под сверкой ({scope}): группы помечены
+      {tags.length} тегов под сверкой ({scope}): {tags.join(", ")}
     </div>
   );
 }

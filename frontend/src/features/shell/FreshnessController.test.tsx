@@ -73,8 +73,8 @@ describe("FreshnessController", () => {
   });
 
   it("renders quarantine banner from live source status", async () => {
-    const useQueryMock = vi.fn().mockReturnValue({
-      data: {
+    sourcesQueryMock.mockReturnValue(
+      queryResult({
         items: [
           {
             source_id: "src-a",
@@ -88,18 +88,13 @@ describe("FreshnessController", () => {
             tags_stale: 0,
           },
         ],
-      },
-      isLoading: false,
-      isError: false,
-    });
-    vi.doMock("@tanstack/react-query", () => ({
-      useQuery: () => useQueryMock(),
-    }));
+      }),
+    );
 
     render(<FreshnessController lastFreshTs={null} forceStale />);
 
     expect(screen.getByTestId(QUARANTINE_BANNER_TEST_ID)).toHaveTextContent(
-      "Источник A",
+      "Источник A (quarantine)",
     );
   });
 

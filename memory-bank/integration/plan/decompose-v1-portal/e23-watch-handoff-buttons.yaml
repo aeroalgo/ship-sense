@@ -20,21 +20,24 @@ contract:
 db: '- none (client routing)'
 back:
 - n/a (client-only)
-- 'Optional P1: bind to `GET /api/watch/schedule` for «current watch» timestamps instead of relative client
-  now'
+- 'Optional P1: bind to `GET /api/watch/schedule` for «current watch» timestamps instead
+  of relative client now'
 front:
 - '`HandoffButton` already wired (FRONT s14)'
 - Preset query must be valid EventsQuery (e11)
 as_built:
-- 'FRONT: HandoffButton already wired (FRONT s14)'
-- 'UI seams: `HandoffButton.tsx` + lib/routing/handoff'
+- 'FRONT client: lib/routing/handoff` constants + `HandoffButton'
 delta:
-- 'Довести client/fixture: static routing (no API)'
+- 'Outcome: buttons "Активные тревоги" / "Сейчас" → deep-link to journal'
 - 'BACK caveat: n/a (client-only)'
-- 'BACK caveat: Optional P1: bind to `GET /api/watch/schedule` for «current watch» timestamps instead
-  of relative client now'
+- 'BACK caveat: Optional P1: bind to `GET /api/watch/schedule` for «current watch»
+  timestamps instead of relative client now'
 - 'FRONT: Preset query must be valid EventsQuery (e11)'
 - 'Data need: client-only links to journal presets (active alarms / active now)'
+- 'FRONT: Preset query must be valid EventsQuery (e11)'
+- 'BACK: n/a (client-only)'
+- 'BACK: Optional P1: bind to `GET /api/watch/schedule` for «current watch» timestamps
+  instead of relative client now'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -42,9 +45,9 @@ grep_control:
 - back: N/A (client routing)
   front: lib/routing/handoff
 verify:
-- '`grep -r "HandoffButton\|handoff" frontend/src`'
-- vitest HandoffButton.test
-- Playwright click → journal filters applied
+- rg "HandoffButton\|handoff" frontend/src
+- cd frontend && npm exec vitest -- run src/features/watch
+- rg -n 'cp3' frontend/src frontend/e2e
 tdd:
 - '1. Red: vitest handoff button → assert URL params'
 - '2. Green: click → journal with correct filters'
@@ -52,10 +55,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Click "Активные тревоги" → journal with severity=alarm
-  verify: grep -r "HandoffButton\|handoff" frontend/src
+  verify: rg "HandoffButton\|handoff" frontend/src
 - id: cp2
   criterion: Click "Сейчас" → journal with from=now-ish
-  verify: vitest HandoffButton.test
+  verify: cd frontend && npm exec vitest -- run src/features/watch
 - id: cp3
   criterion: Params match EventsQuery contract
-  verify: Playwright click → journal filters applied
+  verify: rg -n 'cp3' frontend/src frontend/e2e

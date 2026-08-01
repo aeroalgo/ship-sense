@@ -36,7 +36,7 @@ checkpoints:
   verify: cd frontend && npm exec vitest -- run src/features/watch/HandoffButton.test.tsx
 - id: cp2
   criterion: Targeted tests PASS по AC шага
-  verify: cd frontend && npm exec vitest -- run src/features/watch/HandoffButton.test.tsx
+  verify: cd frontend && npm exec vitest -- run src/features/watch/HandoffButton.test.tsx --reporter=dot
 verify:
 - cd frontend && npm exec vitest -- run src/features/watch/HandoffButton.test.tsx
 - cd frontend && npm exec vitest -- run src/features/watch/HandoffButton.test.tsx

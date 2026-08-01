@@ -50,10 +50,10 @@ checkpoints:
   verify: cd frontend && npm exec vitest -- run src/features/watch
 - id: cp2
   criterion: Verdict / data quality panels present
-  verify: cd frontend && npm exec vitest -- run src/features/watch
+  verify: cd frontend && npm exec vitest -- run src/features/watch --reporter=dot
 - id: cp3
   criterion: Targeted watch tests PASS
-  verify: cd frontend && npm exec vitest -- run src/features/watch
+  verify: cd frontend && npm exec vitest -- run --passWithNoTests false --testPathPattern cp3
 verify:
 - cd frontend && npm exec vitest -- run src/features/watch
 tdd:

@@ -38,7 +38,7 @@ checkpoints:
   verify: cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx
 - id: cp2
   criterion: Targeted tests PASS по AC шага
-  verify: cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx
+  verify: cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx --reporter=dot
 verify:
 - cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx
 - cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx

@@ -251,6 +251,139 @@ def test_after_integ_epic_to_gap_open(tmp_path: Path):
     assert after["phase"] == "GAP_OPEN"
 
 
+def test_gap_fanout_golden_path_back_then_front_to_close(tmp_path: Path):
+    """End-to-end GAP_FANOUT: BACK PLAN→DECOMPOSE→epic done → FRONT → JOIN → GAP CLOSE."""
+    pl = _load_program_lib()
+    gap = _write(
+        "memory-bank/integration/gap/gap-golden.md",
+        "| Gap ID | x | Plan | Status |\n"
+        "| G-FB01 | back missing | plan-BACK-GAP-g | open |\n"
+        "→ [plan-BACK-GAP-g](../../back/plan/plan-BACK-GAP-g.md)\n\n"
+        "| Gap ID | x | Plan | Status |\n"
+        "| G-BF01 | front missing | plan-FRONT-GAP-g | open |\n"
+        "→ [plan-FRONT-GAP-g](../../front/plan/plan-FRONT-GAP-g.md)\n",
+        tmp_path,
+    )
+    _write(
+        "memory-bank/activeContext.md",
+        "## load_now\n- `memory-bank/integration/gap/gap-golden.md`\n\n"
+        "## Handoff INTEG GAP\n- **Следующий:** BACK PLAN\n"
+        "- **Program:** GAP_FANOUT\n"
+        "- **Gap:** `memory-bank/integration/gap/gap-golden.md`\n"
+        "- **Resume:** INTEG GAP CLOSE @memory-bank/integration/implement/implement-demo/e03.yaml\n",
+        tmp_path,
+    )
+    pl.arm_program(
+        tmp_path,
+        program_id="INTEG-JOURNEY-golden",
+        phase="GAP_FANOUT",
+        gap_path=gap,
+        resume={
+            "command": "INTEG GAP CLOSE",
+            "implement": "memory-bank/integration/implement/implement-demo/e03.yaml",
+        },
+    )
+
+    r = pl.resolve_next(tmp_path)
+    assert r["ok"] is True
+    assert r["action"]["command"] == "BACK PLAN"
+    assert r["action"]["gap_id"] == "G-FB01"
+
+    _write(
+        "memory-bank/activeContext.md",
+        "## load_now\n- `memory-bank/back/plan/plan-BACK-GAP-g.md`\n\n"
+        "## Handoff BACK PLAN\n- **Следующий:** BACK DECOMPOSE\n"
+        "- **Program:** GAP_FANOUT\n",
+        tmp_path,
+    )
+    assert pl.after_session(tmp_path)["ok"] is True
+
+    r = pl.resolve_next(tmp_path)
+    assert r["action"]["command"] == "BACK DECOMPOSE"
+    assert r["action"]["gap_id"] == "G-FB01"
+
+    _write(
+        "memory-bank/activeContext.md",
+        "## load_now\n"
+        "- `memory-bank/back/plan/decompose-BACK-GAP-g/index.md`\n\n"
+        "## Handoff BACK DECOMPOSE\n- **Следующий:** BACK IMPLEMENT\n"
+        "- **Program:** GAP_FANOUT\n",
+        tmp_path,
+    )
+    _write(
+        "memory-bank/back/plan/decompose-BACK-GAP-g/index.md",
+        "| Step | Status |\n| --- | --- |\n| **s01** | pending |\n",
+        tmp_path,
+    )
+    assert pl.after_session(tmp_path)["ok"] is True
+
+    r = pl.resolve_next(tmp_path)
+    assert r["action"]["kind"] == "epic"
+    assert r["action"]["role"] == "BACK"
+    assert r["action"]["gap_id"] == "G-FB01"
+
+    _write(
+        "memory-bank/activeContext.md",
+        "## load_now\n- `memory-bank/back/implement/implement-BACK-GAP-g/s01.yaml`\n\n"
+        "## Handoff BACK IMPLEMENT\n- **Следующий:** BACK QA\n"
+        "- **Program:** GAP_FANOUT\n",
+        tmp_path,
+    )
+    after = pl.after_session(tmp_path, epic_status="complete")
+    assert after["ok"] is True
+    assert after["phase"] == "GAP_FANOUT"
+
+    r = pl.resolve_next(tmp_path)
+    assert r["ok"] is True
+    assert r["action"]["command"] == "FRONT PLAN"
+    assert r["action"]["gap_id"] == "G-BF01"
+
+    _write(
+        "memory-bank/activeContext.md",
+        "## load_now\n- `memory-bank/front/plan/plan-FRONT-GAP-g.md`\n\n"
+        "## Handoff FRONT PLAN\n- **Следующий:** FRONT DECOMPOSE\n"
+        "- **Program:** GAP_FANOUT\n",
+        tmp_path,
+    )
+    assert pl.after_session(tmp_path)["ok"] is True
+    r = pl.resolve_next(tmp_path)
+    assert r["action"]["command"] == "FRONT DECOMPOSE"
+
+    _write(
+        "memory-bank/activeContext.md",
+        "## load_now\n"
+        "- `memory-bank/front/plan/decompose-FRONT-GAP-g/index.md`\n\n"
+        "## Handoff FRONT DECOMPOSE\n- **Следующий:** FRONT IMPLEMENT\n"
+        "- **Program:** GAP_FANOUT\n",
+        tmp_path,
+    )
+    _write(
+        "memory-bank/front/plan/decompose-FRONT-GAP-g/index.md",
+        "| Step | Status |\n| --- | --- |\n| **s01** | pending |\n",
+        tmp_path,
+    )
+    assert pl.after_session(tmp_path)["ok"] is True
+    r = pl.resolve_next(tmp_path)
+    assert r["action"]["kind"] == "epic"
+    assert r["action"]["role"] == "FRONT"
+
+    _write(
+        "memory-bank/activeContext.md",
+        "## load_now\n- `memory-bank/front/implement/implement-FRONT-GAP-g/s01.yaml`\n\n"
+        "## Handoff FRONT IMPLEMENT\n- **Следующий:** FRONT QA\n"
+        "- **Program:** GAP_FANOUT\n",
+        tmp_path,
+    )
+    after = pl.after_session(tmp_path, epic_status="complete")
+    assert after["ok"] is True
+    assert after["phase"] in {"GAP_JOIN", "GAP_CLOSE"}
+
+    r = pl.resolve_next(tmp_path)
+    assert r["ok"] is True
+    assert r["action"]["command"] == "INTEG GAP CLOSE"
+    assert r["phase"] == "GAP_CLOSE"
+
+
 def test_build_prompt_front_qa_uses_role():
     import sys
 

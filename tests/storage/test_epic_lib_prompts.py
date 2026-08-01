@@ -68,7 +68,33 @@ def _write(rel_path: str, body: str, cwd: Path) -> str:
     return rel_path
 
 
+def _ensure_git(cwd: Path) -> None:
+    import subprocess
+
+    if (cwd / ".git").is_dir():
+        return
+    subprocess.check_call(
+        ["git", "init"],
+        cwd=cwd,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    subprocess.check_call(
+        ["git", "config", "user.email", "test@example.com"],
+        cwd=cwd,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    subprocess.check_call(
+        ["git", "config", "user.name", "test"],
+        cwd=cwd,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+
 def _seed_loop(cwd: Path) -> None:
+    _ensure_git(cwd)
     loop_dir = cwd / "loop"
     loop_dir.mkdir(parents=True, exist_ok=True)
     loop_dir.joinpath("transitions.yaml").write_text(
@@ -89,6 +115,7 @@ def test_build_prompt_implement_packs_verify_contract(tmp_path: Path) -> None:
     epic_lib = _load_epic_lib()
     import yaml
 
+    _ensure_git(tmp_path)
     step_yaml = tmp_path / "memory-bank/back/plan/decompose-demo/s01-demo.yaml"
     step_yaml.parent.mkdir(parents=True, exist_ok=True)
     step_yaml.write_text(
@@ -102,8 +129,17 @@ def test_build_prompt_implement_packs_verify_contract(tmp_path: Path) -> None:
                 "next_phase": "BACK IMPLEMENT",
                 "needs_creative": "no",
                 "goal": "demo",
-                "checkpoints": [{"id": "cp1", "criterion": "ac"}],
-                "verify": ["`.venv/bin/pytest tests/storage/test_demo.py -q`"],
+                "as_built": ["apps/api/demo.py"],
+                "delta": ["apps/api/demo.py — wire"],
+                "out_of_scope": ["QA journey"],
+                "checkpoints": [
+                    {
+                        "id": "cp1",
+                        "criterion": "ac",
+                        "verify": ".venv/bin/pytest tests/storage/test_demo.py -q",
+                    }
+                ],
+                "verify": [".venv/bin/pytest tests/storage/test_demo.py -q"],
             },
             allow_unicode=True,
             sort_keys=False,
@@ -123,11 +159,142 @@ def test_build_prompt_implement_packs_verify_contract(tmp_path: Path) -> None:
     )
 
     assert "## path-rule IMPLEMENT step (HARD)" in prompt
+    assert "## Do (task-first)" in prompt
+    assert "## Repair lanes (HARD" in prompt
     assert "## spawn (pointer)" in prompt
     assert "spawn-hard.md" in prompt
     assert ".venv/bin/pytest tests/storage/test_demo.py -q" in prompt
     assert "\nAC+:\n" not in prompt
     assert "## spawn-gate IMPLEMENT" not in prompt
+    # task-first: step appendix / path-rule before process walls
+    assert prompt.index("## Do (task-first)") < prompt.index("## Process (коротко)")
+    assert prompt.index("## path-rule IMPLEMENT step (HARD)") < prompt.index(
+        "## Process (коротко)"
+    )
+
+
+def test_build_prompt_implement_packs_delta_and_vitest_verify(tmp_path: Path) -> None:
+    epic_lib = _load_epic_lib()
+    import yaml
+
+    _ensure_git(tmp_path)
+    dec_rel = "memory-bank/integration/plan/decompose-demo/e06-fresh.yaml"
+    impl_rel = "memory-bank/integration/implement/implement-demo/e06-fresh.yaml"
+    dec_path = tmp_path / dec_rel
+    impl_path = tmp_path / impl_rel
+    dec_path.parent.mkdir(parents=True, exist_ok=True)
+    impl_path.parent.mkdir(parents=True, exist_ok=True)
+    (tmp_path / "memory-bank/integration/implement/implement-demo/index.md").write_text(
+        "# implement demo\n",
+        encoding="utf-8",
+    )
+    vitest = "cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx"
+    dec_path.write_text(
+        yaml.safe_dump(
+            {
+                "schema": "epic-decompose/v1",
+                "role": "integ",
+                "step_id": "e06",
+                "plan_id": "demo",
+                "title": "freshness",
+                "element_id": "e06",
+                "next_phase": "INTEG IMPLEMENT",
+                "goal": "banner from sources status",
+                "as_built": ["FreshnessController wired"],
+                "delta": ["allow last_poll_ts null"],
+                "out_of_scope": ["full Playwright → QA"],
+                "checkpoints": [
+                    {
+                        "id": "cp1",
+                        "criterion": "Banner shows quarantine",
+                        "verify": vitest,
+                    }
+                ],
+                "verify": [vitest],
+                "grep_control": [{"back": "x", "front": "y"}],
+            },
+            allow_unicode=True,
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    impl_path.write_text(
+        yaml.safe_dump(
+            {
+                "schema": "epic-implement/v1",
+                "role": "integ",
+                "step_id": "e06",
+                "plan_id": "demo",
+                "title": "freshness",
+                "status": "in_progress",
+                "decompose_ref": dec_rel,
+                "element_ref": dec_rel,
+                "implement_index": "memory-bank/integration/implement/implement-demo/index.md",
+                "date": "2026-08-01",
+                "gaps": {"status": "none"},
+                "grep_control": [{"back": "x", "front": "y"}],
+                "verification_results": [],
+                "checkpoints": [
+                    {
+                        "id": "cp1",
+                        "criterion": "Banner shows quarantine",
+                        "status": "pending",
+                    }
+                ],
+                "resume_from": "cp1",
+            },
+            allow_unicode=True,
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    # minimal loop-state so resolve_expected_implement_step can bind e06
+    ls = tmp_path / "loop"
+    ls.mkdir(parents=True, exist_ok=True)
+    (ls / "loop-state.yaml").write_text(
+        yaml.safe_dump(
+            {
+                "version": 1,
+                "active": True,
+                "status": "running",
+                "role": "INTEG",
+                "mode": "IMPLEMENT",
+                "epic": {
+                    "decompose": "memory-bank/integration/plan/decompose-demo/index.md",
+                    "plan_id": "demo",
+                    "pending": 1,
+                    "remaining": [{"id": "e06", "next_phase": "IMPLEMENT"}],
+                },
+                "step": {
+                    "id": "e06",
+                    "shard": dec_rel,
+                    "artifact": impl_rel,
+                },
+                "next": {"command": "INTEG IMPLEMENT", "target": "e06"},
+            },
+            allow_unicode=True,
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+
+    prompt = epic_lib.build_prompt(
+        "INTEG IMPLEMENT",
+        tmp_path,
+        [dec_rel, "memory-bank/integration/implement/implement-demo/index.md"],
+    )
+
+    assert "## step_context (JSON)" in prompt
+    assert "allow last_poll_ts null" in prompt
+    assert "FreshnessController wired" in prompt
+    assert "full Playwright → QA" in prompt
+    assert '"resume_from": "cp1"' in prompt or '"resume_from":"cp1"' in prompt.replace(
+        " ", ""
+    )
+    assert vitest in prompt
+    assert "Banner shows quarantine" in prompt
+    assert "Pending detail:" not in prompt
+    assert "## Delta (from decompose — HARD)" not in prompt
 
 
 def test_build_prompt_refactor_packs_verify_contract(tmp_path: Path) -> None:
@@ -296,7 +463,17 @@ def _write_decompose_yaml(tmp_path: Path, rel: str) -> str:
         "next_phase": "BACK IMPLEMENT",
         "needs_creative": "no",
         "goal": "goal",
-        "checkpoints": [{"id": "cp1", "criterion": "ac"}],
+        "as_built": ["apps/api/demo.py exists"],
+        "delta": ["apps/api/demo.py — implement"],
+        "out_of_scope": ["QA journey"],
+        "checkpoints": [
+            {
+                "id": "cp1",
+                "criterion": "ac",
+                "verify": ".venv/bin/pytest tests/storage/test_demo.py -q",
+            }
+        ],
+        "verify": [".venv/bin/pytest tests/storage/test_demo.py -q"],
     }
     path = tmp_path / rel
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -518,6 +695,8 @@ def test_build_prompt_implement_requires_step_template(tmp_path: Path) -> None:
     assert "## path-rule IMPLEMENT step (HARD)" in prompt
     assert "templates/implement/epic-step.yaml" in prompt
     assert "epic-implement/v1" in prompt
+    assert "tests: format (HARD)" in prompt
+    assert "FORBIDDEN" in prompt
 
 
 def test_validate_implement_step_format_accepts_canonical(tmp_path: Path) -> None:
@@ -561,11 +740,43 @@ def test_validate_integ_implement_yaml_accepts_canonical(tmp_path: Path) -> None
         "gaps": {"status": "none"},
         "grep_control": [{"back": "api/x", "front": "frontend/y"}],
         "verification_results": ["ok"],
+        "tests": [
+            "`cd frontend && npm exec vitest -- run src/x.test.tsx`",
+            "`npm exec tsc -- --noEmit`",
+        ],
         "checkpoints": [{"id": "cp1", "criterion": "wire", "status": "done"}],
     }
     path = tmp_path / "e03-session-create-logout.yaml"
     path.write_text(yaml.safe_dump(data, allow_unicode=True), encoding="utf-8")
     assert epic_lib.validate_implement_step_format(path) == []
+
+
+def test_validate_integ_implement_yaml_rejects_dirty_tests_prose(tmp_path: Path) -> None:
+    epic_lib = _load_epic_lib()
+    import yaml
+
+    data = {
+        "schema": "epic-implement/v1",
+        "step_id": "e06",
+        "plan_id": "v1-portal",
+        "title": "e06 bad tests",
+        "status": "completed",
+        "element_ref": "memory-bank/integration/plan/decompose-v1-portal/e06.yaml",
+        "implement_index": "memory-bank/integration/implement/implement-v1-portal/index.md",
+        "date": "2026-08-01",
+        "gaps": {"status": "none"},
+        "grep_control": [{"back": "api/x", "front": "frontend/y"}],
+        "verification_results": ["ok"],
+        "tests": [
+            "npm exec tsc -- --noEmit — passed",
+        ],
+        "checkpoints": [{"id": "cp1", "criterion": "wire", "status": "done"}],
+    }
+    path = tmp_path / "e06-freshness-quarantine.yaml"
+    path.write_text(yaml.safe_dump(data, allow_unicode=True), encoding="utf-8")
+    errs = epic_lib.validate_implement_step_format(path)
+    assert errs
+    assert any("FORBIDDEN command+result prose" in e for e in errs)
 
 
 def test_validate_integ_implement_yaml_rejects_grep_control_suffix(tmp_path: Path) -> None:
@@ -598,10 +809,11 @@ def test_build_prompt_integr_implement_requires_integ_step_template(tmp_path: Pa
     assert "epic-step.yaml" in prompt
     assert "epic-implement/v1" in prompt
     assert "checkpoints" in prompt
+    assert "tests: format (HARD)" in prompt
     assert "templates/implement/step.md" not in prompt
 
 
-def test_validate_integ_implement_yaml_accepts_canonical(tmp_path: Path) -> None:
+def test_validate_integ_implement_yaml_accepts_canonical_with_done_at(tmp_path: Path) -> None:
     epic_lib = _load_epic_lib()
     import yaml
 
@@ -617,6 +829,7 @@ def test_validate_integ_implement_yaml_accepts_canonical(tmp_path: Path) -> None
         "gaps": {"status": "none"},
         "grep_control": [{"back": "api/x", "front": "frontend/y"}],
         "verification_results": ["ok"],
+        "tests": ["`npm exec tsc -- --noEmit`"],
         "checkpoints": [
             {
                 "id": "cp1",
@@ -827,3 +1040,207 @@ def test_implement_step_from_handoff() -> None:
         epic_lib.implement_step_from_handoff(handoff)
         == "memory-bank/back/implement/implement-v1-p2-ship/s04-b12-templates.yaml"
     )
+
+
+
+def test_detect_abort_and_dirty_resume_prompt(tmp_path: Path, monkeypatch) -> None:
+    import session_resilience as sr
+
+    log = tmp_path / "session.log"
+    log.write_text("ok\nAPI Error: terminated\n", encoding="utf-8")
+    assert "terminated" in (sr.detect_abort_in_log(log) or "")
+
+    (tmp_path / "frontend" / "src").mkdir(parents=True)
+    (tmp_path / "frontend" / "src" / "x.ts").write_text("a", encoding="utf-8")
+
+    def fake_check_output(cmd, cwd=None, text=None, stderr=None):
+        return " M frontend/src/x.ts\n"
+
+    monkeypatch.setattr("session_resilience.subprocess.check_output", fake_check_output)
+    last = {"status": "aborted", "reason": "API Error: terminated", "resume_from": "cp2"}
+    lines = sr.dirty_resume_prompt_lines(
+        tmp_path,
+        step_id="e06",
+        delta=["frontend/src/x.ts — fix null"],
+        resume_from="cp2",
+        last=last,
+    )
+    text = "\n".join(lines)
+    assert "## resume_dirty (HARD)" in text
+    assert "frontend/src/x.ts" in text
+    assert "aborted" in text
+
+
+def test_delta_paths_exist() -> None:
+    import session_resilience as sr
+
+    ok, missing = sr.delta_paths_exist(
+        ROOT,
+        ["frontend/src/features/shell/FreshnessController.tsx — banner"],
+    )
+    assert ok is True
+    assert missing == []
+    ok2, missing2 = sr.delta_paths_exist(
+        ROOT,
+        ["frontend/src/does-not-exist-xyz.ts — x"],
+    )
+    assert ok2 is False
+    assert missing2
+
+
+def test_flush_checkpoint_cli(tmp_path: Path) -> None:
+    import subprocess
+    import yaml
+
+    rel = "memory-bank/integration/implement/implement-x/e06.yaml"
+    path = tmp_path / rel
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        yaml.safe_dump(
+            {
+                "schema": "epic-implement/v1",
+                "role": "integ",
+                "step_id": "e06",
+                "plan_id": "x",
+                "title": "t",
+                "status": "in_progress",
+                "decompose_ref": "memory-bank/integration/plan/decompose-x/e06.yaml",
+                "implement_index": "memory-bank/integration/implement/implement-x/index.md",
+                "date": "2026-08-01",
+                "element_ref": "memory-bank/integration/plan/decompose-x/e06.yaml",
+                "gaps": {"status": "none"},
+                "grep_control": [],
+                "verification_results": [],
+                "checkpoints": [
+                    {"id": "cp1", "criterion": "a", "status": "pending"},
+                    {"id": "cp2", "criterion": "b", "status": "pending"},
+                ],
+                "resume_from": "cp1",
+            },
+            allow_unicode=True,
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    cli = ROOT / ".claude" / "hooks" / "epic_resolve.py"
+    out = subprocess.check_output(
+        [
+            sys.executable,
+            str(cli),
+            "--cwd",
+            str(tmp_path),
+            "flush-checkpoint",
+            "--path",
+            rel,
+            "--cp",
+            "cp1",
+        ],
+        text=True,
+    )
+    assert '"ok": true' in out
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    assert data["checkpoints"][0]["status"] == "done"
+    assert data["checkpoints"][0]["done_at"]
+    assert data["resume_from"] == "cp2"
+    rc = subprocess.call(
+        [
+            sys.executable,
+            str(cli),
+            "--cwd",
+            str(tmp_path),
+            "flush-checkpoint",
+            "--path",
+            rel,
+            "--cp",
+            "cp1",
+        ]
+    )
+    assert rc == 2
+
+
+def test_validate_rejects_fake_verify_marker(tmp_path: Path) -> None:
+    import yaml
+    from epic_yaml import validate_decompose_yaml
+
+    p = tmp_path / "e99.yaml"
+    p.write_text(
+        yaml.safe_dump(
+            {
+                "schema": "epic-decompose/v1",
+                "role": "integ",
+                "step_id": "e99",
+                "plan_id": "x",
+                "title": "t",
+                "next_phase": "INTEG IMPLEMENT",
+                "goal": "g",
+                "as_built": ["a"],
+                "delta": ["frontend/src/x.ts"],
+                "out_of_scope": ["o"],
+                "checkpoints": [
+                    {
+                        "id": "cp1",
+                        "criterion": "c",
+                        "verify": "rg -n 'e99:cp1' frontend/src",
+                    }
+                ],
+            },
+            allow_unicode=True,
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    errs = validate_decompose_yaml(p)
+    assert any("placeholder" in e for e in errs)
+
+
+def test_record_session_abort(tmp_path: Path) -> None:
+    import json
+    import subprocess
+    import yaml
+
+    _ensure_git(tmp_path)
+    state_dir = tmp_path / ".claude" / "runtime" / "epic"
+    state_dir.mkdir(parents=True)
+    state_dir.joinpath("state.json").write_text(
+        json.dumps(
+            {
+                "active": True,
+                "status": "running",
+                "role": "INTEG",
+                "decompose": "decompose-x",
+                "pending_implement_step": None,
+            }
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "loop").mkdir(parents=True)
+    (tmp_path / "loop" / "loop-state.yaml").write_text(
+        yaml.safe_dump({"track": "epic", "step": {"id": "e06"}}, sort_keys=False),
+        encoding="utf-8",
+    )
+    (tmp_path / "loop" / "transitions.yaml").write_text(
+        _TRANSITIONS.read_text(encoding="utf-8"), encoding="utf-8"
+    )
+    log = state_dir / "session.log"
+    log.write_text("API Error: terminated\n", encoding="utf-8")
+    cli = ROOT / ".claude" / "hooks" / "epic_resolve.py"
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(cli),
+            "--cwd",
+            str(tmp_path),
+            "record-session",
+            "--log",
+            str(log),
+            "--exit-code",
+            "0",
+            "--track",
+            "epic",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 2, proc.stderr + proc.stdout
+    last = json.loads((state_dir / "last-session.json").read_text(encoding="utf-8"))
+    assert last["status"] == "aborted"

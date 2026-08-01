@@ -24,22 +24,26 @@ contract:
 db: '- B13 warnings store'
 back:
 - already live (T-005 s06/s07)
-- 'Placement candidates: Overview strip, Trends overlay, dedicated panel — decide in INTEG CREATIVE if
-  multi-option'
+- 'Placement candidates: Overview strip, Trends overlay, dedicated panel — decide
+  in INTEG CREATIVE if multi-option'
 front:
 - no UI yet
 - Types + client + MSW + UI element (after CREATIVE decision)
 as_built:
-- 'API live: GET /api/warnings`, `GET /api/warnings/history'
+- 'Contract: GET /api/warnings/history?tag_id&asset_id&since&limit&offset'
+- 'FRONT client: (future) `lib/api/warnings.ts'
 - 'BACK: already live (T-005 s06/s07)'
-- 'UI seams: (future) warnings strip / overlay / panel'
 delta:
-- 'Довести client/fixture: FRONT ❌'
-- 'BACK caveat: Placement candidates: Overview strip, Trends overlay, dedicated panel — decide in INTEG
-  CREATIVE if multi-option'
+- 'Outcome: (future) active warnings + history'
+- 'BACK caveat: Placement candidates: Overview strip, Trends overlay, dedicated panel
+  — decide in INTEG CREATIVE if multi-option'
 - 'FRONT: no UI yet'
 - 'FRONT: Types + client + MSW + UI element (after CREATIVE decision)'
 - 'Data need: active warnings + history'
+- 'FRONT: no UI yet'
+- 'FRONT: Types + client + MSW + UI element (after CREATIVE decision)'
+- 'BACK: Placement candidates: Overview strip, Trends overlay, dedicated panel — decide
+  in INTEG CREATIVE if multi-option'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -47,9 +51,9 @@ grep_control:
 - back: GET /api/warnings*
   front: (future client)
 verify:
-- '`grep -r "/api/warnings" frontend/src api/`'
-- pytest warnings API
-- Playwright warning visible when fixture active
+- rg "/api/warnings" frontend/src api/
+- cd frontend && npm exec vitest -- run src/features
+- rg -n 'cp3' frontend/src frontend/e2e
 tdd:
 - '1. Red: n/a (P1, no UI yet)'
 - '2. Green: add client + UI after CREATIVE'
@@ -57,10 +61,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: 'After UI: warnings strip shows active warnings'
-  verify: grep -r "/api/warnings" frontend/src api/
+  verify: rg "/api/warnings" frontend/src api/
 - id: cp2
   criterion: History loads on demand
-  verify: pytest warnings API
+  verify: cd frontend && npm exec vitest -- run src/features
 - id: cp3
   criterion: Placement decided (overview/trends/panel)
-  verify: Playwright warning visible when fixture active
+  verify: rg -n 'cp3' frontend/src frontend/e2e

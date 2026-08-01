@@ -25,7 +25,7 @@ def _write_back_implement_yaml(cwd: Path, rel: str, *, step_id: str = "s01") -> 
         "date": "2026-07-31",
         "done": ["a"],
         "files": ["f.py"],
-        "tests": ["cmd: pytest -q"],
+        "tests": ["`.venv/bin/pytest f.py -q`"],
         "integration_check": ["ok"],
         "checkpoints": [
             {"id": "cp1", "criterion": "step AC complete", "status": "done", "done_at": "2026-08-01"}
@@ -296,6 +296,26 @@ def test_graph_check_ok():
     mermaid = le.render_transitions_mermaid(ROOT)
     assert "stateDiagram-v2" in mermaid
     assert "QA --> BUGFIX" in mermaid or "QA --> REFLECT" in mermaid
+
+
+def test_session_result_normalize_strips_command_result_prose():
+    sr = _load("session_result")
+    dirty = "npm exec tsc -- --noEmit — passed"
+    assert sr.normalize_test_command_entry(dirty) == "npm exec tsc -- --noEmit"
+    assert sr.is_allowed_test_command(dirty)
+    assert sr.tests_entry_is_dirty_command_prose(dirty)
+    clean = "`npm exec tsc -- --noEmit` — PASS"
+    assert sr.normalize_test_command_entry(clean) == "npm exec tsc -- --noEmit"
+    assert not sr.tests_entry_is_dirty_command_prose(clean)
+    assert sr.extract_test_commands_from_yaml_tests([dirty, clean]) == [
+        "npm exec tsc -- --noEmit"
+    ]
+    errs = sr.validate_tests_entries([dirty], finish=True)
+    assert any("FORBIDDEN command+result prose" in e for e in errs)
+    assert sr.validate_tests_entries(
+        ["`npm exec vitest -- run a.test.tsx`", "`npm exec tsc -- --noEmit`"],
+        finish=True,
+    ) == []
 
 
 def test_session_result_validate():
@@ -889,6 +909,87 @@ def test_arm_epic_infers_front_role(tmp_path: Path):
     st = el.arm_epic(tmp_path, "memory-bank/front/plan/decompose-ui")
     assert st["role_prefix"] == "FRONT"
     assert "front/plan/decompose-ui/index.md" in st["decompose"]
+
+
+def test_arm_epic_resets_foreign_result(tmp_path: Path):
+    el = _load("epic_lib")
+    sr = _load("session_result")
+    ld = _load("loop_doctor")
+    (tmp_path / "memory-bank").mkdir()
+    (tmp_path / "memory-bank" / "activeContext.md").write_text("#\n", encoding="utf-8")
+    dec = tmp_path / "memory-bank" / "integration" / "plan" / "decompose-portal"
+    dec.mkdir(parents=True)
+    (dec / "index.md").write_text(
+        "| Step | Status |\n| --- | --- |\n| **e01** | pending |\n",
+        encoding="utf-8",
+    )
+    _seed_transitions(tmp_path)
+    # stale BACK result from previous epic
+    sr.save_result(
+        tmp_path,
+        {
+            "status": "ok",
+            "draft": False,
+            "role": "BACK",
+            "mode": "IMPLEMENT",
+            "step_id": "s19",
+            "artifact": "memory-bank/back/implement/implement-v1-p2-ship/s19-i4-runbook.md",
+        },
+        track="epic",
+    )
+    el.arm_epic(tmp_path, "memory-bank/integration/plan/decompose-portal", role_prefix="INTEG")
+    data = sr.load_result(tmp_path, track="epic")
+    assert data is not None
+    assert data.get("draft") is True
+    assert data.get("status") == "pending"
+    assert (data.get("role") or "").upper() == "INTEG"
+    assert ld.foreign_result_errors(
+        tmp_path, role="INTEG", plan_id="portal", track="epic"
+    ) == []
+
+
+def test_loop_doctor_detects_foreign_result(tmp_path: Path):
+    el = _load("epic_lib")
+    le = _load("loop_engine")
+    sr = _load("session_result")
+    ld = _load("loop_doctor")
+    _seed_transitions(tmp_path)
+    (tmp_path / "memory-bank").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "memory-bank" / "activeContext.md").write_text(
+        "## load_now\n- `memory-bank/integration/plan/decompose-portal/e01.yaml`\n\n"
+        "## Handoff INTEG IMPLEMENT\n- **Следующий:** INTEG IMPLEMENT\n",
+        encoding="utf-8",
+    )
+    dec = tmp_path / "memory-bank" / "integration" / "plan" / "decompose-portal"
+    dec.mkdir(parents=True)
+    (dec / "index.md").write_text(
+        "| Step | Status |\n| --- | --- |\n| **e01** | pending |\n",
+        encoding="utf-8",
+    )
+    (dec / "e01.yaml").write_text("schema: epic-decompose/v1\n", encoding="utf-8")
+    el.arm_epic(tmp_path, "decompose-portal", role_prefix="INTEG")
+    # overwrite stub with foreign finalized result
+    sr.save_result(
+        tmp_path,
+        {
+            "status": "ok",
+            "draft": False,
+            "role": "BACK",
+            "mode": "IMPLEMENT",
+            "step_id": "s01",
+            "artifact": "memory-bank/back/implement/implement-other/s01-x.yaml",
+        },
+        track="epic",
+    )
+    report = ld.doctor(tmp_path)
+    assert report["ok"] is False
+    kinds = {i["kind"] for i in report["issues"]}
+    assert "foreign_result" in kinds
+    # halt-stats should be structured even if empty
+    stats = ld.halt_stats(tmp_path, track="epic")
+    assert stats["ok"] is True
+    assert "top_halt_reasons" in stats
+    _ = le  # keep import used for transitions seed path
 
 
 def test_arm_new_epic_ignores_stale_back_archive_handoff(tmp_path: Path) -> None:

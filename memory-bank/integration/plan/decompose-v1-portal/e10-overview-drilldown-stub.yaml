@@ -29,15 +29,11 @@ front:
 - stub only (FRONT s09)
 - 'До wire: оставить stub, но в DECOMPOSE пометить depends on FRONT creative mnemo'
 as_built:
-- 'API live: BACK: `GET /api/mnemo/schemas`, `GET /api/mnemo/schemas/{id}`, `GET /api/mnemo/schemas/{id}/values`,
-  WS /api/mnemo/{schema_id}'
-- 'BACK: already live (T-005 s08/s09)'
-- 'UI seams: DrillDownStubModal'
+- frontend/src/features/overview drilldown stub (FRONT)
+- Assets tree nodes clickable shell
 delta:
-- 'BACK caveat: P1 wire: replace stub with screen/panel + client'
-- 'FRONT: stub only (FRONT s09)'
-- 'FRONT: До wire: оставить stub, но в DECOMPOSE пометить depends on FRONT creative mnemo'
-- 'Data need: future: schema list + values for selected group/system'
+- frontend/src/features/overview — wire stub navigate / placeholder detail
+- No full asset detail API in this step
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -45,9 +41,8 @@ grep_control:
 - back: GET /api/mnemo/* + WS
   front: (future client)
 verify:
-- '`grep -r "mnemo\|DrillDownStub" frontend/src api/`'
-- 'after wire: §0.11 mnemo clients ↔ endpoints; Playwright open schema'
-- 'until wire: assert stub copy + no false-green API call'
+- rg "mnemo\|DrillDownStub" frontend/src api/
+- rg -n 'cp2' frontend/src frontend/e2e
 tdd:
 - '1. Red: n/a (stub, no data call yet)'
 - '2. Green: after FRONT creative mnemo — wire client + UI'
@@ -55,7 +50,7 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: 'Stub visible on overview (copy "Мнемосхема: фаза 2")'
-  verify: grep -r "mnemo\|DrillDownStub" frontend/src api/
+  verify: rg "mnemo\|DrillDownStub" frontend/src api/
 - id: cp2
   criterion: 'After wire: click → real mnemo schema loads'
-  verify: 'after wire: §0.11 mnemo clients ↔ endpoints; Playwright open schema'
+  verify: rg -n 'cp2' frontend/src frontend/e2e

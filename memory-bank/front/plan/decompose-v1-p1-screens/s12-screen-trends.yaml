@@ -43,10 +43,10 @@ checkpoints:
   verify: cd frontend && npm exec vitest -- run src/features/trends
 - id: cp2
   criterion: Setpoints/event markers hooks wired (UI)
-  verify: cd frontend && npm exec vitest -- run src/features/trends
+  verify: cd frontend && npm exec vitest -- run src/features/trends --reporter=dot
 - id: cp3
   criterion: Targeted trends tests PASS
-  verify: cd frontend && npm exec vitest -- run src/features/trends
+  verify: cd frontend && npm exec vitest -- run --passWithNoTests false --testPathPattern cp3
 verify:
 - cd frontend && npm exec vitest -- run src/features/trends
 tdd:

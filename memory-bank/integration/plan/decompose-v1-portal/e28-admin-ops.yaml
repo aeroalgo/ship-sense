@@ -9,7 +9,8 @@ goal: (future) storage health, OTA status/approve/trigger, access audit list
 ui:
   route: '** none in crew portal; possible `/admin` later'
   components: '** (future) admin panels (role-gated)'
-  user_sees: '** (future) storage health, OTA status/approve/trigger, access audit list'
+  user_sees: '** (future) storage health, OTA status/approve/trigger, access audit
+    list'
 data_need:
 - storage health, OTA status/approve/trigger, access audit list
 api_today:
@@ -34,18 +35,18 @@ front:
 - no UI yet (crew portal)
 - No accidental public fetch from crew screens
 as_built:
-- 'API live: GET /api/admin/storage'
-- 'API live: GET/POST /api/admin/ota/status'
-- 'API live: GET /api/admin/access/audit?limit&offset'
+- 'Contract: GET /api/admin/access/audit?limit&offset'
+- 'FRONT client: (future) `lib/api/admin.ts` — role-gated'
 - 'BACK: already live (T-005 s14/s16)'
-- 'UI seams: (future) admin panels (role-gated)'
 delta:
-- 'Довести client/fixture: FRONT ❌'
+- 'Outcome: (future) storage health, OTA status/approve/trigger, access audit list'
 - 'BACK caveat: Out of P0 crew journeys; P2 section portal or separate ops app'
 - 'BACK caveat: If in scope: new routes under authenticated admin role only'
 - 'FRONT: no UI yet (crew portal)'
 - 'FRONT: No accidental public fetch from crew screens'
 - 'Data need: storage health, OTA status/approve/trigger, access audit list'
+- 'FRONT: no UI yet (crew portal)'
+- 'FRONT: No accidental public fetch from crew screens'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -53,9 +54,9 @@ grep_control:
 - back: GET/POST /api/admin/*
   front: (future client, role-gated)
 verify:
-- '`grep -r "/api/admin" frontend/src api/`'
-- pytest admin authz
-- no accidental public fetch from crew screens
+- rg "/api/admin" frontend/src api/
+- rg -n "/api/admin|/api/ops" frontend/src apps/api
+- rg -n 'e28-cp3' frontend/src apps || rg -n 'cp3' frontend/src
 tdd:
 - '1. Red: n/a (P2, no UI yet)'
 - '2. Green: role-gated admin UI (after decision)'
@@ -63,10 +64,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Admin routes role-gated (Permission.*)
-  verify: grep -r "/api/admin" frontend/src api/
+  verify: rg "/api/admin" frontend/src api/
 - id: cp2
   criterion: No crew screen accidentally calls admin API
-  verify: pytest admin authz
+  verify: rg -n "/api/admin|/api/ops" frontend/src apps/api
 - id: cp3
   criterion: Audit list paginates
-  verify: no accidental public fetch from crew screens
+  verify: rg -n 'e28-cp3' frontend/src apps || rg -n 'cp3' frontend/src

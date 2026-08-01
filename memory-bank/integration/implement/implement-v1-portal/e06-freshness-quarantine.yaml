@@ -2,32 +2,73 @@ schema: epic-implement/v1
 role: integ
 step_id: e06
 plan_id: v1-portal
-title: Freshness + quarantine chrome
-status: in_progress
+task_id: T-006
+title: e06 — Freshness + quarantine chrome IMPLEMENT
+level: L2
+status: completed
 decompose_ref: memory-bank/integration/plan/decompose-v1-portal/e06-freshness-quarantine.yaml
 implement_index: memory-bank/integration/implement/implement-v1-portal/index.md
 date: '2026-08-01'
-checkpoints:
-- id: cp1
-  criterion: Banner shows when sources stale/quarantine
-  status: pending
-  done_at: null
-  notes: null
-- id: cp2
-  criterion: Banner text from BACK (not invented "OK")
-  status: pending
-  done_at: null
-  notes: null
-- id: cp3
-  criterion: Live WS can update freshness
-  status: pending
-  done_at: null
-  notes: null
-resume_from: cp1
+
 element_ref: memory-bank/integration/plan/decompose-v1-portal/e06-freshness-quarantine.yaml
+skills_used:
+  - frontend-patterns
+  - frontend-testing
+  - verification-before-completion
+
+done:
+  - Live source status quarantine and stale source names render in the global QuarantineBanner.
+  - QuarantineBanner includes BACK-provided source names and quality summary instead of an invented OK state.
+  - Nullable last_poll_ts is handled by FreshnessController and OverviewPage earliest timestamp helpers.
+  - FreshnessController subscribes to WS events and values so stale/fresh source timestamps and stale state can update live.
+  - FreshnessController quarantine fixture test uses the live response shape.
+
+files:
+  - frontend/src/features/shell/FreshnessController.tsx
+  - frontend/src/features/shell/FreshnessController.test.tsx
+  - frontend/src/components/ds/QuarantineBanner.tsx
+  - frontend/src/features/overview/OverviewPage.tsx
+
+tests:
+  - "`cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx src/hooks/useStaleGate.test.ts`"
+  - "`npm exec tsc -- --noEmit`"
+
+integration_check:
+  - GET /api/sources/status -> fetchSourcesStatus -> queryKeys.sourcesStatus -> FreshnessController
+  - response last_poll_ts string|null is consumed null-safely by freshness and overview timestamp helpers
+  - WS events/values -> useWsChannel -> FreshnessController onEvent -> useStaleGate
+
+grep_control:
+  - back: GET /api/sources/status
+    front: fetchSourcesStatus
+
+verification_results:
+  - "cp1: done — stale/quarantine targeted Vitest passed; source status with tags_quarantine renders QuarantineBanner."
+  - "cp2: done — targeted Vitest passed; banner text contains BACK source name and quality_summary."
+  - "cp3: done — targeted FreshnessController and useStaleGate Vitest passed; WS values/events path is wired for freshness updates."
+  - "TypeScript noEmit passed."
+
 gaps:
   status: none
-grep_control:
-- back: GET /api/sources/status
-  front: fetchSourcesStatus
-verification_results: []
+  items: []
+
+discovery: []
+
+checkpoints:
+  - id: cp1
+    criterion: Banner shows when sources stale/quarantine
+    status: done
+    done_at: '2026-08-01'
+    notes: FreshnessController targeted test suite passed.
+  - id: cp2
+    criterion: Banner text from BACK (not invented "OK")
+    status: done
+    done_at: '2026-08-01'
+    notes: QuarantineBanner renders source name and quality summary from live status.
+  - id: cp3
+    criterion: Live WS can update freshness
+    status: done
+    done_at: '2026-08-01'
+    notes: FreshnessController subscribes to events and values; stale/value event handling updates freshness state.
+
+resume_from: cp1

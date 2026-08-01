@@ -42,10 +42,10 @@ as_built:
 - '`fetchSourcesStatus` client exists'
 - '`last_poll_ts` typed as string; BACK may return null — earliestPollTs breaks'
 delta:
-- 'allow `last_poll_ts: string | null` in types + earliestPollTs'
+- 'allow `last_poll_ts: string | null` in frontend/src/lib/api/types.ts + earliestPollTs'
 - 'quarantine/stale banner from live status (text = BACK source name / quality, not invented OK)'
-- 'WS path updates lastFresh / stale (cp3)'
-- 'vitest: quarantine fixture → QuarantineBanner visible with source name'
+- 'WS path updates lastFresh / stale (cp3) — frontend/src/features/shell/FreshnessController.tsx'
+- 'vitest: frontend/src/features/shell/FreshnessController.test.tsx quarantine fixture → banner'
 - 'MSW sources fixture aligns with live shape (or unused on prod path)'
 out_of_scope:
 - 'Playwright full journey → INTEG QA'
@@ -57,7 +57,7 @@ grep_control:
 verify:
 - 'rg "/api/sources/status" frontend/src apps/api'
 - 'cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx'
-- 'Playwright: banner visible when fixture quarantine > 0 (optional this step; full → QA)'
+- 'cd frontend && npm exec vitest -- run src/hooks/useStaleGate.test.ts'
 tdd:
 - '1. Red: vitest FreshnessController with quarantine fixture'
 - '2. Green: live fetch + null-safe last_poll_ts'
@@ -68,7 +68,7 @@ checkpoints:
   verify: 'cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx'
 - id: cp2
   criterion: Banner text from BACK (not invented "OK")
-  verify: 'cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx'
+  verify: 'rg -n "fetchSourcesStatus|quality_summary|tags_quarantine" frontend/src/features/shell frontend/src/lib/api'
 - id: cp3
   criterion: Live WS can update freshness
-  verify: 'cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx src/hooks/useStaleGate.test.ts'
+  verify: 'cd frontend && npm exec vitest -- run src/hooks/useStaleGate.test.ts'

@@ -45,13 +45,13 @@ checkpoints:
   verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
 - id: cp2
   criterion: WS values bind to lamps/cards
-  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx --reporter=dot
 - id: cp3
   criterion: quarantine/stale states visible (not masked OK)
-  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+  verify: cd frontend && npm exec vitest -- run --passWithNoTests false --testPathPattern cp3
 - id: cp4
   criterion: Drill stub T-006 opens
-  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+  verify: cd frontend && npm exec vitest -- run --passWithNoTests false --testPathPattern cp4
 verify:
 - cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
 tdd:

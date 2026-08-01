@@ -35,13 +35,18 @@ function earliestPollTs(
 }
 
 function quarantineSourceNames(
-  items: Array<{ name: string; tags_quarantine: number }> | undefined,
+  items: Array<{
+    name: string;
+    tags_quarantine: number;
+    tags_stale: number;
+    quality_summary: string;
+  }> | undefined,
 ): string[] {
   if (!items) return [];
   const tags: string[] = [];
   for (const item of items) {
-    if (item.tags_quarantine > 0) {
-      tags.push(item.name);
+    if (item.tags_quarantine > 0 || item.tags_stale > 0) {
+      tags.push(`${item.name} (${item.quality_summary})`);
     }
   }
   return tags;
@@ -98,7 +103,7 @@ export function FreshnessController({
   }, []);
 
   useWsChannel({
-    channels: ["events"],
+    channels: ["events", "values"],
     onEvent,
     enabled: forceStaleProp === undefined && lastFreshTsProp === undefined,
   });

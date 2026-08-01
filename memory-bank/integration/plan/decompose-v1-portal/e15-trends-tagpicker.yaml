@@ -27,15 +27,15 @@ front:
 - Tag id string identity must match series `tag` query param
 - Empty tree → StateShell empty (not spinner forever)
 as_built:
-- 'API live: GET /api/assets/tree (reuse e08 client)'
+- 'FRONT client: lib/api/assets.ts` → `fetchAssetsTree` (reuse)'
 - 'BACK: already live (e08, T-003 s02)'
-- 'FRONT: TagPicker already wired (FRONT s12)'
-- 'UI seams: TagPicker'
 delta:
-- 'Довести client/fixture: FRONT: flatten kind==="tag"'
+- 'Outcome: selectable tags from assets tree (leaves only)'
 - 'FRONT: Tag id string identity must match series `tag` query param'
 - 'FRONT: Empty tree → StateShell empty (not spinner forever)'
 - 'Data need: tag leaves from assets tree (id, name, unit)'
+- 'FRONT: Tag id string identity must match series `tag` query param'
+- 'FRONT: Empty tree → StateShell empty (not spinner forever)'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -43,9 +43,9 @@ grep_control:
 - back: GET /api/assets/tree (kind=tag)
   front: fetchAssetsTree + filter
 verify:
-- '`grep -r "TagPicker" frontend/src`'
-- vitest TagPicker
-- Playwright select tag → chart request fires
+- rg "TagPicker" frontend/src
+- cd frontend && npm exec vitest -- run src/features/trends
+- rg -n 'cp3' frontend/src frontend/e2e
 tdd:
 - '1. Red: vitest TagPicker with tree fixture'
 - '2. Green: live tree, flatten tags'
@@ -53,10 +53,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: TagPicker shows all tag leaves from tree
-  verify: grep -r "TagPicker" frontend/src
+  verify: rg "TagPicker" frontend/src
 - id: cp2
   criterion: Select tag → triggers series fetch
-  verify: vitest TagPicker
+  verify: cd frontend && npm exec vitest -- run src/features/trends
 - id: cp3
   criterion: Empty tree shows empty state
-  verify: Playwright select tag → chart request fires
+  verify: rg -n 'cp3' frontend/src frontend/e2e

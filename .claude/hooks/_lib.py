@@ -78,7 +78,8 @@ SPAWN_MAP = """## spawn-gate (Claude Code)
 Делегирование — как обычно у Claude Code (Agent / built-in). Не запрещай spawn.
 Overlay: @explorer (поиск, haiku) · @verify (pre-FINISH) · @reviewer (QA).
 | Ситуация | Agent |
-| Поиск «где X» | @explorer (опц.) или built-in Explore |
+| Поиск «где X» | @explorer ОБЯЗАТЕЛЬНО (если нет delta_paths_exist: yes) |
+| delta_paths_exist: yes в prompt | @explorer SKIP — Read только dirty/delta paths |
 | Pre-FINISH code_changed | `@verify` ОБЯЗАТЕЛЬНО (step on disk → AC+/AC−/§0.11/VERIFY/RESULT/ALLOW ≤10); FAIL/DENY→fix→retry до PASS |
 | BACK QA после suite | @reviewer ОБЯЗАТЕЛЬНО (Suite+AC+§0.11/ALLOW ≤10) |
 FAIL: @verify после VERDICT: PASS. FAIL verify/reviewer: isolation=worktree; model=; ALLOW=дерево; нет секций.

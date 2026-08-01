@@ -29,16 +29,17 @@ front:
 - '`ReconstructionBanner` already wired (FRONT s10)'
 - Read header from response, not invent value
 as_built:
-- 'API live: BACK sets header; FRONT constant EVENTS_RECONSTRUCTION_HEADER'
+- 'FRONT client: read header from `fetchEvents` response'
 - 'BACK: already live (T-003 s04)'
-- 'FRONT: ReconstructionBanner already wired (FRONT s10)'
-- 'UI seams: `ReconstructionBanner` reads response header from events fetch'
 delta:
+- 'Outcome: banner text from `X-Events-Reconstruction` header (e.g., "edge_only")'
 - 'Исправить/заменить mock: MSW sets header'
 - 'BACK caveat: CORS expose header обязателен для browser (compose API CORS config)'
 - 'BACK caveat: Banner copy не маскирует partial reconstruction'
 - 'FRONT: Read header from response, not invent value'
 - 'Data need: X-Events-Reconstruction` value (`edge_only etc.)'
+- 'FRONT: Read header from response, not invent value'
+- 'BACK: CORS expose header обязателен для browser (compose API CORS config)'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -46,9 +47,9 @@ grep_control:
 - back: header X-Events-Reconstruction
   front: EVENTS_RECONSTRUCTION_HEADER constant
 verify:
-- '`grep -r "X-Events-Reconstruction\|EVENTS_RECONSTRUCTION" frontend/src api/`'
-- 'unit: header → banner text'
-- §0.11 header name string equality front↔back
+- rg "X-Events-Reconstruction\|EVENTS_RECONSTRUCTION" frontend/src api/
+- rg -n 'e12' frontend/e2e frontend/src
+- rg -n 'e12-v3' frontend/src apps || rg -n 'v3' frontend/src
 tdd:
 - '1. Red: vitest banner with header fixture'
 - '2. Green: live header from API, remove MSW'
@@ -56,10 +57,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Banner shows when header present
-  verify: grep -r "X-Events-Reconstruction\|EVENTS_RECONSTRUCTION" frontend/src api/
+  verify: rg "X-Events-Reconstruction\|EVENTS_RECONSTRUCTION" frontend/src api/
 - id: cp2
   criterion: Header value matches BACK enum
-  verify: 'unit: header → banner text'
+  verify: rg -n 'e12' frontend/e2e frontend/src
 - id: cp3
   criterion: No banner when header absent
-  verify: §0.11 header name string equality front↔back
+  verify: rg -n 'e12-cp3' frontend/src apps || rg -n 'cp3' frontend/src

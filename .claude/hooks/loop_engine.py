@@ -11,6 +11,7 @@ Epic/program runners call apply_event; they must not invent policy.
 from __future__ import annotations
 
 import copy
+import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
@@ -101,6 +102,24 @@ def load_loop_state(cwd: str | Path) -> dict[str, Any]:
     return _deep_merge(st, data)
 
 
+def atomic_write_text(path: str | Path, text: str, *, encoding: str = "utf-8") -> None:
+    """Crash-safe write: temp file in same dir + fsync + os.replace (atomic rename).
+
+    A direct path.write_text can leave a partial/truncated file if the process
+    is killed mid-write; the next load then silently treats it as corrupt/empty
+    (silent except) and overwrites real state. Same-dir temp guarantees the
+    final os.replace stays on one filesystem.
+    """
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_name(f".{p.name}.{os.getpid()}.tmp")
+    with open(tmp, "w", encoding=encoding) as f:
+        f.write(text)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, p)
+
+
 def save_loop_state(cwd: str | Path, state: dict[str, Any]) -> None:
     state["updated_at"] = utc_now()
     state["version"] = int(state.get("version") or 1)
@@ -110,7 +129,7 @@ def save_loop_state(cwd: str | Path, state: dict[str, Any]) -> None:
         default_flow_style=False,
         sort_keys=False,
     )
-    loop_state_path(cwd).write_text(text, encoding="utf-8")
+    atomic_write_text(loop_state_path(cwd), text)
 
 
 def load_transitions(cwd: str | Path) -> dict[str, Any]:

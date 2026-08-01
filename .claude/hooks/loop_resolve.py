@@ -26,6 +26,7 @@ from session_result import (  # noqa: E402
     save_result,
     validate_result,
 )
+from loop_doctor import doctor, halt_stats  # noqa: E402
 
 
 def main() -> int:
@@ -35,6 +36,13 @@ def main() -> int:
 
     sub.add_parser("status", help="print loop-state.yaml as JSON")
     sub.add_parser("command", help="print next command from loop-state")
+    sub.add_parser(
+        "doctor",
+        help="drift: handoff × ledger × index pending × result + halt stats",
+    )
+    p_halt = sub.add_parser("halt-stats", help="aggregate halt reasons from trace.jsonl")
+    p_halt.add_argument("--track", default="epic", choices=("epic", "program"))
+    p_halt.add_argument("--limit", type=int, default=20)
     p_sync = sub.add_parser("sync", help="sync loop-state from activeContext Handoff (diag)")
     p_sync.add_argument("--decompose", default=None)
     p_apply = sub.add_parser("apply", help="apply transition event")
@@ -71,6 +79,16 @@ def main() -> int:
 
     if args.cmd == "command":
         print(command_from_state(load_loop_state(cwd)) or "")
+        return 0
+
+    if args.cmd == "doctor":
+        report = doctor(cwd)
+        print(json.dumps(report, ensure_ascii=False, indent=2, default=str))
+        return 0 if report.get("ok") else 2
+
+    if args.cmd == "halt-stats":
+        report = halt_stats(cwd, track=args.track, limit=args.limit)
+        print(json.dumps(report, ensure_ascii=False, indent=2))
         return 0
 
     if args.cmd == "sync":

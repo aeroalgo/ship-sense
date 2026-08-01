@@ -9,7 +9,8 @@ goal: hierarchical plant→system→equipment→tag cards with aggregate status,
 ui:
   route: '** `/overview` → OverviewPage'
   components: '** DS `AggregateShipStatus`, `OverviewGroupCard`, lamps via tree'
-  user_sees: '** hierarchical plant→system→equipment→tag cards with aggregate status, last_value/quality'
+  user_sees: '** hierarchical plant→system→equipment→tag cards with aggregate status,
+    last_value/quality'
 data_need:
 - hierarchical plant→system→equipment→tag with aggregate status, last_value/quality
 api_today:
@@ -27,22 +28,19 @@ contract:
 db: '- assets semantic + latest values (Timescale)'
 back:
 - already live (T-003 s02)
-- 'Realtime patch: `useOverviewRealtime` merges WS values into React Query cache — contract tag_id identity'
+- 'Realtime patch: `useOverviewRealtime` merges WS values into React Query cache —
+  contract tag_id identity'
 front:
 - '`useAssetsTree` already wired (FRONT s09)'
 - '`treeUtils` must tolerate missing optional fields'
 as_built:
-- 'API live: GET /api/assets/tree Cache-Control max-age=60'
-- 'BACK: already live (T-003 s02)'
-- 'FRONT: useAssetsTree already wired (FRONT s09)'
-- 'UI seams: DS `AggregateShipStatus`, `OverviewGroupCard`, lamps via tree'
+- GET /api/assets/tree live (T-003 s02)
+- frontend/src/lib/api/assets.ts → fetchAssetsTree
+- useAssetsTree wired (FRONT s09)
 delta:
-- 'Исправить/заменить mock: MSW assetsTreeFixture'
-- 'Довести client/fixture: FRONT: `useAssetsTree` → fetchAssetsTree'
-- 'BACK caveat: Realtime patch: `useOverviewRealtime` merges WS values into React Query cache — contract
-  tag_id identity'
-- 'FRONT: treeUtils must tolerate missing optional fields'
-- 'Data need: hierarchical plant→system→equipment→tag with aggregate status, last_value/quality'
+- frontend/src/lib/api/assets.ts + MSW assetsTreeFixture align with live shape
+- frontend treeUtils tolerate missing optional fields
+- useOverviewRealtime merges WS values — tag_id identity
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -50,10 +48,9 @@ grep_control:
 - back: GET /api/assets/tree
   front: fetchAssetsTree
 verify:
-- '`grep -r "/api/assets/tree" frontend/src api/`'
-- vitest `OverviewPage.test.tsx`
-- 'pytest `apps/api/tests/api/test_assets_tree.py` (note: currently related to QA-4 vessel pack tags blocker
-  on BACK suite)'
+- rg -n "/api/assets/tree|fetchAssetsTree" frontend/src apps/api
+- cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+- .venv/bin/pytest apps/api/tests/api/test_assets_tree.py -q
 tdd:
 - '1. Red: vitest OverviewPage with tree fixture → assert cards'
 - '2. Green: live fetch, remove MSW'
@@ -61,11 +58,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: /overview shows hierarchical tree from DB
-  verify: grep -r "/api/assets/tree" frontend/src api/
+  verify: rg -n "/api/assets/tree|fetchAssetsTree" frontend/src apps/api
 - id: cp2
   criterion: Cards display last_value + status
-  verify: vitest OverviewPage.test.tsx
+  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
 - id: cp3
   criterion: Realtime WS updates tree in place
-  verify: 'pytest `apps/api/tests/api/test_assets_tree.py` (note: currently related to QA-4 vessel pack
-    tags blocker on BACK suite)'
+  verify: .venv/bin/pytest apps/api/tests/api/test_assets_tree.py -q

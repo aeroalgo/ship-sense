@@ -33,13 +33,12 @@ function formatFirstSampleTs(iso: string): string {
 }
 
 function earliestSourceTs(
-  items: Array<{ last_poll_ts: string }>,
+  items: Array<{ last_poll_ts: string | null }>,
 ): string | null {
-  if (items.length === 0) return null;
-  let earliest = items[0].last_poll_ts;
-  for (let i = 1; i < items.length; i += 1) {
-    if (items[i].last_poll_ts < earliest) {
-      earliest = items[i].last_poll_ts;
+  let earliest: string | null = null;
+  for (const item of items) {
+    if (item.last_poll_ts && (earliest === null || item.last_poll_ts < earliest)) {
+      earliest = item.last_poll_ts;
     }
   }
   return earliest;

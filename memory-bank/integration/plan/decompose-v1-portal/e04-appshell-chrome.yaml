@@ -42,9 +42,9 @@ grep_control:
 - back: N/A (nav static)
   front: AppShell.tsx`, `AppNav.tsx
 verify:
-- '`grep -r "AppShell\|AppNav\|SessionChip" frontend/src`'
-- 'Playwright: nav between four screens; chip shows name'
-- 'vitest: `AppShell.test.tsx`, `AppNav.test.tsx`'
+- rg "AppShell\|AppNav\|SessionChip" frontend/src
+- rg -n 'v2' frontend/src frontend/e2e
+- cd frontend && npm exec vitest -- run src/**/AppShell.test.tsx`, `AppNav.test.tsx
 tdd:
 - '1. Red: n/a (chrome, not data-driven)'
 - '2. Green: navigation + chip render'
@@ -52,10 +52,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Authenticated layout shows nav + chip
-  verify: grep -r "AppShell\|AppNav\|SessionChip" frontend/src
+  verify: rg "AppShell\|AppNav\|SessionChip" frontend/src
 - id: cp2
   criterion: Click nav → route changes
-  verify: 'Playwright: nav between four screens; chip shows name'
+  verify: rg -n 'cp2' frontend/src frontend/e2e
 - id: cp3
   criterion: Logout from chip works
-  verify: 'vitest: `AppShell.test.tsx`, AppNav.test.tsx'
+  verify: cd frontend && npm exec vitest -- run src/**/AppShell.test.tsx`, AppNav.test.tsx

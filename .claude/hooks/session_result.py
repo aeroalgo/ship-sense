@@ -237,9 +237,11 @@ def save_result(
     body["version"] = int(body.get("version") or 1)
     # drop null-only noise keys for stub readability
     dump = {k: v for k, v in body.items() if v is not None}
-    path.write_text(
+    from loop_engine import atomic_write_text
+
+    atomic_write_text(
+        path,
         yaml.safe_dump(dump, allow_unicode=True, sort_keys=False, default_flow_style=False),
-        encoding="utf-8",
     )
     return path
 
@@ -314,6 +316,17 @@ def is_allowed_test_command(cmd: str) -> bool:
     return any(cmd.startswith(prefix) for prefix in _ALLOWED_TEST_PREFIXES)
 
 
+def _strip_result_trailer(cmd: str) -> str:
+    """Drop agent prose after em/en dash: `npm exec tsc -- --noEmit — passed`."""
+    m = re.search(r"[—–]", cmd)
+    if not m:
+        return cmd
+    left = cmd[: m.start()].rstrip()
+    if any(left.startswith(p) for p in _ALLOWED_TEST_PREFIXES):
+        return left
+    return cmd
+
+
 def normalize_test_command_entry(entry: str) -> str:
     cmd = entry.strip()
     if cmd.startswith("- "):
@@ -324,7 +337,71 @@ def normalize_test_command_entry(entry: str) -> str:
         m = re.search(r"`([^`]+)`", cmd)
         if m:
             cmd = m.group(1).strip()
-    return cmd
+        else:
+            cmd = _strip_result_trailer(cmd)
+            cmd = re.sub(
+                r"\s+(?:PASS|passed|FAIL|failed)\s*$",
+                "",
+                cmd,
+                flags=re.IGNORECASE,
+            ).rstrip()
+    return _strip_result_trailer(cmd)
+
+
+def tests_entry_is_dirty_command_prose(entry: str) -> bool:
+    """True when entry starts as executable cmd but embeds result prose without backticks."""
+    s = entry.strip()
+    if not s or "`" in s:
+        return False
+    if not any(s.startswith(p) for p in _ALLOWED_TEST_PREFIXES):
+        return False
+    if re.search(r"[—–]", s):
+        return True
+    return bool(re.search(r"\s+(?:PASS|passed|FAIL|failed)\s*$", s, re.IGNORECASE))
+
+
+def validate_tests_entries(
+    tests: list[Any] | None,
+    *,
+    finish: bool = True,
+    require_executable: bool = True,
+) -> list[str]:
+    """HARD format for implement/refactor `tests:` — executable cmds only for assert."""
+    errors: list[str] = []
+    if tests is None:
+        tests = []
+    if not isinstance(tests, list):
+        return ["tests: must be a list of strings"]
+    if finish and require_executable and not tests:
+        return ["tests: at least one entry required on FINISH"]
+
+    for i, raw in enumerate(tests):
+        if isinstance(raw, dict):
+            errors.append(
+                f"tests[{i}]: FORBIDDEN mapping {{command:/result:}}; "
+                "use string with cmd in `backticks`; result → verification_results"
+            )
+            continue
+        if not isinstance(raw, str):
+            errors.append(f"tests[{i}]: must be string, got {type(raw).__name__}")
+            continue
+        if tests_entry_is_dirty_command_prose(raw):
+            errors.append(
+                f"tests[{i}]: FORBIDDEN command+result prose in one string "
+                f"({raw!r}); wrap command in `backticks`, "
+                "put PASS/counts in verification_results"
+            )
+
+    if finish and require_executable:
+        str_tests = [t for t in tests if isinstance(t, str)]
+        cmds = extract_test_commands_from_yaml_tests(str_tests)
+        if not cmds:
+            errors.append(
+                "tests: need ≥1 executable command "
+                "(.venv/bin/pytest … | npm exec vitest … | npm exec tsc … | "
+                "cd frontend && npm exec …); wrap cmd in `backticks`"
+            )
+    return errors
 
 
 def _add_test_cmd(cmd: str, seen: set[str], out: list[str]) -> None:

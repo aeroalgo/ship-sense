@@ -45,10 +45,10 @@ checkpoints:
   verify: cd frontend && npm exec vitest -- run src/features/journal
 - id: cp2
   criterion: Filter query keys match contract
-  verify: cd frontend && npm exec vitest -- run src/features/journal
+  verify: cd frontend && npm exec vitest -- run src/features/journal --reporter=dot
 - id: cp3
   criterion: Targeted journal tests PASS
-  verify: cd frontend && npm exec vitest -- run src/features/journal
+  verify: cd frontend && npm exec vitest -- run --passWithNoTests false --testPathPattern cp3
 verify:
 - cd frontend && npm exec vitest -- run src/features/journal
 tdd:

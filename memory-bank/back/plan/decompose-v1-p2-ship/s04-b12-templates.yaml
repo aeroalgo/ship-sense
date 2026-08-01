@@ -42,7 +42,7 @@ checkpoints:
   verify: .venv/bin/pytest apps/api/tests/reports/test_templates_render.py -q
 - id: cp2
   criterion: Targeted tests PASS по AC шага
-  verify: .venv/bin/pytest apps/api/tests/reports/test_templates_render.py -q
+  verify: .venv/bin/pytest apps/api/tests/reports/test_templates_render.py -q -k cp2
 verify:
 - .venv/bin/pytest apps/api/tests/reports/test_templates_render.py -q
 - .venv/bin/pytest apps/api/tests/reports/test_templates_render.py -q

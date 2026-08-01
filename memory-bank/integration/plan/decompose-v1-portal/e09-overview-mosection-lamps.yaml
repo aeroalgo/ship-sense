@@ -16,8 +16,8 @@ api_today:
 - status: —
   detail: data from e08 tree; no separate endpoint
 contract:
-  notes: 'Только якоря wire. **Запрещено:** полные TypeScript/Pydantic блоки, готовые тела handlers, copy-paste
-    response schemas.
+  notes: 'Только якоря wire. **Запрещено:** полные TypeScript/Pydantic блоки, готовые
+    тела handlers, copy-paste response schemas.
 
 
     - **Derived from:** `AssetsTreeResponse` + WS value frames
@@ -33,13 +33,13 @@ front:
 - '`MoSection` + `Lamp` already wired (FRONT s09)'
 - No extra REST
 as_built:
-- 'FRONT: MoSection` + `Lamp already wired (FRONT s09)'
-- 'UI seams: `features/overview/MoSection.tsx` + DS Lamp'
+- frontend/src/features/overview/MoSection.tsx + DS Lamp (FRONT s09)
+- frontend/src/lib/quality/types.ts quality enum
+- Assets tree from e08 supplies AggregateStatus/Quality
 delta:
-- 'Довести client/fixture: data from e08 tree; no separate endpoint'
-- 'BACK caveat: Align quality vocabulary (good/stale/quarantine/… as implemented)'
-- 'FRONT: No extra REST'
-- 'Data need: per-node AggregateStatus / Quality from tree (+ live)'
+- frontend/src/features/overview/MoSection.tsx — lamps from tree quality
+- Live WS patch updates lamp colors (useWsChannel)
+- Align quality vocab good/stale/quarantine with BACK tree codes
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -47,9 +47,8 @@ grep_control:
 - back: quality codes in tree response
   front: quality/types.ts enum
 verify:
-- '`grep -r "quality\|Lamp\|MoSection" frontend/src/features/overview`'
-- vitest Lamp / OverviewPage status rendering
-- §0.11 quality types cross-check (grep enum both sides)
+- rg "quality\|Lamp\|MoSection" frontend/src/features/overview
+- rg -n "useWsChannel|quality" frontend/src/features/overview
 tdd:
 - '1. Red: n/a (derived, not separate API)'
 - '2. Green: render from tree + WS patch'
@@ -57,7 +56,7 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Lamps match tree node status/quality
-  verify: grep -r "quality\|Lamp\|MoSection" frontend/src/features/overview
+  verify: rg "quality\|Lamp\|MoSection" frontend/src/features/overview
 - id: cp2
   criterion: Live WS patch updates lamp colors
-  verify: vitest Lamp / OverviewPage status rendering
+  verify: rg -n "useWsChannel|quality" frontend/src/features/overview

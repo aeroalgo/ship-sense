@@ -19,3 +19,5 @@ alwaysApply: false
 7. Конфликт Handoff «Следующий» ↔ `loop-state.next` → **loop-state** (Handoff = session narrative, не event source)
 8. GAP queue — `loop-state.queue` (+ program runtime cache)
 9. **Runtime split:** `loop/runtime/{epic|program}/` = `result.yaml` (writable); `.claude/runtime/{epic|program}/` = state/trace/logs (не дублировать result туда)
+10. **Diagnose:** `python3 .claude/hooks/loop_resolve.py doctor` (drift handoff×ledger×index×result) · `halt-stats` (top reasons из `trace.jsonl`)
+11. **Arm hygiene:** `arm` всегда reset `result.yaml` stub под текущий role/plan; чужой finalized artifact → reset/halt

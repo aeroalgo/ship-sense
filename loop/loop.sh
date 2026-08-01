@@ -16,6 +16,22 @@ PROG_STATE_DIR="$ROOT/.claude/runtime/program"
 STREAM_FILTER="$ROOT/.claude/hooks/epic_stream_filter.py"
 mkdir -p "$EPIC_STATE_DIR" "$PROG_STATE_DIR"
 
+# Smoke: compile all hooks before any session. A broken module (untracked file,
+# mid-edit) would otherwise surface as a cryptic IndentationError deep in the
+# resolve→epic_lib import chain. Fail fast with the exact file instead.
+hook_fail=""
+for _hf in "$ROOT"/.claude/hooks/*.py; do
+  if ! python3 -m py_compile "$_hf" >/dev/null 2>&1; then
+    hook_fail="$(python3 -m py_compile "$_hf" 2>&1 | rg -o '\S+\.py' | head -1 || basename "$_hf")"
+    break
+  fi
+done
+if [[ -n "$hook_fail" ]]; then
+  echo "==> loop smoke FAIL: hook does not compile: $hook_fail" >&2
+  echo "    Fix syntax or remove the file before running the loop." >&2
+  exit 2
+fi
+
 usage() {
   cat <<'EOF'
 Usage: ./loop/loop.sh [options] [decompose-id|path] [MODEL]
@@ -375,9 +391,17 @@ if r.get("reason"): print("==> reason:", r.get("reason"))
     local claude_rc=$?
     set -e
     echo "==> claude exit=$claude_rc"
-    if [[ $claude_rc -eq 130 ]] || [[ $claude_rc -eq 143 ]]; then
-      "${EPIC_RESOLVE[@]}" halt --reason 'user interrupt (Ctrl+C)'
-      return "$claude_rc"
+    local session_log="$EPIC_STATE_DIR/session-${iter}.log"
+    set +e
+    local rec_json rec_rc
+    rec_json="$("${EPIC_RESOLVE[@]}" record-session --log "$session_log" --exit-code "$claude_rc" --track epic 2>&1)"
+    rec_rc=$?
+    set -e
+    if [[ $rec_rc -ne 0 ]]; then
+      echo "==> SESSION ABORTED (record-session rc=$rec_rc) — skip after"
+      echo "$rec_json" | python3 -c 'import json,sys; r=json.load(sys.stdin); print("==> abort:", r.get("reason"), "halted=", r.get("halted"))' 2>/dev/null || echo "$rec_json"
+      "${EPIC_RESOLVE[@]}" status
+      return "$rec_rc"
     fi
 
     set +e
@@ -423,9 +447,17 @@ print("1" if r.get("repairable") else "0")
       local repair_claude_rc=$?
       set -e
       echo "==> repair claude exit=$repair_claude_rc"
-      if [[ $repair_claude_rc -eq 130 ]] || [[ $repair_claude_rc -eq 143 ]]; then
-        "${EPIC_RESOLVE[@]}" halt --reason 'user interrupt (Ctrl+C)'
-        return "$repair_claude_rc"
+      local repair_log="$EPIC_STATE_DIR/session-${iter}-repair-${attempt_hint}.log"
+      set +e
+      local repair_rec_json repair_rec_rc
+      repair_rec_json="$("${EPIC_RESOLVE[@]}" record-session --log "$repair_log" --exit-code "$repair_claude_rc" --track epic 2>&1)"
+      repair_rec_rc=$?
+      set -e
+      if [[ $repair_rec_rc -ne 0 ]]; then
+        echo "==> REPAIR SESSION ABORTED"
+        echo "$repair_rec_json" | python3 -c 'import json,sys; r=json.load(sys.stdin); print("==> abort:", r.get("reason"))' 2>/dev/null || echo "$repair_rec_json"
+        "${EPIC_RESOLVE[@]}" status
+        return "$repair_rec_rc"
       fi
       set +e
       after_json="$("${EPIC_RESOLVE[@]}" after 2>&1)"
@@ -548,9 +580,17 @@ if a.get("gap_id"): print("==> gap_id:", a.get("gap_id"))
       local mode_rc=$?
       set -e
       echo "==> mode exit=$mode_rc"
-      if [[ $mode_rc -eq 130 ]] || [[ $mode_rc -eq 143 ]]; then
-        "${PROG_RESOLVE[@]}" halt --reason 'user interrupt (Ctrl+C)'
-        return "$mode_rc"
+      local prog_log="$PROG_STATE_DIR/session-${iter}.log"
+      set +e
+      local prog_rec_json prog_rec_rc
+      prog_rec_json="$("${EPIC_RESOLVE[@]}" record-session --log "$prog_log" --exit-code "$mode_rc" --track program 2>&1)"
+      prog_rec_rc=$?
+      set -e
+      if [[ $prog_rec_rc -ne 0 ]]; then
+        echo "==> PROGRAM SESSION ABORTED"
+        echo "$prog_rec_json" | python3 -c 'import json,sys; r=json.load(sys.stdin); print("==> abort:", r.get("reason"))' 2>/dev/null || echo "$prog_rec_json"
+        "${PROG_RESOLVE[@]}" halt --reason "session aborted (see last-session.json)"
+        return "$prog_rec_rc"
       fi
       set +e
       after_json="$("${PROG_RESOLVE[@]}" after 2>&1)"

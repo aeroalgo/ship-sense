@@ -29,7 +29,7 @@
 | **e03** | [e03-session-create-logout.yaml](e03-session-create-logout.yaml)<br>• POST/DELETE `/api/session` + cookie | [e03…](../../implement/implement-v1-portal/e03-session-create-logout.yaml) | `/login` | POST/DELETE /api/session | yes | INTEG IMPLEMENT | completed |
 | **e04** | [e04-appshell-chrome.yaml](e04-appshell-chrome.yaml)<br>• `AppShell` + `AppNav` + `SessionChip` | [e04…](../../implement/implement-v1-portal/e04-appshell-chrome.yaml) | `(auth)/*` | DELETE /api/session | no | INTEG IMPLEMENT | completed |
 | **e05** | [e05-statusbar-alarms.yaml](e05-statusbar-alarms.yaml)<br>• `StatusBar` alarms + WS | [e05…](../../implement/implement-v1-portal/e05-statusbar-alarms.yaml) | `(auth)/*` | GET /api/events + WS | yes | INTEG IMPLEMENT | completed |
-| **e06** | [e06-freshness-quarantine.yaml](e06-freshness-quarantine.yaml)<br>• `FreshnessController` + banners | [e06…](../../implement/implement-v1-portal/e06-freshness-quarantine.yaml) | `(auth)/*` | GET /api/sources/status | yes | INTEG IMPLEMENT | pending |
+| **e06** | [e06-freshness-quarantine.yaml](e06-freshness-quarantine.yaml)<br>• `FreshnessController` + banners | [e06…](../../implement/implement-v1-portal/e06-freshness-quarantine.yaml) | `(auth)/*` | GET /api/sources/status | yes | INTEG IMPLEMENT | completed |
 | **e07** | [e07-ws-stream-fanout.yaml](e07-ws-stream-fanout.yaml)<br>• `WsManager` / `useWsChannel` | [e07…](../../implement/implement-v1-portal/e07-ws-stream-fanout.yaml) | `(auth)/*` | WS /api/stream | yes | INTEG IMPLEMENT | pending |
 | **e08** | [e08-overview-assets-tree.yaml](e08-overview-assets-tree.yaml)<br>• `AggregateShipStatus` + tree cards | [e08…](../../implement/implement-v1-portal/e08-overview-assets-tree.yaml) | `/overview` | GET /api/assets/tree | yes | INTEG IMPLEMENT | pending |
 | **e09** | [e09-overview-mosection-lamps.yaml](e09-overview-mosection-lamps.yaml)<br>• `MoSection` lamps from tree | [e09…](../../implement/implement-v1-portal/e09-overview-mosection-lamps.yaml) | `/overview` | derived from tree | no | INTEG IMPLEMENT | pending |
@@ -64,7 +64,7 @@
 - [x] e03 — Session create / logout
 - [x] e04 — AppShell chrome
 - [x] e05 — StatusBar alarms
-- [ ] e06 — Freshness + quarantine
+- [x] e06 — Freshness + quarantine
 - [ ] e07 — WS stream fanout
 - [ ] e08 — Overview assets tree
 - [ ] e09 — Overview MoSection lamps
@@ -92,7 +92,7 @@
 
 ## Handoff
 
-- **Next:** `INTEG IMPLEMENT e06` — Freshness + quarantine
-- **load_now:** `integration/plan/decompose-v1-portal/e06-freshness-quarantine.yaml`
-- **Progress:** e01–e05 completed · e06–e30 pending
+- **Next:** `INTEG IMPLEMENT e07` — WS stream fanout
+- **load_now:** `integration/plan/decompose-v1-portal/e07-ws-stream-fanout.yaml`
+- **Progress:** e01–e06 completed · e07–e30 pending
 - **Implement hub:** [implement-v1-portal/index.md](../../implement/implement-v1-portal/index.md)

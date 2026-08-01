@@ -27,15 +27,15 @@ front:
 - '`useTrendRealtime` already wired (FRONT s12)'
 - Stale quality must paint, not drop silently
 as_built:
-- 'API live: WS values channel (e07)'
+- 'FRONT client: useTrendRealtime.ts'
 - 'BACK: WS values already live (e07, T-003 s06)'
-- 'FRONT: useTrendRealtime already wired (FRONT s12)'
-- 'UI seams: useTrendRealtime.ts'
 delta:
-- 'Довести client/fixture: no dedicated REST'
+- 'Outcome: chart line extends/patches in realtime (WS values)'
 - 'BACK caveat: Only patch tags currently plotted; unsubscribe on tag change'
 - 'FRONT: Stale quality must paint, not drop silently'
 - 'Data need: WS values for selected tags append/patch last point'
+- 'FRONT: Stale quality must paint, not drop silently'
+- 'BACK: Only patch tags currently plotted; unsubscribe on tag change'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -43,9 +43,9 @@ grep_control:
 - back: WS values channel (e07)
   front: useTrendRealtime
 verify:
-- '`grep -r "useTrendRealtime" frontend/src`'
-- unit MockWebSocket patch
-- §0.11 WS URL
+- rg "useTrendRealtime" frontend/src
+- cd frontend && npm exec vitest -- run src/features/trends
+- rg -n 'e19-cp3' frontend/src apps || rg -n 'cp3' frontend/src
 tdd:
 - '1. Red: vitest MockWebSocket value → assert patch'
 - '2. Green: live WS, unsubscribe on tag change'
@@ -53,10 +53,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Selected tag chart extends in realtime
-  verify: grep -r "useTrendRealtime" frontend/src
+  verify: rg "useTrendRealtime" frontend/src
 - id: cp2
   criterion: Unselect tag → no more patches for it
-  verify: unit MockWebSocket patch
+  verify: cd frontend && npm exec vitest -- run src/features/trends
 - id: cp3
   criterion: Stale quality painted (not dropped)
-  verify: §0.11 WS URL
+  verify: rg -n 'e19-cp3' frontend/src apps || rg -n 'cp3' frontend/src

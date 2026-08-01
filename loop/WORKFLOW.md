@@ -306,6 +306,8 @@ verdict: null            # pass | blocked | fail
 ```bash
 python3 .claude/hooks/loop_resolve.py status
 python3 .claude/hooks/loop_resolve.py command
+python3 .claude/hooks/loop_resolve.py doctor
+python3 .claude/hooks/loop_resolve.py halt-stats
 python3 .claude/hooks/loop_resolve.py sync --decompose memory-bank/back/plan/decompose-v1-p2-ship/index.md
 python3 .claude/hooks/loop_resolve.py match finish_ok
 python3 .claude/hooks/loop_resolve.py apply finish_ok
@@ -496,7 +498,11 @@ python3 .claude/hooks/epic_resolve.py status
 | `loop/loop-state.yaml` | ledger |
 | `loop/transitions.yaml` | FSM-политика |
 | `.claude/hooks/loop_engine.py` | match / apply / sync |
-| `.claude/hooks/loop_resolve.py` | CLI ledger |
+| `.claude/hooks/loop_resolve.py` | CLI ledger · `doctor` · `halt-stats` |
+| `.claude/hooks/loop_doctor.py` | drift report + halt metrics |
+| `.claude/hooks/prompt_build.py` | session prompt (task-first) |
+| `.claude/hooks/after_session.py` | epic after_session |
+| `.claude/hooks/crosscheck.py` | result artifact crosscheck |
 | `.claude/hooks/epic_resolve.py` | epic arm/resolve/after |
 | `.claude/hooks/program_resolve.py` | program arm/resolve/after |
 | `loop/runtime/epic\|program/` | **result.yaml** (session event; writable) |

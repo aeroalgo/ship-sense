@@ -34,7 +34,7 @@ checkpoints:
   verify: cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts
 - id: cp2
   criterion: Targeted tests PASS по AC шага
-  verify: cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts
+  verify: cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts --reporter=dot
 verify:
 - cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts
 - cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts

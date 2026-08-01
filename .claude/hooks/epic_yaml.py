@@ -348,8 +348,6 @@ def validate_implement_yaml(path: Path, *, finish: bool = True) -> list[str]:
             errors.append("done: at least one entry required on FINISH")
         if finish and not doc.files:
             errors.append("files: at least one entry required on FINISH")
-        if finish and not doc.tests:
-            errors.append("tests: at least one entry required on FINISH")
         if finish and not doc.integration_check:
             errors.append("integration_check: at least one entry required on FINISH")
 
@@ -362,6 +360,14 @@ def validate_implement_yaml(path: Path, *, finish: bool = True) -> list[str]:
         for cp in doc.checkpoints:
             if cp.status != "done":
                 errors.append(f"checkpoint {cp.id} must be done on FINISH")
+        try:
+            from session_result import validate_tests_entries
+
+            errors.extend(
+                validate_tests_entries(doc.tests, finish=True, require_executable=True)
+            )
+        except Exception as exc:
+            errors.append(f"tests: validate failed ({exc})")
 
     return errors
 
@@ -374,11 +380,55 @@ def validate_decompose_yaml(path: Path) -> list[str]:
         doc = load_decompose(path)
     except Exception as exc:
         return [f"invalid epic-decompose yaml: {exc}"]
+
+    if not (doc.goal or "").strip():
+        errors.append("goal: required (1–2 lines outcome)")
+    if not doc.as_built:
+        errors.append("as_built: at least one entry required")
+    if not doc.delta:
+        errors.append("delta: at least one entry required")
+    if not doc.out_of_scope:
+        errors.append("out_of_scope: at least one entry required")
+
     if not doc.checkpoints:
         errors.append("checkpoints: at least one checkpoint required")
     ids = [cp.id for cp in doc.checkpoints]
     if len(ids) != len(set(ids)):
         errors.append("checkpoints: duplicate id")
+
+    verify_hints = (
+        ".venv/bin/pytest ",
+        "cd frontend && npm ",
+        "npm exec vitest",
+        "npm test",
+        "npx vitest",
+        "npx playwright",
+        "npm exec playwright",
+        "rg ",
+    )
+    seen_verify: set[str] = set()
+    for cp in doc.checkpoints:
+        v = (cp.verify or "").strip()
+        if not v:
+            errors.append(f"checkpoint {cp.id}: verify required")
+            continue
+        if not any(h in v for h in verify_hints):
+            errors.append(
+                f"checkpoint {cp.id}: verify must be runnable "
+                f"(pytest/vitest/playwright/rg), got {v!r}"
+            )
+        if re.search(r"e\d+:(?:v|cp)\d+", v):
+            errors.append(
+                f"checkpoint {cp.id}: verify is placeholder marker {v!r} — "
+                "replace with real pytest/vitest/rg command"
+            )
+        if v in seen_verify:
+            errors.append(
+                f"checkpoint {cp.id}: verify duplicates another cp — "
+                "each cp needs distinct verify"
+            )
+        seen_verify.add(v)
+
     return errors
 
 
@@ -404,9 +454,87 @@ def validate_shard_yaml(path: Path, *, finish: bool = True, expected_verdict: st
     return [f"unknown epic yaml path: {path}"]
 
 
+def build_step_context_payload(
+    dec: EpicDecomposeDoc,
+    impl: EpicImplementDoc | None = None,
+) -> dict[str, Any]:
+    """Lean JSON payload for IMPLEMENT prompt — facts from pydantic, not prose."""
+    status_by = {cp.id: cp.status for cp in (impl.checkpoints if impl else [])}
+    resume = None
+    if impl is not None:
+        resume = impl.resume_from or compute_resume_from(impl.checkpoints)
+
+    payload = dec.model_dump(
+        mode="json",
+        include={
+            "role",
+            "step_id",
+            "plan_id",
+            "title",
+            "goal",
+            "as_built",
+            "delta",
+            "out_of_scope",
+            "contract",
+            "grep_control",
+        },
+    )
+    for key in ("as_built", "delta", "out_of_scope", "contract", "grep_control", "goal"):
+        val = payload.get(key)
+        if val in (None, [], {}, ""):
+            payload.pop(key, None)
+
+    checkpoints: list[dict[str, Any]] = []
+    for spec in dec.checkpoints:
+        if impl is not None and spec.id not in status_by:
+            raise ValueError(
+                f"implement checkpoint missing for decompose {spec.id!r} "
+                f"(step_id={dec.step_id})"
+            )
+        if not (spec.verify or "").strip():
+            raise ValueError(
+                f"decompose {dec.step_id} checkpoint {spec.id}: verify обязателен"
+            )
+        checkpoints.append(
+            {
+                "id": spec.id,
+                "criterion": spec.criterion,
+                "verify": spec.verify,
+                "status": status_by[spec.id] if impl is not None else "pending",
+            }
+        )
+    if not checkpoints:
+        raise ValueError(f"decompose {dec.step_id}: checkpoints[] пуст")
+    payload["checkpoints"] = checkpoints
+
+    if resume:
+        payload["resume_from"] = resume
+    if impl is not None:
+        payload["implement_status"] = impl.status
+    return payload
+
+
+def step_context_prompt_lines(
+    dec: EpicDecomposeDoc,
+    impl: EpicImplementDoc | None = None,
+) -> list[str]:
+    """Serialize step facts as JSON for the agent prompt."""
+    import json
+
+    payload = build_step_context_payload(dec, impl)
+    return [
+        "",
+        "## step_context (JSON)",
+        json.dumps(payload, ensure_ascii=False, indent=2),
+    ]
+
+
 def checkpoint_prompt_lines(doc: EpicImplementDoc) -> list[str]:
+    """Process rules only — step facts live in step_context JSON."""
     if not doc.checkpoints:
-        return []
+        raise ValueError(
+            f"implement {doc.step_id}: checkpoints[] пуст — нельзя собрать prompt"
+        )
     resume = doc.resume_from or compute_resume_from(doc.checkpoints)
     role_label = doc.role.upper()
     lines = [
@@ -415,6 +543,11 @@ def checkpoint_prompt_lines(doc: EpicImplementDoc) -> list[str]:
         f"Artifact: `{doc.step_id}` — YAML `{SCHEMA_EPIC_IMPLEMENT}`.",
         "Обновляй `checkpoints[].status` → `done` + `done_at` после каждого cp.",
         "Не переделывай cp со status=done.",
+        "Критерии/verify — в ## step_context (JSON).",
+        "CHECKPOINT FLUSH (HARD): после зелёного cp.verify — сразу Write implement YAML "
+        "(этот cp → done + done_at) до следующего cp. Не копить flush до FINISH.",
+        "CLI: `python3 .claude/hooks/epic_resolve.py flush-checkpoint "
+        "--path <implement.yaml> --cp cpN`",
     ]
     if resume and doc.status != "completed":
         lines.append(f"**Resume from:** `{resume}` — начни с этого checkpoint.")
@@ -444,11 +577,21 @@ def format_spec_lines(*, role: str) -> list[str]:
         "checkpoints: [{id, criterion, status: pending|done, done_at?, notes?}, ...]",
         "status=completed только когда все checkpoints.status=done (если cp есть)",
         "Самопроверка: `python3 .claude/hooks/epic_resolve.py validate-step --path <shard.yaml>`",
+        "",
+        "tests: format (HARD) — loop after assert запускает эти строки как shell:",
+        "  OK:   - '`.venv/bin/pytest path -q` — PASS'",
+        "  OK:   - '`cd frontend && npm exec vitest -- run src/x.test.tsx`'",
+        "  OK:   - '`npm exec tsc -- --noEmit`'",
+        "  FAIL: - 'npm exec tsc -- --noEmit — passed'  (prose без backticks)",
+        "  FAIL: - {command: …, result: …}  (mapping запрещён)",
+        "  result/PASS/counts → verification_results (не в tests).",
+        "  ≥1 executable: .venv/bin/pytest | npm exec vitest|tsc | cd frontend && npm exec …",
     ]
     if r == "integ":
         base.extend(
             [
                 "integ also: element_ref, grep_control, verification_results, gaps",
+                "integ FINISH: tests (≥1 executable) обязательны",
             ]
         )
     else:

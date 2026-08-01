@@ -32,6 +32,8 @@ Parent **MAY** spawn любых Agent по нужде.
 
 **Исключение (explorer не нужен):** шаг правит **только** файлы из явного file list shard’а, discovery не требуется (1–few known paths, без audit/search).
 
+**Исключение `delta_paths_exist` (HARD skip):** в prompt есть `## explorer (HARD)` + `delta_paths_exist: yes` (все path из `delta` на диске) → **`@explorer` SKIP**. Parent: Read только dirty_files + paths из delta/as_built. **FORBIDDEN:** Agent explorer / широкий search «на всякий случай».
+
 **Канон type:** project overlay `explorer` (не built-in `Explore`) — graphify first, затем Grep/Glob/`rg` fallback до ответа.
 
 **FAIL:** FINISH без `verify` когда `code_changed: yes`.  

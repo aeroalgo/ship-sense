@@ -29,15 +29,17 @@ front:
 - '`SessionEventFilter` already exists (FRONT s10)'
 - Filter util maps UI → query
 as_built:
-- 'API live: same /api/events?source=session'
-- 'FRONT: SessionEventFilter already exists (FRONT s10)'
-- 'UI seams: SessionEventFilter.tsx'
+- 'Contract: GET /api/events?source=session&from=&to=&…'
+- 'FRONT client: filter util in `journalFilters.ts'
 delta:
-- 'Довести client/fixture: FRONT filter util maps UI → query'
+- 'Outcome: toggle/filter for `source=session` events (login/logout)'
 - 'BACK caveat: Session login/logout must emit events visible here (BACK session service)'
 - 'BACK caveat: Empty state when no session events'
 - 'FRONT: Filter util maps UI → query'
 - 'Data need: filter `source=session` (and related session events from B11)'
+- 'FRONT: `SessionEventFilter` already exists (FRONT s10)'
+- 'FRONT: Filter util maps UI → query'
+- 'BACK: Session login/logout must emit events visible here (BACK session service)'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -45,9 +47,9 @@ grep_control:
 - back: GET /api/events?source=session
   front: filter util
 verify:
-- '`grep -r "source=session\|SessionEventFilter" frontend/src api/`'
-- Playwright after login/logout → session events appear with filter on
-- pytest events source filter
+- rg "source=session\|SessionEventFilter" frontend/src api/
+- rg -n 'cp2' frontend/src frontend/e2e
+- rg -n "session_id|sessionId" frontend/src/features/journal frontend/src/lib/api
 tdd:
 - '1. Red: n/a (filter on existing endpoint)'
 - '2. Green: login → emit event → filter shows it'
@@ -55,10 +57,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Login/logout emits session event
-  verify: grep -r "source=session\|SessionEventFilter" frontend/src api/
+  verify: rg "source=session\|SessionEventFilter" frontend/src api/
 - id: cp2
   criterion: Filter `source=session` shows only session events
-  verify: Playwright after login/logout → session events appear with filter on
+  verify: rg -n 'cp2' frontend/src frontend/e2e
 - id: cp3
   criterion: Empty state when no matches
-  verify: pytest events source filter
+  verify: rg -n "session_id|sessionId" frontend/src/features/journal frontend/src/lib/api

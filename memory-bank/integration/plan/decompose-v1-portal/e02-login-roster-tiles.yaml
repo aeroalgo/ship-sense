@@ -23,7 +23,8 @@ api_today:
 contract:
   method_path: '** `GET /api/watch/roster`'
   query_keys: '** none (public for login)'
-  response_shape: '** `{ items: [{ person_id, name, rank, tile_order, active, default_screen }] }`'
+  response_shape: '** `{ items: [{ person_id, name, rank, tile_order, active, default_screen
+    }] }`'
   front_client: '** `lib/api/session.ts` → `fetchRoster`'
 db: '- ship-pack roster / `SessionService.roster()`'
 back:
@@ -44,7 +45,8 @@ delta:
 - 'FRONT: убрать зависимость от MSW в non-mock env'
 - 'FRONT: проверить empty roster / inactive tiles'
 - 'FRONT: wire: `NEXT_PUBLIC_API_URL` + credentials: include'
-- 'Data need: список вахтенных: `person_id`, `name`, `rank`, `tile_order`, `active`, default_screen'
+- 'Data need: список вахтенных: `person_id`, `name`, `rank`, `tile_order`, `active`,
+  default_screen'
 - 'Data need: только `active=true`, сортировка по tile_order'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
@@ -53,10 +55,8 @@ grep_control:
 - back: apps/api/.../session.py` `getWatchRoster
   front: lib/api/session.ts` `fetchRoster
 verify:
-- '`grep -r "/watch/roster" frontend/src api/`'
-- 'vitest: `session.test.tsx` roster path'
-- 'pytest: session/roster tests under `apps/api/tests`'
-- 'Playwright: tiles visible on `/login`'
+- rg "/watch/roster" frontend/src api/
+- cd frontend && npm exec vitest -- run session.test.tsx` roster path
 tdd:
 - '1. Red: vitest fetchRoster with mock → assert tiles'
 - '2. Green: switch to live API, remove MSW'
@@ -64,7 +64,7 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: /login shows live roster tiles (not fixture)
-  verify: grep -r "/watch/roster" frontend/src api/
+  verify: rg "/watch/roster" frontend/src api/
 - id: cp2
   criterion: Click tile logs in and navigates
-  verify: 'vitest: `session.test.tsx` roster path'
+  verify: cd frontend && npm exec vitest -- run session.test.tsx` roster path

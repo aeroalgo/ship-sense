@@ -15,6 +15,7 @@ done: []
 files: []
 
 tests: []
+# HARD: wrap executable cmd in `backticks`; FORBIDDEN "npm exec tsc — passed"
 
 checkpoints:
   - id: cp1

@@ -173,13 +173,19 @@ def validate_refactor_yaml(path: Path, *, finish: bool = True) -> list[str]:
             errors.append("done: at least one entry required on FINISH")
         if not doc.files:
             errors.append("files: at least one entry required on FINISH")
-        if not doc.tests:
-            errors.append("tests: at least one entry required on FINISH")
         if doc.status != "completed":
             errors.append("status must be completed on FINISH")
         for cp in doc.checkpoints:
             if cp.status != "done":
                 errors.append(f"checkpoint {cp.id} must be done on FINISH")
+        try:
+            from session_result import validate_tests_entries
+
+            errors.extend(
+                validate_tests_entries(doc.tests, finish=True, require_executable=True)
+            )
+        except Exception as exc:
+            errors.append(f"tests: validate failed ({exc})")
     return errors
 
 
@@ -288,6 +294,8 @@ def refactor_format_spec_lines(*, role: str) -> list[str]:
         f"FINISH artifact: `.cursor/templates/refactor/epic-step.yaml` ({r} YAML):",
         f"schema: {SCHEMA_EPIC_REFACTOR}",
         "behavior_freeze, done, files, tests, checkpoints, status=completed",
+        "tests: format (HARD) — wrap cmd in `backticks`; FORBIDDEN command+prose без backticks",
+        "  OK: '`.venv/bin/pytest path -q`'; FAIL: 'npm exec tsc -- --noEmit — passed'",
     ]
 
 
@@ -306,5 +314,7 @@ def decompose_format_spec_lines(*, role: str) -> list[str]:
     return [
         f"FINISH artifact: `.cursor/templates/decompose/epic-step.yaml` ({r} YAML):",
         f"schema: {SCHEMA_EPIC_DECOMPOSE}",
-        "checkpoints[] required; needs_creative for BACK/FRONT",
+        "обязательные: goal · as_built · delta · out_of_scope",
+        "checkpoints[]: 2–4 cp с criterion + verify (не mega-cp = весь goal)",
+        "needs_creative for BACK/FRONT",
     ]

@@ -41,9 +41,8 @@ grep_control:
 - back: N/A
   front: page.tsx redirect
 verify:
-- '`grep -r "redirect" frontend/src/app/page.tsx`'
-- 'Playwright: open `/` → lands on `/login`'
-- 'Browser: no content flash on `/`'
+- rg "redirect" frontend/src/app/page.tsx
+- rg -n '/' frontend/src frontend/e2e
 tdd:
 - '1. Red: n/a (no testable logic)'
 - '2. Green: redirect behavior'
@@ -51,7 +50,7 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Browser open `/` immediately shows `/login` URL
-  verify: grep -r "redirect" frontend/src/app/page.tsx
+  verify: rg "redirect" frontend/src/app/page.tsx
 - id: cp2
   criterion: No flash of home page content
-  verify: 'Playwright: open `/` → lands on /login'
+  verify: rg -n '/' frontend/src frontend/e2e

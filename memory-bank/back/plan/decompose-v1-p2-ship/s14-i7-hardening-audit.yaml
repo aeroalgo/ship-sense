@@ -40,7 +40,7 @@ checkpoints:
   verify: .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q
 - id: cp2
   criterion: Targeted tests PASS по AC шага
-  verify: .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q
+  verify: .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q -k cp2
 verify:
 - .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q
 - .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q

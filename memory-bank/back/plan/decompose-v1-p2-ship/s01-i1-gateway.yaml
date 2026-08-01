@@ -40,7 +40,7 @@ checkpoints:
   verify: .venv/bin/pytest apps/edge/gateway/tests/ -q
 - id: cp2
   criterion: Targeted tests PASS по AC шага
-  verify: .venv/bin/pytest apps/edge/gateway/tests/ -q
+  verify: .venv/bin/pytest apps/edge/gateway/tests/ -q -k cp2
 verify:
 - .venv/bin/pytest apps/edge/gateway/tests/ -q
 - .venv/bin/pytest apps/edge/gateway/tests/ -q

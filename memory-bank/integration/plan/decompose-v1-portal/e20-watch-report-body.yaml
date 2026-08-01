@@ -25,26 +25,32 @@ contract:
 db: '- reports svc (T-003 s08 / T-005 s10)'
 back:
 - already live (T-003 s08 / T-005 s10)
-- Period defaults (current watch window) must match BACK schedule semantics when `GET /api/watch/schedule`
-  wired (e25)
-- 'Fallback: if highlights empty, `useWatchReport` also fetches events — document as intentional dual-fetch'
+- Period defaults (current watch window) must match BACK schedule semantics when `GET
+  /api/watch/schedule` wired (e25)
+- 'Fallback: if highlights empty, `useWatchReport` also fetches events — document
+  as intentional dual-fetch'
 front:
 - '`useWatchReport` already wired (FRONT s13)'
-- 'BACK also: generate jobs, catalog, versions (see e24) — Watch page does not poll jobs yet'
+- 'BACK also: generate jobs, catalog, versions (see e24) — Watch page does not poll
+  jobs yet'
 as_built:
-- 'API live: GET /api/reports/watch?from&to&format&session_id?'
+- 'Contract: GET /api/reports/watch?from=&to=&format=json|html&session_id?&watch_id?'
+- 'FRONT client: lib/api/reports.ts` → `fetchWatchReport'
 - 'BACK: already live (T-003 s08 / T-005 s10)'
-- 'FRONT: useWatchReport already wired (FRONT s13)'
-- 'UI seams: DS `WatchSection`, print styles as applicable'
 delta:
+- 'Outcome: watch report for period (json default); sections from report body'
 - 'Исправить/заменить mock: MSW watch report (+ html branch)'
-- 'Довести client/fixture: FRONT: fetchWatchReport'
-- 'BACK caveat: Period defaults (current watch window) must match BACK schedule semantics when `GET /api/watch/schedule`
-  wired (e25)'
-- 'BACK caveat: Fallback: if highlights empty, `useWatchReport` also fetches events — document as intentional
-  dual-fetch'
-- 'FRONT: BACK also: generate jobs, catalog, versions (see e24) — Watch page does not poll jobs yet'
+- 'BACK caveat: Period defaults (current watch window) must match BACK schedule semantics
+  when `GET /api/watch/schedule` wired (e25)'
+- 'BACK caveat: Fallback: if highlights empty, `useWatchReport` also fetches events
+  — document as intentional dual-fetch'
+- 'FRONT: BACK also: generate jobs, catalog, versions (see e24) — Watch page does
+  not poll jobs yet'
 - 'Data need: watch report for period from/to (search params); format json default'
+- 'FRONT: BACK also: generate jobs, catalog, versions (see e24) — Watch page does
+  not poll jobs yet'
+- 'BACK: Period defaults (current watch window) must match BACK schedule semantics
+  when `GET /api/watch/schedule` wired (e25)'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -52,10 +58,9 @@ grep_control:
 - back: GET /api/reports/watch
   front: fetchWatchReport
 verify:
-- '`grep -r "/api/reports/watch" frontend/src api/`'
-- §0.11 reports/watch
-- vitest WatchPage.test
-- Playwright load `/watch?from=&to=`
+- rg "/api/reports/watch" frontend/src api/
+- rg -n 'e20-cp2' frontend/src apps || rg -n 'cp2' frontend/src
+- cd frontend && npm exec vitest -- run src/features/watch
 tdd:
 - '1. Red: vitest WatchPage with report fixture'
 - '2. Green: live fetch, remove MSW'
@@ -63,10 +68,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: /watch?from=&to= shows report sections
-  verify: grep -r "/api/reports/watch" frontend/src api/
+  verify: rg "/api/reports/watch" frontend/src api/
 - id: cp2
   criterion: Period from URL → report matches
-  verify: §0.11 reports/watch
+  verify: rg -n 'e20-cp2' frontend/src apps || rg -n 'cp2' frontend/src
 - id: cp3
   criterion: Empty highlights → fallback events shown
-  verify: vitest WatchPage.test
+  verify: cd frontend && npm exec vitest -- run src/features/watch

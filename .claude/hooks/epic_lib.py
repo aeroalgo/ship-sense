@@ -106,9 +106,11 @@ def load_epic_state(cwd: str | Path) -> dict[str, Any]:
 
 def save_epic_state(cwd: str | Path, state: dict[str, Any]) -> None:
     state["updated_at"] = utc_now()
-    state_path(cwd).write_text(
+    from loop_engine import atomic_write_text
+
+    atomic_write_text(
+        state_path(cwd),
         json.dumps(state, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
     )
 
 
@@ -142,7 +144,25 @@ def _sync_loop_ledger(cwd: str | Path, epic_st: dict[str, Any] | None = None) ->
             epic_role=(epic_st.get("role_prefix") if epic_st else None),
             save=True,
         )
-    except Exception:
+    except Exception as exc:
+        # Do NOT swallow silently: a desync between state.json and loop-state.yaml
+        # here is exactly how the ledger ends up pointing at the wrong step.
+        # Log to trace.jsonl + stderr so drift is visible; return value unchanged.
+        import sys
+
+        try:
+            le.append_trace(
+                cwd,
+                {"kind": "sync_ledger_error", "error": f"{type(exc).__name__}: {exc}"},
+                track="epic",
+            )
+        except Exception:
+            pass
+        print(
+            f"[loop] _sync_loop_ledger FAILED — ledger may drift: "
+            f"{type(exc).__name__}: {exc}",
+            file=sys.stderr,
+        )
         return
 
 
@@ -814,11 +834,14 @@ def role_from_decompose_path(decompose: str) -> str | None:
 
 
 def epic_id_from_decompose_path(decompose: str) -> str:
-    path = Path(decompose.replace("\\", "/"))
+    raw = (decompose or "").strip()
+    if not raw:
+        return ""
+    path = Path(raw.replace("\\", "/"))
     name = path.parent.name if path.name == "index.md" else path.stem
     if name.startswith("decompose-"):
         return name[len("decompose-") :]
-    return name or "epic"
+    return name if name not in {".", "..", ""} else ""
 
 
 def resolve_decompose_arm(
@@ -897,6 +920,29 @@ def arm_epic(
         force_mode=force_mode,
     )
     _sync_loop_ledger(cwd, st)
+    # Arm hygiene: всегда свежий stub result под текущий epic (не чужой plan/role)
+    try:
+        from loop_doctor import reset_epic_result_stub
+
+        reset_epic_result_stub(
+            cwd,
+            role=resolved["role"],
+            mode=(force_mode or "IMPLEMENT"),
+        )
+        import loop_engine as le
+
+        le.append_trace(
+            cwd,
+            {
+                "kind": "arm_result_reset",
+                "role": resolved["role"],
+                "decompose": resolved["decompose"],
+                "plan_id": epic_id_from_decompose_path(resolved["decompose"]),
+            },
+            track="epic",
+        )
+    except Exception:
+        pass
     return st
 
 
@@ -943,12 +989,23 @@ def prepare_result_repair(
     repair_lines = [
         "RESULT REPAIR (atomic) — исправь ошибку after, затем stop.",
         "",
+        "## Repair lanes (HARD — не путать)",
+        "1) @verify FAIL/DENY *в сессии* → чини код/step/result → снова @verify "
+        "(это НЕ этот prompt).",
+        "2) RESULT REPAIR (этот prompt) → только format/docs/`result.yaml` после "
+        "`after` FAIL; FORBIDDEN @verify / следующий sNN|eNN.",
+        "",
         f"Попытка: {attempts + 1}/{max_attempts}",
         f"Ошибка: {reason}",
         "",
     ]
     pending = st.get("pending_implement_step") or ""
-    if pending and "implement step format FAIL" in reason:
+    needs_tests_hint = (
+        "implement step format FAIL" in reason
+        or "test assert FAIL" in reason
+        or "tests:" in reason
+    )
+    if pending and needs_tests_hint:
         step_path = Path(cwd) / pending
         repair_lines.extend(
             [
@@ -1253,701 +1310,61 @@ def mirror_verify_verdict(cwd: str | Path, verdict: str | None) -> None:
     save_epic_state(cwd, st)
 
 
-def _artifact_from_handoff(handoff: str, needles: tuple[str, ...]) -> str | None:
-    for pm in re.finditer(
-        r"\(((?:memory-bank/)?(?:back|front|integration)/[^)\s]+)\)",
-        handoff or "",
-    ):
-        p = _normalize_mb_path(pm.group(1))
-        if any(n in p for n in needles):
-            return p
-    return None
 
-
-def _pick_mode_artifact(
-    result: dict[str, Any],
-    handoff: str,
-    step_path: str | None,
-    needles: tuple[str, ...],
-) -> str | None:
-    for cand in (result.get("artifact"), step_path):
-        if cand and any(n in str(cand) for n in needles):
-            return str(cand)
-    return _artifact_from_handoff(handoff, needles)
-
-
-def validate_qa_shard(path: Path, expected_verdict: str) -> list[str]:
-    if path.suffix.lower() in {".md"}:
-        return [f"Epic QA shard must be .yaml, not .md: {path}"]
-    from epic_shard_extra import validate_qa_yaml
-
-    return validate_qa_yaml(path, expected_verdict=expected_verdict)
-
-
-def validate_decompose_step_format(path: Path) -> list[str]:
-    if path.suffix.lower() in {".md"}:
-        return [f"Epic decompose shard must be .yaml, not .md: {path}"]
-    if path.suffix.lower() not in {".yaml", ".yml"}:
-        return [f"Epic decompose shard must be .yaml: {path}"]
-    import epic_yaml as ey
-
-    return ey.validate_decompose_yaml(path)
-
-
-def validate_refactor_step_format(path: Path) -> list[str]:
-    if path.suffix.lower() in {".md"}:
-        return [f"Epic refactor shard must be .yaml, not .md: {path}"]
-    if path.suffix.lower() not in {".yaml", ".yml"}:
-        return [f"Epic refactor shard must be .yaml: {path}"]
-    from epic_shard_extra import validate_refactor_yaml
-
-    return validate_refactor_yaml(path, finish=True)
-
-
-def validate_security_step_format(path: Path) -> list[str]:
-    if path.suffix.lower() in {".md"}:
-        return [f"Epic security shard must be .yaml, not .md: {path}"]
-    if path.suffix.lower() not in {".yaml", ".yml"}:
-        return [f"Epic security shard must be .yaml: {path}"]
-    from epic_shard_extra import validate_security_yaml
-
-    return validate_security_yaml(path, finish=True)
-
-
-def validate_creative_shard(path: Path) -> list[str]:
-    errors: list[str] = []
-    if not path.is_file():
-        return [f"missing creative shard: {path}"]
-    try:
-        text = path.read_text(encoding="utf-8")
-    except OSError as exc:
-        return [f"unreadable creative shard: {path} ({exc})"]
-
-    if not re.search(r"(?im)creative-", path.name) and "CREATIVE" not in text[:200].upper():
-        errors.append("creative path/title must look like creative-*.md / CREATIVE")
-
-    sm = re.search(r"(?im)^\*\*Статус:\*\*\s*(.+)$", text)
-    if not sm or "closed" not in sm.group(1).lower():
-        errors.append("creative **Статус:** must be closed")
-
-    if not re.search(r"(?im)(\*\*Creative ID:\*\*\s*CR-[A-Z0-9-]+|\bCR-[A-Z0-9-]{2,}\b)", text):
-        errors.append("creative missing Creative ID / CR-*")
-
-    if not re.search(r"(?im)^##\s*Skills gate\b", text):
-        errors.append("creative missing ## Skills gate")
-
-    return errors
-
-
-def validate_reflect_shard(path: Path) -> list[str]:
-    errors: list[str] = []
-    if not path.is_file():
-        return [f"missing reflection shard: {path}"]
-    try:
-        text = path.read_text(encoding="utf-8")
-    except OSError as exc:
-        return [f"unreadable reflection shard: {path} ({exc})"]
-
-    if "REFLECT" not in text[:120].upper() and not path.name.startswith("reflection-"):
-        errors.append("reflection title/path must be reflection-* / REFLECT")
-
-    sm = re.search(r"(?im)^\*\*Статус:\*\*\s*(.+)$", text)
-    if not sm or "completed" not in sm.group(1).lower():
-        errors.append("reflection **Статус:** must be completed")
-
-    for sec in ("## Сравнение", "## Что сработало", "## Уроки"):
-        if not re.search(rf"(?im)^{re.escape(sec)}\b", text):
-            errors.append(f"reflection missing {sec}")
-
-    return errors
-
-
-def _crosscheck_qa(
-    cwd: str | Path,
-    result: dict[str, Any],
-    *,
-    handoff: str,
-    step_path: str | None,
-) -> list[str]:
-    errors: list[str] = []
-    status = str(result.get("status") or "")
-    verdict = result.get("verdict")
-    if not verdict or str(verdict).lower() not in {"pass", "blocked", "fail"}:
-        errors.append("QA result requires verdict: pass|blocked|fail")
-        return errors
-
-    v = str(verdict).lower()
-    expected_status = {"pass": "ok", "blocked": "blocked", "fail": "fail"}[v]
-    if status != expected_status:
-        errors.append(
-            f"QA status={status!r} несовместим с verdict={v!r} (ожидали {expected_status})"
-        )
-
-    art = _pick_mode_artifact(result, handoff, step_path, ("/qa/",))
-    if not art:
-        errors.append("QA: нет qa-shard path (result.artifact / Handoff Артефакт)")
-    else:
-        errors.extend(validate_qa_shard(Path(cwd) / art, v))
-
-    return errors
-
-
-def _crosscheck_creative(
-    cwd: str | Path,
-    result: dict[str, Any],
-    *,
-    handoff: str,
-    step_path: str | None,
-    decompose: str | None,
-) -> list[str]:
-    errors: list[str] = []
-    art = _pick_mode_artifact(result, handoff, step_path, ("/creative/",))
-    if not art:
-        errors.append("CREATIVE: нет creative path (result.artifact / Handoff)")
-        return errors
-
-    path = Path(cwd) / art
-    errors.extend(validate_creative_shard(path))
-
-    cr = None
-    if path.is_file():
-        try:
-            text = path.read_text(encoding="utf-8")
-        except OSError:
-            text = ""
-        m = re.search(r"(?im)\*\*Creative ID:\*\*\s*(CR-[A-Z0-9-]+)", text)
-        if m:
-            cr = m.group(1).upper()
-        else:
-            m2 = re.search(r"\b(CR-[A-Z0-9-]{2,})\b", text)
-            if m2:
-                cr = m2.group(1).upper()
-
-    if cr and decompose:
-        idx = _decompose_index_path(cwd, decompose)
-        if idx and idx.is_file():
-            open_steps: list[str] = []
-            for step in sorted(
-                list(idx.parent.glob("s*.yaml")) + list(idx.parent.glob("e*.yaml"))
-            ):
-                st_text = step.read_text(encoding="utf-8", errors="replace")
-                if cr not in st_text.upper():
-                    continue
-                for line in st_text.splitlines()[:12]:
-                    if not re.search(r"(?im)needs_creative:", line):
-                        continue
-                    if re.search(r"(?im)needs_creative:\s*yes", line) and not re.search(
-                        r"(?i)closed", line
-                    ):
-                        open_steps.append(step.name)
-            if open_steps:
-                errors.append(
-                    f"CREATIVE gate: {cr} ещё open в {', '.join(open_steps)} "
-                    "(needs_creative … — **closed**)"
-                )
-
-    if not re.search(r"(?i)IMPLEMENT", handoff or ""):
-        errors.append("CREATIVE Handoff: ожидается Следующий … IMPLEMENT")
-
-    return errors
-
-
-def _crosscheck_reflect(
-    cwd: str | Path,
-    result: dict[str, Any],
-    *,
-    handoff: str,
-    step_path: str | None,
-) -> list[str]:
-    errors: list[str] = []
-    art = _pick_mode_artifact(result, handoff, step_path, ("/reflection/",))
-    if not art:
-        errors.append("REFLECT: нет reflection path (result.artifact / Handoff)")
-        return errors
-    errors.extend(validate_reflect_shard(Path(cwd) / art))
-    if not re.search(r"(?i)ARCHIVE\s+NOW", handoff or ""):
-        errors.append("REFLECT Handoff: обязателен Следующий … ARCHIVE NOW")
-    return errors
-
-
-def crosscheck_ok_result(
-    cwd: str | Path,
-    result: dict[str, Any],
-    *,
-    last_mode: str | None,
-    decompose: str | None,
-    step_path: str | None,
-    handoff: str,
-    verify_verdict: str | None,
-) -> list[str]:
-    """Mechanical asserts by mode. Empty list = pass.
-
-    QA: any finalized status (ok/blocked/fail) + verdict ↔ qa-shard.
-    CREATIVE/REFLECT/IMPLEMENT: primarily status=ok contracts.
-    """
-    return crosscheck_result_artifacts(
-        cwd,
-        result,
-        last_mode=last_mode,
-        decompose=decompose,
-        step_path=step_path,
-        handoff=handoff,
-        verify_verdict=verify_verdict,
-    )
-
-
-def crosscheck_result_artifacts(
-    cwd: str | Path,
-    result: dict[str, Any],
-    *,
-    last_mode: str | None,
-    decompose: str | None,
-    step_path: str | None,
-    handoff: str,
-    verify_verdict: str | None,
-) -> list[str]:
-    status = str(result.get("status") or "")
-    mode = str(result.get("mode") or last_mode or "").upper().replace(
-        "ARCHIVE NOW", "ARCHIVE"
-    )
-    errors: list[str] = []
-
-    if mode == "QA":
-        return _crosscheck_qa(
-            cwd, result, handoff=handoff, step_path=step_path
-        )
-
-    if mode == "CREATIVE":
-        if status != "ok":
-            return []
-        return _crosscheck_creative(
-            cwd,
-            result,
-            handoff=handoff,
-            step_path=step_path,
-            decompose=decompose,
-        )
-
-    if mode == "REFLECT":
-        if status != "ok":
-            return []
-        return _crosscheck_reflect(
-            cwd, result, handoff=handoff, step_path=step_path
-        )
-
-    if mode == "DECOMPOSE":
-        if status != "ok":
-            return []
-        if not step_path:
-            errors.append("status=ok DECOMPOSE: нет decompose shard path")
-        else:
-            errors.extend(validate_decompose_step_format(Path(cwd) / step_path))
-        if not result.get("step_id"):
-            errors.append("status=ok DECOMPOSE: нет result.step_id")
-        return errors
-
-    if status != "ok":
-        return []
-
-    if mode == "REFACTOR":
-        if not step_path:
-            errors.append("status=ok REFACTOR: нет step artifact path")
-        else:
-            errors.extend(validate_refactor_step_format(Path(cwd) / step_path))
-        if not result.get("step_id"):
-            errors.append("status=ok REFACTOR: нет result.step_id")
-        # fall through to pending/verify checks below
-
-    elif mode == "SECURITY" or mode.startswith("SECURITY"):
-        if not step_path:
-            errors.append("status=ok SECURITY: нет aNN artifact path")
-        else:
-            errors.extend(validate_security_step_format(Path(cwd) / step_path))
-        if not result.get("step_id"):
-            errors.append("status=ok SECURITY: нет result.step_id")
-        if handoff_code_changed_no(handoff):
-            return errors
-        return errors
-
-    elif mode == "IMPLEMENT":
-        if not step_path:
-            errors.append("status=ok IMPLEMENT: нет step artifact path")
-        else:
-            errors.extend(validate_implement_step_format(Path(cwd) / step_path))
-        if not result.get("step_id"):
-            errors.append("status=ok IMPLEMENT: нет result.step_id")
-        # Step done = result.yaml ok + artifact. index.md is human view only.
-        # Machine cursor: loop/loop-state.yaml (advanced on after).
-
-    # Epic still has steps → Handoff must not jump to QA
-    if decompose and mode in {"IMPLEMENT", "REFACTOR", "CREATIVE", "BUGFIX"}:
-        pending = None
-        try:
-            import loop_engine as le
-
-            p = (le.load_loop_state(cwd).get("epic") or {}).get("pending")
-            if p is not None:
-                pending = int(p)
-        except Exception:
-            pending = None
-        if pending is None:
-            pending = decompose_pending_left(cwd, decompose)
-        if pending is not None and pending > 0:
-            next_cmd = parse_next_command(handoff)
-            next_mode = command_mode(next_cmd) if next_cmd else None
-            if next_mode == "QA" or (
-                next_cmd is None
-                and re.search(r"(?im)^\s*[-*]\s*\*\*Epic QA:\*\*", handoff or "")
-            ):
-                errors.append(
-                    f"status=ok: Handoff next=QA при pending={pending} "
-                    "в decompose — QA запрещён, пока есть шаги эпика"
-                )
-
-    if mode in {"IMPLEMENT", "REFACTOR", "BUGFIX"}:
-        if handoff_code_changed_no(handoff):
-            return errors
-        vv = (verify_verdict or "").upper() or None
-        if vv == "FAIL":
-            errors.append("status=ok несовместим с verify VERDICT: FAIL")
-        elif vv != "PASS":
-            errors.append(
-                "status=ok требует verify VERDICT: PASS "
-                f"(got {vv!r}; code_changed≠no)"
-            )
-
-    return errors
-
-
-def _pick_allow_read_files(load_now: list[str], cmd: str) -> list[str]:
-    """≤10 concrete files for reviewer/verify ALLOW READ (no dirs, no globs)."""
-    root_candidates: list[str] = []
-    seen: set[str] = set()
-
-    def add(p: str) -> None:
-        p = p.strip()
-        if not p or p in seen:
-            return
-        if p.endswith("/") or "**" in p:
-            return
-        seen.add(p)
-        root_candidates.append(p)
-
-    for p in load_now:
-        if "qa/" in p or "bugfix/" in p or "implement/" in p or "refactor/" in p:
-            add(p)
-    for p in load_now:
-        add(p)
-    for p in (
-        "memory-bank/activeContext.md",
-        "docker-compose.yml",
-        "pyproject.toml",
-        "apps/edge/storage/writer.py",
-        "tests/storage/test_storage_contracts.py",
-    ):
-        add(p)
-    return root_candidates[:10]
-
-
-def _extract_verify_commands(cwd: str | Path, load_now: list[str]) -> list[str]:
-    """Collect exact pytest commands from current step/qa shard for packed prompts."""
-    root = Path(cwd)
-    commands: list[str] = []
-    seen: set[str] = set()
-
-    def add(cmd: str) -> None:
-        cmd = cmd.strip()
-        if cmd.startswith("- "):
-            cmd = cmd[2:].strip()
-        if cmd.startswith("`") and cmd.endswith("`"):
-            cmd = cmd[1:-1].strip()
-        if not cmd.startswith(".venv/bin/pytest ") or cmd in seen:
-            return
-        seen.add(cmd)
-        commands.append(cmd)
-
-    prioritized = sorted(
-        load_now,
-        key=lambda p: (
-            0 if p.endswith((".yaml", ".yml")) else 1,
-            0 if "qa/" in p else 1,
-            p,
-        ),
-    )
-    for rel_path in prioritized:
-        if not rel_path.endswith((".md", ".yaml", ".yml")):
-            continue
-        path = root / rel_path
-        if not path.is_file():
-            continue
-        if path.suffix.lower() in {".yaml", ".yml"}:
-            try:
-                import yaml as _yaml
-
-                data = _yaml.safe_load(path.read_text(encoding="utf-8"))
-                if isinstance(data, dict):
-                    for key in ("tests", "verification_results", "verify"):
-                        for item in data.get(key) or []:
-                            if isinstance(item, str) and ".venv/bin/pytest " in item:
-                                add(item)
-                    if commands:
-                        break
-            except Exception:
-                pass
-            continue
-        try:
-            for raw in path.read_text(encoding="utf-8").splitlines():
-                if ".venv/bin/pytest " not in raw:
-                    continue
-                line = raw.strip()
-                if "`" in line:
-                    for part in re.findall(r"`([^`]+)`", line):
-                        add(part)
-                else:
-                    add(line)
-        except Exception:
-            continue
-        if commands:
-            break
-    return commands[:3]
-
-
-def _role_from_cmd(cmd: str) -> str:
-    m = ROLE_MODE_RE.match(cmd.strip())
-    return m.group(1).upper() if m else "BACK"
-
-
-_SPAWN_POINTER = (
-    "Spawn packed (explorer/verify/reviewer): `.claude/instructions/spawn-hard.md` "
-    "+ UserPromptSubmit SPAWN_MAP — не дублировать секции AC+/ALLOW здесь."
+# --- split modules (crosscheck + prompt_build) ---
+import crosscheck as _crosscheck  # noqa: E402
+import prompt_build as _prompt_build  # noqa: E402
+
+_crosscheck.handoff_code_changed_no = handoff_code_changed_no
+_crosscheck.parse_next_command = parse_next_command
+_crosscheck.command_mode = command_mode
+_crosscheck.decompose_pending_left = decompose_pending_left
+_crosscheck.validate_implement_step_format = validate_implement_step_format
+_crosscheck._decompose_index_path = _decompose_index_path
+_crosscheck._normalize_mb_path = _normalize_mb_path
+_crosscheck._normalize_mb_path = _normalize_mb_path
+
+_prompt_build.load_epic_state = load_epic_state
+_prompt_build.resolve_expected_implement_step = resolve_expected_implement_step
+_prompt_build.implement_step_format_lines = implement_step_format_lines
+_prompt_build.EPIC_RESULT_REPAIR_MAX_ATTEMPTS = EPIC_RESULT_REPAIR_MAX_ATTEMPTS
+_prompt_build.command_mode = command_mode
+_prompt_build.is_integ_implement_step_path = is_integ_implement_step_path
+_prompt_build.ROLE_MODE_RE = ROLE_MODE_RE
+_prompt_build.utc_now = utc_now
+_prompt_build._normalize_mb_path = _normalize_mb_path
+_prompt_build.extract_step_basename = extract_step_basename
+_prompt_build.epic_id_from_decompose_path = epic_id_from_decompose_path
+
+from crosscheck import (  # noqa: E402
+    _artifact_from_handoff,
+    _pick_mode_artifact,
+    validate_qa_shard,
+    validate_decompose_step_format,
+    validate_refactor_step_format,
+    validate_security_step_format,
+    validate_creative_shard,
+    validate_reflect_shard,
+    _crosscheck_qa,
+    _crosscheck_creative,
+    _crosscheck_reflect,
+    crosscheck_ok_result,
+    crosscheck_result_artifacts,
 )
-
-
-def _epic_checkpoint_appendix(
-    cwd: str | Path, load_now: list[str], role: str
-) -> list[str]:
-    try:
-        import epic_yaml as ey
-
-        st = load_epic_state(cwd)
-        role_l = (role or "BACK").strip().lower()
-        step_rel = resolve_expected_implement_step(
-            cwd,
-            load_now,
-            decompose=st.get("decompose"),
-            role=role.upper(),
-        )
-        if not step_rel:
-            return []
-        doc = ey.find_implement_doc(cwd, step_rel)
-        if doc:
-            return ey.checkpoint_prompt_lines(doc)
-        dec_stem = Path(step_rel).stem
-        epic_id = epic_id_from_decompose_path(st.get("decompose") or "")
-        if not epic_id:
-            return []
-        sid_m = re.match(r"^([se]\d{2})", dec_stem.lower())
-        step_key = sid_m.group(1) if sid_m else dec_stem.lower()
-        dec_rel = ey.resolve_decompose_path(cwd, role_l, epic_id, step_key)
-        dec_p = Path(cwd) / dec_rel
-        if not dec_p.is_file():
-            return []
-        dec = ey.load_decompose(dec_p)
-        impl_p = Path(cwd) / step_rel
-        impl_p.parent.mkdir(parents=True, exist_ok=True)
-        seeded = ey.seed_implement_checkpoints(dec, None)
-        role_dir = ey.role_dir(role_l)
-        data: dict[str, Any] = {
-            "schema": ey.SCHEMA_EPIC_IMPLEMENT,
-            "role": role_l,
-            "step_id": dec.step_id,
-            "plan_id": dec.plan_id,
-            "title": dec.title,
-            "status": "in_progress",
-            "decompose_ref": dec_rel,
-            "implement_index": f"memory-bank/{role_dir}/implement/implement-{epic_id}/index.md",
-            "date": "2026-08-01",
-            "checkpoints": [c.model_dump() for c in seeded],
-            "resume_from": ey.compute_resume_from(seeded),
-        }
-        if role_l == "integ":
-            data["element_ref"] = dec_rel
-            data["gaps"] = {"status": "none"}
-            data["grep_control"] = [r.model_dump() for r in dec.grep_control]
-            data["verification_results"] = []
-        else:
-            data["done"] = []
-            data["files"] = []
-            data["tests"] = []
-            data["integration_check"] = []
-        import yaml as _yaml
-
-        impl_p.write_text(
-            _yaml.safe_dump(data, allow_unicode=True, sort_keys=False),
-            encoding="utf-8",
-        )
-        doc = ey.load_implement(impl_p)
-        return ey.checkpoint_prompt_lines(doc)
-    except Exception:
-        pass
-    return []
-
-
-_integ_checkpoint_appendix = _epic_checkpoint_appendix
-
-
-def _mode_appendix(cmd: str, cwd: str | Path, load_now: list[str]) -> list[str]:
-    mode = command_mode(cmd) or ""
-    role = _role_from_cmd(cmd)
-
-    if mode == "QA":
-        return [
-            "",
-            f"## {role} QA (HARD)",
-            *(__import__("epic_shard_extra", fromlist=["qa_format_spec_lines"]).qa_format_spec_lines(role=role.strip().lower())),
-            "Parent suite → @reviewer packed → FINISH qa-*.yaml + один Handoff.",
-            "result.yaml: verdict pass|blocked|fail; status↔verdict; draft=false.",
-            "Next-mode: `loop/transitions.yaml` (не invent).",
-            _SPAWN_POINTER,
-        ]
-
-    if mode == "DECOMPOSE":
-        role_l = role.strip().lower()
-        return [
-            "",
-            "## path-rule DECOMPOSE step (HARD)",
-            *(__import__("epic_shard_extra", fromlist=["decompose_format_spec_lines"]).decompose_format_spec_lines(role=role_l)),
-            "FINISH artifact: decompose shard `.yaml` only (не index).",
-            _SPAWN_POINTER,
-        ]
-
-    if mode == "IMPLEMENT":
-        verify_cmds = _extract_verify_commands(cwd, load_now)
-        verify_lines = verify_cmds or [".venv/bin/pytest <targeted-test-from-step-shard> -q"]
-        integ = role == "INTEG"
-        role_l = role.strip().lower()
-        extra = _epic_checkpoint_appendix(cwd, load_now, role)
-        artifact_hint: list[str] = []
-        st = load_epic_state(cwd)
-        step_rel = resolve_expected_implement_step(
-            cwd,
-            load_now,
-            decompose=st.get("decompose"),
-            role=role,
-        )
-        if step_rel:
-            artifact_hint = [
-                f"result.yaml artifact ({role}): `{step_rel}` — только .yaml, не .md",
-            ]
-        return [
-            "",
-            "## path-rule IMPLEMENT step (HARD)",
-            *implement_step_format_lines(role=role_l, integ=integ),
-            *artifact_hint,
-            *extra,
-            "Канон: finish-block.mdc · validator = loop after-hook "
-            f"(до {EPIC_RESULT_REPAIR_MAX_ATTEMPTS}× RESULT REPAIR при FAIL).",
-            "",
-            "## spawn (pointer)",
-            "code_changed=yes → @verify; codebase search → @explorer.",
-            "VERIFY cmds (вставить в packed VERIFY:):",
-            *[f"- {line}" for line in verify_lines],
-            _SPAWN_POINTER,
-        ]
-
-    if mode == "REFACTOR":
-        verify_cmds = _extract_verify_commands(cwd, load_now)
-        verify_lines = verify_cmds or [".venv/bin/pytest <targeted-test-from-rNN-shard> -q"]
-        role_l = role.strip().lower()
-        return [
-            "",
-            "## path-rule REFACTOR epic (HARD)",
-            *(__import__("epic_shard_extra", fromlist=["refactor_format_spec_lines"]).refactor_format_spec_lines(role=role_l)),
-            "`memory-bank/{role}/refactor/implement/implement-<id>/rNN-<slug>.yaml`",
-            "FORBIDDEN: session-*.md в корне refactor/ при эпике; legacy `.md` rNN shard.",
-            "Behavior freeze; один rNN за сессию. Канон: workflow-refactor-epic.mdc",
-            "",
-            "## spawn (pointer)",
-            "code_changed=yes → @verify.",
-            "VERIFY cmds:",
-            *[f"- {line}" for line in verify_lines],
-            _SPAWN_POINTER,
-        ]
-
-    if mode == "SECURITY" or (mode or "").startswith("SECURITY"):
-        role_l = role.strip().lower()
-        return [
-            "",
-            "## path-rule SECURITY epic (HARD)",
-            *(__import__("epic_shard_extra", fromlist=["security_format_spec_lines"]).security_format_spec_lines(role=role_l)),
-            "Submode: PLAN | DECOMPOSE | execute — detect из args / load_now.",
-            "`memory-bank/{role}/security/implement/implement-<id>/aNN-<slug>.yaml`",
-            "S one-shot: `security/security-audit-YYYYMMDD-<slug>.md` (без yaml).",
-            "FORBIDDEN: root-audit + implement/aNN одновременно; не чинить код.",
-            "code_changed: no. Канон: workflow-security-epic.mdc",
-            _SPAWN_POINTER,
-        ]
-
-    if mode == "BUGFIX":
-        verify_cmds = _extract_verify_commands(cwd, load_now)
-        verify_lines = verify_cmds or [".venv/bin/pytest <targeted-test-from-bugfix-shard> -q"]
-        return [
-            "",
-            "## BUGFIX (HARD)",
-            "Root-cause fix (без fallback/hide) → targeted pytest → @verify если code_changed.",
-            "VERIFY cmds:",
-            *[f"- {line}" for line in verify_lines],
-            "Next-mode: `loop/transitions.yaml` (обычно → QA).",
-            _SPAWN_POINTER,
-        ]
-
-    if mode == "CREATIVE":
-        return [
-            "",
-            "## CREATIVE (HARD)",
-            "Skills gate: Core ∪ situational ≤5 в ## Skills gate.",
-            "result.yaml ok + creative **Статус:** closed + CR-* .",
-            "Rewire sNN needs_creative → closed. Next: transitions → IMPLEMENT.",
-        ]
-
-    if mode == "REFLECT":
-        return [
-            "",
-            "## REFLECT (HARD)",
-            "result.yaml ok + reflection **Статус:** completed (Сравнение/Что сработало/Уроки).",
-            f"Handoff `- **Следующий:** {role} ARCHIVE NOW` — loop complete; ARCHIVE вручную.",
-            "FORBIDDEN: ARCHIVE NOW / mb-archive в этой сессии.",
-        ]
-
-    return []
-
-
-def build_prompt(cmd: str, cwd: str | Path, load_now: list[str]) -> str:
-    lines = [
-        cmd,
-        "",
-        "EPIC MODE: один atomic шаг. FINISH → Write весь activeContext.md целиком "
-        "(load_now → ровно 1× ## Handoff → ≤1× ## done) + stop.",
-        "result.yaml: Write implement step on disk → finalize (draft=false, "
-        "artifact=implement path) → @verify → "
-        "FAIL/DENY: fix blockers/prompt → снова @verify → PASS → FINISH.",
-        "FORBIDDEN: @verify после VERDICT: PASS; править loop/loop-state.yaml; "
-        "стопка Handoff; sandwich (старый Handoff/done в хвосте); completed в load_now; "
-        "следующий sNN в этой сессии; /exit|/clear.",
-        "Перед FINISH: 1× re-read activeContext ИЛИ Write целиком (не partial Edit).",
-        "Next-mode: loop/transitions.yaml. Spawn: spawn-hard.md + SPAWN_MAP (hook).",
-        "Старт:",
-        "1. memory-bank/activeContext.md → load_now + §Handoff",
-    ]
-    if load_now:
-        lines.append(f"2. {load_now[0]}")
-        for i, p in enumerate(load_now[1:3], start=3):
-            lines.append(f"{i}. {p}")
-    else:
-        lines.append("2. shard из Handoff / decompose index (первый pending/active)")
-    lines.extend(_mode_appendix(cmd, cwd, load_now))
-    return "\n".join(lines)
-
+from prompt_build import (  # noqa: E402
+    _pick_allow_read_files,
+    _VERIFY_CMD_HINTS,
+    _looks_like_verify_cmd,
+    _extract_verify_commands,
+    _verify_lines_for_mode,
+    _role_from_cmd,
+    _SPAWN_POINTER,
+    _resolve_decompose_for_step,
+    _epic_checkpoint_appendix,
+    _integ_checkpoint_appendix,
+    _mode_appendix,
+    build_prompt,
+)
 
 def resolve_next(cwd: str | Path) -> dict[str, Any]:
     """Return {ok, status, command, prompt, reason} and update state/files."""
@@ -2024,6 +1441,26 @@ def resolve_next(cwd: str | Path) -> dict[str, Any]:
 
     pending = decompose_pending_left(cwd, st.get("decompose"))
     role = st.get("role_prefix") or "BACK"
+
+    # Arm/resolve hygiene: чужой finalized result → clear+stub (fail-fast trace)
+    try:
+        from loop_doctor import foreign_result_errors, reset_epic_result_stub
+        import loop_engine as le
+
+        plan_id = (
+            epic_id_from_decompose_path(st["decompose"]) if st.get("decompose") else None
+        )
+        ferrs = foreign_result_errors(cwd, role=role, plan_id=plan_id, track="epic")
+        if ferrs:
+            mode_guess = command_mode(st.get("last_command") or "") or "IMPLEMENT"
+            reset_epic_result_stub(cwd, role=role, mode=mode_guess)
+            le.append_trace(
+                cwd,
+                {"kind": "foreign_result_reset", "errors": ferrs, "plan_id": plan_id},
+                track="epic",
+            )
+    except Exception:
+        pass
 
     # Ledger sync (Handoff projection) — queue from decompose wins when pending>0
     _sync_loop_ledger(cwd, st)
@@ -2222,421 +1659,33 @@ def resolve_next(cwd: str | Path) -> dict[str, Any]:
     }
 
 
-def after_session(cwd: str | Path) -> dict[str, Any]:
-    """Call after claude -p exits: detect progress or halt."""
-    st = load_epic_state(cwd)
-    if not st.get("active"):
-        return {"ok": False, "status": st.get("status"), "reason": "not active"}
 
-    text = read_active_context(cwd)
-    fp = fingerprint_context(text)
-    before = st.get("pending_fingerprint_before")
-    handoff = extract_handoff_block(text)
+# --- split module (after_session) ---
+import after_session as _after_session  # noqa: E402
 
-    shape_errs = validate_active_context_shape(text)
-    if shape_errs:
-        reason = "activeContext shape FAIL: " + "; ".join(shape_errs)
-        st["active"] = False
-        st["status"] = "halted"
-        st["halt_reason"] = reason
-        save_epic_state(cwd, st)
-        return {
-            "ok": False,
-            "status": "halted",
-            "reason": reason,
-            "fingerprint": fp,
-            "shape_errors": shape_errs,
-        }
+_after_session.load_epic_state = load_epic_state
+_after_session.save_epic_state = save_epic_state
+_after_session.read_active_context = read_active_context
+_after_session.fingerprint_context = fingerprint_context
+_after_session.extract_handoff_block = extract_handoff_block
+_after_session.validate_active_context_shape = validate_active_context_shape
+_after_session.implement_step_from_handoff = implement_step_from_handoff
+_after_session.validate_implement_step_format = validate_implement_step_format
+_after_session.command_mode = command_mode
+_after_session.decompose_pending_left = decompose_pending_left
+_after_session.assert_integ_yaml_shards = assert_integ_yaml_shards
+_after_session.extract_load_now = extract_load_now
+_after_session.halt_epic = halt_epic
+_after_session.complete_epic = complete_epic
+_after_session.complete_epic_remaining_step = complete_epic_remaining_step
+_after_session.clear_repair_attempt = clear_repair_attempt
+_after_session.crosscheck_ok_result = crosscheck_ok_result
+_after_session.handoff_code_changed_no = handoff_code_changed_no
+_after_session.utc_now = utc_now
+_after_session.HALT_RE = HALT_RE
+_after_session.epic_id_from_decompose_path = epic_id_from_decompose_path
 
-    st["iteration"] = int(st.get("iteration") or 0) + 1
-    hist = list(st.get("history") or [])
-    hist.append(
-        {
-            "n": st["iteration"],
-            "command": st.get("last_command"),
-            "fingerprint": fp,
-            "at": utc_now(),
-        }
-    )
-    st["history"] = hist[-50:]
-
-    if before is not None and fp == before:
-        st["active"] = False
-        st["status"] = "halted"
-        st["halt_reason"] = "no Handoff/load_now progress after session"
-        save_epic_state(cwd, st)
-        return {
-            "ok": False,
-            "status": "halted",
-            "reason": "no progress (same fingerprint)",
-            "fingerprint": fp,
-        }
-
-    if HALT_RE.search(handoff):
-        st["active"] = False
-        st["status"] = "halted"
-        st["halt_reason"] = "human gate after session"
-        save_epic_state(cwd, st)
-        return {
-            "ok": False,
-            "status": "halted",
-            "reason": "human gate after session",
-            "fingerprint": fp,
-        }
-
-    last_mode = command_mode(st.get("last_command") or "") if st.get("last_command") else None
-    if last_mode == "IMPLEMENT":
-        # Handoff Артефакт = факт сессии; pending мог ошибочно взять следующий sNN
-        # из load_now с несколькими шагами — не halt по отсутствующему next-файлу.
-        handoff_step = implement_step_from_handoff(handoff)
-        pending_step = st.get("pending_implement_step")
-        step_rel = handoff_step or pending_step
-        if step_rel:
-            errs = validate_implement_step_format(Path(cwd) / step_rel)
-            if errs:
-                reason = f"implement step format FAIL ({step_rel}): " + "; ".join(errs)
-                st["active"] = False
-                st["status"] = "halted"
-                st["halt_reason"] = reason
-                save_epic_state(cwd, st)
-                return {
-                    "ok": False,
-                    "status": "halted",
-                    "reason": reason,
-                    "fingerprint": fp,
-                    "pending_implement_step": step_rel,
-                    "format_errors": errs,
-                    "repairable": True,
-                }
-        else:
-            reason = (
-                "implement step format FAIL: не найден step path "
-                "(Handoff Артефакт + pending_implement_step пусты)"
-            )
-            st["active"] = False
-            st["status"] = "halted"
-            st["halt_reason"] = reason
-            save_epic_state(cwd, st)
-            return {
-                "ok": False,
-                "status": "halted",
-                "reason": reason,
-                "fingerprint": fp,
-                "repairable": True,
-            }
-
-    if re.search(r"(?i)—\s*blocked|\bblocked\b", handoff) and re.search(
-        r"(?i)Handoff\s+.*\bQA\b", handoff
-    ):
-        # keep running only if next is BUGFIX — resolve_next will decide
-        pass
-
-    st["last_fingerprint"] = fp
-    st["status"] = "running"
-    st["active"] = True
-    saved_pending_step = st.get("pending_implement_step")
-    st["pending_implement_step"] = None
-    save_epic_state(cwd, st)
-
-    # complete only when next is ARCHIVE (ручной) or last session was REFLECT→ARCHIVE
-    pending = decompose_pending_left(cwd, st.get("decompose"))
-    load_now = assert_integ_yaml_shards(extract_load_now(text))
-    last_mode = command_mode(st.get("last_command") or "") if st.get("last_command") else None
-
-    # Advance canonical ledger via transitions.yaml — result.yaml REQUIRED
-    try:
-        import loop_engine as le
-        from session_result import (
-            clear_result,
-            collect_test_commands_for_assert,
-            load_and_normalize_result,
-            pytest_assert_enabled,
-            run_test_commands,
-            validate_result,
-        )
-
-        result_data, norm_changes = load_and_normalize_result(
-            cwd, track="epic", persist=True
-        )
-        if norm_changes:
-            le.append_trace(
-                cwd,
-                {
-                    "kind": "result_normalized",
-                    "changes": norm_changes,
-                    "result": result_data,
-                },
-                track="epic",
-            )
-        if not result_data:
-            reason = "result.yaml missing (no handoff fallback)"
-            st["active"] = False
-            st["status"] = "halted"
-            st["halt_reason"] = reason
-            save_epic_state(cwd, st)
-            le.append_trace(cwd, {"kind": "halt", "reason": reason}, track="epic")
-            return {
-                "ok": False,
-                "status": "halted",
-                "reason": reason,
-                "fingerprint": fp,
-                "repairable": False,
-            }
-        if result_data.get("_invalid"):
-            reason = f"result.yaml invalid: {result_data.get('_reason')}"
-            st["active"] = False
-            st["status"] = "halted"
-            st["halt_reason"] = reason
-            save_epic_state(cwd, st)
-            le.append_trace(
-                cwd,
-                {"kind": "halt", "reason": reason, "result": result_data},
-                track="epic",
-            )
-            return {
-                "ok": False,
-                "status": "halted",
-                "reason": reason,
-                "fingerprint": fp,
-                "repairable": True,
-            }
-        verrs = validate_result(result_data)
-        if verrs:
-            reason = "result.yaml validate FAIL: " + "; ".join(verrs)
-            st["active"] = False
-            st["status"] = "halted"
-            st["halt_reason"] = reason
-            save_epic_state(cwd, st)
-            le.append_trace(
-                cwd,
-                {"kind": "halt", "reason": reason, "result": result_data},
-                track="epic",
-            )
-            return {
-                "ok": False,
-                "status": "halted",
-                "reason": reason,
-                "fingerprint": fp,
-                "result": result_data,
-                "repairable": True,
-            }
-        if result_data.get("status") == "halt":
-            halt_epic(cwd, result_data.get("notes") or "result.yaml status=halt")
-            return {
-                "ok": False,
-                "status": "halted",
-                "reason": "result.yaml status=halt",
-                "fingerprint": fp,
-                "result": result_data,
-            }
-
-        step_for_check = (
-            result_data.get("artifact")
-            or implement_step_from_handoff(handoff)
-            or saved_pending_step
-        )
-        # Machine pending queue: pop completed step_id from epic.remaining
-        if (
-            str(result_data.get("status") or "") == "ok"
-            and (last_mode or "").upper() in {"IMPLEMENT", "REFACTOR"}
-            and result_data.get("step_id")
-        ):
-            complete_epic_remaining_step(cwd, str(result_data.get("step_id")))
-            pending = decompose_pending_left(cwd, st.get("decompose"))
-
-        xerrs = crosscheck_ok_result(
-            cwd,
-            result_data,
-            last_mode=last_mode,
-            decompose=st.get("decompose"),
-            step_path=step_for_check,
-            handoff=handoff,
-            verify_verdict=st.get("last_verify_verdict"),
-        )
-        if xerrs:
-            reason = "result.yaml crosscheck FAIL: " + "; ".join(xerrs)
-            st["active"] = False
-            st["status"] = "halted"
-            st["halt_reason"] = reason
-            save_epic_state(cwd, st)
-            le.append_trace(
-                cwd,
-                {
-                    "kind": "halt",
-                    "reason": reason,
-                    "result": result_data,
-                    "verify_verdict": st.get("last_verify_verdict"),
-                },
-                track="epic",
-            )
-            return {
-                "ok": False,
-                "status": "halted",
-                "reason": reason,
-                "fingerprint": fp,
-                "result": result_data,
-                "crosscheck_errors": xerrs,
-                "repairable": True,
-            }
-
-        if (
-            pytest_assert_enabled()
-            and str(result_data.get("status") or "") == "ok"
-            and (last_mode or "").upper() in {"IMPLEMENT", "REFACTOR", "BUGFIX"}
-            and not handoff_code_changed_no(handoff)
-        ):
-            test_cmds = collect_test_commands_for_assert(
-                cwd,
-                result_data,
-                step_path=step_for_check,
-            )
-            if not test_cmds:
-                reason = (
-                    "result.yaml test assert FAIL: нет команд в "
-                    "test_commands/pytest_commands / step tests: / ## Тесты "
-                    "(status=ok + code_changed≠no)"
-                )
-                st["active"] = False
-                st["status"] = "halted"
-                st["halt_reason"] = reason
-                save_epic_state(cwd, st)
-                le.append_trace(
-                    cwd,
-                    {"kind": "halt", "reason": reason, "result": result_data},
-                    track="epic",
-                )
-                return {
-                    "ok": False,
-                    "status": "halted",
-                    "reason": reason,
-                    "fingerprint": fp,
-                    "result": result_data,
-                }
-            test_errs = run_test_commands(cwd, test_cmds)
-            if test_errs:
-                reason = "result.yaml test assert FAIL: " + " | ".join(test_errs)
-                st["active"] = False
-                st["status"] = "halted"
-                st["halt_reason"] = reason
-                save_epic_state(cwd, st)
-                le.append_trace(
-                    cwd,
-                    {
-                        "kind": "halt",
-                        "reason": reason,
-                        "test_commands": test_cmds,
-                        "result": result_data,
-                    },
-                    track="epic",
-                )
-                return {
-                    "ok": False,
-                    "status": "halted",
-                    "reason": reason,
-                    "fingerprint": fp,
-                    "result": result_data,
-                    "test_commands": test_cmds,
-                }
-            le.append_trace(
-                cwd,
-                {
-                    "kind": "test_assert",
-                    "ok": True,
-                    "test_commands": test_cmds,
-                },
-                track="epic",
-            )
-
-        adv = le.advance_ledger_after_session(
-            cwd,
-            last_mode=last_mode,
-            handoff=handoff,
-            role=st.get("role_prefix"),
-            pending=pending,
-            decompose=st.get("decompose"),
-            load_now=load_now,
-            model=st.get("model"),
-            result=result_data,
-            track="epic",
-        )
-        if not adv.get("ok"):
-            reason = adv.get("reason") or "advance_ledger failed"
-            st["active"] = False
-            st["status"] = "halted"
-            st["halt_reason"] = reason
-            save_epic_state(cwd, st)
-            return {
-                "ok": False,
-                "status": "halted",
-                "reason": reason,
-                "fingerprint": fp,
-                "result": result_data,
-                "event": adv.get("event"),
-            }
-        ledger_cmd = le.command_from_state(adv.get("state") or {})
-        result_source = "result.yaml"
-        clear_result(cwd, track="epic")
-        if st.get("repair_attempt"):
-            st["repair_attempt"] = 0
-            save_epic_state(cwd, st)
-    except Exception as exc:
-        reason = f"after_session ledger error: {exc}"
-        st["active"] = False
-        st["status"] = "halted"
-        st["halt_reason"] = reason
-        save_epic_state(cwd, st)
-        return {
-            "ok": False,
-            "status": "halted",
-            "reason": reason,
-            "fingerprint": fp,
-        }
-
-    nxt = ledger_cmd or ""
-    mode = command_mode(nxt) if nxt else None
-
-    if pending == 0 and mode == "ARCHIVE":
-        complete_epic(cwd, "decompose done — ARCHIVE вручную")
-        return {
-            "ok": False,
-            "status": "complete",
-            "reason": "epic complete before ARCHIVE NOW (run manually)",
-            "fingerprint": fp,
-            "command": ledger_cmd,
-            "result_source": result_source,
-        }
-
-    if pending == 0 and last_mode == "REFLECT" and mode in {None, "ARCHIVE"}:
-        complete_epic(cwd, "REFLECT done — ARCHIVE вручную")
-        return {
-            "ok": False,
-            "status": "complete",
-            "reason": "epic complete after REFLECT (ARCHIVE вручную)",
-            "fingerprint": fp,
-            "result_source": result_source,
-        }
-
-    if pending == 0 and mode == "REFLECT":
-        return {
-            "ok": True,
-            "status": "running",
-            "reason": "REFLECT next (auto)",
-            "fingerprint": fp,
-            "pending_steps": pending,
-            "ledger_command": ledger_cmd,
-            "result_source": result_source,
-        }
-
-    return {
-        "ok": True,
-        "status": "running",
-        "reason": "progress ok",
-        "fingerprint": fp,
-        "pending_steps": pending,
-        "ledger_command": ledger_cmd,
-        "result_source": result_source,
-        "result": result_data,
-    }
+from after_session import after_session  # noqa: E402
 
 
 def session_start_payload(cwd: str | Path, source: str | None = None) -> dict[str, Any] | None:
@@ -2650,7 +1699,12 @@ def session_start_payload(cwd: str | Path, source: str | None = None) -> dict[st
         f"source={source or '?'} · iteration={st.get('iteration')}\n"
         "Ровно один atomic шаг → FINISH (Handoff в activeContext) → stop.\n"
         "Не вызывай /clear и не стартуй следующий шаг — это делает loop/epic-loop.sh "
-        "(новая сессия = чистый контекст)."
+        "(новая сессия = чистый контекст).\n"
+        "Prompt уже packed (`next-prompt.txt` / `claude -p`). "
+        "Не re-read весь workflow chain — только `activeContext` load_now + ONE shard "
+        "+ isolation `_lean/<mode>.mdc` (+ spawn-hard при spawn).\n"
+        "VERIFY loop (в сессии, код/step) ≠ RESULT REPAIR (после after, только "
+        "docs/result format)."
     )
     out: dict[str, Any] = {
         "additionalContext": ctx,

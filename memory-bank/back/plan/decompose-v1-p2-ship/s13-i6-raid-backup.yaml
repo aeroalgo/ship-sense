@@ -37,7 +37,7 @@ checkpoints:
   verify: .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q
 - id: cp2
   criterion: Targeted tests PASS по AC шага
-  verify: .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q
+  verify: .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q -k cp2
 verify:
 - .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q
 - .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q

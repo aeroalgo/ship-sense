@@ -20,7 +20,16 @@ from epic_lib import (  # noqa: E402
     resolve_decompose_arm,
     resolve_next,
 )
-from epic_yaml import validate_shard_yaml  # noqa: E402
+from epic_yaml import (  # noqa: E402
+    compute_resume_from,
+    load_implement,
+    validate_shard_yaml,
+)
+from session_resilience import (  # noqa: E402
+    detect_abort_in_log,
+    git_dirty_paths,
+    write_last_session,
+)
 
 
 def main() -> int:
@@ -90,6 +99,26 @@ def main() -> int:
     p_halt.add_argument("--reason", default="manual halt")
     sub.add_parser("status", help="print state json")
     sub.add_parser("complete", help="mark complete")
+
+    p_flush = sub.add_parser(
+        "flush-checkpoint",
+        help="mark one implement checkpoint done (mid-step flush)",
+    )
+    p_flush.add_argument("--path", required=True, help="implement step .yaml")
+    p_flush.add_argument("--cp", required=True, help="checkpoint id e.g. cp1")
+    p_flush.add_argument(
+        "--notes",
+        default=None,
+        help="optional notes for the checkpoint",
+    )
+
+    p_rec = sub.add_parser(
+        "record-session",
+        help="record last-session.json after claude exit (abort/ok)",
+    )
+    p_rec.add_argument("--log", required=True, help="session-*.log path")
+    p_rec.add_argument("--exit-code", type=int, required=True)
+    p_rec.add_argument("--track", default="epic", choices=("epic", "program"))
 
     args = ap.parse_args()
     cwd = str(Path(args.cwd).resolve())
@@ -170,6 +199,151 @@ def main() -> int:
     if args.cmd == "status":
         st = load_epic_state(cwd)
         print(json.dumps(st, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.cmd == "flush-checkpoint":
+        import yaml as _yaml
+        from datetime import datetime, timezone
+
+        rel = args.path.strip()
+        path = Path(cwd) / rel
+        if not path.is_file():
+            print(json.dumps({"ok": False, "error": f"missing {rel}"}, ensure_ascii=False))
+            return 2
+        doc = load_implement(path)
+        cp_id = args.cp.strip().lower()
+        found = False
+        for cp in doc.checkpoints:
+            if cp.id == cp_id:
+                if cp.status == "done":
+                    print(
+                        json.dumps(
+                            {
+                                "ok": False,
+                                "error": f"{cp_id} already done — не перетирать",
+                            },
+                            ensure_ascii=False,
+                        )
+                    )
+                    return 2
+                cp.status = "done"
+                cp.done_at = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                if args.notes:
+                    cp.notes = args.notes
+                found = True
+                break
+        if not found:
+            print(
+                json.dumps(
+                    {"ok": False, "error": f"checkpoint {cp_id} not found"},
+                    ensure_ascii=False,
+                )
+            )
+            return 2
+        doc.resume_from = compute_resume_from(doc.checkpoints)
+        raw = _yaml.safe_load(path.read_text(encoding="utf-8"))
+        if not isinstance(raw, dict):
+            print(
+                json.dumps(
+                    {"ok": False, "error": "yaml root must be mapping"},
+                    ensure_ascii=False,
+                )
+            )
+            return 2
+        by_id = {
+            str(c.get("id", "")).lower(): c for c in (raw.get("checkpoints") or [])
+        }
+        target = by_id.get(cp_id)
+        if target is None:
+            print(
+                json.dumps(
+                    {"ok": False, "error": f"raw yaml missing {cp_id}"},
+                    ensure_ascii=False,
+                )
+            )
+            return 2
+        flushed_cp = next(c for c in doc.checkpoints if c.id == cp_id)
+        target["status"] = "done"
+        target["done_at"] = flushed_cp.done_at
+        if args.notes:
+            target["notes"] = args.notes
+        raw["resume_from"] = doc.resume_from
+        path.write_text(
+            _yaml.safe_dump(raw, allow_unicode=True, sort_keys=False),
+            encoding="utf-8",
+        )
+        print(
+            json.dumps(
+                {
+                    "ok": True,
+                    "path": rel,
+                    "flushed": cp_id,
+                    "resume_from": doc.resume_from,
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 0
+
+    if args.cmd == "record-session":
+        log_path = Path(args.log)
+        if not log_path.is_absolute():
+            log_path = Path(cwd) / log_path
+        abort = detect_abort_in_log(log_path)
+        st = load_epic_state(cwd)
+        step_id = None
+        implement = st.get("pending_implement_step")
+        resume_from = None
+        if implement:
+            doc = load_implement(Path(cwd) / implement)
+            step_id = doc.step_id
+            resume_from = doc.resume_from or compute_resume_from(doc.checkpoints)
+        import loop_engine as le
+
+        ls = le.load_loop_state(cwd)
+        step_id = step_id or ((ls.get("step") or {}).get("id"))
+        implement = implement or ((ls.get("step") or {}).get("artifact"))
+        dirty = git_dirty_paths(cwd)
+        interrupted = args.exit_code in (130, 143)
+        if abort or interrupted:
+            status = "aborted"
+            reason = abort or f"process exit {args.exit_code}"
+            write_last_session(
+                cwd,
+                track=args.track,
+                status=status,
+                reason=reason,
+                step_id=step_id,
+                implement=implement,
+                resume_from=resume_from,
+                dirty=dirty,
+                log_file=str(log_path),
+                exit_code=args.exit_code,
+            )
+            if args.track == "epic" and st.get("active"):
+                halt_epic(cwd, f"session aborted: {reason}")
+            payload = {
+                "ok": False,
+                "status": status,
+                "reason": reason,
+                "halted": True,
+            }
+            print(json.dumps(payload, ensure_ascii=False, indent=2))
+            return 2
+        write_last_session(
+            cwd,
+            track=args.track,
+            status="ok",
+            reason=None,
+            step_id=step_id,
+            implement=implement,
+            resume_from=resume_from,
+            dirty=dirty,
+            log_file=str(log_path),
+            exit_code=args.exit_code,
+        )
+        print(json.dumps({"ok": True, "status": "ok"}, ensure_ascii=False, indent=2))
         return 0
 
     return 1

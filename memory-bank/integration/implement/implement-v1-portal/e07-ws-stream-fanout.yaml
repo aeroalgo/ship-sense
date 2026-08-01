@@ -1,0 +1,33 @@
+schema: epic-implement/v1
+role: integ
+step_id: e07
+plan_id: v1-portal
+title: WebSocket fanout shared (`/api/stream`)
+status: in_progress
+decompose_ref: memory-bank/integration/plan/decompose-v1-portal/e07-ws-stream-fanout.yaml
+implement_index: memory-bank/integration/implement/implement-v1-portal/index.md
+date: '2026-08-01'
+checkpoints:
+- id: cp1
+  criterion: Single WS connection serves all consumers
+  status: pending
+  done_at: null
+  notes: null
+- id: cp2
+  criterion: Subscribe values/events → frames arrive
+  status: pending
+  done_at: null
+  notes: null
+- id: cp3
+  criterion: Chunked tag sub (≤100) accepted
+  status: pending
+  done_at: null
+  notes: null
+resume_from: cp1
+element_ref: memory-bank/integration/plan/decompose-v1-portal/e07-ws-stream-fanout.yaml
+gaps:
+  status: none
+grep_control:
+- back: WS /api/stream
+  front: WsManager / useWsChannel
+verification_results: []

@@ -26,14 +26,16 @@ front:
 - Do not invent mock guides to satisfy content-site templates
 - If later docs portal appears — new INTEG PLAN section
 as_built:
-- 'UI seams: n/a'
+- 'Contract: N/A — product has no content guides surface in v1'
 delta:
-- 'Довести client/fixture: —'
+- 'Outcome: n/a (product has no content guides surface in v1)'
 - 'BACK caveat: n/a'
 - 'FRONT: routes `/guides`, `/guides/[slug]` — **absent'
 - 'FRONT: Do not invent mock guides to satisfy content-site templates'
 - 'FRONT: If later docs portal appears — new INTEG PLAN section'
 - 'Data need: n/a for ShipSense operational portal'
+- 'FRONT: routes `/guides`, `/guides/[slug]` — **absent**'
+- 'FRONT: Do not invent mock guides to satisfy content-site templates'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -41,8 +43,9 @@ grep_control:
 - back: N/A
   front: n/a (explicit absence)
 verify:
-- '`Glob` confirms no `frontend/src/app/**/guides/**`'
-- registry documents absence
+- rg -n 'guides' frontend/src/app --glob '**/guides/**'
+- rg -n 'guides' memory-bank/integration/plan/plan-v1-portal.md
+- rg -n 'e30|guides-na' memory-bank/integration/plan/decompose-v1-portal
 tdd:
 - '1. Red: n/a'
 - '2. Green: n/a (explicit non-goal)'
@@ -50,10 +53,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: No `/guides` routes exist
-  verify: Glob` confirms no `frontend/src/app/**/guides/
+  verify: rg -n 'guides' frontend/src/app --glob '**/guides/**'
 - id: cp2
   criterion: Registry marks as n/a
-  verify: registry documents absence
+  verify: rg -n 'guides' memory-bank/integration/plan/plan-v1-portal.md
 - id: cp3
   criterion: No mock guides invented
-  verify: registry documents absence
+  verify: rg -n 'e30|guides-na' memory-bank/integration/plan/decompose-v1-portal

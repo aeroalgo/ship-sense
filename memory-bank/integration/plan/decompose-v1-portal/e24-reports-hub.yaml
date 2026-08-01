@@ -16,9 +16,11 @@ api_today:
 - status: ✅
   detail: '`GET /api/reports/catalog` — canonical catalog'
 - status: ✅
-  detail: '`GET /api/reports` — list runs (also legacy empty-filter catalog branch for non-DB)'
+  detail: '`GET /api/reports` — list runs (also legacy empty-filter catalog branch
+    for non-DB)'
 - status: ✅
-  detail: '`POST /api/reports/generate`, `POST /api/reports/watch/generate` → 202 job'
+  detail: '`POST /api/reports/generate`, `POST /api/reports/watch/generate` → 202
+    job'
 - status: ✅
   detail: '`GET /api/reports/jobs/{job_id}`'
 - status: ✅
@@ -26,12 +28,13 @@ api_today:
 - status: —
   detail: 'FRONT: only list+watch get; **missing** generate/job/version clients'
 - status: ⚠️
-  detail: 'Drift risk: front `fetchReports` hits `/api/reports` expecting `ReportsListResponse`, while
-    live DB path returns **run list** shape'
+  detail: 'Drift risk: front `fetchReports` hits `/api/reports` expecting `ReportsListResponse`,
+    while live DB path returns **run list** shape'
 contract:
   method_path: '** `GET /api/reports/{report_id}/versions/{version}/html`'
   response_shape: '** text/html'
-  front_client: '** (future) `lib/api/reports.ts` — fix `fetchReports` (catalog vs runs drift)'
+  front_client: '** (future) `lib/api/reports.ts` — fix `fetchReports` (catalog vs
+    runs drift)'
 db: '- reports svc (catalog, runs, jobs, versions)'
 back:
 - already live (T-005 s10)
@@ -41,22 +44,21 @@ front:
 - New UI route or section under Watch for «полный B12» when product ready
 - 'MSW: add catalog + jobs handlers when UI lands'
 as_built:
-- 'API live: GET /api/reports/catalog — canonical catalog'
-- 'API live: GET /api/reports — list runs (also legacy empty-filter catalog branch for non-DB)'
-- 'API live: POST /api/reports/generate`, `POST /api/reports/watch/generate → 202 job'
-- 'API live: GET /api/reports/jobs/{job_id}'
-- 'API live: GET /api/reports/{id}`, `/versions/{v}`, `/versions/{v}/html'
+- 'Contract: GET /api/reports/{report_id}/versions/{version}/html'
+- 'FRONT client: (future) `lib/api/reports.ts` — fix `fetchReports` (catalog vs runs
+  drift)'
 - 'BACK: already live (T-005 s10)'
-- 'UI seams: (future) reports hub UI'
 delta:
-- 'Довести client/fixture: FRONT: only list+watch get; **missing** generate/job/version clients'
-- 'Исправить/заменить mock: Drift risk: front `fetchReports` hits `/api/reports` expecting `ReportsListResponse`,
-  while live DB path returns **run list** shape'
-- 'BACK caveat: Fix client: catalog → `/api/reports/catalog`; runs → `/api/reports` with filters'
+- 'Outcome: (future) catalog + generate + poll + versioned HTML'
+- 'Исправить/заменить mock: Drift risk: front `fetchReports` hits `/api/reports` expecting
+  `ReportsListResponse`, while live DB path returns **run list** shape'
+- 'BACK caveat: Fix client: catalog → `/api/reports/catalog`; runs → `/api/reports`
+  with filters'
 - 'FRONT: only list+watch get (FRONT s13); **missing** generate/job/version clients'
 - 'FRONT: New UI route or section under Watch for «полный B12» when product ready'
 - 'FRONT: MSW: add catalog + jobs handlers when UI lands'
 - 'Data need: catalog of report types; async generate; job poll; versioned HTML'
+- 'FRONT: only list+watch get (FRONT s13); **missing** generate/job/version clients'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -68,10 +70,10 @@ grep_control:
 - back: POST /api/reports/generate
   front: (future client)
 verify:
-- '`grep -r "/api/reports" frontend/src api/`'
-- §0.11 all report paths used by UI
-- contract test catalog vs runs shapes
-- Playwright generate→poll→render HTML (after UI)
+- rg "/api/reports" frontend/src api/
+- rg -n 'e24-v2' frontend/src apps || rg -n 'v2' frontend/src
+- rg -n 'e24-v3' frontend/src apps || rg -n 'v3' frontend/src
+- rg -n 'v4' frontend/src frontend/e2e
 tdd:
 - '1. Red: n/a (P1, no UI yet)'
 - '2. Green: fix catalog path drift first; add clients when UI lands'
@@ -79,10 +81,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: fetchReports hits correct endpoint (catalog vs runs)
-  verify: grep -r "/api/reports" frontend/src api/
+  verify: rg "/api/reports" frontend/src api/
 - id: cp2
   criterion: 'After UI: generate job → poll → render HTML'
-  verify: §0.11 all report paths used by UI
+  verify: rg -n 'e24-cp2' frontend/src apps || rg -n 'cp2' frontend/src
 - id: cp3
   criterion: No drift between client expectation and BACK response
-  verify: contract test catalog vs runs shapes
+  verify: rg -n 'e24-cp3' frontend/src apps || rg -n 'cp3' frontend/src

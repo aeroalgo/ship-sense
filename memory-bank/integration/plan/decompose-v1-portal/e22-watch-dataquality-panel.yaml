@@ -20,19 +20,23 @@ contract:
 db: '- none (derived from report body)'
 back:
 - already live (report data_quality)
-- Banner text from BACK is source of truth; FRONT does not invent «OK» when quarantine non-empty
+- Banner text from BACK is source of truth; FRONT does not invent «OK» when quarantine
+  non-empty
 front:
 - '`DataQualityPanel` already wired (FRONT s13)'
 - Banner text from BACK (not invented)
 as_built:
+- 'FRONT client: DataQualityPanel` reads from report (no separate fetch)'
 - 'BACK: already live (report data_quality)'
-- 'FRONT: DataQualityPanel already wired (FRONT s13)'
-- 'UI seams: DataQualityPanel.tsx'
 delta:
-- 'Довести client/fixture: subset of watch report'
-- 'BACK caveat: Banner text from BACK is source of truth; FRONT does not invent «OK» when quarantine non-empty'
+- 'Outcome: quarantine/stale intervals + banner from report data_quality'
+- 'BACK caveat: Banner text from BACK is source of truth; FRONT does not invent «OK»
+  when quarantine non-empty'
 - 'FRONT: Banner text from BACK (not invented)'
 - 'Data need: data_quality.quarantine_tags`, `stale_intervals`, `banner'
+- 'FRONT: Banner text from BACK (not invented)'
+- 'BACK: Banner text from BACK is source of truth; FRONT does not invent «OK» when
+  quarantine non-empty'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -40,9 +44,9 @@ grep_control:
 - back: report data_quality
   front: DataQualityPanel
 verify:
-- '`grep -r "DataQualityPanel" frontend/src`'
-- vitest panel with quarantine fixture
-- Playwright visible banner text
+- rg "DataQualityPanel" frontend/src
+- cd frontend && npm exec vitest -- run src/features/watch
+- rg -n 'cp3' frontend/src frontend/e2e
 tdd:
 - '1. Red: vitest panel with quarantine fixture'
 - '2. Green: live report → panel shows real DQ'
@@ -50,10 +54,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Panel shows quarantine_tags + stale_intervals
-  verify: grep -r "DataQualityPanel" frontend/src
+  verify: rg "DataQualityPanel" frontend/src
 - id: cp2
   criterion: Banner text from BACK (not "OK" if quarantine)
-  verify: vitest panel with quarantine fixture
+  verify: cd frontend && npm exec vitest -- run src/features/watch
 - id: cp3
   criterion: Empty DQ → panel empty or "clean" state
-  verify: Playwright visible banner text
+  verify: rg -n 'cp3' frontend/src frontend/e2e

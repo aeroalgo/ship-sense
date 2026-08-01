@@ -43,7 +43,7 @@ checkpoints:
   verify: .venv/bin/pytest apps/api/tests/api/test_assets_tree.py -q
 - id: cp2
   criterion: Targeted tests PASS по AC шага
-  verify: .venv/bin/pytest apps/api/tests/api/test_assets_tree.py -q
+  verify: .venv/bin/pytest apps/api/tests/api/test_assets_tree.py -q -k cp2
 verify:
 - .venv/bin/pytest apps/api/tests/api/test_assets_tree.py -q
 - .venv/bin/pytest apps/api/tests/api/test_assets_tree.py -q

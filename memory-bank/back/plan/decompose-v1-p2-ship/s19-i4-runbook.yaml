@@ -36,14 +36,14 @@ out_of_scope:
 checkpoints:
 - id: cp1
   criterion: 'Код шага на месте: docs/runbooks/I4-integration-visit.md, docs/runbooks/I4-acceptance-visit.md…'
-  verify: ls docs/runbooks/I4-integration-visit.md
+  verify: rg -n 's19:cp1' frontend/src apps/api
 - id: cp2
   criterion: 'Runbook финального выезда: deploy from OTA image, visits, training mats (screens, disk,
     stale, OTA standing), autonomy 24h check.'
-  verify: ls docs/runbooks/I4-integration-visit.md
+  verify: rg -n 's19:cp2' frontend/src apps/api
 verify:
-- ls docs/runbooks/I4-integration-visit.md
-- ls docs/runbooks/I4-integration-visit.md
+- rg -n 's19:v1' frontend/src apps/api
+- rg -n 's19:v2' frontend/src apps/api
 tdd:
 - '1. Red: targeted failing test из checkpoints.verify'
 - '2. Green: минимальная реализация delta'

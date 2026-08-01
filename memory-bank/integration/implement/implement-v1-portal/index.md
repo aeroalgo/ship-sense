@@ -48,7 +48,7 @@
 
 ## Handoff
 
-- **Next:** `INTEG IMPLEMENT e05`
-- **load_now:** `integration/plan/decompose-v1-portal/e05-statusbar-alarms.yaml` (не этот index при wire)
-- **Progress:** e01–e04 completed
+- **Next:** `INTEG IMPLEMENT e07`
+- **load_now:** `integration/plan/decompose-v1-portal/e07-ws-stream-fanout.yaml` (не этот index при wire)
+- **Progress:** e01–e06 completed
 - **Decompose tracker:** [decompose index](../../plan/decompose-v1-portal/index.md)

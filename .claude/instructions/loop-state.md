@@ -6,6 +6,13 @@
 **Rule:** `.cursor/rules/shared/workflow-loop-state.mdc`  
 **FINISH-чеклист:** `.cursor/rules/shared/finish-block.mdc`
 
+## Diagnose
+
+```bash
+python3 .claude/hooks/loop_resolve.py doctor
+python3 .claude/hooks/loop_resolve.py halt-stats
+```
+
 ## Owners
 
 | Что | Где |

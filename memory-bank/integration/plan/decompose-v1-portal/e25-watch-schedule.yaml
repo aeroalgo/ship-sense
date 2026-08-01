@@ -19,26 +19,32 @@ api_today:
   detail: FRONT ❌ no client
 contract:
   method_path: '** `GET /api/watch/schedule`'
-  response_shape: '** dict schedule fields (as-built service) — pin exact schema in DECOMPOSE eNN from
-    OpenAPI/service'
+  response_shape: '** dict schedule fields (as-built service) — pin exact schema in
+    DECOMPOSE eNN from OpenAPI/service'
   front_client: '** (future) `lib/api/watch.ts` + query key'
 db: '- schedule svc (watch_schedule.py)'
 back:
 - already live (T-003 s08 / T-005 s10)
-- Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule when params absent
+- Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule when params
+  absent
 front:
 - no client yet
 - WatchPage defaults from schedule when params absent (after client)
 as_built:
-- 'API live: GET /api/watch/schedule` (`watch_schedule.py)'
+- 'Contract: GET /api/watch/schedule'
+- 'FRONT client: (future) `lib/api/watch.ts` + query key'
 - 'BACK: already live (T-003 s08 / T-005 s10)'
-- 'UI seams: (future) period pickers default from schedule'
 delta:
-- 'Довести client/fixture: FRONT ❌ no client'
-- 'BACK caveat: Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule when params absent'
+- 'Outcome: (future) watch window boundaries auto-filled'
+- 'BACK caveat: Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule
+  when params absent'
 - 'FRONT: no client yet'
 - 'FRONT: WatchPage defaults from schedule when params absent (after client)'
 - 'Data need: current watch window boundaries for default `/watch` period'
+- 'FRONT: no client yet'
+- 'FRONT: WatchPage defaults from schedule when params absent (after client)'
+- 'BACK: Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule when
+  params absent'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -46,9 +52,9 @@ grep_control:
 - back: GET /api/watch/schedule
   front: (future client)
 verify:
-- '`grep -r "/api/watch/schedule" frontend/src api/`'
-- §0.11 schedule pair after client
-- Playwright `/watch` without params uses server window
+- rg "/api/watch/schedule" frontend/src api/
+- rg -n 'e25-v2' frontend/src apps || rg -n 'v2' frontend/src
+- rg -n '/watch' frontend/src frontend/e2e
 tdd:
 - '1. Red: n/a (P1, no UI yet)'
 - '2. Green: add client + defaults'
@@ -56,10 +62,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: /watch without params → uses server schedule window
-  verify: grep -r "/api/watch/schedule" frontend/src api/
+  verify: rg "/api/watch/schedule" frontend/src api/
 - id: cp2
   criterion: Client `fetchWatchSchedule` wired
-  verify: §0.11 schedule pair after client
+  verify: rg -n 'e25-cp2' frontend/src apps || rg -n 'cp2' frontend/src
 - id: cp3
   criterion: Period pickers default from schedule
-  verify: Playwright `/watch` without params uses server window
+  verify: rg -n '/watch' frontend/src frontend/e2e

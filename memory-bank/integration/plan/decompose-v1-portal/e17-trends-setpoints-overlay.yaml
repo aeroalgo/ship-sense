@@ -11,12 +11,14 @@ ui:
   components: '** `useSetpoints.ts` + chart overlays'
   user_sees: '** setpoint lines overlaid on chart'
 data_need:
-- current setpoints list; optional history segments (client exists, UI may not call history yet)
+- current setpoints list; optional history segments (client exists, UI may not call
+  history yet)
 api_today:
 - status: ✅
   detail: '`GET /api/setpoints`'
 - status: ✅
-  detail: '`GET /api/setpoints/history?tag=` (FRONT `fetchSetpointHistory` **defined but unused** in features)'
+  detail: '`GET /api/setpoints/history?tag=` (FRONT `fetchSetpointHistory` **defined
+    but unused** in features)'
 - status: ✅
   detail: '`GET /api/setpoints/changelog` (BACK only; FRONT ❌)'
 - status: ⚠️
@@ -34,19 +36,20 @@ front:
 - '`useSetpoints` partially wired (FRONT s12)'
 - Remove dead client or consume it (forbid forever-unused `fetchSetpointHistory`)
 as_built:
-- 'API live: GET /api/setpoints'
-- 'API live: GET /api/setpoints/history?tag=` (FRONT `fetchSetpointHistory **defined but unused** in features)'
-- 'API live: GET /api/setpoints/changelog (BACK only; FRONT ❌)'
+- 'Contract: GET /api/setpoints/history?tag='
+- 'FRONT client: lib/api/setpoints.ts` → `fetchSetpoints`, `fetchSetpointHistory'
 - 'BACK: already live (T-003 s05 / T-005 s11)'
-- 'FRONT: useSetpoints partially wired (FRONT s12)'
-- 'UI seams: `useSetpoints.ts` + chart overlays'
 delta:
+- 'Outcome: setpoint lines overlaid on chart'
 - 'Исправить/заменить mock: MSW setpoints + history'
 - 'BACK caveat: P0: wire list overlay for selected tags'
-- 'BACK caveat: P1: wire history segments for range shading; changelog for audit UI if needed'
+- 'BACK caveat: P1: wire history segments for range shading; changelog for audit UI
+  if needed'
 - 'FRONT: Remove dead client or consume it (forbid forever-unused `fetchSetpointHistory`)'
-- 'Data need: current setpoints list; optional history segments (client exists, UI may not call history
-  yet)'
+- 'Data need: current setpoints list; optional history segments (client exists, UI
+  may not call history yet)'
+- 'FRONT: `useSetpoints` partially wired (FRONT s12)'
+- 'FRONT: Remove dead client or consume it (forbid forever-unused `fetchSetpointHistory`)'
 out_of_scope:
 - Полный INTEG QA journey / соседние eNN — не этот шаг
 - Не расширять scope за пределы contract + checkpoints
@@ -56,9 +59,9 @@ grep_control:
 - back: GET /api/setpoints/history
   front: fetchSetpointHistory (consume or delete)
 verify:
-- '`grep -r "/api/setpoints" frontend/src api/`'
-- §0.11 setpoints; history after UI uses it
-- vitest overlay with fixture
+- rg "/api/setpoints" frontend/src api/
+- rg -n 'e17-cp2' frontend/src apps || rg -n 'cp2' frontend/src
+- cd frontend && npm exec vitest -- run src/features/trends
 tdd:
 - '1. Red: vitest setpoint overlay with fixture'
 - '2. Green: live fetch + overlay, consume or delete dead client'
@@ -66,10 +69,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Selected tag shows setpoint line
-  verify: grep -r "/api/setpoints" frontend/src api/
+  verify: rg "/api/setpoints" frontend/src api/
 - id: cp2
   criterion: History segments shaded (after P1)
-  verify: §0.11 setpoints; history after UI uses it
+  verify: rg -n 'e17-cp2' frontend/src apps || rg -n 'cp2' frontend/src
 - id: cp3
   criterion: No unused dead client left
-  verify: vitest overlay with fixture
+  verify: cd frontend && npm exec vitest -- run src/features/trends
