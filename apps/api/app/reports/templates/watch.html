@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Вахтенная сводка</title>
+  <style>@media print { body { font-family: sans-serif; } } .quality-banner { border: 1px solid #b45309; padding: 8px; }</style>
+</head>
+<body>
+  <main>
+    <h1>Вахтенная сводка</h1>
+    <p>Период: {{ period_from }} — {{ period_to }}</p>
+    <h2>{{ verdict }}</h2>
+    {% if banner %}<p class="quality-banner">{{ banner }}</p>{% endif %}
+    <h3>События</h3>
+    <ul>{% for item in highlights %}<li>{{ item.event_name }} — {{ item.asset_id or "" }} ({{ item.severity }})</li>{% endfor %}</ul>
+    <table><thead><tr><th>Tag</th><th>Avg</th><th>Min</th><th>Max</th><th>Quality</th></tr></thead><tbody>
+    {% for item in tags_snapshot %}<tr><td>{{ item.tag_id }}</td><td>{{ "%.2f"|format(item.avg) }}</td><td>{{ "%.2f"|format(item.min) }}</td><td>{{ "%.2f"|format(item.max) }}</td><td>{{ item.quality_worst }}</td></tr>{% endfor %}
+    </tbody></table>
+  </main>
+</body>
+</html>
