@@ -7,6 +7,15 @@ test.describe("app shell nav scenario", () => {
     await page.addInitScript(() => {
       localStorage.setItem("shipsense-theme", "day");
       localStorage.setItem("shipsense-design", "d01");
+      sessionStorage.setItem(
+        "shipsense-session-person",
+        JSON.stringify({
+          person_id: "ivanov",
+          name: "Иванов И.И.",
+          rank: "вахтенный механик",
+          default_screen: 1,
+        }),
+      );
     });
 
     await page.goto("/overview");

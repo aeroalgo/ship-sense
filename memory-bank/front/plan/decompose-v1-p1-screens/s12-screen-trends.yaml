@@ -1,0 +1,27 @@
+schema: epic-decompose/v1
+role: front
+step_id: s12
+plan_id: v1-p1-screens
+title: Screen 8 Trends
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: 'Страница трендов: quick/extended modes, TagPicker, series/setpoints/markers
+  hooks, WS tail in quick, searchParams deep link.'
+context:
+  consumes:
+  - '**Consumes:** s04 series/setpoints, s05 WS, s10 deep link, s11 chart'
+  - '**Produces:** features/trends/* page'
+  files:
+  - frontend/src/features/trends/TrendsPage.tsx` (Создание)
+  - frontend/src/features/trends/useSeries.ts` (Создание)
+  - frontend/src/features/trends/useSetpoints.ts` (Создание)
+  - frontend/src/features/trends/useEventMarkers.ts` (Создание)
+  - frontend/src/features/trends/useTrendRealtime.ts` (Создание)
+  - frontend/src/app/(authenticated)/trends/page.tsx` (Модификация)
+  - frontend/src/features/trends/TrendsPage.test.tsx` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Страница трендов: quick/extended modes, TagPicker, series/setpoints/markers
+    hooks, WS tail in quick, searchParams deep link.'
+verify: []
+tdd: []

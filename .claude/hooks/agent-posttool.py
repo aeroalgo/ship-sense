@@ -64,6 +64,12 @@ def main() -> None:
     if agent_type == "verify":
         st["verify_done"] = True
         st["verify_verdict"] = verdict
+        try:
+            from epic_lib import mirror_verify_verdict
+
+            mirror_verify_verdict(cwd, verdict)
+        except Exception:
+            pass
     if agent_type == "reviewer":
         st["reviewer_done"] = True
         st["reviewer_verdict"] = verdict

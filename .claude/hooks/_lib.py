@@ -26,16 +26,18 @@ NO_WORKTREE_AGENTS = CUSTOM_OVERLAY
 
 CONTRACTS = {
     "verify": (
-        "CONTRACT verify: нужен AC+ · AC− · §0.11 · VERIFY · ALLOW. "
+        "CONTRACT verify: нужен AC+ · AC− · §0.11 · VERIFY · RESULT · ALLOW. "
         "Итог строго VERDICT: PASS|FAIL. Не edit. Без isolation=worktree."
     ),
     "reviewer": (
         "CONTRACT reviewer: нужен Suite results · AC+ · AC− · §0.11 · ALLOW. "
-        "Итог VERDICT: PASS|BLOCKED|FAIL. Не pytest. Без isolation=worktree."
+        "Итог VERDICT: PASS|BLOCKED|FAIL. Не pytest. Не Plan Mode / plan-файлы. "
+        "Без isolation=worktree."
     ),
     "explorer": (
         "CONTRACT explorer: поиск only (graphify). Желательно GRAPHIFY + ALLOW. "
-        "Не edit. Без isolation=worktree."
+        "Не edit. Не Plan Mode / plan-файлы — только конкретный отчёт на русском. "
+        "Без isolation=worktree."
     ),
 }
 
@@ -52,12 +54,13 @@ _SECTION_PATTERNS: dict[str, list[tuple[str, re.Pattern[str]]]] = {
         ("AC−", re.compile(r"(?im)^\s*AC[−\-]\s*[:：]?")),
         ("§0.11", re.compile(r"(?im)^\s*§?\s*0\.11\s*[:：]?")),
         ("VERIFY", re.compile(r"(?im)^\s*VERIFY\s*[:：]?")),
+        ("RESULT", re.compile(r"(?im)^\s*RESULT\s*[:：]?")),
         ("ALLOW READ", re.compile(r"(?im)^\s*ALLOW READ\s*[:：]?")),
     ],
 }
 
 _NEXT_SECTION = re.compile(
-    r"(?im)^\s*(?:Suite results|AC\+|AC[−\-]|§?\s*0\.11|VERIFY|ALLOW READ|"
+    r"(?im)^\s*(?:Suite results|AC\+|AC[−\-]|§?\s*0\.11|VERIFY|RESULT|ALLOW READ|"
     r"FORBID|CREATE/EDIT|GRAPHIFY|Цель|Цель:|Budget|Отчёт|HARD RULE|"
     r"CONTRACT|Scope:)\b"
 )
@@ -76,9 +79,9 @@ SPAWN_MAP = """## spawn-gate (Claude Code)
 Overlay: @explorer (поиск, haiku) · @verify (pre-FINISH) · @reviewer (QA).
 | Ситуация | Agent |
 | Поиск «где X» | @explorer (опц.) или built-in Explore |
-| Pre-FINISH code_changed | @verify ОБЯЗАТЕЛЬНО (AC+/AC−/§0.11/VERIFY/ALLOW ≤5) |
-| BACK QA после suite | @reviewer ОБЯЗАТЕЛЬНО (Suite+AC+§0.11/ALLOW ≤5) |
-FAIL verify/reviewer: isolation=worktree; model=; ALLOW=дерево; нет секций.
+| Pre-FINISH code_changed | `@verify` ОБЯЗАТЕЛЬНО (step on disk → AC+/AC−/§0.11/VERIFY/RESULT/ALLOW ≤10); FAIL/DENY→fix→retry до PASS |
+| BACK QA после suite | @reviewer ОБЯЗАТЕЛЬНО (Suite+AC+§0.11/ALLOW ≤10) |
+FAIL: @verify после VERDICT: PASS. FAIL verify/reviewer: isolation=worktree; model=; ALLOW=дерево; нет секций.
 QA FINISH: Handoff в activeContext обязателен.
 Канон: `.claude/instructions/spawn-hard.md`
 """
@@ -174,8 +177,11 @@ def _allow_section_body(prompt: str) -> str | None:
     return "\n".join(lines)
 
 
+ALLOW_READ_MAX = 10
+
+
 def allow_read_violations(prompt: str) -> list[str]:
-    """Return human-readable violations for ALLOW READ (≤5 files, no dirs)."""
+    """Return human-readable violations for ALLOW READ (≤ALLOW_READ_MAX files, no dirs)."""
     body = _allow_section_body(prompt)
     if body is None:
         return []
@@ -208,13 +214,17 @@ def allow_read_violations(prompt: str) -> list[str]:
 
     if trees:
         viol.append(
-            "ALLOW READ содержит деревья/каталоги (нужны ≤5 файлов): "
+            f"ALLOW READ содержит деревья/каталоги (нужны ≤{ALLOW_READ_MAX} файлов): "
             + ", ".join(trees[:8])
         )
-    if len(files) > 5:
-        viol.append(f"ALLOW READ: {len(files)} файлов > 5 — урежь список")
+    if len(files) > ALLOW_READ_MAX:
+        viol.append(
+            f"ALLOW READ: {len(files)} файлов > {ALLOW_READ_MAX} — урежь список"
+        )
     if not files and not trees:
-        viol.append("ALLOW READ пуст — укажи ≤5 конкретных файлов")
+        viol.append(
+            f"ALLOW READ пуст — укажи ≤{ALLOW_READ_MAX} конкретных файлов"
+        )
     return viol
 
 

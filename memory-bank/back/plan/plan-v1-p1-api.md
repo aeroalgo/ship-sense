@@ -67,7 +67,7 @@ flowchart TB
     UI6["Экран 6 Вахтенный"]
   end
 
-  subgraph api["apps/edge/api — B10 FastAPI"]
+  subgraph api["apps/api — B10 FastAPI (fastapi-templates)"]
     R["REST routers"]
     WS["WS /api/stream"]
     SESS["SessionService B11"]
@@ -188,7 +188,7 @@ sequenceDiagram
 
 | ID | Ограничение | Источник |
 |----|-------------|----------|
-| C-01 | **Strict read-only к АПС:** `apps/edge/api` не импортирует B2/B3 write paths | I1 minimal, B10 п.10 |
+| C-01 | **Strict read-only к АПС:** `apps/api` (`app.*`) не импортирует B2/B3 write paths | I1 minimal, B10 п.10 |
 | C-02 | **Нет write REST** к `samples`/bulk `events`; только session lifecycle через B6 service | архитектура |
 | C-03 | **~586 тегов @ 1 Гц** — WS шлёт только подписанные tags; coalesce per tag при slow client | perf T10 |
 | C-04 | **Pydantic v2**, FastAPI, asyncpg/SQLAlchemy 2 async | techContext |
@@ -917,7 +917,7 @@ ORDER BY 1 ASC;
 | WS messages | 60 subscribe/ping per min per connection | error frame |
 | POST `/api/session` | 20/min per IP | 429 |
 
-**Implementation p1:** in-memory sliding window middleware (`apps/edge/api/middleware/rate_limit.py`).  
+**Implementation p1:** in-memory sliding window middleware (`apps/api/app/core/middleware.py` или `app/core/rate_limit.py`).  
 **Headers:** `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After`.
 
 **Не применяем** per-user limits (нет IAM); per-post только logging.
@@ -1032,69 +1032,93 @@ Reload: SIGHUP or API internal reload p2.
 
 ---
 
-## 13. File tree — `apps/edge/api/`
+## 13. File tree — `apps/api/` (fastapi-templates / RF-01)
+
+> **Path canon:** `apps/api/app/...` (skill). Исторический flat `apps/edge/api/routers|services|schemas` — **отклонён** (RF-01 V3). Канон моделей: `app.telemetry` / `app.events` / `app.semantic`.
 
 ```
-apps/edge/
-├── api/
+apps/api/
+├── README.md                      # I1 minimal disclaimer
+├── app/
 │   ├── __init__.py
-│   ├── main.py                    # FastAPI factory lifespan
-│   ├── config.py                  # pydantic-settings
-│   ├── deps.py                    # DB pool SemanticReader DI
-│   ├── middleware/
-│   │   ├── request_id.py
-│   │   ├── timing.py
-│   │   └── rate_limit.py
-│   ├── routers/
-│   │   ├── __init__.py
-│   │   ├── assets.py              # GET /api/assets/tree
-│   │   ├── series.py              # GET /api/series /aggregate
-│   │   ├── events.py              # GET /api/events
-│   │   ├── setpoints.py           # GET /api/setpoints /history
-│   │   ├── reports.py             # GET /api/reports /watch
-│   │   ├── health.py              # GET /api/health /sources/status
-│   │   ├── session.py             # roster + POST/DELETE session
-│   │   └── ws.py                  # WS /api/stream
-│   ├── services/
-│   │   ├── downsample.py
-│   │   ├── latest_cache.py
-│   │   ├── aggregate_status.py
-│   │   ├── session_service.py
-│   │   ├── reports_watch.py       # stub экран 6
-│   │   └── fanout_bridge.py
-│   ├── schemas/
-│   │   ├── common.py              # Quality ErrorBody PaginatedMeta
-│   │   ├── assets.py
-│   │   ├── series.py
-│   │   ├── events.py
-│   │   ├── setpoints.py
-│   │   ├── reports.py
-│   │   ├── session.py
-│   │   ├── health.py
-│   │   └── ws.py
-│   ├── db/
-│   │   ├── queries_series.py
+│   ├── main.py                    # create_app() + lifespan
+│   ├── api/
+│   │   ├── deps.py
+│   │   └── v1/
+│   │       ├── api.py             # сборка APIRouter
+│   │       └── endpoints/
+│   │           ├── health.py      # GET /api/health + /sources/status
+│   │           ├── assets.py      # GET /api/assets/tree
+│   │           ├── series.py      # GET /api/series /aggregate
+│   │           ├── events.py      # GET /api/events
+│   │           ├── setpoints.py   # GET /api/setpoints /history
+│   │           ├── reports.py     # GET /api/reports /watch
+│   │           ├── session.py     # roster + POST/DELETE session
+│   │           └── stream.py      # WS /api/stream
+│   ├── core/
+│   │   ├── settings.py            # ApiSettings — plan §21
+│   │   ├── middleware.py          # request_id, timing, rate_limit
+│   │   ├── dependencies.py
+│   │   ├── exceptions.py          # ErrorBody envelope
+│   │   └── database/
+│   │       ├── session.py
+│   │       └── base.py
+│   ├── telemetry/                 # Quality + series/downsample/latest_cache
+│   │   ├── models.py
+│   │   ├── schemas.py
+│   │   ├── service.py
+│   │   └── queries_series.py
+│   ├── events/
+│   │   ├── models.py
+│   │   ├── schemas.py
+│   │   ├── service.py
 │   │   └── queries_events.py
-│   └── ws/
-│       ├── connection_manager.py
-│       ├── ring_buffer.py
-│       └── protocol.py
-├── tests/
-│   └── api/
-│       ├── conftest.py
-│       ├── test_assets_tree.py
-│       ├── test_series.py
-│       ├── test_series_downsample.py
-│       ├── test_events.py
-│       ├── test_setpoints.py
-│       ├── test_reports_watch.py
-│       ├── test_session.py
-│       ├── test_health.py
-│       ├── test_ws_stream.py
-│       ├── test_rate_limit.py
-│       └── test_i1_no_write_paths.py
-└── fixtures/
-    └── ship-pack-min/             # yaml for pytest
+│   ├── assets/
+│   │   ├── schemas.py
+│   │   └── service.py             # tree + AggregateStatusService
+│   ├── setpoints/
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── session/
+│   │   ├── models.py              # SessionState in-memory
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── reports/
+│   │   ├── schemas.py
+│   │   ├── service.py
+│   │   └── templates/watch.html
+│   ├── health/
+│   │   ├── schemas.py
+│   │   └── service.py
+│   ├── stream/                    # WS fanout
+│   │   ├── models.py
+│   │   ├── service.py             # FanoutBridge
+│   │   ├── connection_manager.py
+│   │   ├── ring_buffer.py
+│   │   └── protocol.py
+│   └── semantic/                  # B8 reader (RF-01 r03)
+│       ├── models.py
+│       ├── loader.py
+│       ├── engine.py
+│       └── quarantine.py
+├── migrations/                    # phased — RF-01 §5.4
+└── tests/
+    ├── conftest.py
+    ├── api/
+    │   ├── test_assets_tree.py
+    │   ├── test_series.py
+    │   ├── test_series_downsample.py
+    │   ├── test_events.py
+    │   ├── test_setpoints.py
+    │   ├── test_reports_watch.py
+    │   ├── test_session.py
+    │   ├── test_health.py
+    │   ├── test_ws_stream.py
+    │   ├── test_rate_limit.py
+    │   ├── test_i1_no_write_paths.py
+    │   └── test_openapi_surface.py
+    └── fixtures/                  # или apps/api/fixtures/
+        └── ship-pack-min/
 ```
 
 **Docker compose service:** `api` depends on `db`; soft-depends on `writer`/`collector` for health (api поднимается и без них → stale). Port 8000.
@@ -1126,18 +1150,18 @@ apps/edge/
 
 **Единственный трекер шагов:** [decompose-v1-p1-api/index.md](decompose-v1-p1-api/index.md) (`index.md` + `s01`–`s10`).
 
-| Step | Slug | needs_creative |
-|------|------|----------------|
-| s01 | scaffold | no |
-| s02 | assets-tree | no |
-| s03 | series-downsample | CR-API-01 |
-| s04 | events-rest | CR-API-04 |
-| s05 | setpoints | no |
-| s06 | ws-fanout | CR-API-02, CR-API-04 |
-| s07 | session-b11 | CR-API-03 |
-| s08 | reports-watch | CR-API-05 |
-| s09 | health-sources-rate | no |
-| s10 | tests-i1-openapi | no |
+| Step | Slug | needs_creative | Path surface |
+|------|------|----------------|--------------|
+| s01 | scaffold | no | `apps/api/app/main|core` |
+| s02 | assets-tree | no | `app/assets` + endpoints |
+| s03 | series-downsample | CR-API-01 | `app/telemetry` |
+| s04 | events-rest | CR-API-04 | `app/events` |
+| s05 | setpoints | no | `app/setpoints` |
+| s06 | ws-fanout | CR-API-02, CR-API-04 | `app/stream` |
+| s07 | session-b11 | CR-API-03 | `app/session` |
+| s08 | reports-watch | CR-API-05 | `app/reports` |
+| s09 | health-sources-rate | no | `app/health` + middleware |
+| s10 | tests-i1-openapi | no | `apps/api/tests/api` |
 
 Чеклисты/статусы sNN — **только** в decompose index; здесь не дублировать.
 
@@ -1349,7 +1373,7 @@ No telemetry write routes; import audit pass.
 
 ## 22. Handoff
 
-**Статус:** DECOMPOSE T-003 готов (s01–s10) — см. [decompose-v1-p1-api/index.md](decompose-v1-p1-api/index.md).
+**Статус:** DECOMPOSE T-003 готов (s01–s10, пути `apps/api`) — см. [decompose-v1-p1-api/index.md](decompose-v1-p1-api/index.md).
 
 **Артефакт плана:** `memory-bank/back/plan/plan-v1-p1-api.md`
 
@@ -1364,7 +1388,8 @@ No telemetry write routes; import audit pass.
 1. `BACK CREATIVE` — batch CR-API-01..05 → `memory-bank/back/creative/v1-p1-api/`  
 2. **или** `BACK IMPLEMENT` s01 (scaffold без CREATIVE)  
 3. После CREATIVE: IMPLEMENT s03→s04→s06→s07→s08→s09→s10  
-4. `INTEG PLAN` wire с OpenAPI после API green  
+4. RF-01 r05 — verify `rg "apps/edge/api" plan+decompose` = 0 (path amend уже в §13)  
+5. `INTEG PLAN` wire с OpenAPI после API green  
 
 **Scaffold без CREATIVE:** s01 → s02 → s05.
 

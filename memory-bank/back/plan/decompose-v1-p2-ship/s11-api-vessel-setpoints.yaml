@@ -1,0 +1,28 @@
+schema: epic-decompose/v1
+role: back
+step_id: s11
+plan_id: v1-p2-ship
+title: API vessel state + setpoints changelog
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-09) — **closed**
+goal: GET/POST vessel state (transit/anchorage/override TTL); setpoints history full
+  + changelog; never POST setpoints.
+context:
+  consumes:
+  - '**Consumes:** s06 rpm tags / vessel.yaml; T-003 setpoints; CR-P2-09; plan §11.5,
+    §11.7.'
+  - '**Produces:** vessel endpoints; changelog filter setpoint_changed; ship-pack
+    vessel.yaml.'
+  files:
+  - ship-pack/makarov/vessel.yaml` (Создание)
+  - apps/api/app/api/v1/endpoints/vessel.py` (Создание)
+  - apps/api/app/vessel/` (Создание)
+  - apps/api/app/api/v1/endpoints/setpoints.py` (Модификация) — changelog
+  - apps/api/tests/api/test_vessel_state.py` (Создание)
+  - apps/api/tests/api/test_setpoints_changelog.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: GET/POST vessel state (transit/anchorage/override TTL); setpoints history
+    full + changelog; never POST setpoints.
+verify: []
+tdd: []

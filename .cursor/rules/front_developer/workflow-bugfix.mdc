@@ -12,6 +12,7 @@ alwaysApply: false
 2. **Вход из QA:** §Fix plan → `FRONT BUGFIX <subject>`; visible UI → design stack Read до UI edit
 3. Reproduce → root cause → regression → fix → green; scenario Playwright если user-visible — **parent**
 4. §0.11 · pre-FINISH skills
-5. **FINISH:** finish-block (`code_changed: yes`) → `FRONT QA` — §BUGFIX FINISH
+5. **FINISH:** finish-block (`code_changed: yes`); finalize `result.yaml` → runner ledger  
+   Next-mode: только `loop/transitions.yaml` · @.cursor/rules/shared/workflow-loop-state.mdc · §BUGFIX FINISH
 
 **Верификация**: gates + scenario + FINISH + graphify

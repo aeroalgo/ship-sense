@@ -1,0 +1,49 @@
+schema: epic-implement/v1
+role: back
+step_id: s09
+plan_id: v1-p2-ship
+title: '[T-005 | s09 | api-mnemo-endpoints] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s09-api-mnemo-endpoints.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: null
+done:
+- 'Добавлен типизированный mnemo REST-контур: список схем, detail bindings и batch
+  latest values с единым `revision`.'
+- Подключён immutable loader registry из s08 через `MnemoService`; service поддерживает
+  runtime pack path `/app/ship-pack` и локальный `ship-pack/makarov`.
+- 'Добавлена projection policy для telemetry cache: quarantine/missing значения сериализуются
+  как `value=null`, `status=unknown`, без numeric zero.'
+- Добавлена Q3 policy `API_MNEMO_INCLUDE_GENERATORS`, по умолчанию выключенная; при
+  выключенном флаге query `include_generators` получает явную ошибку.
+- Добавлена schema-aware mnemo WebSocket подписка поверх generic `FanoutBridge`; bound
+  tags фильтруются через `ConnectionManager`, unbound frames не доставляются.
+files:
+- apps/api/app/api/v1/endpoints/mnemo.py
+- apps/api/app/api/v1/api.py
+- apps/api/app/mnemo/service.py
+- apps/api/app/mnemo/schemas.py
+- apps/api/app/stream/connection_manager.py
+- apps/api/app/stream/models.py
+- apps/api/app/api/v1/endpoints/stream.py
+- apps/api/app/core/settings.py
+- apps/api/tests/api/test_mnemo.py
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_mnemo.py -q --tb=line'
+- 'итог: `4 passed'
+- 'verify: `VERDICT PASS'
+integration_check:
+- storage keys wired — mnemo schema registry reads `SHIP_PACK_PATH`, cache uses existing
+  `LatestValueCache`
+- env vars in settings — `API_MNEMO_INCLUDE_GENERATORS` added with safe default `false`
+- DB cols ↔ migration — n/a, step is pack/cache REST+WS and adds no database fields
+- events ↔ handlers — mnemo channel uses existing `FanoutBridge`/`ConnectionManager`
+  publication path
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

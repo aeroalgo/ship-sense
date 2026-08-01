@@ -11,8 +11,12 @@ alwaysApply: false
 - @.agents/skills/brainstorming/SKILL.md (L3–4 / размытая — batch, без HARD-GATE пауз)
 - @.agents/skills/python-testing-patterns/SKILL.md
 - @.agents/skills/fastapi-templates/SKILL.md (если FastAPI в techContext)
+- @.agents/skills/sqlalchemy-postgres/SKILL.md (если SQLAlchemy / Alembic)
 - @.agents/skills/supabase-postgres-best-practices/SKILL.md (если Postgres)
+- @.agents/skills/async-python-patterns/SKILL.md (если async / WS в scope)
+- @.agents/skills/websocket-engineer/SKILL.md (если realtime / WS)
 - @.agents/skills/architecture-patterns/SKILL.md (L3–4)
+- @.agents/skills/python-design-patterns/SKILL.md (L3–4)
 
 **Важно:** §0.0 SUSPENSION GUARD — plan максимально детальный; lean load ≠ lean write.
 

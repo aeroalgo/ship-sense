@@ -1,0 +1,38 @@
+schema: epic-decompose/v1
+role: back
+step_id: s01
+plan_id: v1-p1-api
+title: Scaffold FastAPI (OpenAPI, envelope, DI)
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: 'Довести каркас `apps/api` (уже после RF-01 r01) до контракта plan §11/§13:
+  OpenAPI URLs, error envelope, settings из §21, lifespan hooks под DB/semantic, docker
+  service `api`, pytest client fixture.'
+context:
+  consumes:
+  - '**Consumes:** RF-01 r01 scaffold (`apps/api/app/main.py`, health stub); r02/r03
+    canonical models + semantic; plan §11, §13, §21.'
+  - '**Produces:** готовый app factory для REST/WS шагов; `ErrorBody`; request-id/timing
+    middleware stubs; compose service.'
+  files:
+  - apps/api/app/main.py` (Модификация) — title/version/docs_url/openapi_url; exception
+    handlers
+  - apps/api/app/core/settings.py` (Модификация) — поля plan §21 (`API_STALE_*`, WS,
+    rate, series window)
+  - apps/api/app/core/exceptions.py` (Модификация) — envelope `{"error":{code,message,details}}
+  - apps/api/app/core/middleware.py` (Модификация) — request_id + timing
+  - apps/api/app/core/dependencies.py` (Модификация) — get_db / get_semantic placeholders
+  - apps/api/app/core/database/session.py` (Создание) — async engine/session factory
+  - apps/api/README.md` (Модификация) — I1 minimal note (plan §4.1)
+  - apps/api/tests/api/test_health_stub.py` (Модификация) — OpenAPI path + envelope
+    smoke
+  - apps/api/tests/conftest.py` (Модификация) — AsyncClient fixture
+  - compose / docker service `api` (Модификация при наличии) — port 8000, depends_on
+    db
+checkpoints:
+- id: cp1
+  criterion: 'Довести каркас `apps/api` (уже после RF-01 r01) до контракта plan §11/§13:
+    OpenAPI URLs, error envelope, settings из §21, lifespan hooks под DB/semantic,
+    docker service `api`, pytest client fixture.'
+verify: []
+tdd: []

@@ -7,7 +7,7 @@ alwaysApply: false
 Папка: `.cursor/rules/front_developer/`  
 **Роутер:** @.cursor/rules/mainrule.mdc  
 **Core:** @.cursor/rules/front_developer/mainrule-core.mdc  
-**Процесс:** `workflow-*.mdc` → gates `_lean/<mode>.mdc`. Скиллы — только из workflow.
+**Процесс:** `workflow-*.mdc` → gates `isolation_rules/_lean/<mode>.mdc`. Скиллы — только из workflow.
 
 | Режим | Процесс |
 |-------|---------|
@@ -22,7 +22,7 @@ alwaysApply: false
 | `FRONT REFLECT` | @.cursor/rules/front_developer/workflow-reflect.mdc |
 | `FRONT ARCHIVE NOW` | @.cursor/rules/front_developer/workflow-archive.mdc |
 | `FRONT QA` | @.cursor/rules/front_developer/workflow-qa.mdc |
-| `FRONT SECURITY` | @.cursor/rules/front_developer/workflow-security.mdc |
+| `FRONT SECURITY` · `FRONT SECURITY PLAN` · `FRONT SECURITY DECOMPOSE` | @.cursor/rules/front_developer/workflow-security.mdc |
 
 Пути: `memory-bank/front/<режим>/` — таблица в @.cursor/rules/back_developer/isolation_rules/Core/memory-bank-paths.mdc (**только VAN** / создание структуры).  
 As-built UI: `memory-bank/architecture/frontend.md` — @.cursor/rules/shared/workflow-van-brownfield.mdc.  

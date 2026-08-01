@@ -1,0 +1,44 @@
+schema: epic-implement/v1
+role: back
+step_id: s03
+plan_id: v1-p2-ship
+title: T-005 | s03 | b12-formulas-v1 IMPLEMENT
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s03-b12-formulas-v1.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: T-005
+done:
+- Добавлен versioned ship-pack `makarov/formulas/v1` с manifest и конфигурацией running,
+  Q8 fuel A/B, rounding и debounce.
+- Добавлен typed `FormulaLoader` с валидацией версии `v1` и загрузкой `latest`.
+- Добавлены pure integrators для motohours, fuel flow, fuel level, time-weighted average
+  и peak.
+- Не-good интервалы исключаются из интеграла и возвращаются как `gaps`; округление
+  выполняется только через presentation boundary.
+files:
+- ship-pack/makarov/formulas/manifest.yaml
+- ship-pack/makarov/formulas/v1/motohours.yaml
+- ship-pack/makarov/formulas/v1/fuel.yaml
+- ship-pack/makarov/formulas/v1/rounding.yaml
+- ship-pack/makarov/formulas/v1/debounce.yaml
+- apps/api/app/reports/formulas/__init__.py
+- apps/api/tests/reports/test_formulas_motohours.py
+- apps/api/tests/reports/test_formulas_fuel.py
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/reports/test_formulas_motohours.py apps/api/tests/reports/test_formulas_fuel.py
+  -q --tb=line'
+- 'итог: `7 passed in 0.02s'
+- 'verify: `VERDICT PASS'
+integration_check:
+- formulas version pinned through existing `ReportRequest.formulas_version` contract
+- ship-pack YAML paths consumed by `FormulaLoader`
+- quality gaps represented in `FormulaResult.gaps`, not silently zeroed
+- no new env vars, routes, DB columns or runtime entrypoints
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

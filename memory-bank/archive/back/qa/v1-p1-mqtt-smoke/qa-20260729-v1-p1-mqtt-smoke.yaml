@@ -1,0 +1,52 @@
+schema: epic-qa/v1
+role: back
+date: '2026-07-29'
+reviewer: BACK QA
+verdict: pass
+scope:
+- 'task: T-008 MQTT compose smoke gap-close'
+- 'files: `scripts/smoke-mqtt-stack.sh`, `docker-compose.yml`, `apps/edge/collector/src/collector/domain/interfaces.py`,
+  collector config/plugin import path'
+- 'modes: `single`, `dual`, `events'
+checks:
+- '`bash -n scripts/smoke-mqtt-stack.sh` — OK'
+- '`docker compose --profile mqtt-dev config` — exit 0'
+- '`docker compose --profile mqtt-dev config --services` — includes `mosquitto`, `emulator-mqtt`,
+  `collector-mqtt`, `writer`'
+- '`python3 -m compileall -q apps/edge/collector/src apps/edge/emulator/src` — OK'
+- MQTT single smoke — exit 0
+- MQTT dual smoke — exit 0
+- MQTT events smoke — exit 0
+- MQTT sigterm smoke — exit 0
+- compose/config/syntax/compile checks — exit 0
+- backend fast suite — 327 passed
+- MQTT integration — 2 passed
+- emulator integration — 2 passed
+- security spot-check — no new high-confidence issue established; dev ACL intentionally
+  allows readwrite on `shipsense/#`
+issues:
+- id: R-1
+  sev: resolved
+  file: '`apps/edge/collector/src/collector/config/validator.py:37`'
+  msg: Lazy `MqttChannelMap` import removes the circular import; compose smoke and
+    MQTT integration pass.
+- id: R-2
+  sev: resolved
+  file: '`scripts/smoke-mqtt-stack.sh:32-39`'
+  msg: All four documented modes now exit 0.
+- id: R-3
+  sev: note
+  file: '`apps/edge/collector/tests/conftest.py` / environment'
+  msg: Full unfiltered root invocation lacks package `PYTHONPATH`; validated backend
+    suites with explicit source paths.
+blockers:
+- Fix the collector package circular import before rerunning compose smoke.
+- Install/use the repository's intended backend dependencies (including `pymodbus`)
+  before full suite verification.
+- Rerun `single`, `dual`, and `events` sequentially after cleanup; do not run them
+  concurrently because compose uses fixed container names.
+fix_plan: []
+limitations: []
+suite: []
+plan_id: v1-p1-mqtt-smoke
+epic_id: v1-p1-mqtt-smoke

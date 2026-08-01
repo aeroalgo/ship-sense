@@ -5,15 +5,19 @@
 **Статус:** open | active | closed  
 **Slug:** <domain-or-scope>  
 **Триггер:** <почему запущен GAP — цитата/ссылка на §Gaps implement>  
-**Source implement (если scoped):** [implement-….md](../implement/implement-….md)
+**Путь (epic):** `memory-bank/integration/gap/<epic_id>/gap-YYYYMMDD-<slug>.md`  
+**Путь (ad-hoc):** `memory-bank/integration/gap/gap-YYYYMMDD-<slug>.md`  
+**Source implement (если scoped):** [implement-….md](../../implement/implement-<epic_id>/…)
 
 ## Links (для INTEG GAP CLOSE)
 
+Relative из `gap/<epic_id>/` (из корня `gap/` — на один `../` меньше).
+
 | Kind | Artifact |
 |------|----------|
-| Source implement | [implement-….md](../implement/implement-….md) |
-| BACK plan / covered_by | [plan-BACK-….md](../../back/plan/…) → [decompose-…/index.md](../../back/plan/decompose-…/index.md) |
-| FRONT plan | [plan-FRONT-….md](../../front/plan/…) → [decompose-…/index.md](…) |
+| Source implement | [implement-….md](../../implement/implement-<epic_id>/…) |
+| BACK plan / covered_by | [plan-BACK-….md](../../../back/plan/…) → [decompose-…/index.md](../../../back/plan/decompose-…/index.md) |
+| FRONT plan | [plan-FRONT-….md](../../../front/plan/…) → [decompose-…/index.md](…) |
 
 ## Методология
 
@@ -44,8 +48,8 @@
 |--------|-------------|-------------------|------|--------|
 | G-BF01 | | | plan-FRONT-GAP-… | open |
 
-→ [plan-FRONT-GAP-…](../../front/plan/plan-FRONT-GAP-….md)  
-→ decompose: [index.md](../../front/plan/decompose-…/index.md) (если есть)
+→ [plan-FRONT-GAP-…](../../../front/plan/plan-FRONT-GAP-….md)  
+→ decompose: [index.md](../../../front/plan/decompose-…/index.md) (если есть)
 
 ---
 
@@ -65,8 +69,8 @@
 |--------|--------------|------------------|------|--------|
 | G-FB01 | | | plan-BACK-GAP-… | open |
 
-→ [plan-BACK-GAP-…](../../back/plan/plan-BACK-GAP-….md)  
-→ decompose: [index.md](../../back/plan/decompose-…/index.md)
+→ [plan-BACK-GAP-…](../../../back/plan/plan-BACK-GAP-….md)  
+→ decompose: [index.md](../../../back/plan/decompose-…/index.md)
 
 ---
 

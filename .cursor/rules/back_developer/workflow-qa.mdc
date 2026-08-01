@@ -5,13 +5,22 @@ alwaysApply: false
 ### Команда: BACK QA
 **Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/qa.mdc
-**Скиллы:** verification-before-completion · python-testing-patterns · owasp-security-check · security-auditor-owasp · semgrep · mutation-testing — `@.agents/skills/<name>/SKILL.md`
+
+**Скиллы (core — lazy, 1–2 за сессию по gates):**  
+verification-before-completion · python-testing-patterns · python-type-safety · owasp-security-check · security-auditor-owasp — `@.agents/skills/<name>/SKILL.md`
+
+**Скиллы (situational — только при триггере в diff/fail):**  
+code-review (спорный AC / крупный epic merge) · pytest-coverage (дырки в suite / AC-path без тестов) · mutation-testing (слабые assertions) · semgrep · differential-review (auth/crypto/I/O) · python-anti-patterns · postgresql-code-review · sqlalchemy-postgres · property-based-testing · insecure-defaults · requesting-code-review
+
+**FORBIDDEN:** читать весь core+situational список «про запас»; full epic line-by-line review в одном чате.
 
 **Процесс**:
 1. `OK BACK QA - Выполняю техническую валидацию` → **Gates**
 2. Lean load §7; verification-before-completion; проверки — gates
 3. qa-артефакт: с эпиком `memory-bank/back/qa/<epic_id>/qa-YYYYMMDD-<slug>.md`; без — `memory-bank/back/qa/qa-YYYYMMDD-<slug>.md` (шаблон `review.md` — Read если формат забыт). Paths: @.cursor/rules/shared/epic-scoped-paths.mdc
 4. fail|blocked → §Fix plan (конкретные `BACK BUGFIX <subject>`, не общий BUGFIX)
-5. **FINISH:** finish-block (`code_changed: no`) + `## Handoff BACK QA` обязателен
+5. **FINISH:** finish-block (`code_changed: no`) + `## Handoff BACK QA` обязателен  
+   Next-mode: только `loop/transitions.yaml` (+ runner из `result.yaml`) · @.cursor/rules/shared/workflow-loop-state.mdc  
+   **FORBIDDEN:** копировать цепочки pass/blocked/fail → … здесь
 
-**Верификация**: gates + reviewer + Handoff
+**Верификация**: gates + reviewer + Handoff + loop-state

@@ -1,0 +1,43 @@
+schema: integ-decompose/v1
+step_id: e23
+plan_id: v1-portal
+title: Watch handoff buttons
+element_id: e23
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/watch'
+  components: '** `HandoffButton.tsx` + `lib/routing/handoff`'
+  user_sees: '** buttons "Активные тревоги" / "Сейчас" → deep-link to journal'
+data_need:
+- client-only links to journal presets (active alarms / active now)
+api_today:
+- status: —
+  detail: static routing (no API)
+contract:
+  front_client: '** `lib/routing/handoff` constants + `HandoffButton`'
+db: '- none (client routing)'
+back:
+- n/a (client-only)
+- 'Optional P1: bind to `GET /api/watch/schedule` for «current watch» timestamps instead
+  of relative client now'
+front:
+- '`HandoffButton` already wired (FRONT s14)'
+- Preset query must be valid EventsQuery (e11)
+grep_control:
+- back: N/A (client routing)
+  front: lib/routing/handoff
+verify:
+- '`grep -r "HandoffButton\|handoff" frontend/src`'
+- vitest HandoffButton.test
+- Playwright click → journal filters applied
+tdd:
+- '1. Red: vitest handoff button → assert URL params'
+- '2. Green: click → journal with correct filters'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Click "Активные тревоги" → journal with severity=alarm
+- id: cp2
+  criterion: Click "Сейчас" → journal with from=now-ish
+- id: cp3
+  criterion: Params match EventsQuery contract

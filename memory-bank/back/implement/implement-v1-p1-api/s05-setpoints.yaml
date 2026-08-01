@@ -1,0 +1,21 @@
+schema: epic-implement/v1
+role: back
+step_id: s05
+plan_id: v1-p1-api
+title: BACK IMPLEMENT s05 — Setpoints read (YAML)
+status: completed
+decompose_ref: memory-bank/back/plan/decompose-v1-p1-api/s05-setpoints.yaml
+implement_index: memory-bank/back/implement/implement-v1-p1-api/index.md
+date: '2026-07-30'
+level: null
+task_id: null
+done: []
+files: []
+tests: []
+integration_check: []
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

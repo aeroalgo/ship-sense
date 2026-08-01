@@ -1,0 +1,52 @@
+schema: integ-decompose/v1
+step_id: e05
+plan_id: v1-portal
+title: StatusBar alarms
+element_id: e05
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `(auth)/*` (inside `AppShell`)'
+  components: '** DS `StatusBar` in `AppShell`; hook `features/shell/useStatusBarAlarms.ts`'
+  user_sees: '** alarm/warning chips in top bar; click → `/journal?asset_id=&from=`'
+data_need:
+- 'bootstrap: recent alarm/warning events'
+- 'live: WS events channel updates'
+- click → `/journal?asset_id=&from=`
+api_today:
+- status: ✅
+  detail: REST `GET /api/events` (bootstrap query in hook)
+- status: ✅
+  detail: WS `/api/stream` subscribe events
+- status: ⚠️
+  detail: MSW covers REST events only (не WS)
+contract:
+  method_path: '** `GET /api/events?severity=alarm&severity=warning&limit=…`'
+  query_keys: '** `severity[]`, `limit`'
+  response_shape: '** `{ items: EventItem[], next_cursor, has_more }`'
+  response_header: '** `X-Events-Reconstruction: edge_only|…`'
+  front_client: '** `lib/api/events.ts` → `fetchEvents`; `useWsChannel`'
+db: '- events store (Timescale)'
+back:
+- already live (T-003 s04/s06)
+- severity filter must match BACK enum (`info|warning|alarm`)
+front:
+- '`useStatusBarAlarms` already wired (FRONT s07)'
+- Deep-link query keys must match journal filters (`asset_id`, `from`)
+grep_control:
+- back: GET /api/events` + WS events
+  front: fetchEvents` + `useWsChannel
+verify:
+- '`grep -r "/api/events\|/api/stream" frontend/src api/`'
+- 'vitest: `StatusBar.alarms.test.tsx`'
+- 'Playwright: alarm chip → journal filtered'
+tdd:
+- '1. Red: vitest StatusBar with alarm fixture → assert chips'
+- '2. Green: live fetch + WS, remove MSW for REST'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: StatusBar shows recent alarms/warnings
+- id: cp2
+  criterion: Click → journal with filter applied
+- id: cp3
+  criterion: Live WS appends new alarm

@@ -1,0 +1,25 @@
+schema: epic-decompose/v1
+role: front
+step_id: s08
+plan_id: v1-p1-screens
+title: Session tiles B11 login/logout
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: '`/login` плитки roster → POST session → redirect default_screen; logout DELETE;
+  anonymous overview allowed.'
+context:
+  consumes:
+  - '**Consumes:** s04 session API, s06 LoginTile/SessionChip, s07 layout'
+  - '**Produces:** features/session + login page'
+  files:
+  - frontend/src/app/login/page.tsx` (Создание)
+  - frontend/src/features/session/LoginPage.tsx` (Создание)
+  - frontend/src/features/session/useSession.tsx` (Создание)
+  - frontend/src/features/session/session.test.tsx` (Создание)
+  - frontend/src/app/(authenticated)/layout.tsx` (Модификация) — SessionChip
+checkpoints:
+- id: cp1
+  criterion: '`/login` плитки roster → POST session → redirect default_screen; logout
+    DELETE; anonymous overview allowed.'
+verify: []
+tdd: []

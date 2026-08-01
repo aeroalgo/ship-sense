@@ -1,0 +1,24 @@
+schema: epic-decompose/v1
+role: back
+step_id: s15
+plan_id: v1-p2-ship
+title: I1 proof artifact PDF + config hash for T4
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: 'Артефакт «доказательство read-only»: PDF+config hash из gateway logs/config;
+  T4 protocol script outline executable.'
+context:
+  consumes:
+  - '**Consumes:** s01 gateway; plan §6.5–6.6.'
+  - '**Produces:** proof generator; hash of gateway config; T4 runbook steps automation
+    stub.'
+  files:
+  - apps/edge/gateway/proof/` (Создание)
+  - apps/edge/gateway/tests/test_proof_artifact.py` (Создание)
+  - docs/acceptance/T4-readonly-protocol.md` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Артефакт «доказательство read-only»: PDF+config hash из gateway logs/config;
+    T4 protocol script outline executable.'
+verify: []
+tdd: []

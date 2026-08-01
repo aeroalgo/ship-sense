@@ -13,6 +13,7 @@ alwaysApply: false
 3. vs plan · successes · problems · lessons · improvements
 4. `memory-bank/front/reflection/reflection-[task_id].md`
 5. `tasks.md` append-only
-6b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`); new chat → ARCHIVE NOW
+6b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)  
+   Next-mode: только `loop/transitions.yaml` (+ runner); ARCHIVE NOW — вручную после complete
 
 **Верификация**: gates

@@ -1,0 +1,44 @@
+schema: integ-decompose/v1
+step_id: e15
+plan_id: v1-portal
+title: Trends TagPicker
+element_id: e15
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/trends` → `TrendsPage` + DS `TagPicker'
+  components: '** `TagPicker`'
+  user_sees: '** selectable tags from assets tree (leaves only)'
+data_need:
+- tag leaves from assets tree (id, name, unit)
+api_today:
+- status: ✅
+  detail: '`GET /api/assets/tree` (reuse e08 client)'
+- status: —
+  detail: 'FRONT: flatten `kind==="tag"`'
+contract:
+  front_client: '** `lib/api/assets.ts` → `fetchAssetsTree` (reuse)'
+db: '- none (derived from assets tree)'
+back:
+- already live (e08, T-003 s02)
+front:
+- '`TagPicker` already wired (FRONT s12)'
+- Tag id string identity must match series `tag` query param
+- Empty tree → StateShell empty (not spinner forever)
+grep_control:
+- back: GET /api/assets/tree` (kind=tag)
+  front: fetchAssetsTree` + filter
+verify:
+- '`grep -r "TagPicker" frontend/src`'
+- vitest TagPicker
+- Playwright select tag → chart request fires
+tdd:
+- '1. Red: vitest TagPicker with tree fixture'
+- '2. Green: live tree, flatten tags'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: TagPicker shows all tag leaves from tree
+- id: cp2
+  criterion: Select tag → triggers series fetch
+- id: cp3
+  criterion: Empty tree shows empty state

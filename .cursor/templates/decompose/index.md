@@ -1,43 +1,43 @@
 # Реестр шагов (Decompose index)
 **Plan ID:** <plan_id>
-**План:** [plan-<id>.md](../plan-<id>.md) (или `../back/plan/plan-<id>.md`)
+**План:** [plan-<id>.md](../plan-<id>.md)
 **Implement index:** [implement-<plan_id>/index.md](../../implement/implement-<plan_id>/index.md)
 **Дата:** YYYY-MM-DD
-**Режим:** BACK DECOMPOSE | FRONT DECOMPOSE
+**Режим:** BACK DECOMPOSE | FRONT DECOMPOSE | INTEG DECOMPOSE
 
-Каждый шаг — атомарная задача под один заход IMPLEMENT. Детали шага — в `sNN-<slug>.md` (шаблон: [step.md](step.md)). Интерфейсы в шагах — **lean** (имена/поля/наследование), без готового кода.
+Каждый шаг — атомарная задача (BACK/FRONT: feature slice; INTEG: один UI-элемент). Shard: `sNN|eNN-<slug>.yaml` — [.cursor/templates/decompose/epic-step.yaml](epic-step.yaml).
 
-> **INTEG GAP:** грузить **этот index** (и/или implement index) → ходить только по ссылкам колонок. Не глобить весь `*/implement/`.
-> **Policy:** статусы живут только здесь и в `implement/sNN|eNN-*.md`. `implement/index` — navigation hub без status.
+> **Policy:** статусы только здесь + `implement/sNN|eNN-*.yaml`. `implement/index` — hub без status. Plan не дублирует чеклист шагов.
 
 ## Skills в контексте
 
 | Skill | Зачем |
 |-------|-------|
 | `writing-plans` | структура шагов, атомарность |
-| … | … |
+| `query-builder` | INTEG: list/filter endpoints |
 
-**Per-step канон (не дублировать полные пути здесь):**
-- **BACK:** в каждом `sNN` — `code_surface` + блок **Impl skills** (карта: `back_developer/workflow-decompose.mdc`)
-- **FRONT:** в каждом `sNN` — **Impl skills** + `visible_ui` + **Design skills** (карта: `front_developer/workflow-decompose.mdc`)
+**Per-step:** BACK/FRONT — skills gate в каждом `sNN` (`workflow-decompose.mdc`). INTEG — lean §Contract в `eNN`, без gap/contracts as input.
 
-Index — только общие skills сессии DECOMPOSE.
-
-## Очередь шагов
+## Очередь шагов (BACK / FRONT)
 
 | step_id | title & files | implement | needs_creative | tdd | next_phase | status |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| **s01** | [s01-<slug>.md](s01-<slug>.md)<br>• кратко: файлы/суть | [s01…](../../implement/implement-<plan_id>/s01-<slug>.md) | no | yes | BACK/FRONT IMPLEMENT | pending |
+| **s01** | [s01-<slug>.yaml](s01-<slug>.yaml) | [s01…](../../implement/implement-<plan_id>/s01-<slug>.yaml) | no | yes | BACK/FRONT IMPLEMENT | pending |
 
-Статусы: `pending` | `active` | `done` | `blocked` | `needs_creative`
+**needs_creative:** `no` | `yes (CR-…)` | `yes (CR-…) ✅` (= shard `yes (CR-…) — **closed**`)  
+**FORBIDDEN:** `yes (done)` без CR-ID · `no (CR-… closed)`
+
+## Очередь элементов (INTEG)
+
+| step_id | title & element | implement | route | API | tdd | next_phase | status |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
+| **e01** | [e01-<slug>.yaml](e01-<slug>.yaml) | [e01…](../../implement/implement-<plan_id>/e01-<slug>.yaml) | `/` | none | no | INTEG IMPLEMENT | pending |
 
 ## Summary-чеклист
 
-- [ ] s01 — <title>
-- [ ] s02 — <title>
+- [ ] s01 / e01 — <title>
 
-## Handoff
+## Handoff (snapshot)
 
-- **Next:** BACK/FRONT IMPLEMENT — первый шаг со статусом `pending` или `active`
-- **load_now:** `back|front/plan/decompose-<plan_id>/s01-<slug>.md` (файл первого шага, не index)
-- **INTEG GAP вход:** этот index + парный слой implement/decompose index
+- **Next:** `<ROLE> <MODE>` @target — tip / ledger
+- **load_now:** tip shard `.yaml` (не index alone)

@@ -1,0 +1,5 @@
+version: v1
+running:
+  source: configured_running_tags
+  quality: [good]
+  min_running_duration_sec: 30

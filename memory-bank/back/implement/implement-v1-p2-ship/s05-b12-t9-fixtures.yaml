@@ -1,0 +1,46 @@
+schema: epic-implement/v1
+role: back
+step_id: s05
+plan_id: v1-p2-ship
+title: '[T-005 | s05 | b12-t9-fixtures] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s05-b12-t9-fixtures.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: null
+done:
+- Добавлен `canonical_body_sha256(body)` с детерминированной JSON-каноникализацией
+  и рекурсивным исключением `generated_at`.
+- Созданы четыре T9 golden fixtures для midnight, clock jump, fuel flowmeter и midday
+  gap с ожидаемыми SHA256.
+- Добавлен parametrized pytest harness и отдельная проверка неизменности хэша при
+  изменении `generated_at`.
+- Зарегистрирован pytest marker `t9`.
+files:
+- apps/api/tests/reports/golden_compare.py
+- apps/api/tests/reports/test_t9_golden.py
+- apps/api/tests/fixtures/reports/watch_midnight_cross.json
+- apps/api/tests/fixtures/reports/daily_clock_jump.json
+- apps/api/tests/fixtures/reports/fuel_flowmeter_24h.json
+- apps/api/tests/fixtures/reports/daily_gap_midday.json
+- pyproject.toml
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/reports/test_t9_golden.py -q --tb=line'
+- 'итог: 5 passed'
+- 'cmd: `.venv/bin/pytest apps/api/tests/reports/test_templates_render.py apps/api/tests/reports/test_formulas_motohours.py
+  apps/api/tests/reports/test_formulas_fuel.py apps/api/tests/reports/test_engine_core.py
+  -q --tb=line'
+- 'итог: 12 passed'
+- 'pre-FINISH verify: `VERDICT: PASS'
+integration_check:
+- storage keys wired — не применимо, тестовые fixtures/helper
+- env vars in settings — не применимо
+- DB cols ↔ migration — не применимо
+- events ↔ handlers — не применимо
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

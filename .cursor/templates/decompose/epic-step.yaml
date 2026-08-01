@@ -1,0 +1,41 @@
+schema: epic-decompose/v1
+role: back
+step_id: sNN
+plan_id: <plan_id>
+title: <title>
+next_phase: BACK IMPLEMENT
+needs_creative: "no"
+
+goal: |
+  одна-две строки: что должен дать шаг
+
+context:
+  consumes: []
+  produces: []
+  plan_refs: []
+
+skills:
+  code_surface: api
+  impl: []
+
+checkpoints:
+  - id: cp1
+    criterion: AC из goal / §Verify
+    verify: pytest / targeted test
+
+verify: []
+
+tdd: []
+
+# needs_creative (BACK/FRONT): no | yes (CR-…) | yes (CR-…) — **closed**
+#
+# role: integ — дополнительно:
+# element_id: eNN
+# ui: { route, components, user_sees }
+# data_need: ...
+# api_today: [{ status, detail }]
+# contract: { method_path, query_keys, response_shape, front_client }
+# db: ...
+# back: []
+# front: []
+# grep_control: [{ back, front }]

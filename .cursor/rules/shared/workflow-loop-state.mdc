@@ -1,0 +1,21 @@
+---
+description: "Loop-state + transitions — канон next mode для BACK/FRONT/INTEG (не дублировать в workflow)"
+alwaysApply: false
+---
+# Loop state & transitions
+
+**Гайд:** `loop/WORKFLOW.md` · **статус:** `loop/loop-state.yaml` · **переходы:** `loop/transitions.yaml`  
+**Runner:** `./loop/loop.sh` · **engine:** `.claude/hooks/loop_engine.py`  
+**Шпаргалка:** `.claude/instructions/loop-state.md`
+
+## HARD
+
+1. FINISH: implement step **на диске** → один `## Handoff` → finalize `result.yaml` (`artifact`=implement path) → `@verify` (не pending/draft) — чеклист только в `finish-block.mdc`
+2. **Не** править `loop-state.yaml` вручную — пишет runner (`after` / `apply_event`)
+3. Нет / stub / невалидный `result.yaml` / crosscheck FAIL / pytest assert FAIL → **halt**
+4. `@verify` читает RESULT (read-only); spawn DENY на stub
+5. `status=ok` + `code_changed≠no` → runner targeted pytest из step/`pytest_commands`
+6. **Owner next-mode:** только `loop/transitions.yaml` + runner. Role `workflow-*` / `_lean` / epic-loop — **только ссылка**, без цепочек `pass → …` / `→ QA или REFLECT`
+7. Конфликт Handoff «Следующий» ↔ `loop-state.next` → **loop-state** (Handoff = session narrative, не event source)
+8. GAP queue — `loop-state.queue` (+ program runtime cache)
+9. **Runtime split:** `loop/runtime/{epic|program}/` = `result.yaml` (writable); `.claude/runtime/{epic|program}/` = state/trace/logs (не дублировать result туда)

@@ -33,4 +33,4 @@ Gap опционален — не блокирует PLAN. Не читать as 
 6. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)
 7. → **INTEG DECOMPOSE** → IMPLEMENT e01
 
-**После DECOMPOSE:** статусы только в `implement/eNN-*.md` и `decompose/index.md`; `implement/index` = навигационный hub без status; plan без дубль-чеклиста eNN
+**После DECOMPOSE:** статусы только в `implement/eNN-*.yaml` и `decompose/index.md`; `implement/index` = навигационный hub без status; plan без дубль-чеклиста eNN

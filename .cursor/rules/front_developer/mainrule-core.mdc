@@ -13,20 +13,19 @@ alwaysApply: false
 
 ## DESIGN STACK (visible UI)
 
-Канон: decompose `visible_ui` + Design skills **или** workflow-implement A + `_lean/implement` gate 6. Read **до** UI-кода. `visible_ui: no` / pure lib — skip. DECOMPOSE обязан проставить `visible_ui` в каждом `sNN`.
+Канон: decompose `visible_ui` + Design skills **или** workflow-implement A + `isolation_rules/_lean/implement` gate 6. Read **до** UI-кода. `visible_ui: no` / pure lib — skip. DECOMPOSE обязан проставить `visible_ui` в каждом `sNN`.
 
 ## MEMORY BANK
 
 - `activeContext` → `load_now` first (§0.5.1); session start: context-session-economy §3
-- Артефакты: `memory-bank/front/<режим>/` — путь в `_lean/<mode>.mdc`
+- Артефакты: `memory-bank/front/<режим>/` — путь в `isolation_rules/_lean/<mode>.mdc`
 
 ## ПЕРЕХОДЫ
 
-```
-FRONT VAN → (L1) → IMPLEMENT → [REFACTOR] → QA → REFLECT → ARCHIVE NOW
-FRONT VAN → (L2-4) → PLAN → [DECOMPOSE] → [CREATIVE] → IMPLEMENT → [REFACTOR] → QA → REFLECT → ARCHIVE NOW
-FRONT TASK / BUGFIX → QA → [REFLECT]
-```
+Next-mode: `loop/transitions.yaml` · `loop-state.yaml`  
+@.cursor/rules/shared/workflow-loop-state.mdc  
+
+Не дублировать next-mode таблицы — transitions + FINISH sync ledger.
 
 ## ФОРМАТ
 

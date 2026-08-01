@@ -108,7 +108,7 @@ Multi-word: `ARCHIVE NOW`, `IDEA PIPELINE CONTINUE`, `INTEG GAP`, `INTEG GAP CLO
 Каталог **строго** `memory-bank/` (lowercase).  
 **ЗАПРЕЩЕНО:** `Memory-bank/`, `MEMORY-BANK/`.
 
-IMPLEMENT/TASK/QA: `memory-bank/activeContext.md` → `load_now` only. ONE task shard. ONE plan shard if AC needs.
+IMPLEMENT/TASK/QA: `memory-bank/activeContext.md` → `load_now` only. ONE work shard (`sNN|eNN` / task / bugfix / qa). **FORBIDDEN** полный `plan-*.md` в load_now (AC = shard / Handoff; jump `plan §N` при нехватке).
 
 PLAN override: полный inventory по `workflow-*-plan.mdc`.
 

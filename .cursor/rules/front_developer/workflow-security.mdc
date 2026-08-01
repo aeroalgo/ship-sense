@@ -1,10 +1,13 @@
 ---
-description: "FRONT SECURITY — аудит безопасности UI/client, XSS, deps, supply chain"
+description: "FRONT SECURITY — PLAN / DECOMPOSE / audit execute (XSS, client, deps)"
 alwaysApply: false
 ---
-### Команда: FRONT SECURITY
+### Команда: FRONT SECURITY | FRONT SECURITY PLAN | FRONT SECURITY DECOMPOSE
 **Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/security.mdc
+**Epic paths:** @.cursor/rules/shared/workflow-security-epic.mdc
 **Скиллы:**
+- @.agents/skills/writing-plans/SKILL.md (PLAN / DECOMPOSE)
 - @.agents/skills/owasp-security-check/SKILL.md
 - @.agents/skills/security-auditor/SKILL.md
 - @.agents/skills/security-auditor-owasp/SKILL.md
@@ -21,17 +24,39 @@ alwaysApply: false
 - @.agents/skills/sigil-scan/SKILL.md
 - @.agents/skills/variant-analysis/SKILL.md
 
-**Цель:** глубокий security-аудит frontend (отдельно от ежедневного QA). Isolation maps не грузить.
+**Цель:** security-аудит frontend кусками (эпик) или one-shot (S).
 
-**Scope:** `frontend/` — XSS/DOM, auth tokens в browser, CSP/headers client, secrets в client bundle, deps (`package.json`/lock), CI Actions для front, insecure defaults UI.
+**Scope:** `frontend/` — XSS/DOM, auth tokens, CSP/headers client, secrets в bundle, deps, CI Actions front.
 
-**Процесс**:
+**Detect submode:** `PLAN` → PLAN; `DECOMPOSE` → DECOMPOSE; иначе EXECUTE.
+
+---
+
+## A. SECURITY PLAN
+
+1. `OK FRONT SECURITY PLAN - Security plan` + `SUSPENSION GUARD active — plan output unlimited`
+1a. Gates + workflow-security-epic
+2. Inventory surfaces (XSS/tokens/CSP/bundle/deps/ci) + priority + skills map
+3. Сохрани `memory-bank/front/security/plan/plan-<id>.md`
+4. `tasks.md` append-only
+5. **FINISH:** finish-block (`code_changed: no`)
+6. Next: **FRONT SECURITY DECOMPOSE**
+
+## B. SECURITY DECOMPOSE
+
+1. `OK FRONT SECURITY DECOMPOSE - [plan_id]`
+1a. Gates + workflow-security-epic
+2. Нарежь `aNN` → `memory-bank/front/security/plan/decompose-<id>/`
+3. Каждый `aNN`: `audit_surface` + Audit skills + scope + threats + checkpoint
+4. **FINISH:** `load_now` → `a01-*.md`
+5. Next: **FRONT SECURITY** @a01
+
+## C. SECURITY execute (@aNN или S)
+
 1. `OK FRONT SECURITY - Security audit`
-2. `tasks.md`, `techContext.md`, scope (`frontend/`)
-3. OWASP (client) + SAST (semgrep/codeql по наличию) по `frontend/`
-4. Supply chain + insecure defaults + Actions (front CI)
-5. `memory-bank/front/security/security-audit-YYYYMMDD-<slug>.md` — findings, severity, skills
-6. `tasks.md` append-only
-7. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`, artifact: `security-audit-*.md`)
+1a. Gates + workflow-security-epic
+1b. Epic → `implement/implement-<id>/aNN-*.md`; S → `security-audit-YYYYMMDD-<slug>.md`
+2. Skills из step (эпик) или workflow (S); не чинить код
+3. **FINISH:** finish-block (`code_changed: no`)
 
-**Next:** BUGFIX / IMPLEMENT (фиксы) → QA
+**Next (фиксы):** BUGFIX / IMPLEMENT.

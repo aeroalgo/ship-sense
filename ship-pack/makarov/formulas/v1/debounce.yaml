@@ -1,0 +1,3 @@
+version: v1
+debounce_window_sec: 60
+min_running_duration_sec: 30

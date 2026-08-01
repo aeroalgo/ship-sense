@@ -1101,7 +1101,7 @@ class ChannelProtocol(Protocol):
 
 ## 14. Draft decompose (outline — статусы только после DECOMPOSE)
 
-После `BACK DECOMPOSE plan-v2-shore` → `memory-bank/back/plan/decompose-plan-v2-shore/index.md` + `sNN-*.md`.
+После `BACK DECOMPOSE plan-v2-shore` → `memory-bank/back/plan/decompose-plan-v2-shore/index.md` + `sNN-*.yaml`.
 
 ### Phase 0 — Research (gate)
 

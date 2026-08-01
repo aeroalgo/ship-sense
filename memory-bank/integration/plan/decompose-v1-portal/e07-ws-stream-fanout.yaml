@@ -1,0 +1,49 @@
+schema: integ-decompose/v1
+step_id: e07
+plan_id: v1-portal
+title: WebSocket fanout shared (`/api/stream`)
+element_id: e07
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `(auth)/*` (infra, shared across screens)'
+  components: '** `lib/ws/manager.ts`, `hooks/useWsChannel.ts`'
+  user_sees: '** realtime updates across overview, journal, trends, status bar, freshness'
+data_need:
+- subscribe values (tags ≤100/chunk), events, resume_cursor, snapshot
+api_today:
+- status: ✅
+  detail: '`WS /api/stream` (`stream.py`)'
+- status: —
+  detail: 'FRONT env: `NEXT_PUBLIC_WS_URL` (tests use `ws://localhost:8000/api/stream`)'
+- status: —
+  detail: 'MSW: **нет** WS mock → live или unit MockWebSocket'
+contract:
+  method_path: '** `WS /api/stream`'
+  front_client: '** `lib/ws/manager.ts` → `WsManager`; `useWsChannel`'
+db: '- ring buffer fanout (in-memory, T-003 s06)'
+back:
+- already live (T-003 s06)
+- Chunking 100 tags — BACK must accept chunked subs (as-built)
+- Auth cookie on WS handshake — verify edge gateway/CORS same-origin compose
+front:
+- '`WsManager` / `useWsChannel` already wired (FRONT s05)'
+- Единый менеджер; не открывать второй сокет на экран
+grep_control:
+- back: WS /api/stream
+  front: WsManager` / `useWsChannel
+verify:
+- '`grep -r "/api/stream" frontend/src api/`'
+- 'vitest: `lib/ws/manager.test.ts`'
+- 'pytest: WS fanout tests from T-003 s06'
+- '§0.11: `NEXT_PUBLIC_WS_URL` path ends with `/api/stream`'
+tdd:
+- '1. Red: vitest MockWebSocket subscribe → receive frames'
+- '2. Green: live WS connect, verify fanout'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Single WS connection serves all consumers
+- id: cp2
+  criterion: Subscribe values/events → frames arrive
+- id: cp3
+  criterion: Chunked tag sub (≤100) accepted

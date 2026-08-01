@@ -1129,7 +1129,7 @@ API returns buckets with `{ value, min, max, samples, quality }`.
 
 **Единственный трекер:** [`decompose-v1-p1-screens/index.md`](decompose-v1-p1-screens/index.md) (s01–s16). Статусы и Summary-чеклист — только там; здесь чеклистов sNN нет.
 
-Краткий порядок (детали/files/AC — в `sNN-*.md`):
+Краткий порядок (детали/files/AC — в `sNN-*.yaml`):
 
 | Step | Slug | Содержание |
 |------|------|------------|

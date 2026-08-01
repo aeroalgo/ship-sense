@@ -6,7 +6,7 @@
 **Plan:** [plan-v1-p1-storage.md](../../plan/plan-v1-p1-storage.md)  
 **Decompose:** [decompose-v1-p1-storage/index.md](../../plan/decompose-v1-p1-storage/index.md)
 
-Каждый шаг = один заход IMPLEMENT. Имена файлов совпадают с decompose: `sNN-<slug>.md`.
+Каждый шаг = один заход IMPLEMENT. Имена файлов совпадают с decompose: `sNN-<slug>.yaml`.
 
 | step | decompose | implement |
 | :--- | :--- | :--- |

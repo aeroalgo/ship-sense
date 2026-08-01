@@ -1,0 +1,44 @@
+schema: epic-implement/v1
+role: front
+step_id: s03
+plan_id: v1-p1-screens
+title: '[T-004 | s03 | quality-lib] IMPLEMENT'
+status: in_progress
+decompose_ref: ../../plan/decompose-v1-p1-screens/s03-quality-lib.yaml
+implement_index: memory-bank/front/implement/implement-v1-p1-screens/index.md
+date: '2026-07-26'
+level: L4
+task_id: null
+done:
+- Quality` / `AggregateStatus` = plan §15 + BACK OpenAPI (`good|bad|uncertain|stale|quarantine`
+  + `unknown`)
+- worstOf` — quarantine > stale > bad > uncertain > good; empty → unknown
+- rollupNode` — worst child; unknown children ignored; quarantine → not good
+- 'DAMAGE_CLASS` константы: raznos → oil → temp → other'
+- 'damageClassOf(eventName)` + `sortEvents`: active-unacked → damage class → ts desc
+  → stable index'
+- Pure TS, без React/Next imports
+files:
+- frontend/src/lib/quality/types.ts
+- frontend/src/lib/quality/rollup.ts
+- frontend/src/lib/quality/rollup.test.ts
+- frontend/src/lib/events/priority.ts
+- frontend/src/lib/events/priority.test.ts
+tests:
+- 'cmd: `cd frontend && npm test -- src/lib/quality/ src/lib/events/'
+- 'итог: 14 passed (8 rollup + 6 priority)'
+- 'Scenario E2E: n/a — нет user-visible UI (pure lib)'
+integration_check:
+- Quality enum ↔ BACK `collector.domain.models.Quality` / plan §15
+- Rollup worst-of ↔ plan §5.1.4 / BACK API §5.3 ranks
+- Damage class table ↔ plan §5.2.4 (разнос → масло → t°)
+- storage keys — n/a
+- env — n/a
+- DB cols — n/a
+- scenario E2E — n/a (lib-only)
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: pending
+  done_at: null
+resume_from: cp1

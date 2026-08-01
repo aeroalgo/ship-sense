@@ -5,7 +5,9 @@ ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/app:/app/collector
 WORKDIR /app
 
 RUN pip install --no-cache-dir \
-    alembic asyncpg "psycopg[binary]" pydantic PyYAML sqlalchemy
+    alembic asyncpg "psycopg[binary]" pydantic PyYAML sqlalchemy \
+    && addgroup --system shipsense \
+    && adduser --system --ingroup shipsense shipsense
 
 COPY apps/ ./apps/
 COPY apps/edge/collector/src/ ./collector/
@@ -15,4 +17,5 @@ COPY ship-pack/ ./ship-pack/
 
 EXPOSE 9009
 STOPSIGNAL SIGTERM
+USER shipsense
 ENTRYPOINT ["python", "-m", "apps.edge.storage"]

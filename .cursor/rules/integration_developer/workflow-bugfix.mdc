@@ -12,6 +12,7 @@ alwaysApply: false
 2. **Вход из QA:** §Fix plan → `INTEG|BACK|FRONT BUGFIX <subject>` по владельцу
 3. TDD failing test → root cause → fix; scenario если user-visible — **parent** runs FRONT tests
 4. `integration/bugfix/bugfix-*.md`; contract update if keys
-5. **FINISH:** finish-block (`code_changed: yes`) → `INTEG QA` — §BUGFIX FINISH
+5. **FINISH:** finish-block (`code_changed: yes`); finalize `result.yaml` → runner ledger  
+   Next-mode: только `loop/transitions.yaml` · @.cursor/rules/shared/workflow-loop-state.mdc · §BUGFIX FINISH
 
 **Верификация**: gates + scenario + FINISH + graphify

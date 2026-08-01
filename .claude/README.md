@@ -19,9 +19,9 @@ PM PLAN            →  /pm-plan
 IDEA PIPELINE      →  /idea-pipeline
 ```
 
-## Все slash-команды (72)
+## Все slash-команды (78)
 
-### BACK (12)
+### BACK (14)
 
 | Slash | Chat |
 |-------|------|
@@ -35,10 +35,12 @@ IDEA PIPELINE      →  /idea-pipeline
 | `/back-refactor` | BACK REFACTOR |
 | `/back-qa` | BACK QA |
 | `/back-security` | BACK SECURITY |
+| `/back-security-plan` | BACK SECURITY PLAN |
+| `/back-security-decompose` | BACK SECURITY DECOMPOSE |
 | `/back-reflect` | BACK REFLECT |
 | `/back-archive` | BACK ARCHIVE NOW |
 
-### FRONT (12)
+### FRONT (14)
 
 | Slash | Chat |
 |-------|------|
@@ -52,6 +54,8 @@ IDEA PIPELINE      →  /idea-pipeline
 | `/front-refactor` | FRONT REFACTOR |
 | `/front-qa` | FRONT QA |
 | `/front-security` | FRONT SECURITY |
+| `/front-security-plan` | FRONT SECURITY PLAN |
+| `/front-security-decompose` | FRONT SECURITY DECOMPOSE |
 | `/front-reflect` | FRONT REFLECT |
 | `/front-archive` | FRONT ARCHIVE NOW |
 
@@ -65,6 +69,10 @@ IDEA PIPELINE      →  /idea-pipeline
 | `/integ-plan` | INTEG PLAN (SUSPENSION GUARD — plan unlimited) |
 | `/integ-decompose` | INTEG DECOMPOSE (batch: все eNN за один проход) |
 | `/integ-security` | INTEG SECURITY |
+| `/integ-security-plan` | INTEG SECURITY PLAN |
+| `/integ-security-decompose` | INTEG SECURITY DECOMPOSE |
+| `/program-run` | → `./loop/loop.sh --track program` (legacy alias) |
+| `/loop-run` | **LOOP** — единый runner epic|journey (`./loop/loop.sh`) |
 
 Остальные INTEG-команды — через chat (`INTEG IMPLEMENT`, …); slash — по мере добавления в `.claude/commands/`.
 

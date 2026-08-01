@@ -18,13 +18,13 @@ alwaysApply: true
 
 ## Цепочка при распознанной команде
 
-0. **graphify (ориентация по графу)** — @.cursor/rules/graphify.mdc. Только для команд с кодом/ориентацией по codebase: `BACK/FRONT/INTEG IMPLEMENT`, `TASK`, `BUGFIX`, `REFACTOR`, `QA`; также `PM DISCOVER`, `TL SYNC DEV`; **brownfield `BACK/FRONT/INTEG VAN`** (карта `architecture/`). **Пропуск:** greenfield VAN, PLAN, DECOMPOSE, CREATIVE, REFLECT, ARCHIVE NOW, SECURITY, GAP (если только docs). CONTENT/MARKETING/SEO — пропускают.
+0. **graphify (ориентация по графу)** — @.cursor/rules/graphify.mdc. Только для команд с кодом/ориентацией по codebase: `BACK/FRONT/INTEG IMPLEMENT`, `TASK`, `BUGFIX`, `REFACTOR`, `QA`, **`SECURITY` execute (@aNN / S)**; также `PM DISCOVER`, `TL SYNC DEV`; **brownfield `BACK/FRONT/INTEG VAN`** (карта `architecture/`). **Пропуск:** greenfield VAN, PLAN, DECOMPOSE, CREATIVE, REFLECT, ARCHIVE NOW, **`SECURITY PLAN` / `SECURITY DECOMPOSE`**, GAP (если только docs). CONTENT/MARKETING/SEO — пропускают.
 1. **Индекс роли** — таблица «Префикс → индекс»
 2. **Core роли** — `mainrule-core` (BACK/FRONT) или `*-core.mdc` (остальные роли)
 3. **Workflow** — файл из индекса роли для этой команды (`workflow-*.mdc`)
 4. **Скиллы** — только пути из шага 3; читай `SKILL.md`. `references/FULL-GUIDE.md` — только если workflow явно требует полный гайд
 
-Распознавание: токен префикса + режим в **UPPERCASE** (`BACK`, `FRONT`, `PM`, `TL`, `CONTENT`, `MARKETING`, `SEO`). Многословные: `BACK ARCHIVE NOW`, `PM DISCOVER MARKET`, `SEO CONTENT OPS`.
+Распознавание: токен префикса + режим в **UPPERCASE** (`BACK`, `FRONT`, `PM`, `TL`, `CONTENT`, `MARKETING`, `SEO`). Многословные: `BACK ARCHIVE NOW`, `PM DISCOVER MARKET`, `SEO CONTENT OPS`, `BACK|FRONT|INTEG SECURITY PLAN`, `BACK|FRONT|INTEG SECURITY DECOMPOSE`, `BACK|FRONT|INTEG REFACTOR PLAN`, `BACK|FRONT|INTEG REFACTOR DECOMPOSE`.
 
 ## Префикс → индекс → core
 
@@ -43,11 +43,11 @@ alwaysApply: true
 
 ## Команды (распознавание)
 
-**BACK:** `VAN` `PLAN` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `REFLECT` `ARCHIVE NOW`
+**BACK:** `VAN` `PLAN` `DECOMPOSE` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `SECURITY PLAN` `SECURITY DECOMPOSE` `REFLECT` `ARCHIVE NOW`
 
-**FRONT:** `VAN` `PLAN` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `REFLECT` `ARCHIVE NOW`
+**FRONT:** `VAN` `PLAN` `DECOMPOSE` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `SECURITY PLAN` `SECURITY DECOMPOSE` `REFLECT` `ARCHIVE NOW`
 
-**INTEG:** `VAN` `GAP` `GAP CLOSE` `PLAN` `DECOMPOSE` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `REFLECT` `ARCHIVE NOW`
+**INTEG:** `VAN` `GAP` `GAP CLOSE` `PLAN` `DECOMPOSE` `CREATIVE` `IMPLEMENT` `TASK` `BUGFIX` `REFACTOR` `QA` `SECURITY` `SECURITY PLAN` `SECURITY DECOMPOSE` `REFLECT` `ARCHIVE NOW`
 
 **PM:** `INIT` `DISCOVER` `DISCOVER MARKET` `PLAN` `ROADMAP` `BACKLOG` `SPRINT PLAN` `JIRA` `STATUS` `SESSION` `RETRO` `ARCHIVE`
 
@@ -80,7 +80,8 @@ alwaysApply: true
 | Закрыть Gaps implement после BACK/FRONT | `INTEG GAP CLOSE` `@implement` |
 | Сквозная интеграция (API + filters + UI) | `INTEG PLAN` → `DECOMPOSE` → `IMPLEMENT` (+ GAP/CLOSE по долгу) |
 | Каталог / таблица / dashboard filters | `INTEG PLAN` → `DECOMPOSE` → `IMPLEMENT` |
-| Security audit | `BACK SECURITY` · `FRONT SECURITY` · `INTEG SECURITY` |
+| Security audit (эпик) | `* SECURITY PLAN` → `* SECURITY DECOMPOSE` → `* SECURITY` @aNN |
+| Security audit (S one-shot) | `BACK SECURITY` · `FRONT SECURITY` · `INTEG SECURITY` |
 | SEO-гайды | `CONTENT PLAN` |
 | ТехSEO | `SEO TECH` |
 | Paid ads | `MARKETING ADS` |

@@ -1,0 +1,84 @@
+schema: integ-implement/v1
+step_id: e03
+plan_id: v1-portal
+title: e03 — Session create / logout IMPLEMENT
+status: completed
+element_ref: e03 — [e03-session-create-logout.yaml](../../plan/decompose-v1-portal/e03-session-create-logout.yaml)
+implement_index: memory-bank/integration/implement/implement-v1-portal/index.md
+date: '2026-08-01'
+skills_used: []
+discovery: []
+gaps:
+  status: none
+done:
+- 'Подтверждён vertical slice создания и завершения сессии: клик tile вызывает `useSession().login`,
+  live `POST /api/session` устанавливает `shipsense_session` и возвращает `default_screen`
+  для навигации.'
+- 'Подтверждён logout flow из `SessionChip`: `useSession().logout` вызывает live `DELETE
+  /api/session`, очищает локальное состояние, backend удаляет cookie и UI возвращается
+  на `/login`.'
+- Глобальный unauthorized callback переводит истёкшую/невалидную сессию на `/login`
+  с сообщением о таймауте.
+- 'Production path использует общий API client с `credentials: "include"`; MSW handlers
+  остаются только в test path.'
+files:
+- '`apps/api/app/api/v1/endpoints/session.py` — live `POST /api/session` и `DELETE
+  /api/session`, Set-Cookie/delete-cookie, session events и audit.'
+- '`apps/api/app/session/service.py` — создание, текущая сессия, idle/expiry и завершение.'
+- '`apps/api/tests/api/test_session.py` — lifecycle cookie/events и invalid-person
+  contract.'
+- '`frontend/src/lib/api/session.ts` — `createSession` и `deleteSession` client boundary.'
+- '`frontend/src/features/session/useSession.tsx` — login/logout, session storage
+  и unauthorized redirect.'
+- '`frontend/src/features/session/LoginPage.tsx` — tile selection и navigation after
+  login.'
+- '`frontend/src/components/ds/SessionChip.tsx` — logout action.'
+- '`frontend/src/features/session/session.test.tsx` — login/logout/unauthorized session
+  scenarios.'
+- '`frontend/src/test/msw/handlers.ts` — test-only POST/DELETE session handlers.'
+tests:
+- 'cmd: `cd frontend && npm test -- --run src/features/session/session.test.tsx`'
+- 'итог: **1 file passed, 6 tests passed**.'
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_session.py -q --tb=line`'
+- 'итог: **3 passed, 2 warnings**.'
+integration_check:
+- '[x] `POST /api/session` ↔ `createSession` ↔ `useSession().login` ↔ `LoginPage`
+  tile click.'
+- '[x] `DELETE /api/session` ↔ `deleteSession` ↔ `useSession().logout` ↔ `SessionChip`.'
+- '[x] `shipsense_session` cookie is set HttpOnly/SameSite=Lax/Path=/ and deleted
+  on logout.'
+- '[x] `credentials: "include"` is used by the shared frontend API client.'
+- '[x] unauthorized handling redirects to `/login`; MSW is restricted to `frontend/src/test/msw`.'
+- '[x] scenario coverage includes cookie lifecycle, logout response, navigation and
+  unauthorized timeout redirect.'
+- '[x] Gaps: нет.'
+grep_control:
+- back: apps/api/app/api/v1/endpoints/session.py`; `apps/api/app/session/service.py`;
+    `apps/api/tests/api/test_session.py
+  front: frontend/src/lib/api/session.ts`; `frontend/src/features/session/useSession.tsx`;
+    `frontend/src/features/session/LoginPage.tsx`; `frontend/src/components/ds/SessionChip.tsx`;
+    `frontend/src/features/session/session.test.tsx
+verification_results:
+- '`POST /api/session` создаёт live session, устанавливает `shipsense_session` и возвращает
+  `default_screen`.'
+- '`DELETE /api/session` завершает session, удаляет cookie и очищает локальное состояние
+  через `useSession().logout`.'
+- Unauthorized callback переводит пользователя на `/login` с сообщением о таймауте.
+- Targeted frontend и backend проверки из раздела `## Тесты` завершены успешно.
+checkpoints:
+- id: cp1
+  criterion: Login sets `shipsense_session` cookie
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+- id: cp2
+  criterion: Logout clears cookie and redirects
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+- id: cp3
+  criterion: Unauthorized → redirect to `/login`
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+resume_from: null

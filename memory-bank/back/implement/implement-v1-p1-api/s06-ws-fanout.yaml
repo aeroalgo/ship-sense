@@ -1,0 +1,26 @@
+schema: epic-implement/v1
+role: back
+step_id: s06
+plan_id: v1-p1-api
+title: T-003 | s06 | ws-fanout IMPLEMENT
+status: completed
+decompose_ref: ../../plan/decompose-v1-p1-api/s06-ws-fanout.yaml
+implement_index: memory-bank/back/implement/implement-v1-p1-api/index.md
+date: '2026-07-30'
+level: L2
+task_id: T-003
+done: []
+files: []
+tests: []
+integration_check:
+- '`API_WS_BUFFER_SIZE` и `API_WS_MAX_TAGS` подключены из `app.core.settings`.'
+- PostgreSQL `NOTIFY shipsense_live` listener ещё не подключён; оставлен отдельным
+  следующим scope/интеграционным шагом.
+- WebSocket endpoint и protocol keys имеют counterpart в `test_ws_stream.py`.
+- Collector shared queue не импортируется.
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

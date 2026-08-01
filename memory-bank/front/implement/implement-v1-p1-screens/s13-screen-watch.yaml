@@ -1,0 +1,45 @@
+schema: epic-implement/v1
+role: front
+step_id: s13
+plan_id: v1-p1-screens
+title: '[T-004 | s13 | screen-watch] IMPLEMENT'
+status: in_progress
+decompose_ref: ../../plan/decompose-v1-p1-screens/s13-screen-watch.yaml
+implement_index: memory-bank/front/implement/implement-v1-p1-screens/index.md
+date: '2026-07-26'
+level: L4
+task_id: null
+done:
+- 'WatchPage UI-A: handoff banner 60s, WatchVerdict, protections (collapsible=false),
+  alarms DebounceGroupRow, drifts stub, DataQualityPanel, print'
+- 'debounce.ts: re-export CR-UI-04 + splitWatchEvents / period / verdict conflict'
+- 'useWatchReport: GET /api/reports/watch + events (highlights else /api/events)'
+- Route `(authenticated)/watch` → Suspense + WatchPage
+- 'CTAs: `/journal?severity=alarm&active=1`, `/overview'
+files:
+- frontend/src/features/watch/WatchPage.tsx
+- frontend/src/features/watch/WatchPage.test.tsx
+- frontend/src/features/watch/useWatchReport.ts
+- frontend/src/features/watch/DebounceGroupRow.tsx
+- frontend/src/features/watch/DataQualityPanel.tsx
+- frontend/src/features/watch/debounce.ts
+- frontend/src/features/watch/debounce.test.ts
+- frontend/src/app/(authenticated)/watch/page.tsx
+- frontend/e2e/specs/watch/watch-compression.spec.ts
+tests:
+- 'cmd: `cd frontend && npm test -- src/features/watch/debounce.test.ts src/features/watch/WatchPage.test.tsx'
+- 'итог: 8 passed (debounce 5 + page 3)'
+- 'Scenario E2E: `npx playwright test e2e/specs/watch/watch-compression.spec.ts` —
+  1 passed'
+integration_check:
+- GET /api/reports/watch ↔ fetchWatchReport ↔ queryKeys.watchReport
+- GET /api/events ↔ fetchEvents (fallback when highlights[])
+- watch-compression-spec constants ↔ features/watch/debounce
+- DS WatchVerdict / WatchSection / PrintLayout / Lamp
+- Full PW-05 / PW-10 polish → s16; handoff UX polish → s14
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: pending
+  done_at: null
+resume_from: cp1

@@ -1,0 +1,55 @@
+schema: integ-decompose/v1
+step_id: e06
+plan_id: v1-portal
+title: Freshness + quarantine chrome
+element_id: e06
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `(auth)/*` (inside `AppShell`)'
+  components: '** `FreshnessController`, DS `FreshnessBanner`, `QuarantineBanner`;
+    quality global (FRONT s15)'
+  user_sees: '** banners for stale/quarantine sources; never masked as "OK"'
+data_need:
+- '`GET /api/sources/status`: connected, last_poll_ts, tags_quarantine/stale/active,
+  quality_summary'
+- WS can force stale / last ts
+api_today:
+- status: ✅
+  detail: '`GET /api/sources/status` (`health.py`)'
+- status: ✅
+  detail: WS stream side-effects via `useWsChannel`
+- status: ⚠️
+  detail: MSW sources fixture
+- status: —
+  detail: 'FRONT: `lib/api/sources.ts` `fetchSourcesStatus`'
+contract:
+  method_path: '** `GET /api/sources/status`'
+  query_keys: '** none'
+  response_shape: '** `{ items: [{ source_id, name, connected, last_poll_ts, error_count_24h,
+    quality_summary, tags_active, tags_quarantine, tags_stale }] }`'
+  front_client: '** `lib/api/sources.ts` → `fetchSourcesStatus`'
+db: '- health aggregator (sources + tags)'
+back:
+- already live (T-003 s09)
+- 'Инвариант продукта: quarantine/stale **не** маскировать «нормой» в UI'
+front:
+- '`FreshnessController` already wired (FRONT s07/s15)'
+- Overview/Journal also duplicate sources query — dedup via `queryKeys.sourcesStatus`
+grep_control:
+- back: GET /api/sources/status
+  front: fetchSourcesStatus
+verify:
+- '`grep -r "/api/sources/status" frontend/src api/`'
+- vitest FreshnessController
+- 'Playwright: banner visible when fixture quarantine > 0'
+tdd:
+- '1. Red: vitest FreshnessController with quarantine fixture'
+- '2. Green: live fetch, remove MSW'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Banner shows when sources stale/quarantine
+- id: cp2
+  criterion: Banner text from BACK (not invented "OK")
+- id: cp3
+  criterion: Live WS can update freshness

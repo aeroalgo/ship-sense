@@ -1,0 +1,41 @@
+schema: integ-decompose/v1
+step_id: e29
+plan_id: v1-portal
+title: Dev appearance (non-prod)
+element_id: e29
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/dev/appearance` → `AppearanceControls'
+  components: '** `AppearanceControls`'
+  user_sees: '** theme/design controls (tokens, variants)'
+data_need:
+- none (static, non-prod)
+api_today:
+- status: —
+  detail: static, no API
+contract:
+  method_path: '** N/A'
+  response_shape: '** N/A'
+db: '- none'
+back:
+- n/a
+front:
+- '`/dev/appearance` route + `AppearanceControls` already wired (FRONT s02)'
+- Exclude from production nav; no API mock required
+grep_control:
+- back: N/A
+  front: /dev/appearance` static
+verify:
+- '`grep -r "/dev/appearance\|AppearanceControls" frontend/src`'
+- page renders theme controls
+tdd:
+- '1. Red: n/a (static)'
+- '2. Green: page renders controls'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: '`/dev/appearance` renders in dev only'
+- id: cp2
+  criterion: Theme/design controls visible
+- id: cp3
+  criterion: Not in production nav

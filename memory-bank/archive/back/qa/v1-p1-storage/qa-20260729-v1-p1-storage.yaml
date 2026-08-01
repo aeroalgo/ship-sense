@@ -1,0 +1,68 @@
+schema: epic-qa/v1
+role: back
+date: '2026-07-29'
+reviewer: BACK QA
+verdict: blocked
+scope:
+- 'task: T-002'
+- 'step: s01–s18 storage + semantic, с фокусом на s17/s18 integration wiring и storage
+  tests'
+- 'files: `apps/edge/storage/`, `apps/edge/semantic/`, `migrations/versions/`, `docker-compose.yml`,
+  `tests/storage/`, `pyproject.toml'
+checks:
+- 'storage suite green: `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/
+  -q` — 63 passed'
+- 'storage + collector unit tests green: `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest
+  apps/edge/collector/tests/unit tests/storage -q` — 63 passed'
+- 'Python syntax: `python3 -m compileall -q apps tests` — pass'
+- 'compose syntax: `docker compose config -q` — pass'
+- 'storage integration refs inspected (§0.11): compose, writer exports, database dependency
+  and test wiring are internally consistent'
+- storage edge cases covered by existing contract, correlation, quota, quarantine
+  and load tests
+- full repository suite green
+- live compose storage stack verified
+- lint command available and green
+issues:
+- id: QA-1
+  sev: blocker
+  file: '`apps/edge/collector/tests/conftest.py:26`'
+  msg: 'Полный suite не стартует: `ModuleNotFoundError: No module named ''collector''`
+    при collection без `PYTHONPATH=.:apps/edge/collector/src`. Конфигурация `pyproject.toml`
+    не содержит `pythonpath`, а QA-команда из канона запускается без package path.'
+- id: QA-2
+  sev: blocker
+  file: '`apps/edge/emulator/tests/*`'
+  msg: 'Emulator tests не стартуют с текущим package layout: `ModuleNotFoundError:
+    No module named ''emulator''`. Попытки с `PYTHONPATH=.:apps/edge/emulator/src`
+    и `PYTHONPATH=.:apps/edge/emulator` не устранили import error; требуется отдельный
+    runtime/package-path fix.'
+- id: QA-3
+  sev: high
+  file: '`docker-compose.yml` / рабочий compose state'
+  msg: '`docker compose ps` показывает запущенный `shipsense-writer` на старом образе
+    `shipsense/writer-stub:dev`, тогда как s17 ожидает `shipsense/writer:dev`, и `shipsense-collector`
+    находится в `Restarting (1)`. Live compose acceptance не подтверждён.'
+- id: QA-4
+  sev: medium
+  file: '`.venv`'
+  msg: '`.venv/bin/ruff` отсутствует, поэтому lint gate не выполнен этим инструментом.'
+- id: QA-5
+  sev: low
+  file: '`.cursor/rules/back_developer/isolation_rules/_lean/creative.mdc`, `.kilo/instructions/spawn-hard.md`'
+  msg: '`git diff --check` сообщает trailing whitespace в изменениях workflow-инструкций;
+    не относится к storage runtime, но рабочее дерево не проходит whitespace check.'
+blockers:
+- Нельзя объявить BACK QA PASS до исправления package-path/collection blockers QA-1
+  и QA-2 либо явного CI runner contract, который стабильно запускает весь suite.
+- Нельзя считать s17 live acceptance подтверждённым до пересоздания compose writer
+  из текущего storage image и устранения restart loop collector.
+fix_plan: []
+limitations: []
+suite:
+- 'storage suite green: `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/
+  -q` — 63 passed'
+- 'storage + collector unit tests green: `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest
+  apps/edge/collector/tests/unit tests/storage -q` — 63 passed'
+plan_id: v1-p1-storage
+epic_id: v1-p1-storage

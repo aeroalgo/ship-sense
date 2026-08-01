@@ -1,0 +1,48 @@
+schema: integ-decompose/v1
+step_id: e09
+plan_id: v1-portal
+title: Overview MoSection lamps
+element_id: e09
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/overview'
+  components: '** `features/overview/MoSection.tsx` + DS `Lamp`'
+  user_sees: '** per-node lamps (status/quality) derived from tree'
+data_need:
+- per-node AggregateStatus / Quality from tree (+ live)
+api_today:
+- status: —
+  detail: data from e08 tree; no separate endpoint
+contract:
+  notes: 'Только якоря wire. **Запрещено:** полные TypeScript/Pydantic блоки, готовые
+    тела handlers, copy-paste response schemas.
+
+
+    - **Derived from:** `AssetsTreeResponse` + WS value frames
+
+    - **Quality enum:** `frontend/src/lib/quality/types.ts` ↔ BACK quality codes (shared)
+
+
+    Детали типов и реализацию пишет INTEG IMPLEMENT по паттерну и plan.'
+db: '- none (derived from tree)'
+back:
+- Align quality vocabulary (good/stale/quarantine/… as implemented)
+front:
+- '`MoSection` + `Lamp` already wired (FRONT s09)'
+- No extra REST
+grep_control:
+- back: quality codes in tree response
+  front: quality/types.ts` enum
+verify:
+- '`grep -r "quality\|Lamp\|MoSection" frontend/src/features/overview`'
+- vitest Lamp / OverviewPage status rendering
+- §0.11 quality types cross-check (grep enum both sides)
+tdd:
+- '1. Red: n/a (derived, not separate API)'
+- '2. Green: render from tree + WS patch'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Lamps match tree node status/quality
+- id: cp2
+  criterion: Live WS patch updates lamp colors

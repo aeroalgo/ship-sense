@@ -1,0 +1,39 @@
+schema_id: engine_diesel_main
+screen: 2
+revision: 3
+svg:
+  file: mnemo/engine_diesel_main.svg
+  viewBox: "0 0 1024 768"
+elements:
+  - element_id: cyl_01_temp
+    svg_selector: "#cyl-01-value"
+    tag_id: TAI4101
+    bind_type: value
+    display:
+      format: "{:.0f}"
+      unit: "°C"
+    alarms:
+      highlight_setpoint: true
+  - element_id: cyl_02_temp
+    svg_selector: "#cyl-02-value"
+    tag_id: TAI4102
+    bind_type: value
+    display:
+      format: "{:.0f}"
+      unit: "°C"
+  - element_id: exhaust_deviation
+    svg_selector: "#exhaust-deviation"
+    bind_type: computed
+    compute: exhaust_temp_deviation
+  - element_id: engine_state
+    svg_selector: "#engine-state"
+    tag_id: TAI4201
+    bind_type: enum
+    enum_map:
+      "0": stopped
+      "1": running
+    unknown_quality: show_unknown_glyph
+computed_bindings:
+  exhaust_temp_deviation:
+    type: sibling_mean_delta
+    tags: [TAI4101, TAI4102]

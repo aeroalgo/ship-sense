@@ -1,0 +1,60 @@
+schema: epic-implement/v1
+role: back
+step_id: s14
+plan_id: v1-p2-ship
+title: '[T-005 | s14 | i7-hardening-audit] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s14-i7-hardening-audit.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L4
+task_id: null
+done:
+- 'Сохранён и покрыт targeted-тестами append-only `access_audit`: migration, `AccessAudit`,
+  `AccessAuditWriter`, login/logout hooks.'
+- 'Добавлены F7.1–F7.3 и F7.5–F7.6: STRIDE threat model, CIS hardening checklist,
+  OTA key lifecycle, OT/IT network diagram и ship access org package template.'
+- Runtime Dockerfiles API и edge переведены на системного пользователя `shipsense`;
+  collector получил ownership для health volume.
+- 'Добавлен security exclusion smoke: в v1 compose нет shore forwarding markers, edge
+  не содержит ML/prediction markers, API errors не содержат AI wording, все runtime
+  Dockerfiles используют non-root user, security deliverables существуют.'
+- Deployment-only SSH/UFW controls явно оставлены как operational evidence, а не представлены
+  как выполненные в image.
+files:
+- apps/api/Dockerfile
+- apps/edge/collector/Dockerfile
+- apps/edge/emulator/Dockerfile
+- apps/edge/gateway/Dockerfile
+- apps/edge/storage/Dockerfile
+- apps/edge/writer-stub/Dockerfile
+- apps/api/tests/audit/test_security_exclusions.py
+- apps/api/tests/audit/test_access_audit.py
+- docs/security/threat-model-edge-v1.md
+- docs/security/hardening-checklist.md
+- docs/security/network-ot-it.md
+- docs/security/ota-key-lifecycle.md
+- docs/security/ship-access-org-package.md
+- apps/api/app/audit/models.py
+- apps/api/app/audit/writer.py
+- apps/api/app/api/v1/endpoints/session.py
+- migrations/versions/009_access_audit.py
+- loop/runtime/epic/result.yaml
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/audit/test_security_exclusions.py apps/api/tests/audit/test_access_audit.py
+  -q --tb=line'
+- 'итог: `7 passed'
+integration_check:
+- 'storage keys wired: `access_audit` migration ↔ writer ↔ session hooks'
+- 'env vars in settings: runtime database configuration remains environment-driven'
+- 'DB cols ↔ migration: writer fields match `access_audit` columns'
+- 'events ↔ handlers: login/logout audit follows session lifecycle'
+- explicit exclusions ↔ smoke test and compose/source scan
+- admin read route `GET /api/admin/access/audit` — planned for s16, recorded as counterpart
+  gap
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

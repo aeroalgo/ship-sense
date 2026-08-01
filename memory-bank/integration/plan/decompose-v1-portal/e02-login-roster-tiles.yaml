@@ -1,0 +1,51 @@
+schema: integ-decompose/v1
+step_id: e02
+plan_id: v1-portal
+title: Login roster tiles
+element_id: e02
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/login` → `frontend/src/app/login/page.tsx` → `features/session/LoginPage.tsx'
+  components: '** DS `components/ds/LoginTile.tsx`'
+  user_sees: '** плитки вахтенных (name, rank); клик → login → navigate to default_screen'
+data_need:
+- 'список вахтенных: `person_id`, `name`, `rank`, `tile_order`, `active`, `default_screen`'
+- только `active=true`, сортировка по `tile_order`
+api_today:
+- status: ✅
+  detail: '`GET /api/watch/roster` (BACK live, T-003 s07)'
+- status: ⚠️
+  detail: MSW `*/api/watch/roster` → `rosterFixture`
+- status: —
+  detail: 'FRONT client: `lib/api/session.ts` → `fetchRoster`'
+contract:
+  method_path: '** `GET /api/watch/roster`'
+  query_keys: '** none (public for login)'
+  response_shape: '** `{ items: [{ person_id, name, rank, tile_order, active, default_screen
+    }] }`'
+  front_client: '** `lib/api/session.ts` → `fetchRoster`'
+db: '- ship-pack roster / `SessionService.roster()`'
+back:
+- already live (T-003 s07)
+- роль/permissions snapshot — T-005 B11 creative (future)
+front:
+- убрать зависимость от MSW в non-mock env
+- проверить empty roster / inactive tiles
+- 'wire: `NEXT_PUBLIC_API_URL` + `credentials: include`'
+grep_control:
+- back: apps/api/.../session.py` `getWatchRoster
+  front: lib/api/session.ts` `fetchRoster
+verify:
+- '`grep -r "/watch/roster" frontend/src api/`'
+- 'vitest: `session.test.tsx` roster path'
+- 'pytest: session/roster tests under `apps/api/tests`'
+- 'Playwright: tiles visible on `/login`'
+tdd:
+- '1. Red: vitest fetchRoster with mock → assert tiles'
+- '2. Green: switch to live API, remove MSW'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: '`/login` shows live roster tiles (not fixture)'
+- id: cp2
+  criterion: Click tile logs in and navigates

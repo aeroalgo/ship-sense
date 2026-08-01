@@ -1,0 +1,7 @@
+version: v1
+vessel: makarov
+formulas:
+  motohours: v1/motohours.yaml
+  fuel: v1/fuel.yaml
+  rounding: v1/rounding.yaml
+  debounce: v1/debounce.yaml

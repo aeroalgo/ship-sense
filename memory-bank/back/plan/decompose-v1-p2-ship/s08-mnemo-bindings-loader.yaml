@@ -1,0 +1,27 @@
+schema: epic-decompose/v1
+role: back
+step_id: s08
+plan_id: v1-p2-ship
+title: Mnemo bindings YAML loader + validation
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-05) — **closed**
+goal: 'Loader ship-pack mnemo_bindings/*.yaml: schema validation, revision, computed
+  binding specs (sibling_mean_delta), quarantine→unknown.'
+context:
+  consumes:
+  - '**Consumes:** B8 assets; CR-P2-05 computed spec; plan §11.2.'
+  - '**Produces:** MnemoBindingLoader; validated in-memory registry; errors on bad
+    YAML.'
+  files:
+  - ship-pack/makarov/mnemo_bindings/engine_diesel_main.yaml` (Создание MVP)
+  - apps/api/app/mnemo/loader.py` (Создание)
+  - apps/api/app/mnemo/models.py` (Создание)
+  - apps/api/app/mnemo/computed.py` (Создание)
+  - apps/api/tests/mnemo/test_loader.py` (Создание)
+  - apps/api/tests/mnemo/test_computed_sibling_mean.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Loader ship-pack mnemo_bindings/*.yaml: schema validation, revision,
+    computed binding specs (sibling_mean_delta), quarantine→unknown.'
+verify: []
+tdd: []

@@ -1,0 +1,50 @@
+schema: epic-implement/v1
+role: front
+step_id: s06
+plan_id: v1-p1-screens
+title: '[T-004 | s06 | ds-components] IMPLEMENT'
+status: in_progress
+decompose_ref: ../../plan/decompose-v1-p1-screens/s06-ds-components.yaml
+implement_index: memory-bank/front/implement/implement-v1-p1-screens/index.md
+date: '2026-07-26'
+level: L4
+task_id: null
+done:
+- DS0-4 библиотека `components/ds/*` (кроме TrendChartContainer → s11)
+- 'Lamp`: SVG mask + tokens, `data-state` severity×quality, quarantine overlay ≠ good,
+  pulse/reduced-motion'
+- 'StateShell`: 5 variants loading/empty/error/partial/stale'
+- StatusBar, AggregateShipStatus, OverviewGroupCard, EventRow/Filters, TagPicker,
+  Watch*, LoginTile, banners, PrintLayout, SessionChip + barrel `index.ts
+- 'Storybook 8 (react-vite): `npm run storybook` / `build-storybook` → `storybook-static`
+  (G-DS0-4-04)'
+- 'Stories: Lamp matrix + StateShell 5 variants + StatusBar states + Catalog states
+  per G-DS0-4-02'
+- Vitest cleanup в `test/setup.ts
+files:
+- frontend/src/components/ds/Lamp.tsx` + `Lamp.module.css` + `Lamp.test.tsx` + `Lamp.stories.tsx
+- frontend/src/components/ds/StateShell.tsx` + `StateShell.test.tsx` + `StateShell.stories.tsx
+- frontend/src/components/ds/{StatusBar,AggregateShipStatus,OverviewGroupCard,EventRow,EventFilters,TagPicker,WatchVerdict,WatchSection,LoginTile,FreshnessBanner,QuarantineBanner,PrintLayout,SessionChip}.tsx
+- frontend/src/components/ds/StatusBar.stories.tsx` + `Catalog.stories.tsx` + `index.ts
+- frontend/.storybook/{main.ts,preview.tsx}
+- frontend/package.json` (storybook scripts + deps)
+- frontend/src/test/setup.ts` (RTL cleanup)
+tests:
+- 'cmd: `cd frontend && npm test -- src/components/ds/'
+- 'итог: 7 passed (Lamp 5 + StateShell 2)'
+- 'Storybook: `CI=1 npm run build-storybook` → exit 0, output `frontend/storybook-static'
+- 'Scenario E2E: n/a — component library gate; screen flows → s07+'
+integration_check:
+- Lamp SVG paths ↔ `public/ds/lamps/*` + `lamp-grammar-spec.ts`
+- data-testid prefixes ↔ plan §3.4
+- tokens ↔ `SEVERITY_COLOR_TOKEN` / `QUALITY_COLOR_TOKEN` (no hardcoded hex)
+- Storybook staticDirs ↔ `public/`
+- storage keys — n/a
+- env — n/a
+- scenario E2E — n/a (DS catalog; PW screens at s07+)
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: pending
+  done_at: null
+resume_from: cp1

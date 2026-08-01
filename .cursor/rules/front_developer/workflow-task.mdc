@@ -5,9 +5,9 @@ alwaysApply: false
 ### Команда: FRONT TASK
 **Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/task.mdc
-**Скиллы:** @.agents/skills/tdd/SKILL.md, @.agents/skills/frontend-testing/SKILL.md, @.agents/skills/playwright-best-practices/SKILL.md, @.agents/skills/vercel-react-best-practices/SKILL.md, @.agents/skills/vercel-composition-patterns/SKILL.md, @.agents/skills/next-best-practices/SKILL.md, @.agents/skills/verification-before-completion/SKILL.md, @.agents/skills/requesting-code-review/SKILL.md
+**Скиллы:** мини skills gate — Impl Core + situational из `skills-gate-situational.mdc` (не весь каталог); Design Core если visible UI; pre-FINISH: verification + code-review — `@.agents/skills/<name>/SKILL.md`
 
-**Visible UI → DESIGN STACK HARD** (те же 6, что `workflow-implement.mdc`): Read до UI-кода + list в task shard. Pure lib — skip.
+**Visible UI → DESIGN CORE HARD** (пакет 6 из `skills-gate-situational.mdc`): Read до UI-кода + list в task shard. Pure lib — skip.
 
 **Процесс**:
 1. `OK FRONT TASK - [суть]` — задача в том же сообщении

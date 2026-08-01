@@ -1,0 +1,46 @@
+schema: epic-implement/v1
+role: back
+step_id: s08
+plan_id: v1-p2-ship
+title: '[T-005 | s08 | mnemo-bindings-loader] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s08-mnemo-bindings-loader.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: null
+done:
+- Добавлены frozen Pydantic-контракты `MnemoSchema`, SVG/display/alarm metadata и
+  discriminated value/enum/computed elements с `extra="forbid"`.
+- 'Реализован fail-closed `MnemoBindingLoader`: сортированный all-or-nothing snapshot,
+  проверка `schema_id` ↔ filename, положительной revision, canonical tag references,
+  computed spec references и duplicate constraints.'
+- 'Добавлена pure `sibling_mean_delta`: finite numeric inputs, исключение missing/quarantine/non-numeric
+  значений и `unknown/null` без zero fallback.'
+- Создан MVP YAML `engine_diesel_main` с value, enum и computed binding shapes на
+  approved tags.
+files:
+- apps/api/app/mnemo/__init__.py
+- apps/api/app/mnemo/models.py
+- apps/api/app/mnemo/loader.py
+- apps/api/app/mnemo/computed.py
+- apps/api/tests/mnemo/test_loader.py
+- apps/api/tests/mnemo/test_computed_sibling_mean.py
+- ship-pack/makarov/mnemo_bindings/engine_diesel_main.yaml
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/mnemo -q --tb=line'
+- 'итог: 7 passed'
+- 'verify: `PASS` — targeted suite подтверждает загрузку MVP, fail-closed validation,
+  filename/schema agreement, unknown tags, computed delta и quarantine/missing → unknown/null.'
+integration_check:
+- storage keys wired — loader читает canonical `tag_map.yaml` и `mnemo_bindings/*.yaml`
+  из ship-pack.
+- env vars in settings — новые ENV не добавлялись.
+- DB cols ↔ migration — persistence/DB изменения отсутствуют.
+- events ↔ handlers — transport/API/stream изменения оставлены для s09.
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

@@ -54,20 +54,59 @@ def main() -> None:
                 + (
                     "Suite results / AC+ / AC− / §0.11 / ALLOW READ"
                     if norm == "reviewer"
-                    else "AC+ / AC− / §0.11 / VERIFY / ALLOW READ"
+                    else "AC+ / AC− / §0.11 / VERIFY / RESULT / ALLOW READ"
                 )
             )
         for v in allow_read_violations(prompt):
             deny_reasons.append(v)
 
+    if norm == "verify":
+        if st.get("verify_done") and str(st.get("verify_verdict") or "").upper() == "PASS":
+            deny_reasons.append(
+                "verify_already_pass: VERDICT: PASS уже есть — не повторять @verify; "
+                "пиши FINISH (Handoff/step) и stop. "
+                "Retry @verify разрешён только после FAIL или spawn DENY."
+            )
+        elif cwd:
+            try:
+                from session_result import (
+                    is_finalized_result,
+                    load_and_normalize_result,
+                    result_path,
+                )
+
+                res, _norm_changes = load_and_normalize_result(
+                    cwd, track="epic", persist=True
+                )
+                if res is None:
+                    deny_reasons.append(
+                        f"result_missing: нет {result_path(cwd, 'epic')} — "
+                        "сначала Write implement step → finalize result.yaml "
+                        "(status≠pending, draft=false), потом @verify"
+                    )
+                elif not is_finalized_result(res):
+                    deny_reasons.append(
+                        "result_not_final: result.yaml ещё stub "
+                        f"(status={res.get('status')!r} draft={res.get('draft')!r}) — "
+                        "Write implement step (если нет) → finalize до spawn verify; "
+                        "verify только читает"
+                    )
+            except Exception as exc:
+                deny_reasons.append(f"result_check_error: {exc}")
+
     if deny_reasons:
+        reason = f"spawn-gate [{norm}]: " + " | ".join(deny_reasons)
         emit(
             {
                 "hookSpecificOutput": {
                     "hookEventName": "PreToolUse",
                     "permissionDecision": "deny",
-                    "permissionDecisionReason": (
-                        f"spawn-gate [{norm}]: " + " | ".join(deny_reasons)
+                    "permissionDecisionReason": reason,
+                    "additionalContext": (
+                        f"spawn-gate DENY [{norm}]: subagent НЕ запущен. "
+                        f"{reason} "
+                        "Исправь prompt/blockers → retry @"
+                        f"{norm} (не FINISH)."
                     ),
                 }
             }

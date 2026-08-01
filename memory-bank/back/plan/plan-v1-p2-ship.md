@@ -1125,34 +1125,14 @@ FRONT: readability 2–3m, Playwright — parent only per project rules.
 
 ---
 
-## 15. Draft decompose (→ BACK DECOMPOSE index)
+## 15. Decompose (единственный трекер шагов)
 
-После утверждения плана — `memory-bank/back/plan/decompose-plan-v1-p2-ship/index.md` + shards:
+**Канон очереди s01–s20:** [`decompose-v1-p2-ship/index.md`](decompose-v1-p2-ship/index.md)  
+**Implement hub:** [`implement-v1-p2-ship/index.md`](../implement/implement-v1-p2-ship/index.md)
 
-| Step | Slug | Содержание | Est |
-|------|------|------------|-----|
-| s01 | i1-gateway | Modbus/OPC read-only barrier, logs, compose | 5d |
-| s02 | b12-engine-core | ReportEngine, report_runs, period rules | 8d |
-| s03 | b12-formulas-v1 | ship-pack formulas + motohours/fuel | 5d |
-| s04 | b12-templates | Jinja templates watch/daily/fuel | 5d |
-| s05 | b12-t9-fixtures | Golden tests + edge cases | 4d |
-| s06 | b13-drift-engine | EWMA worker + hysteresis | 6d |
-| s07 | b13-warnings-api | REST + WS warnings | 3d |
-| s08 | mnemo-bindings-loader | YAML loader + validation | 4d |
-| s09 | api-mnemo-endpoints | schemas/values/ws mnemo | 4d |
-| s10 | api-reports-full | generate/list/versions/html | 5d |
-| s11 | api-vessel-setpoints | vessel state, setpoints changelog | 3d |
-| s12 | i5-ota-rauc | A/B, sign, health, gate | 8d |
-| s13 | i6-raid-backup | ZFS, backup cron, alerts | 5d |
-| s14 | i7-hardening-audit | TM, CIS, access_audit | 5d |
-| s15 | i1-proof-artifact | PDF doc for RMRS | 2d |
-| s16 | admin-api-storage-ota | read-only admin routes | 3d |
-| s17 | t1-soak-harness | long-run monitoring | 3d |
-| s18 | t5-t6-lab-tests | OTA + disk automation | 4d |
-| s19 | i4-runbook | deploy runbook + training mats | 3d |
-| s20 | integration-hard | E2E API+engines on emulator | 5d |
+Статусы / чеклисты sNN — **только** в decompose index (+ implement step после IMPLEMENT). Здесь не дублировать.
 
-**Total rough:** ~87 dev-days → fits 6–8 weeks with 2 backend devs parallelized.
+Оценка (ориентир из draft): ~87 dev-days → 6–8 недель при 2 backend. CREATIVE CR-P2-01..12 — §14; hard-stop на шагах с `needs_creative` в index.
 
 ---
 
@@ -1228,36 +1208,35 @@ Missing counterpart = bug at QA.
 
 ## 19. Handoff
 
-### 19.1 После BACK PLAN (этот документ)
+### 19.1 После BACK DECOMPOSE (выполнено 2026-07-31)
 
-→ **BACK CREATIVE** shards: CR-P2-01, 02, 04 (минимум)  
-→ **BACK DECOMPOSE** `decompose-plan-v1-p2-ship/`  
-→ Параллельно **FRONT PLAN** уже в `plan-v1-p2-screens.md` — INTEG PLAN wire контрактов
+→ **BACK CREATIVE** batch: CR-P2-01, 02, 04 (минимум W1) → закрыть `needs_creative` в [`decompose-v1-p2-ship/index.md`](decompose-v1-p2-ship/index.md)  
+→ **BACK IMPLEMENT** @s01 после CR-P2-01  
+→ Параллельно FRONT / INTEG PLAN wire — `plan-v1-p2-screens.md`, `integration/contracts/b10-phase2.md`
 
 ### 19.2 Для IMPLEMENT session load
 
 1. `memory-bank/activeContext.md` load_now
-2. Этот план §15 step shard **ONE at a time**
-3. Соответствующий CREATIVE ADR для step
+2. ONE step: `decompose-v1-p2-ship/sNN-*.yaml` (+ Impl skills из step)
+3. Соответствующий CREATIVE ADR (если был `needs_creative`)
 4. Diff grep §0.11 перед FINISH
 
-### 19.3 FINISH checklist
+### 19.3 FINISH checklist (PLAN — уже закрыт)
 
-- [ ] `wc -l` ≥ 500
-- [ ] DECOMPOSE index создан (отдельная команда)
-- [ ] activeContext.md next → DECOMPOSE or CREATIVE
-- [ ] Recommend new chat per §0.15
+- [x] `wc -l` ≥ 500
+- [x] DECOMPOSE index создан
+- [ ] CREATIVE CR-P2-01..12
+- [ ] Recommend new chat per §0.15 для CREATIVE
 
 ---
 
 ## 20. Следующий режим
 
-| Приоритет | Команда | Арtefact |
+| Приоритет | Команда | Артефакт |
 |-----------|---------|----------|
-| 1 | **BACK CREATIVE** | `creative-i1-gateway.md`, `creative-ota-edge.md`, `creative-b12-formulas-v1.md` |
-| 2 | **BACK DECOMPOSE** | `decompose-plan-v1-p2-ship/index.md` + s01…s20 |
+| 1 | **BACK CREATIVE** | `creative/v1-p2-ship/creative-i1-gateway.md`, `creative-ota-edge.md`, `creative-b12-formulas-v1.md` |
+| 2 | **BACK IMPLEMENT** | @s01 после close CR-P2-01; трекер — [`decompose-v1-p2-ship/index.md`](decompose-v1-p2-ship/index.md) |
 | 3 | **INTEG PLAN** (optional parallel) | `integration/contracts/b10-phase2.md` |
-| 4 | **BACK IMPLEMENT** | after CREATIVE + decompose s01 |
 
 ---
 

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import { DesignSwitcher } from "@/components/ds/DesignSwitcher";
 import { SessionChip } from "@/components/ds/SessionChip";
@@ -36,8 +37,14 @@ export function AppShell({ children, freshnessSlot }: AppShellProps) {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { design, setDesign } = useDesign();
-  const { person, logout } = useSession();
+  const { person, isReady, logout } = useSession();
   const { alarms, wsStatus } = useStatusBarAlarms();
+
+  useEffect(() => {
+    if (isReady && !person) router.replace("/login");
+  }, [isReady, person, router]);
+
+  if (!isReady || !person) return null;
 
   return (
     <div

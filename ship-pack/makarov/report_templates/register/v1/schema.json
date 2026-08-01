@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "if": {"properties": {"status": {"const": "waived"}}},
+  "then": {"required": ["waiver"], "properties": {"waiver": {"required": ["waiver_id", "reason", "owner"]}}}
+}

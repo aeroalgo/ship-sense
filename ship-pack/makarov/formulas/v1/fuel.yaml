@@ -1,0 +1,8 @@
+version: v1
+method_a:
+  integral: flow
+  unit: kg
+method_b:
+  level_delta: true
+  bunker_events: true
+  corrections: [heel, trim, temperature]

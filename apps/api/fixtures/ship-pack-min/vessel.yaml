@@ -1,0 +1,20 @@
+vessel:
+  id: ship
+  name: "Ship"
+  pack_version: "test"
+vessel_state:
+  rpm_tag: SKT001
+  rpm_unit: rpm
+  transit_threshold_rpm: 400
+  signal_max_age_seconds: 120
+  policies:
+    transit:
+      sound_enabled: false
+      night_dim: true
+    anchorage:
+      sound_enabled: true
+      night_dim: false
+sources:
+  - id: test
+    label: "Test"
+    tag_count_expected: 4

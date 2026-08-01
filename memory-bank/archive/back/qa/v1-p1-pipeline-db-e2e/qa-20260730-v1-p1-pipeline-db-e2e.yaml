@@ -1,0 +1,36 @@
+schema: epic-qa/v1
+role: back
+date: '2026-07-30'
+reviewer: BACK QA
+verdict: pass
+scope:
+- 'task: T-002'
+- 'plan: `v1-p1-pipeline-db-e2e'
+- 'steps: s01–s08'
+- 'AC: AC-PIPE-01..10, FR-7'
+- 'paths: `apps/edge/storage/`, `apps/edge/collector/`, `apps/edge/emulator/`, `tests/storage/`,
+  `tests/pipeline/`, `scripts/smoke-pipeline-db.sh`, compose/docs/config contracts'
+checks:
+- 'Storage suite green: `.venv/bin/pytest tests/storage/ -q` → **72 passed** in 1.11s.'
+- 'Regression scope green: `.venv/bin/pytest -m ''not slow'' -q` → **402 passed, 9
+  deselected**, 1 deprecation warning, exit 0.'
+- 'AC-PIPE-07/08: L2 default и MQTT compose smoke подтверждены артефактом s07; скрипт
+  bounded-политинга и loud timeout присутствует.'
+- 'AC-PIPE-09: README содержит layer matrix, smoke-команды, expected SQL и pytest
+  runner contract.'
+- 'AC-PIPE-10: storage и доступная non-slow регрессия зелёные; runtime code, compose
+  topology и публичный API writer не расширялись.'
+- '§0.11: ссылки на переменные окружения, compose services, pytest markers/testpaths,
+  smoke script и SQL имеют counterpart.'
+- 'Reviewer gate: `VERDICT PASS` после обязательных suite.'
+issues: []
+blockers:
+- Нет.
+fix_plan: []
+limitations: []
+suite:
+- 'Storage suite green: `.venv/bin/pytest tests/storage/ -q` → **72 passed** in 1.11s.'
+- 'Regression scope green: `.venv/bin/pytest -m ''not slow'' -q` → **402 passed, 9
+  deselected**, 1 deprecation warning, exit 0.'
+plan_id: v1-p1-pipeline-db-e2e
+epic_id: v1-p1-pipeline-db-e2e

@@ -4,11 +4,14 @@ alwaysApply: false
 ---
 # INTEG GAP CLOSE — gates
 
-**Артефакт:** `memory-bank/integration/gap/close-YYYYMMDD-<slug>.md`
+**Артефакт:**  
+- с эпиком: `memory-bank/integration/gap/<epic_id>/close-YYYYMMDD-<slug>.md`  
+- без: `memory-bank/integration/gap/close-YYYYMMDD-<slug>.md`  
+**Пути:** @.cursor/rules/shared/epic-scoped-paths.mdc
 
 ## Gates
 
-1. Вход: ONE `implement-*/eNN-*.md` (legacy flat OK)
+1. Вход: ONE `implement-*/eNN-*.yaml` (legacy flat OK)
 2. §Gaps = link на `gap-*.md`
 3. Follow: gap → plans → decompose index
 4. Index + code grep по G-*

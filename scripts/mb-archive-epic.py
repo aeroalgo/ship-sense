@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 ROLES = ("back", "front", "integration")
-MOVE_MODES = ("plan", "implement", "creative", "qa", "bugfix")
+MOVE_MODES = ("plan", "implement", "creative", "qa", "bugfix", "gap")
 
 
 def repo_root() -> Path:
@@ -43,13 +43,13 @@ def collect_sources(role_root: Path, epic: str) -> list[tuple[Path, Path]]:
     if implement.is_dir():
         items.append((implement, Path("implement") / f"implement-{epic}"))
 
-    for mode in ("creative", "qa", "bugfix"):
+    for mode in ("creative", "qa", "bugfix", "gap"):
         epic_dir = role_root / mode / epic
         if epic_dir.is_dir():
             items.append((epic_dir, Path(mode) / epic))
 
     # Legacy flat files containing epic slug
-    for mode in ("qa", "bugfix", "creative"):
+    for mode in ("qa", "bugfix", "creative", "gap"):
         mode_dir = role_root / mode
         if not mode_dir.is_dir():
             continue
@@ -111,7 +111,11 @@ def rewrite_text(text: str, role: str, epic: str) -> str:
             rf"(memory-bank/{role}/bugfix/{re.escape(epic)})",
             rf"memory-bank/archive/{role}/bugfix/{epic}",
         ),
-        # Legacy flat qa/bugfix/creative with epic in filename
+        (
+            rf"(memory-bank/{role}/gap/{re.escape(epic)})",
+            rf"memory-bank/archive/{role}/gap/{epic}",
+        ),
+        # Legacy flat qa/bugfix/creative/gap with epic in filename
         (
             rf"(memory-bank/{role}/qa/)(qa-[^)\s`]*{re.escape(epic)}[^)\s`]*)",
             rf"memory-bank/archive/{role}/qa/{epic}/\2",
@@ -119,6 +123,10 @@ def rewrite_text(text: str, role: str, epic: str) -> str:
         (
             rf"(memory-bank/{role}/bugfix/)(bugfix-[^)\s`]*{re.escape(epic)}[^)\s`]*)",
             rf"memory-bank/archive/{role}/bugfix/{epic}/\2",
+        ),
+        (
+            rf"(memory-bank/{role}/gap/)((?:gap|close)-[^)\s`]*{re.escape(epic)}[^)\s`]*)",
+            rf"memory-bank/archive/{role}/gap/{epic}/\2",
         ),
         # Relative from role root (back/qa/...)
         (
@@ -153,7 +161,15 @@ def rewrite_text(text: str, role: str, epic: str) -> str:
             rf"(?<!archive/)({role}/bugfix/{re.escape(epic)})",
             rf"archive/{role}/bugfix/{epic}",
         ),
-        # Relative from reflection/ (../qa|bugfix|creative|plan|implement)
+        (
+            rf"(?<!archive/)({role}/gap/{re.escape(epic)})",
+            rf"archive/{role}/gap/{epic}",
+        ),
+        (
+            rf"(?<!archive/)({role}/gap/)((?:gap|close)-[^)\s`]*{re.escape(epic)}[^)\s`]*)",
+            rf"archive/{role}/gap/{epic}/\2",
+        ),
+        # Relative from reflection/ (../qa|bugfix|creative|gap|plan|implement)
         (
             rf"(\.\./qa/{re.escape(epic)})",
             rf"../../archive/{role}/qa/{epic}",
@@ -167,12 +183,20 @@ def rewrite_text(text: str, role: str, epic: str) -> str:
             rf"../../archive/{role}/creative/{epic}",
         ),
         (
+            rf"(\.\./gap/{re.escape(epic)})",
+            rf"../../archive/{role}/gap/{epic}",
+        ),
+        (
             rf"(\.\./qa/)(qa-[^)\s`]*{re.escape(epic)}[^)\s`]*)",
             rf"../../archive/{role}/qa/{epic}/\2",
         ),
         (
             rf"(\.\./bugfix/)(bugfix-[^)\s`]*{re.escape(epic)}[^)\s`]*)",
             rf"../../archive/{role}/bugfix/{epic}/\2",
+        ),
+        (
+            rf"(\.\./gap/)((?:gap|close)-[^)\s`]*{re.escape(epic)}[^)\s`]*)",
+            rf"../../archive/{role}/gap/{epic}/\2",
         ),
         (
             rf"(\.\./plan/plan-{re.escape(epic)}\.md)",

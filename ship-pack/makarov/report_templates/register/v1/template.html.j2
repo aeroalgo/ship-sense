@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><title>Реестр</title></head>
+<body><main><h1>Реестр</h1>{% if status == 'waived' %}<p>Исключение: {{ waiver.waiver_id }}</p>{% endif %}{% include '../../_provenance.html.j2' %}</main></body>
+</html>

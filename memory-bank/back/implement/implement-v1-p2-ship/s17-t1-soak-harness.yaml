@@ -1,0 +1,41 @@
+schema: epic-implement/v1
+role: back
+step_id: s17
+plan_id: v1-p2-ship
+title: '[T-005 | s17 | t1-soak-harness] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s17-t1-soak-harness.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-08-01'
+level: L2
+task_id: null
+done:
+- Добавлен быстрый `slow`-маркерованный T1 fragment, проверяющий Prometheus parsing,
+  bounded RSS slope и failure при memory leak.
+- Добавлен typed `MetricSnapshot` и Prometheus text exposition scraper для RSS, write
+  latency p99, disk ratio и WebSocket connections.
+- Добавлен pass-criteria evaluator с memory slope per day, latency/disk thresholds,
+  обязательным WS signal и JSON-lines CLI.
+- Добавлен runbook с CI, lab и ship длительностями, командами сбора snapshots и acceptance
+  criteria.
+files:
+- apps/api/tests/soak/test_t1_fragment.py
+- scripts/__init__.py
+- scripts/soak/__init__.py
+- scripts/soak/scrape_metrics.py
+- scripts/soak/assert_pass_criteria.py
+- docs/tests/T1-soak.md
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/soak/test_t1_fragment.py -m slow -q --tb=line'
+- 'итог: 3 passed'
+integration_check:
+- metrics names and labels are parsed from Prometheus text exposition
+- thresholds are explicit CLI arguments with documented defaults
+- snapshots and criteria result have JSON-compatible serialization
+- CI marker is registered by the repository pytest configuration
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

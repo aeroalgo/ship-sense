@@ -1,0 +1,24 @@
+schema: epic-decompose/v1
+role: back
+step_id: s10
+plan_id: v1-p2-ship
+title: API reports generate/list/versions/html
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: 'Полный reports API: catalog, generate async job, list, versions, html; legacy
+  watch alias → B12 persisted; watch schedule.'
+context:
+  consumes:
+  - '**Consumes:** s02–s05; T-003 stub; plan §11.4–11.6.'
+  - '**Produces:** Routers jobs; replace stub body with ReportOutput; POST generate.'
+  files:
+  - apps/api/app/api/v1/endpoints/reports.py` (Модификация)
+  - apps/api/app/reports/jobs.py` (Создание)
+  - apps/api/app/api/v1/endpoints/watch_schedule.py` (Создание)
+  - apps/api/tests/api/test_reports_full.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Полный reports API: catalog, generate async job, list, versions, html;
+    legacy watch alias → B12 persisted; watch schedule.'
+verify: []
+tdd: []

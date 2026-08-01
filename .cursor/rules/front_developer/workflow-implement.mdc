@@ -6,19 +6,32 @@ alwaysApply: false
 **Контекст**: @.cursor/rules/front_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/front_developer/isolation_rules/_lean/implement.mdc
 
-**Скиллы — A∪B**
+**Скиллы — только step + FINISH (HARD)**
 
-**A (always + design если visible_ui):** tdd · frontend-testing · playwright-best-practices · next-best-practices · vercel-react-best-practices · vercel-composition-patterns · frontend-patterns · playwright-generate-test · verification-before-completion · requesting-code-review; design stack (6) — если `visible_ui: yes` или JSX под `features/`|`components/`|`app/`. Pure lib / `visible_ui: no` — design skip.
+Канон задаёт **DECOMPOSE skills gate** в `sNN` (`Impl skills` + `Design skills`).
 
-**B:** Impl skills + Design skills из decompose `sNN` — Read до кода/UI. Union A∪B; **FORBIDDEN:** пропуск применимого A/B; design Read при `visible_ui: no`.
+| Что | Когда |
+|-----|--------|
+| **Impl skills** из step | Read каждый путь целиком **до** prod-кода |
+| **Design skills** из step | Read **до** UI-кода; если `—` / `visible_ui: no` → skip |
+| `verification-before-completion` | pre-FINISH |
+| `requesting-code-review` | pre-FINISH |
+
+**FORBIDDEN:**
+- широкий слой A / угадывание скиллов
+- Read скиллов вне step (кроме FINISH-only)
+- Design Read при `visible_ui: no`
+- пропуск пути из Impl/Design step
+- `limit` на Read SKILL.md
 
 **Процесс**:
 1. `OK FRONT IMPLEMENT - Начинаю реализацию` → **Gates**
-2. `load_now` → ONE step; артефакт `implement-<plan_id>/sNN-<slug>.md`
-3. Read A∪B до prod-edit; Design — до UI-кода
+2. `load_now` → ONE `decompose-*/sNN-*.yaml`; артефакт `implement-<plan_id>/sNN-<slug>.yaml`  
+   **AC = step.** **FORBIDDEN** полный `plan-*.md` в `load_now`. Jump `plan §N` только из Consumes при нехватке.
+3. Read Impl (+ Design если есть) до prod-edit
 4. TDD targeted Vitest/RTL; scenario E2E если user-visible — **parent** runs
 5. §0.11 · pre-FINISH skills
-6. **FINISH:** finish-block (`code_changed: yes`); epic complete → §Handoff epic complete
-7. → `FRONT IMPLEMENT sNN+1` **или** epic complete → `FRONT QA` (new chat)
+6. **FINISH:** finish-block (`code_changed: yes`) — Write step → Handoff → finalize `result.yaml` → `@verify`; epic complete → §Handoff epic complete (`load_now` → implement index, **не** plan)  
+   Next-mode: только `loop/transitions.yaml` (+ runner) · @.cursor/rules/shared/workflow-loop-state.mdc
 
 **Верификация**: gates + FINISH/Handoff + graphify

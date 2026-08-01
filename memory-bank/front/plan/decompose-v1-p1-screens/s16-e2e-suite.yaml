@@ -1,0 +1,29 @@
+schema: epic-decompose/v1
+role: front
+step_id: s16
+plan_id: v1-p1-screens
+title: Playwright PW-01..PW-10
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: 'E2E suite по §8: fixtures + specs PW-01..PW-10; stable data-testid selectors.'
+context:
+  consumes:
+  - '**Consumes:** s01–s15 UI complete; docker/API or MSW playwright route mocks'
+  - '**Produces:** `frontend/e2e/specs/*'
+  files:
+  - frontend/e2e/fixtures/*` (Создание)
+  - frontend/e2e/specs/pw-01-login-tiles.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-02-overview-glance.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-03-journal-filter-print.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-04-trends-deeplink.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-05-watch-print.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-06-stale-banner.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-07-quarantine-not-normal.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-08-ws-reconnect.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-09-theme-no-flash.spec.ts` (Создание)
+  - frontend/e2e/specs/pw-10-handoff-watch.spec.ts` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'E2E suite по §8: fixtures + specs PW-01..PW-10; stable data-testid selectors.'
+verify: []
+tdd: []

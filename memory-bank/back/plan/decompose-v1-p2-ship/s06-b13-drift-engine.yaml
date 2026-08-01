@@ -1,0 +1,28 @@
+schema: epic-decompose/v1
+role: back
+step_id: s06
+plan_id: v1-p2-ship
+title: B13 DriftEngine EWMA + hysteresis
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-08) — **closed**
+goal: 'CPU-worker DriftEngine: time-based EWMA, threshold%, linear ETA, mode_filter/startup_guard,
+  hysteresis; persist active+history; no ML.'
+context:
+  consumes:
+  - '**Consumes:** T-002 samples; setpoints API; CR-P2-08 warnings.yaml tag set; plan
+    §5.'
+  - '**Produces:** warnings worker; tables warnings_active/history; ship-pack warnings.yaml
+    loader.'
+  files:
+  - ship-pack/makarov/warnings.yaml` (Создание)
+  - apps/api/app/warnings/` (Создание) — engine, ewma, schemas, models, worker
+  - apps/api/migrations/versions/*_warnings.py` (Создание)
+  - apps/api/tests/warnings/test_ewma.py` (Создание)
+  - apps/api/tests/warnings/test_mode_filter.py` (Создание)
+  - apps/api/tests/warnings/test_no_ml_imports.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'CPU-worker DriftEngine: time-based EWMA, threshold%, linear ETA, mode_filter/startup_guard,
+    hysteresis; persist active+history; no ML.'
+verify: []
+tdd: []

@@ -12,6 +12,9 @@ alwaysApply: false
 2. Проверки + exploratory browser (live app) — gates; suite/Playwright **parent only**
 3. `memory-bank/front/qa/qa-YYYYMMDD-<slug>.md`
 4. fail|blocked → §Fix plan (`FRONT BUGFIX <subject>`)
-5. **FINISH:** finish-block (`code_changed: no`|`yes` если дописали тесты) + Handoff
+5. **FINISH:** finish-block (`code_changed: no`|`yes` если дописали тесты) + Handoff  
+   Next-mode: только `loop/transitions.yaml` (+ runner из `result.yaml`) · @.cursor/rules/shared/workflow-loop-state.mdc  
+   **FORBIDDEN:** копировать цепочки pass/blocked/fail → … здесь  
+   @.cursor/rules/shared/workflow-loop-state.mdc
 
-**Верификация**: gates + scenario paths + Handoff
+**Верификация**: gates + scenario paths + Handoff + loop-state

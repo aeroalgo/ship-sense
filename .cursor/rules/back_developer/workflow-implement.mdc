@@ -6,19 +6,32 @@ alwaysApply: false
 **Контекст**: @.cursor/rules/back_developer/mainrule-core.mdc
 **Gates**: @.cursor/rules/back_developer/isolation_rules/_lean/implement.mdc
 
-**Скиллы — A∪B (усиление, не замена)**
+**Скиллы — только step + FINISH (HARD)**
 
-**A (применимые):** tdd · python-testing-patterns · modern-python · fastapi-templates · supabase-postgres-best-practices · python-anti-patterns · requesting-code-review · verification-before-completion — пути `@.agents/skills/<name>/SKILL.md`. Docs-only: условные A skip; B из step — **всегда Read** если не пуст.
+Канон скиллов задаёт **DECOMPOSE skills gate** в `sNN` (`Impl skills`).
 
-**B:** Impl skills (+ `code_surface`) из decompose `sNN` — Read каждого до кода. Union A∪B; не пропускать применимый A. **FORBIDDEN:** пропуск B; слепой Read false-предикатов A.
+| Что | Когда |
+|-----|--------|
+| **Impl skills** из текущего `sNN` | Read **каждый** путь целиком **до** prod-кода (docs-only: skip) |
+| `verification-before-completion` | pre-FINISH |
+| `requesting-code-review` | pre-FINISH |
+
+**FORBIDDEN:**
+- широкий слой A / угадывание скиллов по предикату
+- Read скиллов, которых **нет** в `Impl skills` step (кроме FINISH-only)
+- пропуск пути из `Impl skills`
+- `limit` на Read SKILL.md
+
+Пути: `@.agents/skills/<name>/SKILL.md` как в step.
 
 **Процесс**:
 1. `OK BACK IMPLEMENT - Начинаю реализацию` → **Gates**
-2. `load_now` → ONE shard + ONE step; артефакт `implement-<plan_id>/sNN-<slug>.md`
-3. Read A∪B до prod-edit (после TDD red ок)
+2. `load_now` → ONE `decompose-*/sNN-*.yaml` (+ implement step если есть); артефакт `implement-<plan_id>/sNN-<slug>.yaml`  
+   **AC = step.** **FORBIDDEN** полный `plan-*.md` в `load_now` / «acceptance = plan». Jump `plan §N` только из Consumes при нехватке AC.
+3. Read **Impl skills** из step до prod-edit (после TDD red ок)
 4. TDD targeted → code → green (`.venv/bin/pytest` из корня); level delta — gates
 5. §0.11 · pre-FINISH skills (verification + code-review)
-6. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`); epic complete → шаблон §Handoff epic complete
-7. → `BACK IMPLEMENT sNN+1` **или** epic complete → `BACK QA` (new chat)
+6. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) — **порядок:** Write `implement-*/sNN-*.yaml` → Handoff → finalize `result.yaml` → `@verify` → PASS; epic complete → шаблон §Handoff epic complete (`load_now` → implement index, **не** plan)  
+   Next-mode: только `loop/transitions.yaml` (+ runner) · @.cursor/rules/shared/workflow-loop-state.mdc
 
 **Верификация**: gates + §0.11 + FINISH + `graphify update .`

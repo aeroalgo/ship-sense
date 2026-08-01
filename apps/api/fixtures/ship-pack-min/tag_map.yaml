@@ -1,0 +1,21 @@
+tags:
+  TAG_GOOD:
+    label: "Good"
+    unit: "°C"
+    source_id: test
+    signal_type: analog
+  TAG_STALE:
+    label: "Stale"
+    unit: "°C"
+    source_id: test
+    signal_type: analog
+  TAG_QUARANTINE:
+    label: "Quarantine"
+    unit: "°C"
+    source_id: test
+    signal_type: analog
+  SKT001:
+    label: "Engine RPM"
+    unit: rpm
+    source_id: test
+    signal_type: analog

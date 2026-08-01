@@ -151,6 +151,7 @@ tunnel.log
 .cursor/hooks-artifacts/
 .claude/settings.local.json
 .claude/runtime/
+loop/runtime/
 _archive/
 # Byte-compiled / optimized / DLL files
 __pycache__/

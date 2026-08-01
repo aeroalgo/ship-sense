@@ -1,0 +1,62 @@
+schema: integ-implement/v1
+step_id: e02
+plan_id: v1-portal
+title: e02 — Login roster tiles IMPLEMENT
+status: completed
+element_ref: e02 — [e02-login-roster-tiles.yaml](../../plan/decompose-v1-portal/e02-login-roster-tiles.yaml)
+implement_index: memory-bank/integration/implement/implement-v1-portal/index.md
+date: '2026-08-01'
+skills_used: []
+discovery: []
+gaps:
+  status: open
+  notes: ''
+done:
+- '`/login` получает roster через `GET /api/watch/roster` и отображает только записи
+  `active=true` в порядке `tile_order`.'
+- Live API boundary подтверждён через `fetchRoster` и общий API client; MSW ограничен
+  test/mock path.
+- Empty roster и session navigation остаются в существующем `LoginPage` flow; scope
+  e03 не расширялся.
+files:
+- '`frontend/src/features/session/LoginPage.tsx` — active-only filter перед сортировкой
+  tiles.'
+- '`frontend/src/features/session/session.test.tsx` — targeted contract для сортировки
+  и скрытия inactive entries.'
+- '`apps/api/app/api/v1/endpoints/session.py` — существующий live `GET /watch/roster`
+  endpoint.'
+- '`frontend/src/lib/api/session.ts` — существующий `fetchRoster`.'
+- '`frontend/src/lib/api/client.ts` — `NEXT_PUBLIC_API_URL` и `credentials: "include"`.'
+tests:
+- '`frontend/src/features/session/session.test.tsx` — тест сортирует активные tiles
+  по `tile_order` и исключает inactive entry.'
+- '`cd frontend && npm test -- --run src/features/session/session.test.tsx` — **6
+  passed**.'
+- '`.venv/bin/pytest apps/api/tests/api/test_session.py -q --tb=line` — **3 passed,
+  2 warnings**.'
+integration_check:
+- '**Endpoint ↔ fetch:** `apps/api/app/api/v1/endpoints/session.py:17` → `frontend/src/lib/api/session.ts:7`
+  → `frontend/src/features/session/LoginPage.tsx:14`; response shape `RosterResponse.items`
+  совместим с `LoginTile`.'
+- '**Route ↔ UI:** `frontend/src/app/login/page.tsx:3` → `LoginPage` → active `LoginTile`;
+  клик передаёт `person_id` в session flow и сохраняет `default_screen` navigation.'
+- '**Mock removal:** MSW handler остаётся в `frontend/src/test/msw/handlers.ts:62`;
+  production path при `NEXT_PUBLIC_API_MOCK=0` не стартует worker и не использует
+  fixture.'
+- '**Data boundary:** backend `SessionService.roster()` и frontend filter отбрасывают
+  inactive entries; empty roster сохраняет `StateShell` empty state.'
+- '**Gaps:** нет.'
+grep_control: []
+verification_results: []
+checkpoints:
+- id: cp1
+  criterion: '`/login` shows live roster tiles (not fixture)'
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+- id: cp2
+  criterion: Click tile logs in and navigates
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+resume_from: null

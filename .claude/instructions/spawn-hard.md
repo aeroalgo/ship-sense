@@ -15,7 +15,7 @@ Parent **MAY** spawn любых Agent по нужде.
 | Режим | Поведение |
 |-------|-----------|
 | IMPLEMENT · REFACTOR · BUGFIX · TASK (code) | перед широким поиском по codebase → **`@explorer` ОБЯЗАТЕЛЬНО** (packed) |
-| Перед FINISH (`code_changed: yes`) | **`@verify` ОБЯЗАТЕЛЬНО** (packed) |
+| Перед FINISH (`code_changed: yes`) | **`@verify` ОБЯЗАТЕЛЬНО** (packed); FAIL/DENY → fix → retry до PASS; после PASS — не повторять |
 | BACK QA после suite | **`@reviewer` ОБЯЗАТЕЛЬНО** (packed); pytest — у parent |
 | Любой режим | доп. Agent — свободно |
 
@@ -25,7 +25,7 @@ Parent **MAY** spawn любых Agent по нужде.
 
 **Порядок:**
 1. Read shard / plan (docs) — у parent
-2. **Один раз** `Agent`→`explorer` (packed: Цель · GRAPHIFY · ALLOW ≤5)
+2. **Один раз** `Agent`→`explorer` (packed: Цель · GRAPHIFY · ALLOW ≤10)
 3. Дальше parent работает по отчёту explorer (+ Read только названных file:line)
 
 **FORBIDDEN parent до/вместо explorer:** серия `rg` / `grep -R` / широкий listing по `apps/` · `tests/` · `frontend/` как замена discovery.
@@ -35,10 +35,31 @@ Parent **MAY** spawn любых Agent по нужде.
 **Канон type:** project overlay `explorer` (не built-in `Explore`) — graphify first, затем Grep/Glob/`rg` fallback до ответа.
 
 **FAIL:** FINISH без `verify` когда `code_changed: yes`.  
+**FAIL:** `@verify` повторно после `VERDICT: PASS` (retry только при `FAIL` / spawn DENY).  
 **FAIL:** BACK QA FINISH без `Agent`→`reviewer`.  
 **FAIL:** code-режим сделал широкий codebase search без предшествующего `Agent`→`explorer` в сессии (кроме исключения выше).  
 **FAIL:** `isolation=worktree` / `model=` на verify|reviewer|explorer — hooks снимают.  
-**FAIL:** spawn verify/reviewer/explorer без packed секций / ALLOW = дерево / >5 файлов.
+**FAIL:** spawn verify/reviewer/explorer без packed секций / ALLOW = дерево / >10 файлов / globs `**` в ALLOW.
+
+### Verify retry (HARD)
+
+```
+Write implement step on disk → finalize result.yaml → @verify
+  ├─ PASS → FINISH / stop (не повторять @verify)
+  ├─ FAIL → parent чинит blockers → снова @verify
+  └─ spawn DENY (stub / incomplete prompt / step missing) → починить → снова @verify
+```
+
+**DENY ≠ второй subagent:** `agent-pretool` отклоняет spawn до запуска; в логе может быть два `Agent verify` подряд — первый DENY, второй retry с packed prompt. Один успешный spawn = один verify.
+
+**Step template (verify §6):** все роли — `.cursor/templates/implement/epic-step.yaml` (`schema: epic-implement/v1`, `role`, `checkpoints`; INTEG + `grep_control` · `verification_results` · `gaps`).
+
+**Pre-FINISH validate-step:** `python3 .claude/hooks/epic_resolve.py validate-step --path <implement shard>` — exit 0 до finalize/`@verify` (тот же gate, что loop `after`).
+
+**FORBIDDEN:** finalize/`@verify` до существования `implement-*/sNN-*.yaml` или `implement-*/eNN-*.yaml`.  
+**FORBIDDEN:** `artifact:` = `plan/decompose-*` (только implement step path).
+
+Hooks: `stop-gate` блокирует FINISH при FAIL; `agent-pretool` DENY `@verify` только если уже PASS.
 
 Built-in Agent types hooks не блокируют и не переименовывают.
 
@@ -53,11 +74,12 @@ Built-in Agent types hooks не блокируют и не переименов�
 | **AC−** | — | да (≥1) | да (≥1) |
 | **§0.11** | — | да (≥1) | да (≥1) |
 | **VERIFY** | — | да (имена pytest) | — |
-| **ALLOW READ** | ≤5 | ≤5 | ≤5 |
+| **RESULT** | — | да (result.yaml cross-check) | — |
+| **ALLOW READ** | ≤10 | ≤10 | ≤10 |
 | **FORBID** | edit; role-command; plan | edit; role-command; plan | edit; pytest; role-command; plan |
 
 **FAIL:** «проверь шаг» / QA review / search без секций.  
-**FAIL:** `ALLOW READ` = дерево.
+**FAIL:** `ALLOW READ` = дерево / glob `dir/**` (нужны конкретные пути файлов, ≤10).
 
 ## Как вызывать (gate)
 
@@ -72,7 +94,7 @@ Built-in Agent types hooks не блокируют и не переименов�
 Цель: import/ownership audit — где apps/api и collector тянут domain/FastAPI.
 GRAPHIFY: query "apps/api app.telemetry collector.domain plugins FastAPI imports"
 ALLOW READ: apps/api/app/main.py, apps/edge/collector/src/collector/domain/interfaces.py
-Отчёт: file:line + кто импортирует. На русском.
+Отчёт: file:line + кто импортирует. На русском. Без plan-файла / Plan Mode.
 ```
 
 ### Пример verify (pre-FINISH)
@@ -85,12 +107,18 @@ AC−:
 - не трогать quarantine / второй alembic head
 §0.11:
 - clock_shift event ↔ EventsRepo
-ALLOW READ: apps/edge/storage/time_axis.py, tests/storage/test_time_axis.py, apps/edge/storage/events_repo.py
 VERIFY:
 - .venv/bin/pytest tests/storage/test_time_axis.py::test_compute_official_ts -q
+RESULT:
+- path: loop/runtime/epic/result.yaml
+- expect: status=ok ↔ VERIFY green; FAIL verify ⇒ нельзя status=ok
+- note: parent: Write implement step → finalize result ДО spawn (не pending/draft; artifact существует); verify только читает
+ALLOW READ: apps/edge/storage/time_axis.py, tests/storage/test_time_axis.py, apps/edge/storage/events_repo.py, loop/runtime/epic/result.yaml, memory-bank/back/implement/implement-<plan>/sNN-<slug>.md
 FORBID: edit/write; role-command; plan.
 Отчёт: VERDICT PASS|FAIL. На русском.
 ```
+
+INTEG `eNN`: step shape — `epic-step.yaml` (`role: integ`). ALLOW READ: `memory-bank/integration/implement/implement-<plan>/eNN-<slug>.yaml`.
 
 ### Пример reviewer (BACK QA)
 
@@ -105,7 +133,7 @@ AC−:
 §0.11:
 - DATABASE_URL ↔ docker-compose.yml
 ALLOW READ: apps/edge/storage/writer.py, tests/storage/test_storage_contracts.py, pyproject.toml, docker-compose.yml, memory-bank/back/qa/qa-YYYYMMDD-slug.md
-FORBID: edit/write; pytest; .cursor/rules/**.
+FORBID: edit/write; pytest; .cursor/rules/**; Plan Mode / plan-файлы.
 Отчёт: VERDICT PASS|BLOCKED|FAIL. На русском.
 ```
 
@@ -116,8 +144,8 @@ FORBID: edit/write; pytest; .cursor/rules/**.
 | Agent | maxTurns | notes |
 |-------|----------|-------|
 | explorer | 40 | ищет до ответа по Цели; Grep/Glob/`rg` OK после graphify |
-| verify | 12 | ≤8 read · ≤5 ALLOW · re-read запрещён; VERDICT only |
-| reviewer | 18 | ≤8 rg · ≤10 read · ≤5 ALLOW · re-read запрещён; финал только текст |
+| verify | 12 | ≤12 read · ≤10 ALLOW · re-read запрещён; VERDICT only |
+| reviewer | 18 | ≤8 rg · ≤12 read · ≤10 ALLOW · re-read запрещён; финал только текст |
 
 ## Hooks
 

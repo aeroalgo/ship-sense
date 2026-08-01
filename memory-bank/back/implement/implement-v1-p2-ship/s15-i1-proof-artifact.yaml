@@ -1,0 +1,41 @@
+schema: epic-implement/v1
+role: back
+step_id: s15
+plan_id: v1-p2-ship
+title: '[T-005 | s15 | i1-proof-artifact] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s15-i1-proof-artifact.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: null
+done:
+- Добавлен публичный `build_proof(config_path, log_path)` для воспроизводимого proof
+  artifact.
+- Реализован SHA-256 хэш исходной конфигурации и UTC timestamp генерации.
+- Добавлена строгая обработка отсутствующих входных файлов и невалидных JSON-строк
+  reject log.
+- Реализован dependency-free PDF renderer с хэшем конфигурации и samples отклонённых
+  gateway-запросов.
+- Добавлен T4 read-only protocol с проверками read/write поведения, reject log и proof
+  PDF.
+files:
+- apps/edge/gateway/proof/__init__.py
+- apps/edge/gateway/proof/generator.py
+- apps/edge/gateway/tests/test_proof_artifact.py
+- docs/acceptance/T4-readonly-protocol.md
+tests:
+- 'cmd: `.venv/bin/pytest apps/edge/gateway/tests/test_proof_artifact.py apps/edge/gateway/tests/test_modbus_filter.py
+  -q --tb=line'
+- 'итог: 13 passed'
+integration_check:
+- gateway reject log JSON records consumed by proof generator
+- config bytes hashed without normalization or mutation
+- generated proof path returned through public interface
+- T4 acceptance protocol documents read-only gateway and proof flow
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

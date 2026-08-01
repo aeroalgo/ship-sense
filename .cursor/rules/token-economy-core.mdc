@@ -9,9 +9,9 @@ Cross-cutting. Restricts **format**, not **content**. Quality (TDD, review, edge
 ## 0.0 SUSPENSION GUARD — PLAN / gap-plan / architecture map artifacts (AUTHORITATIVE)
 
 **Trigger (any of):**
-- Role command: `BACK PLAN`, `FRONT PLAN`, `INTEG PLAN`, `PM PLAN`, or any `* PLAN`
+- Role command: `BACK PLAN`, `FRONT PLAN`, `INTEG PLAN`, `PM PLAN`, `* SECURITY PLAN`, `* REFACTOR PLAN`, or any `* PLAN`
 - Role command brownfield: `BACK VAN`, `FRONT VAN`, `INTEG VAN` when writing `memory-bank/architecture/**`
-- Writing/updating: `memory-bank/**/plan-*.md`, `memory-bank/integration/gap/gap-*.md`, gap closing plans `plan-BACK-GAP-*` / `plan-FRONT-GAP-*`, или `memory-bank/architecture/**`
+- Writing/updating: `memory-bank/**/plan-*.md`, `memory-bank/integration/gap/**/gap-*.md`, gap closing plans `plan-BACK-GAP-*` / `plan-FRONT-GAP-*`, `memory-bank/**/security/plan/plan-*.md`, `memory-bank/**/refactor/plan/plan-*.md`, или `memory-bank/architecture/**`
 
 ### FORBIDDEN while guard is active (plan/gap/architecture OUTPUT)
 
@@ -74,9 +74,9 @@ Applies to implement/task/qa/reflect shards, etc.
 | Role | Reads | Does NOT read |
 |------|-------|---------------|
 | PM | user chat, `pm/*` | full ARCHITECTURE, all code |
-| BACK/FRONT dev | `activeContext.md` **`load_now`** + ONE task shard + ONE plan/domain shard | full indexes as content, all shards, `done` section |
+| BACK/FRONT dev | `activeContext.md` **`load_now`** + ONE work shard (`decompose/sNN\|eNN`, implement step, task, bugfix) | **full `plan-*.md`**, full indexes as content, all shards, `done` section |
 | TL | `tl/*`, `activeContext.md`, delivery refs | full design docs |
-| Reviewer (BACK QA) | task shard + changed files + relevant plan section | full memory-bank |
+| Reviewer (BACK QA) | qa/bugfix shard + changed files; plan **§N** only if AC unclear | full `plan-*.md`, full memory-bank |
 | Architect (BACK PLAN) | `DECISION_LOG` / plan refs + stage summary | unrelated task shards |
 | **INTEG PLAN** | as required by `workflow-plan.mdc` (portal inventory, all relevant implement) | infra-only implement; gap/contracts not required |
 
@@ -106,13 +106,18 @@ Applies when **создаёшь/правишь** non-plan artifacts. **Does NOT*
 
 **FORBIDDEN:** read full index target as monolith — indexes are tables only.
 
-**REQUIRED session load order (default IMPLEMENT/TASK):**
+**REQUIRED session load order (default IMPLEMENT/TASK/BUGFIX/QA):**
 
 1. `memory-bank/activeContext.md` → **`load_now`** list (ONLY those files)
-2. ONE task shard if task work
-3. ONE plan/domain shard if spec needed
-4. `load_if_needed` only when task requires
-5. **NEVER** load `done — do NOT load` section files
+2. ONE work shard: `decompose-*/sNN|eNN-*.yaml` · implement step · `task-*.md` · `bugfix-*.md` · `qa-*.md`
+3. AC source = **этот shard** (цель / файлы / TDD / Fix plan). **Не** подставлять полный `plan-*.md` «как AC»
+4. Если в step `Consumes: plan §N` и AC в shard не хватает — **jump только на §N** (Read/offset), не весь plan
+5. `load_if_needed` only when task requires
+6. **NEVER** load `done — do NOT load` section files
+
+**`load_now` FORBIDDEN (IMPLEMENT / QA / BUGFIX / TASK / REFLECT):** полный `memory-bank/**/plan-*.md` · «acceptance context = весь plan» · creative monolith без open CR
+
+**`load_now` OK для полного plan:** только когда следующий режим **PLAN** или **DECOMPOSE** и plan — объект работы.
 
 **PLAN override:** follow that mode's `workflow-*-plan.mdc` inventory (may require many implement files + code grep). Doc-router lean defaults yield to workflow PLAN steps + §0.0.
 
@@ -137,7 +142,7 @@ Applies when **создаёшь/правишь** non-plan artifacts. **Does NOT*
 
 When passing work between roles: 2–3 lines + file path. Not "read everything".
 
-**activeContext ONE Handoff (HARD):** ровно один блок `## Handoff …` — полная перезапись на FINISH. Append/стопка = FAIL. История → `tasks/log/` + role artifacts. Detail: `finish-block.mdc` / `finish-doc-router.mdc`.
+**activeContext ONE Handoff (HARD):** ровно один блок `## Handoff …` + ≤ один `## done` — на FINISH **Write весь файл** (не sandwich). Append/стопка = FAIL/halt. История → `tasks/log/` + role artifacts. Detail: `finish-block.mdc` / `finish-doc-router.mdc`.
 
 ## 0.8 Code comments
 
@@ -215,5 +220,5 @@ Detail: @.cursor/rules/shared/context-session-economy.mdc
 - **FINISH:** **перезаписать** единственный `## Handoff` в `activeContext.md` (не append) → doc-router → recommend new chat (@.cursor/templates/finish-doc-router.md + @.cursor/rules/shared/finish-doc-router.mdc)
 - **Session start:** `load_now` + handoff file; never depend on prior chat transcript
 - **Skills:** lazy — only skills for current subtask
-- **QA:** task shard + diff + §0.11 grep; skip plan shard unless AC unclear
+- **QA:** qa/bugfix shard + diff + §0.11 grep; skip `plan-*.md`; if AC unclear → only `plan §N`, never full plan in `load_now`
 - **PLAN / architecture exception:** §0.0 — do not shorten plan or `architecture/**` artifacts to satisfy this section

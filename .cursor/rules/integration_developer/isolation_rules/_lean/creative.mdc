@@ -11,7 +11,7 @@ alwaysApply: false
 1. Спорные решения до кода (filters, facets, period, state)
 2. 2+ варианта + recommended
 3. creative-файл; contract draft updated
-4. **Rewire dependents:** каждый `eNN` с этим creative — markdown-ссылка + `needs_creative … — closed` + index `✅` / `yes (done)` (workflow §3a). Без rewire → FAIL FINISH
+4. **Rewire dependents:** каждый `eNN` с этим creative — ссылка + канон `yes (CR-…) — **closed**` / partial open + index `yes (CR-…) ✅` (workflow §3a / `templates/decompose/epic-step.yaml`). Без rewire → FAIL FINISH
 
 ## Abort
 

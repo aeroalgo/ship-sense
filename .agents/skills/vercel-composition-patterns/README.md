@@ -11,7 +11,8 @@ lifting state, and composing internals.
   - `_template.md` - Template for creating new rules
   - `area-description.md` - Individual rule files
 - `metadata.json` - Document metadata (version, organization, abstract)
-- **`AGENTS.md`** - Compiled output (generated)
+- **`SKILL.md`** - Skill entry (lazy-loaded)
+- **`references/FULL-GUIDE.md`** - Compiled full guide (not always-on; do not name AGENTS.md — Cursor always-loads that filename)
 
 ## Rules
 

@@ -1,0 +1,13 @@
+{
+  "body": {
+    "type": "daily_noon",
+    "period": {
+      "from": "2026-07-30T12:00:00Z",
+      "to": "2026-07-31T12:00:00Z"
+    },
+    "clock_jump_seconds": 3600,
+    "motohours": 23.5,
+    "generated_at": "2026-07-31T12:00:01Z"
+  },
+  "expected_body_sha256": "948f4f6f137360292a2c490e12bdd25e2f274802f65c7ab51c571be0a3c9e4c2"
+}

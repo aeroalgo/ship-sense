@@ -3,6 +3,18 @@ vessel:
   name: Адмирал Макаров
   imo: XXXXXXX
   pack_version: 1.0.0-emulator
+vessel_state:
+  rpm_tag: SKT001
+  rpm_unit: rpm
+  transit_threshold_rpm: 400
+  signal_max_age_seconds: 120
+  policies:
+    transit:
+      sound_enabled: false
+      night_dim: true
+    anchorage:
+      sound_enabled: true
+      night_dim: false
 sources:
 - id: aps_main
   label: АПС

@@ -19,6 +19,6 @@
 | BUGFIX | `_lean/bugfix.mdc` |
 | REFACTOR | `_lean/refactor.mdc` |
 | QA | `_lean/qa.mdc` |
-| SECURITY | — (только `workflow-security.mdc`) |
+| SECURITY | `_lean/security.mdc` (+ `workflow-security.mdc`; epic: `shared/workflow-security-epic.mdc`) |
 | REFLECT | `_lean/reflect.mdc` |
 | ARCHIVE NOW | `_lean/archive.mdc` |

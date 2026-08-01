@@ -13,16 +13,38 @@ By-command routing / graphify: @.cursor/rules/shared/finish-doc-router.mdc
 
 ## Порядок (обязательно)
 
+> **IMPLEMENT pre-verify pipeline (HARD — по шагам, не переставлять):**  
+> `Write implement step на диск` → `Handoff` → `finalize result.yaml` (`artifact` = **тот же** implement path) → `@verify` → `PASS` → FINISH/stop.  
+> **FORBIDDEN:** finalize/`@verify`, пока implement shard ещё нет на диске (`sNN|eNN-*.yaml`).  
+> **FORBIDDEN:** `artifact:` = `plan/decompose-*/…` (это spec; RESULT artifact = только implement step).
+
 1. **Pre-FINISH skills** — если workflow указал skills перед FINISH — прочитай их
-2. **Role artifact (IMPLEMENT / INTEG):** создать или дописать step-файл  
-   `memory-bank/{back|front|integration}/implement/implement-<plan>/sNN|eNN-<slug>.md`  
-   Секции: Реализация (или Сделано/Файлы) · Верификация/Тесты · Статус=`completed`. Без навигации / без `## Handoff` внутри step.  
-   **До** `decompose`=`completed` и **до** смены `load_now`
+2. **Role artifact (IMPLEMENT):** создать или дописать yaml step  
+   - BACK/FRONT/INTEG: `memory-bank/{back|front|integration}/implement/implement-<plan>/sNN|eNN-<slug>.yaml` → @.cursor/templates/implement/epic-step.yaml  
+   **Формат HARD — `schema: epic-implement/v1`, `role: back|front|integ`:**  
+   BACK/FRONT: `done` · `files` · `tests` · `integration_check` · `checkpoints[]` · `status: completed`.  
+   INTEG доп.: `grep_control` · `verification_results` · `gaps`.  
+   `status: completed` только когда все `checkpoints[].status=done`.  
+   Самопроверка: `python3 .claude/hooks/epic_resolve.py validate-step --path <implement shard>`.  
+   **FORBIDDEN:** legacy `.md` implement shards · Handoff внутри yaml step.  
+   **До** `decompose`=`completed` и **до** смены `load_now`  
+   **До** finalize `result.yaml` и **до** `@verify` — файл **обязан** уже существовать (Write/flush; не «потом допишу»)
 3. **## Handoff** в `activeContext.md` only — шаблон §Handoff. **ЗАПРЕЩЕНО** `## Handoff` в implement step. Handoff **этого** `sNN|eNN` обязателен  
-   **ONE Handoff (HARD):** в `activeContext.md` ровно **один** блок `## Handoff …`. FINISH = **полная перезапись** этого блока (replace), не append/prepend второго. Старые Handoff → в `tasks/log/` / step/qa/bugfix артефакты, **не** копилка в activeContext. Структура файла: `## load_now` → **один** `## Handoff …` → `## done — do NOT load` (опционально прочие секции без второго Handoff).
-3a. **Epic complete** (все шаги `decompose-*/index.md` = `completed`): Handoff **обязан** содержать блок **Epic QA** — `BACK|FRONT|INTEG QA <plan_id>` + предмет + scope + suite. Следующий режим = QA эпики (не REFLECT)
+   **ONE Handoff (HARD):** в `activeContext.md` ровно **один** блок `## Handoff …`. FINISH = **Write весь файл** (`## load_now` → один `## Handoff` → ≤ один `## done`), не partial Edit / sandwich. Старые Handoff **удалить** (история → `tasks/log/` / step-артефакты). **FORBIDDEN:** ≥2 `## Handoff`; ≥2 `## done`; completed shard в `load_now`.
+3a. **Epic complete** (все шаги `decompose-*/index.md` = `completed`): Handoff **обязан** содержать блок **Epic QA** — `BACK|FRONT|INTEG QA <plan_id>` + предмет + scope + suite.  
+    **Пока `pending>0`:** `* QA` / **Epic QA** в Handoff **запрещены**.  
+    Строка `- **Следующий:**` в Handoff — **human hint**, выровнять с tip `next_phase` / `loop-state.next` (CREATIVE|IMPLEMENT|REFACTOR). Машинный next выставляет runner по `transitions.yaml` после `result.yaml`. **FORBIDDEN** придумывать альтернативную цепочку в workflow. Runner crosscheck → **halt** при QA при `pending>0`
 4. **Delivery log:** append `tasks/log/YYYY-MM.md` + §Последние события в `tasks.md`
-5. **Status sync (только после 2–4):** `decompose-*/index.md` текущий → `completed`; next остаётся `pending`; `load_now` → следующий step-файл **или** при epic complete → qa-artifact / implement index эпики; `implement/index` — ссылки only, **без** status suffix
+5. **Status sync (только после 2–4):** обновить human view `decompose-*/index.md` (текущий → `completed`, next → `pending`); машинный курсор пишет runner в `loop/loop-state.yaml` на after (`step` / `next` / `pending`). `load_now` → следующий step-файл **или** при epic complete → **qa-scope без полного plan**: `implement-<plan_id>/index.md` (+ опц. последний `qa-*.md` если re-run); AC для QA — Handoff **Epic QA** / suite из handoff, **не** `plan-*.md` в `load_now`; `implement/index` — ссылки only, **без** status suffix
+5a. **session result (HARD):**  
+   - На старте сессии (resolve) создаётся stub `loop/runtime/epic/result.yaml` (`status: pending`, `draft: true`).  
+   - **Только после шага 2** (implement step **есть на диске**): финализировать `status: ok|blocked|fail|halt|gaps`, `draft: false`, `step_id`, `artifact` = path из шага 2 (не decompose).  
+   - **@verify цикл:** step on disk → finalize result → `@verify` → если `VERDICT: FAIL` (или spawn DENY / incomplete prompt) → parent чинит blockers / prompt → снова `@verify` → пока `PASS`. **FORBIDDEN:** повтор `@verify` после `VERDICT: PASS`; FINISH при `FAIL` / без PASS (если `code_changed≠no`). Spawn DENY на stub result.  
+   - Runner `after`: crosscheck артефактов + (при `status=ok` и `code_changed≠no`) targeted pytest из `pytest_commands` / step `## Тесты` — это **не** второй `@verify`.  
+   - **Курсор эпика:** только `loop/loop-state.yaml` + `result.yaml`. `activeContext.md` = session view; `index.md` = human queue view.  
+   **ЗАПРЕЩЕНО** править `loop/loop-state.yaml` вручную.  
+   Отключить pytest assert: `LOOP_ASSERT_PYTEST=0`.  
+   Канон: @.cursor/rules/shared/workflow-loop-state.mdc · `loop/transitions.yaml`
 6. **doc-router:** применить by-command routing из `finish-doc-router.mdc` + шаблон
 7. **graphify** — если `code_changed: yes`: cwd = корень репо → `.venv/bin/graphify update .` (см. @.cursor/rules/graphify.mdc)
 8. **new chat:** @.cursor/rules/shared/context-session-economy.mdc §2; текст — шаблон §«Сообщение пользователю»
@@ -31,28 +53,46 @@ By-command routing / graphify: @.cursor/rules/shared/finish-doc-router.mdc
 
 Все обязательны:
 
-1. Step-файл `implement-*/sNN|eNN-*.md` **существует**, не stub (есть Реализация + Верификация + Статус)
+1. Step-файл **существует**, не stub, **строго по** `@.cursor/templates/implement/epic-step.yaml`:
+   - `implement-*/sNN|eNN-*.yaml` — `schema: epic-implement/v1`, `role`, `checkpoints`
+   - `validate-step` exit 0 до finalize `result.yaml`
 2. В `activeContext.md` есть **ровно один** `## Handoff …` **этого** шага (не только flipped `load_now`; не стопка старых)
-3. В `decompose-*/index.md` текущий шаг = `completed`
+3. В `loop/loop-state.yaml` курсор сдвинут (или будет на after); human view `index.md` текущий = `completed`
 4. Следующий в decompose = `pending`
-5. `load_now` указывает на следующий step **или** при epic complete — на qa-scope эпики (`implement-<plan_id>/index.md` + plan AC); `implement/index.md` без `done`/`completed`/status suffix
+5. `load_now` указывает на следующий step **или** при epic complete — на qa-scope (`implement-<plan_id>/index.md`; **FORBIDDEN** полный `plan-*.md` / «plan AC» в `load_now`); `implement/index.md` без `done`/`completed`/status suffix
 
 ## FAIL
 
-- Нет step-файла (или stub) → **не** FINISH
+- Нет step-файла (или stub / не по `epic-step.yaml`) → **не** FINISH  
+- Legacy `.md` implement shard → **FAIL**
 - Нет `## Handoff` текущего шага → **не** FINISH
 - В `activeContext.md` **≥2** заголовка `## Handoff` → **FAIL** (схлопнуть до одного текущего; append запрещён)
+- В `activeContext.md` **≥2** заголовка `## done` → **FAIL** (один короткий done; sandwich запрещён)
+- Completed shard в `load_now` → **FAIL** (убрать в done или удалить)
+- Полный `plan-*.md` в `load_now` на FINISH IMPLEMENT/QA/BUGFIX/TASK → **FAIL** (AC = step/Handoff/Fix plan; jump `§N` только при нехватке)
 - `decompose`=`completed` / `load_now`=next **раньше** step-файла + Handoff → **FAIL**; дописать артефакты, затем sync
 - Объявить шаг завершённым только по коду/тестам без step-файла → **FAIL**
 - Epic complete без рекомендации `* QA <plan_id>` в Handoff → **FAIL**
-- QA `fail`/`blocked` без §Fix plan в qa-артефакте → **FAIL**
+- Handoff `* QA` / **Epic QA** при `pending>0` в `loop/loop-state.yaml` (fallback: index view) → **FAIL** (QA только после всех sNN|eNN|rNN; runner halt)
+- QA `fail`/`blocked` без `fix_plan[]` в qa-*.yaml → **FAIL**
 - QA blocked без конкретной команды `* BUGFIX <subject>` в Handoff → **FAIL**
+- FINISH без `loop/runtime/epic/result.yaml` при EPIC MODE → **FAIL** (runner **halt**, Handoff fallback нет)
+- Невалидный `result.yaml` → runner **halt**
+- `result.yaml` finalized / `@verify` **до** существования implement step на диске → **FAIL**
+- `artifact:` указывает на `plan/decompose-*` вместо `implement/implement-*` → **FAIL**
+- `status=ok` при verify FAIL / без PASS (и `code_changed≠no`) → runner **halt** (crosscheck)
+- `status=ok` IMPLEMENT без step completed / decompose completed → runner **halt**
+- QA: нет `verdict` / status≠verdict / нет qa-shard `.yaml` / Verdict mismatch / fail|blocked без fix_plan → **halt**
+- CREATIVE: нет creative / Статус≠closed / open needs_creative → **halt**
+- REFLECT: нет reflection / Статус≠completed / нет ARCHIVE NOW в Handoff → **halt**
+- FINISH с ручным патчем `loop/loop-state.yaml` вместо result.yaml → **FAIL** (ledger пишет только runner)
 
 ## Missing artifact / «где implement файл?» (anti-loop)
 
 1. **≤3 tool calls:** Write step → Edit Handoff (+ при необходимости 1× decompose/`load_now`) → краткий ответ
 2. **FORBIDDEN:** re-read index >2×; bash `cat`/`ls` вместо Write; reasoning >2 раунда без Write
-3. Не перезапускать role-chain / verify, пока step-файл не записан
+3. Не перезапускать role-chain / **не** finalize `result.yaml` / **не** spawn `@verify`, пока step-файл не записан на диск
+4. Если `@verify` FAIL `result_artifact_path_mismatch` / «artifact не существует»: сначала Write implement step (не править artifact на decompose path)
 
 ## code_changed
 

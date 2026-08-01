@@ -1,0 +1,45 @@
+schema: epic-implement/v1
+role: back
+step_id: s12
+plan_id: v1-p2-ship
+title: '[T-005 | s12 | i5-ota-rauc] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s12-i5-ota-rauc.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: null
+done:
+- Добавлена чистая Ed25519-проверка OTA bundle с fail-closed ошибкой `SignatureVerificationError`.
+- 'Добавлена typed health policy: свежесть collector sample `<60s`, состояния `pass|fail|unknown`,
+  последовательность из 3 успешных циклов и сброс счётчика при fail/unknown.'
+- Добавлен anchorage gate с fail-closed поведением для неизвестного состояния и явным
+  override.
+- Добавлены pure rollback decision для A/B slot и выравнивание offset для возобновления
+  chunk download.
+- Зафиксирована зависимость `cryptography` и подключён путь OTA-пакета в pytest `pythonpath`.
+files:
+- apps/edge/ota/__init__.py
+- apps/edge/ota/verify.py
+- apps/edge/ota/healthcheck.py
+- apps/edge/ota/gate.py
+- apps/edge/ota/rollback.py
+- apps/edge/ota/tests/test_signature.py
+- apps/edge/ota/tests/test_healthcheck.py
+- apps/edge/ota/tests/test_anchorage_gate.py
+- apps/edge/ota/tests/test_rollback.py
+- pyproject.toml
+tests:
+- 'cmd: `.venv/bin/pytest apps/edge/ota/tests -q --tb=line'
+- 'итог: `7 passed'
+integration_check:
+- package/import path wired through `pyproject.toml`
+- Ed25519 dependency declared in `pyproject.toml`
+- RAUC/systemd production adapter — следующий integration scope
+- API approve/trigger hooks — предусмотрены последующими шагами
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

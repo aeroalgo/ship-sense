@@ -4,23 +4,26 @@ alwaysApply: false
 ---
 # INTEG IMPLEMENT — gates
 
-**Артефакт:** `memory-bank/integration/implement/implement-<plan_id>/eNN-<slug>.md` (+ hub `index.md`)  
-**Шаблоны:** `@.cursor/templates/implement/integ-index.md` · `@.cursor/templates/implement/integ-step.md`
+**Артефакт:** `memory-bank/integration/implement/implement-<plan_id>/eNN-<slug>.yaml` (+ hub `index.md`)  
+**Шаблоны:** `@.cursor/templates/implement/index.md` · `@.cursor/templates/implement/epic-step.yaml` (**строго**; без вольных секций)
 
 ## Gates
 
-1. `load_now`: ONE `decompose-*/eNN-*.md` (не index/gap/contracts)
+1. `load_now`: ONE `decompose-*/eNN-*.yaml` (не index/gap/contracts; **не** полный `plan-*.md`); AC = eNN
 2. §Contract из шага; пуст → допиши до кода
 3. Phases A→F = один UI-элемент; QueryBuilder для list/filter
 4. §0.11; mock убран из prod path
 5. TDD targeted `.venv/bin/pytest` из корня → полный suite в QA
 6. **Scenario:** user-visible → Playwright **или** `.venv/bin/pytest` HTTP outcome; путь в step
-7. Hub index + step; §Gaps (`нет` | bullets | link)
-8. **FINISH:** finish-block — step + Handoff **до** decompose completed
+7. Hub index + step yaml; `gaps`; INTEG — `epic-step.yaml` (`role: integ`)
+7a. **Format gate:** `grep_control` · `verification_results` · `checkpoints[]` · `status: completed`; `validate-step` exit 0 **до** finalize/`@verify`
+8. **FINISH:** finish-block — **порядок:** Write step → validate-step → Handoff → finalize `result.yaml` → `@verify`; step+Handoff **до** decompose completed
 8a. **Epic complete:** `finish-doc-router.md` §Handoff epic complete
 
 ## Abort
 
 - Шире eNN · gap вместо step · Phase E skipped · mock in prod → no FINISH
+- Полный `plan-*.md` в `load_now` / Read всего plan «как AC» → FAIL
 - Flat implement для нового эпика · user-visible без scenario · «manual smoke only» → reject
 - FINISH без step/Handoff → FAIL (finish-block)
+- INTEG eNN `.md` shard или step не по `templates/implement/epic-step.yaml` → FAIL

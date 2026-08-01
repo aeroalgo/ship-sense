@@ -1,0 +1,25 @@
+schema: epic-decompose/v1
+role: back
+step_id: s13
+plan_id: v1-p2-ship
+title: I6 RAID mirror + daily backup + alerts
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-03) — **closed**
+goal: ZFS/mdraid mirror per ADR; daily events+config backup; disk 80% alert; spare
+  ZIP instruction inputs.
+context:
+  consumes:
+  - '**Consumes:** CR-P2-03; plan §9; Postgres events.'
+  - '**Produces:** backup script; raid status exporter; restore verify path for T6.'
+  files:
+  - apps/edge/storage/raid/` (Создание|Модификация)
+  - /usr/local/bin/shipsense-backup-events.sh` (Создание in repo scripts/)
+  - scripts/shipsense-backup-events.sh` (Создание)
+  - apps/edge/storage/tests/test_backup_restore.py` (Создание)
+  - docs crew disk replace A4 inputs (Создание)
+checkpoints:
+- id: cp1
+  criterion: ZFS/mdraid mirror per ADR; daily events+config backup; disk 80% alert;
+    spare ZIP instruction inputs.
+verify: []
+tdd: []

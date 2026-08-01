@@ -1,0 +1,49 @@
+schema: epic-implement/v1
+role: back
+step_id: s10
+plan_id: v1-p2-ship
+title: '[T-005 | s10 | api-reports-full] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s10-api-reports-full.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: null
+done:
+- 'Расширен reports API: отдельный catalog, асинхронные jobs generate/watch-generate
+  и polling статуса.'
+- Добавлены persisted report list/latest/version/html endpoints поверх append-only
+  `report_runs` repository.
+- Legacy `GET /api/reports/watch` сохранён как alias с `watch_id`/`generate` поддержкой;
+  добавлен roster-driven `/api/watch/schedule`.
+- ReportOutput` теперь возвращает structured `body_json` и `body_html`; сохранены
+  provenance, status и immutable contract.
+files:
+- apps/api/app/api/v1/endpoints/reports.py
+- apps/api/app/api/v1/endpoints/watch_schedule.py
+- apps/api/app/api/v1/api.py
+- apps/api/app/reports/jobs.py
+- apps/api/app/reports/repository.py
+- apps/api/app/reports/service.py
+- apps/api/app/reports/engine.py
+- apps/api/app/reports/schemas.py
+- apps/api/tests/api/test_reports_full.py
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_reports_full.py apps/api/tests/api/test_reports_watch.py
+  apps/api/tests/reports -q --tb=line'
+- 'итог: `24 passed'
+- 'verify: `VERDICT: PASS` — targeted reports suite 24 passed.'
+integration_check:
+- storage keys wired — `report_runs` repository reads persisted report fields and
+  schedule reads active roster.
+- env vars in settings — step does not add environment variables.
+- DB cols ↔ migration — `ReportRun` fields match migration `007_report_runs`; append-only
+  trigger remains canonical.
+- events ↔ handlers — legacy watch continues using events/samples/quarantine/warnings
+  loaders; report routes are included in API router.
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

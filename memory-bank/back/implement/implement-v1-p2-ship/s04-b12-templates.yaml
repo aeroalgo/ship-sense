@@ -1,0 +1,53 @@
+schema: epic-implement/v1
+role: back
+step_id: s04
+plan_id: v1-p2-ship
+title: T-005 | s04 | b12-templates IMPLEMENT
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s04-b12-templates.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: T-005
+done:
+- Добавлен `TemplateRenderer` с единым нормализованным context snapshot для `body_json`
+  и `body_html`.
+- Добавлено детерминированное схлопывание watch alarms по `(event_name, asset_id)`
+  с debounce window.
+- Добавлена provenance-секция HTML и HTML escaping для пользовательских значений.
+- Добавлена register waiver-first валидация обязательных `waiver_id`, `reason` и `owner`.
+- Добавлены versioned ship-pack шаблоны и `schema.json` для watch, daily_noon, fuel
+  и register.
+- ReportEngine.generate` теперь сохраняет сгенерированные `body_json` и `body_html`
+  в `ReportRun`.
+files:
+- apps/api/app/reports/templates.py
+- apps/api/app/reports/engine.py
+- apps/api/tests/reports/test_templates_render.py
+- ship-pack/makarov/report_templates/_provenance.html.j2
+- ship-pack/makarov/report_templates/watch/v1/template.html.j2
+- ship-pack/makarov/report_templates/watch/v1/schema.json
+- ship-pack/makarov/report_templates/daily_noon/v1/template.html.j2
+- ship-pack/makarov/report_templates/daily_noon/v1/schema.json
+- ship-pack/makarov/report_templates/fuel/v1/template.html.j2
+- ship-pack/makarov/report_templates/fuel/v1/schema.json
+- ship-pack/makarov/report_templates/register/v1/template.html.j2
+- ship-pack/makarov/report_templates/register/v1/schema.json
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/reports/test_templates_render.py apps/api/tests/reports/test_engine_core.py
+  apps/api/tests/api/test_reports_watch.py -q --tb=line'
+- 'итог: `8 passed'
+- 'pre-FINISH verify: `VERDICT: PASS'
+integration_check:
+- report type contracts (`watch`, `daily_noon`, `fuel`, `register`) покрыты renderer
+  и versioned ship-pack paths
+- '`ReportEngine` сохраняет `body_json`/`body_html` в существующие `ReportRun` columns'
+- provenance присутствует в rendered HTML и сохраняется в report run
+- register waiver validation имеет тестовое покрытие
+- новых ENV, HTTP routes, migrations или runtime entrypoints не добавлено
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

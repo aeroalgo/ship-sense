@@ -1,0 +1,30 @@
+schema: epic-decompose/v1
+role: back
+step_id: s07
+plan_id: v1-p1-api
+title: Session B11 (roster + lifecycle → B6)
+next_phase: BACK IMPLEMENT
+needs_creative: no — **closed** (CR-API-03)
+goal: '`GET /api/watch/roster`, `POST /api/session`, `DELETE /api/session`: плитки
+  фамилий, cookie session, append-only `session_started`/`session_ended` в B6. Idle/max
+  TTL — CR-API-03.'
+context:
+  consumes:
+  - '**Consumes:** s01; events write path B6 (controlled); roster.yaml; creative CR-API-03;
+    plan §6.9–6.11, §12.'
+  - '**Produces:** session feature + endpoints; in-memory SessionState.'
+  files:
+  - apps/api/app/api/v1/endpoints/session.py` (Создание)
+  - apps/api/app/session/schemas.py` (Создание)
+  - apps/api/app/session/service.py` (Создание)
+  - apps/api/app/session/models.py` (Создание) — SessionState
+  - apps/api/app/api/v1/api.py` (Модификация)
+  - apps/api/tests/api/test_session.py` (Создание)
+  - fixture `roster.yaml` (Создание/мод.)
+checkpoints:
+- id: cp1
+  criterion: '`GET /api/watch/roster`, `POST /api/session`, `DELETE /api/session`:
+    плитки фамилий, cookie session, append-only `session_started`/`session_ended`
+    в B6. Idle/max TTL — CR-API-03.'
+verify: []
+tdd: []

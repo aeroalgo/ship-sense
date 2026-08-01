@@ -1,0 +1,43 @@
+schema: integ-decompose/v1
+step_id: e22
+plan_id: v1-portal
+title: Watch DataQualityPanel
+element_id: e22
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/watch'
+  components: '** `DataQualityPanel.tsx`'
+  user_sees: '** quarantine/stale intervals + banner from report data_quality'
+data_need:
+- '`data_quality.quarantine_tags`, `stale_intervals`, `banner`'
+api_today:
+- status: —
+  detail: subset of watch report
+contract:
+  front_client: '** `DataQualityPanel` reads from report (no separate fetch)'
+db: '- none (derived from report body)'
+back:
+- already live (report data_quality)
+- Banner text from BACK is source of truth; FRONT does not invent «OK» when quarantine
+  non-empty
+front:
+- '`DataQualityPanel` already wired (FRONT s13)'
+- Banner text from BACK (not invented)
+grep_control:
+- back: report `data_quality
+  front: DataQualityPanel
+verify:
+- '`grep -r "DataQualityPanel" frontend/src`'
+- vitest panel with quarantine fixture
+- Playwright visible banner text
+tdd:
+- '1. Red: vitest panel with quarantine fixture'
+- '2. Green: live report → panel shows real DQ'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Panel shows quarantine_tags + stale_intervals
+- id: cp2
+  criterion: Banner text from BACK (not "OK" if quarantine)
+- id: cp3
+  criterion: Empty DQ → panel empty or "clean" state

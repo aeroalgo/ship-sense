@@ -1,0 +1,66 @@
+schema: integ-decompose/v1
+step_id: e24
+plan_id: v1-portal
+title: Reports hub (фаза 2 UI; BACK already rich)
+element_id: e24
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** **нет route** `/reports` сегодня; product screen 9 phase 2'
+  components: '** (future) reports hub UI'
+  user_sees: '** (future) catalog + generate + poll + versioned HTML'
+data_need:
+- catalog of report types; async generate; job poll; versioned HTML
+api_today:
+- status: ✅
+  detail: '`GET /api/reports/catalog` — canonical catalog'
+- status: ✅
+  detail: '`GET /api/reports` — list runs (also legacy empty-filter catalog branch
+    for non-DB)'
+- status: ✅
+  detail: '`POST /api/reports/generate`, `POST /api/reports/watch/generate` → 202
+    job'
+- status: ✅
+  detail: '`GET /api/reports/jobs/{job_id}`'
+- status: ✅
+  detail: '`GET /api/reports/{id}`, `/versions/{v}`, `/versions/{v}/html`'
+- status: —
+  detail: 'FRONT: only list+watch get; **missing** generate/job/version clients'
+- status: ⚠️
+  detail: 'Drift risk: front `fetchReports` hits `/api/reports` expecting `ReportsListResponse`,
+    while live DB path returns **run list** shape'
+contract:
+  method_path: '** `GET /api/reports/{report_id}/versions/{version}/html`'
+  response_shape: '** text/html'
+  front_client: '** (future) `lib/api/reports.ts` — fix `fetchReports` (catalog vs
+    runs drift)'
+db: '- reports svc (catalog, runs, jobs, versions)'
+back:
+- already live (T-005 s10)
+- 'Fix client: catalog → `/api/reports/catalog`; runs → `/api/reports` with filters'
+front:
+- only list+watch get (FRONT s13); **missing** generate/job/version clients
+- New UI route or section under Watch for «полный B12» when product ready
+- 'MSW: add catalog + jobs handlers when UI lands'
+grep_control:
+- back: GET /api/reports/catalog
+  front: (future client)
+- back: GET /api/reports` (runs)
+  front: fix `fetchReports` drift
+- back: POST /api/reports/generate
+  front: (future client)
+verify:
+- '`grep -r "/api/reports" frontend/src api/`'
+- §0.11 all report paths used by UI
+- contract test catalog vs runs shapes
+- Playwright generate→poll→render HTML (after UI)
+tdd:
+- '1. Red: n/a (P1, no UI yet)'
+- '2. Green: fix catalog path drift first; add clients when UI lands'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: '`fetchReports` hits correct endpoint (catalog vs runs)'
+- id: cp2
+  criterion: 'After UI: generate job → poll → render HTML'
+- id: cp3
+  criterion: No drift between client expectation and BACK response

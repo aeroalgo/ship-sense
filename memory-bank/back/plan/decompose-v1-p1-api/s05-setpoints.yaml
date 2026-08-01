@@ -1,0 +1,26 @@
+schema: epic-decompose/v1
+role: back
+step_id: s05
+plan_id: v1-p1-api
+title: Setpoints read (YAML)
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: '`GET /api/setpoints` и `GET /api/setpoints/history` read-only из ship-pack
+  YAML (p1 без history table).'
+context:
+  consumes:
+  - '**Consumes:** s01; semantic/ship-pack; plan §6.5–6.6.'
+  - '**Produces:** setpoints feature + endpoints.'
+  files:
+  - apps/api/app/api/v1/endpoints/setpoints.py` (Создание)
+  - apps/api/app/setpoints/schemas.py` (Создание)
+  - apps/api/app/setpoints/service.py` (Создание)
+  - apps/api/app/api/v1/api.py` (Модификация)
+  - apps/api/tests/api/test_setpoints.py` (Создание)
+  - fixture `setpoints.yaml` в ship-pack-min (Создание/мод.)
+checkpoints:
+- id: cp1
+  criterion: '`GET /api/setpoints` и `GET /api/setpoints/history` read-only из ship-pack
+    YAML (p1 без history table).'
+verify: []
+tdd: []

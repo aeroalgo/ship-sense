@@ -1,0 +1,46 @@
+schema: epic-qa/v1
+role: back
+date: '2026-07-30'
+reviewer: BACK QA
+verdict: pass
+scope:
+- 'task: T-001 / v1-p1-collector'
+- 'план: `memory-bank/back/plan/plan-v1-p1-collector.md'
+- 'gap-close: `memory-bank/back/plan/plan-v1-p1-edge-runtime-smoke.md` + implement
+  s26'
+- 'предыдущий fail: [qa-20260727-v1-p1-collector.md](qa-20260727-v1-p1-collector.md)'
+- 'проверенные области: collector+emulator pytest, soak, compileall, compose build/up,
+  health snapshot, IPC→writer→Timescale samples, OPC UA Write refused, SIGTERM exit
+  0, §0.11'
+- 'связанные изменения: s26 R-1/R-2/R-3 runtime gap-close'
+checks:
+- migrated from md — review checks
+issues:
+- id: R-1
+  sev: resolved
+  file: '`app.py` / `snapshot_writer.py`'
+  msg: Periodic snapshot + healthy collector во время работы
+- id: R-2
+  sev: resolved
+  file: '`runtime/bootstrap.py` / `__main__.py`'
+  msg: Sources≥1 + IPC endpoint из env; live samples в DB
+- id: R-3
+  sev: resolved
+  file: '`opcua_server.py`'
+  msg: Typed/coerced writes; Write refused = 0
+- id: R-4
+  sev: '**low**'
+  file: '`apps/edge/collector/pyproject.toml`'
+  msg: Ruff/type-check не установлены в `.venv` — статическое качество не подтверждено
+- id: O-1
+  sev: '**low**'
+  file: '`domain/interfaces.py` Modbus health'
+  msg: Snapshot `samples_total=0`, `tags_total=0`, `last_ok_ts=null` при живом потоке
+    TAI410*; health file/state=up достаточны для compose healthcheck, но счётчики
+    health не отражают throughput
+blockers: []
+fix_plan: []
+limitations: []
+suite: []
+plan_id: v1-p1-collector
+epic_id: v1-p1-collector

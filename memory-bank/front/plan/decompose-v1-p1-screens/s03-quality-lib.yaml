@@ -1,0 +1,25 @@
+schema: epic-decompose/v1
+role: front
+step_id: s03
+plan_id: v1-p1-screens
+title: Quality rollup + event priority sort
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: Чистые функции `lib/quality` (worst-of rollup) и `lib/events/priority` (журнал
+  sort) — до UI.
+context:
+  consumes:
+  - '**Consumes:** s01; Quality enum plan §15'
+  - '**Produces:** shared helpers для Overview/Journal/StatusBar'
+  files:
+  - frontend/src/lib/quality/rollup.ts` (Создание)
+  - frontend/src/lib/quality/types.ts` (Создание) — Quality, AggregateStatus имена
+  - frontend/src/lib/events/priority.ts` (Создание)
+  - frontend/src/lib/quality/rollup.test.ts` (Создание)
+  - frontend/src/lib/events/priority.test.ts` (Создание)
+checkpoints:
+- id: cp1
+  criterion: Чистые функции `lib/quality` (worst-of rollup) и `lib/events/priority`
+    (журнал sort) — до UI.
+verify: []
+tdd: []

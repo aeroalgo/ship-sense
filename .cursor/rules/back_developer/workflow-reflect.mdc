@@ -13,7 +13,8 @@ alwaysApply: false
 3. Анализ: vs plan · successes · problems · lessons · improvements
 4. `memory-bank/back/reflection/reflection-[task_id].md`
 5. `tasks.md` append-only
-6b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`); new chat → ARCHIVE NOW
-7. Предложи ARCHIVE NOW (**новый чат**)
+6b. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)  
+   Next-mode: только `loop/transitions.yaml` (+ runner); ARCHIVE NOW — вручную после complete  
+7. Предложи ARCHIVE NOW (**новый чат**) — не запускать ARCHIVE внутри автоцикла REFLECT
 
 **Верификация**: gates

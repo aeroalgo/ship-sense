@@ -1,0 +1,25 @@
+schema: epic-decompose/v1
+role: front
+step_id: s15
+plan_id: v1-p1-screens
+title: Global stale desaturate + quarantine banners
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: Глобальный `data-stale` overlay + FreshnessBanner поверх; QuarantineBanner scope;
+  единый stale detection из WS/REST.
+context:
+  consumes:
+  - '**Consumes:** s05 WS stale events, s06 banners, s07 shell'
+  - '**Produces:** features/shell freshness controller'
+  files:
+  - frontend/src/features/shell/FreshnessController.tsx` (Создание)
+  - frontend/src/hooks/useStaleGate.ts` (Создание)
+  - frontend/src/app/(authenticated)/layout.tsx` (Модификация) — wire controller
+  - frontend/src/app/globals.css` (Модификация) — body[data-stale] filter §2.2.3
+  - frontend/src/features/shell/FreshnessController.test.tsx` (Создание)
+checkpoints:
+- id: cp1
+  criterion: Глобальный `data-stale` overlay + FreshnessBanner поверх; QuarantineBanner
+    scope; единый stale detection из WS/REST.
+verify: []
+tdd: []

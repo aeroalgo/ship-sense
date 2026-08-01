@@ -1,0 +1,39 @@
+schema: epic-implement/v1
+role: back
+step_id: s18
+plan_id: v1-p2-ship
+title: '[T-005 | s18 | t5-t6-lab-tests] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s18-t5-t6-lab-tests.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-08-01'
+level: L2
+task_id: null
+done:
+- 'Добавлен детерминированный CI lab driver для T5 OTA: rollback после bad image и
+  dead collector, reject unsigned bundle до staging, десять interrupted downloads
+  с выравниванием resume offset и проверкой SHA-256.'
+- 'Добавлен детерминированный CI lab harness для T6: disk-yank degradation alert без
+  SQL-затрагивания `events`, ZIP disk с началом resilvering, restore events backup
+  с проверкой manifest row count.'
+- Описаны manual hardware gates и команды CI для T5/T6.
+files:
+- apps/edge/ota/tests/lab/test_t5_scenarios.py
+- apps/edge/storage/tests/lab/test_t6_scenarios.py
+- docs/tests/T5-ota.md
+- docs/tests/T6-disk.md
+tests:
+- 'cmd: `.venv/bin/pytest apps/edge/ota/tests/lab/test_t5_scenarios.py apps/edge/storage/tests/lab/test_t6_scenarios.py
+  -q --tb=line'
+- 'итог: 7 passed'
+integration_check:
+- OTA rollback/signature/resume hooks consumed by T5 lab driver
+- storage quota, RAID status и backup restore hooks consumed by T6 lab driver
+- hardware-only операции явно вынесены в manual gates документации
+- CI-команды привязаны к новым lab test packages
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

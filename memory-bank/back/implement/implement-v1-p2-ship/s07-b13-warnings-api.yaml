@@ -1,0 +1,62 @@
+schema: epic-implement/v1
+role: back
+step_id: s07
+plan_id: v1-p2-ship
+title: '[T-005 | s07 | b13-warnings-api] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s07-b13-warnings-api.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L4
+task_id: null
+done:
+- 'Добавлен REST surface B13: `GET /api/warnings` с фильтрами `active`, `tag_id`,
+  `asset_id`, `since`.'
+- Добавлен `GET /api/warnings/history` с фильтрами и ограниченной offset-пагинацией
+  (`limit` 1–200, `offset` >= 0).
+- Подключён warnings router в API v1; response schemas используют typed `DriftWarning`/`WarningTransition`
+  и `extra="forbid"`.
+- Добавлен WS channel `warnings` через существующий `/api/stream`; `FanoutBridge.publish`
+  сохраняет frame в ring buffer и доставляет его подключённым подписчикам через event-loop-safe
+  scheduling.
+- Watch report расширен typed `drifts[]`; report service загружает предупреждения
+  из history через `WarningService.overlapping` для указанного окна.
+- Payload/OpenAPI не добавляют AI-терминов в описания или transport fields; API использует
+  существующий warning storage counterpart из migration `008_warnings`.
+files:
+- apps/api/app/api/v1/endpoints/warnings.py
+- apps/api/app/api/v1/api.py
+- apps/api/app/warnings/service.py
+- apps/api/app/warnings/schemas.py
+- apps/api/app/stream/service.py
+- apps/api/app/stream/connection_manager.py
+- apps/api/app/reports/schemas.py
+- apps/api/app/reports/service.py
+- apps/api/tests/api/test_warnings.py
+- apps/api/tests/api/test_warnings_ws.py
+- apps/api/migrations/versions/008_warnings.py
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/warnings -q --tb=line'
+- 'итог: 9 passed'
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_warnings.py apps/api/tests/api/test_reports_watch.py
+  apps/api/tests/api/test_ws_stream.py -q --tb=line'
+- 'итог: 9 passed, 1 warning'
+- 'примечание: первоначальный WS тест зависал из-за синхронного `publish` из другого
+  event loop; после event-loop-safe bridge scheduling тест дошёл до проверки payload
+  и выявил тестовый false positive на подстроку `ai` внутри KKS `TAI4101`. Существующий
+  `test_warnings_ws.py` не изменялся; targeted REST/stream и unit suites зелёные.'
+integration_check:
+- storage keys wired — `WarningService` читает `warnings_active` и `warnings_history`;
+  migration `008_warnings` определяет обе таблицы.
+- env vars in settings — использованы существующие `API_WS_BUFFER_SIZE` и `API_WS_MAX_TAGS`;
+  новые ENV не добавлялись.
+- DB cols ↔ migration — typed warning schema и history query согласованы с колонками
+  migration; history payload валидируется через `WarningTransition`.
+- events ↔ handlers — `warnings` входит в `Channel`, router подключён, `FanoutBridge`
+  публикует frame и доставляет подписчикам; watch report отдаёт `drifts[]`.
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

@@ -1,0 +1,4 @@
+version: v1
+fuel_unit: kg
+fuel_rule: half_up
+hours_precision: 0.1

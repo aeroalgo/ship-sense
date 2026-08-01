@@ -19,4 +19,4 @@ Legacy (`main.mdc`, `Core/*` кроме `memory-bank-paths`, `_archive/`) — **
 | QA | `_lean/qa.mdc` |
 | REFLECT | `_lean/reflect.mdc` |
 | ARCHIVE NOW | `_lean/archive.mdc` |
-| SECURITY | — (только `workflow-security.mdc`; lean-файла нет — не открывать `_lean/security.mdc`) |
+| SECURITY | `_lean/security.mdc` (+ `workflow-security.mdc`; epic: `shared/workflow-security-epic.mdc`) |

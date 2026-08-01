@@ -1,0 +1,13 @@
+items:
+  - tag_id: sp_TAI4101_HH
+    value: 80.0
+    unit: "°C"
+    label: HH TAI4101
+    effective_from: "2026-01-15T00:00:00Z"
+    history:
+      - from_ts: "2026-01-01T00:00:00Z"
+        to_ts: "2026-01-15T00:00:00Z"
+        value: 78.0
+      - from_ts: "2026-01-15T00:00:00Z"
+        to_ts: null
+        value: 80.0

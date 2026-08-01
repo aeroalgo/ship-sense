@@ -1,0 +1,49 @@
+schema: epic-implement/v1
+role: back
+step_id: s02
+plan_id: v1-p2-ship
+title: T-005 | s02 | b12-engine-core IMPLEMENT
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s02-b12-engine-core.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: T-005
+done:
+- Добавлены контракты `ReportPeriod`, `ReportRequest`, `ReportProvenance`, `ReportOutput`
+  в `apps/api/app/reports/schemas.py`.
+- Добавлен `resolve_period` для explicit watch, vessel-day noon и calendar UTC с проверкой
+  timezone и порядка границ в `apps/api/app/reports/period.py`.
+- Добавлены ORM-модель `ReportRun` и append-only репозиторий в `apps/api/app/reports/models.py`
+  и `apps/api/app/reports/repository.py`.
+- 'Добавлен асинхронный `ReportEngine.generate`: watermark, version, provenance и
+  `preliminary` при watermark до конца периода в `apps/api/app/reports/engine.py`.'
+- 'Добавлена миграция `migrations/versions/007_report_runs.py`: таблица `report_runs`,
+  индекс и DB trigger, запрещающий UPDATE/DELETE.'
+- Добавлены targeted tests `apps/api/tests/reports/test_engine_core.py` и `apps/api/tests/reports/test_report_runs_immutability.py`.
+files:
+- apps/api/app/reports/schemas.py
+- apps/api/app/reports/period.py
+- apps/api/app/reports/models.py
+- apps/api/app/reports/repository.py
+- apps/api/app/reports/engine.py
+- migrations/versions/007_report_runs.py
+- apps/api/tests/reports/test_engine_core.py
+- apps/api/tests/reports/test_report_runs_immutability.py
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/reports/test_engine_core.py apps/api/tests/reports/test_report_runs_immutability.py
+  apps/api/tests/api/test_reports_watch.py -q --tb=line'
+- 'итог: `6 passed'
+- .venv/bin/graphify update .` — ok
+- 'Pre-FINISH verify → `VERDICT: PASS'
+integration_check:
+- '`report_runs` ORM ↔ migration `007_report_runs`'
+- append-only trigger ↔ repository (no UPDATE/DELETE path)
+- '`ReportRequest` / provenance contracts used by engine'
+- no new public HTTP routes in this step
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

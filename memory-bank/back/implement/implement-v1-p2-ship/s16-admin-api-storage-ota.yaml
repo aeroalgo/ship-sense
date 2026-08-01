@@ -1,0 +1,56 @@
+schema: epic-implement/v1
+role: back
+step_id: s16
+plan_id: v1-p2-ship
+title: '[T-005 | s16 | admin-api-storage-ota] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s16-admin-api-storage-ota.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-08-01'
+level: L2
+task_id: null
+done:
+- Добавлены admin REST routers для OTA status/approve/trigger, storage health и paginated
+  access audit; routers зарегистрированы в API surface под tag `admin`.
+- 'Реализована role/permission dependency для session cookie: `watch_officer` блокируется,
+  `chief_engineer` получает mutation permissions, `electromechanic` — read permissions.'
+- OTA approve/trigger используют anchorage/update gate, а успешные admin POST actions
+  записываются через `AccessAuditWriter`.
+- Storage endpoint агрегирует health snapshot, RAID status и свежесть backup; при
+  отсутствии snapshot/backup или degraded RAID выставляет `degraded`.
+- Исправлены dataclass-порядок полей `SessionState` и циклический импорт `Role` в
+  session schemas; compose уже публикует API только через `127.0.0.1:8000`.
+- Добавлены targeted API tests для OTA role gate, storage degraded flag и audit pagination.
+files:
+- apps/api/app/api/v1/api.py
+- apps/api/app/api/v1/endpoints/admin_ota.py
+- apps/api/app/api/v1/endpoints/admin_storage.py
+- apps/api/app/api/v1/endpoints/admin_audit.py
+- apps/api/app/session/authorization.py
+- apps/api/app/session/models.py
+- apps/api/app/session/schemas.py
+- apps/api/tests/api/test_admin_ota.py
+- apps/api/tests/api/test_admin_storage.py
+- docker-compose.yml
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_admin_ota.py apps/api/tests/api/test_admin_storage.py
+  -q --tb=line'
+- 'итог: 5 passed'
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_admin_ota.py apps/api/tests/api/test_admin_storage.py
+  apps/api/tests/api/test_session.py apps/api/tests/audit/test_access_audit.py -q
+  --tb=line'
+- 'итог: s16 targeted tests passed; existing `test_session_lifecycle_sets_cookie_and_writes_events`
+  requires an initialized `events`/`access_audit` database schema in the current default
+  SQLite fixture and failed with `sqlite3.OperationalError: no such table: access_audit`.'
+integration_check:
+- admin routes registered in `apps/api/app/api/v1/api.py` and exposed under `/api/admin/*`
+- permission names map to roster roles and session cookie dependency
+- OTA mutation actions append access audit records
+- storage health consumes `health_snapshots`, RAID parser and backup markers
+- compose API bind is localhost-only (`127.0.0.1:8000:8000`), with no WAN port publishing
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

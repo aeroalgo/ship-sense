@@ -10,4 +10,5 @@ alwaysApply: false
 1. `OK INTEG REFLECT`
 1a. Прочитай **Gates**
 2. `integration/reflection/reflection-<task_id>.md` — contract-first lessons
-3. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`) → ARCHIVE NOW (new chat)
+3. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`)  
+   Next-mode: только `loop/transitions.yaml` (+ runner); ARCHIVE NOW — вручную после complete

@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Gates
 
-1. Lean load §7
+1. Lean load §7: `load_now` + qa/bugfix; **не** полный `plan-*.md`
 2. Suite: lint · types · unit/component · UX/a11y · **Playwright** — **parent only**
 3. Scenario P0/P1; дыры → дописать Playwright до PASS
 4. Exploratory browser если live app; иначе `skip: no live app`

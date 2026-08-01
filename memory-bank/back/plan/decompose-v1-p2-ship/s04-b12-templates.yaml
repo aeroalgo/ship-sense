@@ -1,0 +1,28 @@
+schema: epic-decompose/v1
+role: back
+step_id: s04
+plan_id: v1-p2-ship
+title: B12 Jinja templates watch/daily/fuel
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-07) — **closed**
+goal: Jinja2 HTML + schema.json для watch/daily_noon/fuel (+ register conditional
+  Q5); общий `_provenance` partial; body_html из того же context dict что body_json.
+context:
+  consumes:
+  - '**Consumes:** s02–s03 body context; CR-P2-07 layout/waiver Q5; plan §4.4, §12.'
+  - '**Produces:** ship-pack report_templates; TemplateRenderer; alarm debounce collapse
+    для watch.'
+  files:
+  - ship-pack/makarov/report_templates/watch/v1/` (Создание)
+  - ship-pack/makarov/report_templates/daily_noon/v1/` (Создание)
+  - ship-pack/makarov/report_templates/fuel/v1/` (Создание)
+  - ship-pack/makarov/report_templates/register/v1/` (Создание|waiver)
+  - ship-pack/makarov/report_templates/_provenance.html.j2` (Создание)
+  - apps/api/app/reports/templates.py` (Создание)
+  - apps/api/tests/reports/test_templates_render.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: Jinja2 HTML + schema.json для watch/daily_noon/fuel (+ register conditional
+    Q5); общий `_provenance` partial; body_html из того же context dict что body_json.
+verify: []
+tdd: []

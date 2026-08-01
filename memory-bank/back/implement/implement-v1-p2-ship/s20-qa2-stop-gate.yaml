@@ -1,0 +1,39 @@
+schema: epic-implement/v1
+role: back
+step_id: s20
+plan_id: v1-p2-ship
+title: '[T-005 | s20 | qa2-stop-gate] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s20-integration-hard.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-08-01'
+level: L1
+task_id: null
+done:
+- 'Устранена скрытая зависимость `test_stop_gate.py` от порядка импорта тестов: путь
+  `.claude/hooks` добавляется в `sys.path` самим модулем.'
+- 'Тест `test_stop_gate_allows_after_handoff_fingerprint_change` теперь явно моделирует
+  завершённую сессию через `result.yaml` с `status: ok` и `draft: false`.'
+- Stop-gate проверяет тот же финализированный контракт, который используется runner
+  после `@verify`, а тест больше не проходит из-за случайного отсутствия импортируемого
+  hook-модуля.
+files:
+- tests/storage/test_stop_gate.py
+tests:
+- 'cmd: `.venv/bin/pytest tests/storage/test_stop_gate.py -q --tb=line'
+- 'итог: `3 passed'
+- 'cmd: `.venv/bin/pytest tests/storage/test_schemas.py -q --tb=line'
+- 'итог: `2 passed'
+- 'полный suite: блокирован независимыми QA-3/QA-4: `access_audit` отсутствует в SQLite
+  fixture; `vessel.yaml` содержит 3 вместо 4 tags'
+integration_check:
+- stop-gate читает финализированный `loop/runtime/epic/result.yaml`
+- test fixture и `epic_lib.resolve_next` используют один import contract
+- storage metadata contract не изменён
+- QA-2 не маскируется отсутствием `result.yaml`
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

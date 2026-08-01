@@ -1,0 +1,46 @@
+schema: epic-implement/v1
+role: back
+step_id: s20
+plan_id: v1-p2-ship
+title: '[T-005 | s20 | integration-hard] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s20-integration-hard.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-08-01'
+level: L2
+task_id: null
+done:
+- Добавлена детерминированная emulator-shaped интеграционная проверка reports/warnings
+  с сохранением `quarantine` quality.
+- 'Добавлена T7 acceptance matrix для native-map rebrowse: added/changed quarantine,
+  removed mapping, unknown tag и stale state.'
+- Добавлена T10 matrix для шести независимых WebSocket-клиентов и reconnect replay
+  по client-held cursor.
+- Добавлены OpenAPI p2 surface assertions, v1 exclusion scans и contract note с additive
+  `/api` policy.
+files:
+- apps/api/tests/integration/test_p2_e2e_reports_warnings.py
+- apps/api/tests/integration/test_t7_rebrowse.py
+- apps/api/tests/integration/test_t10_six_posts.py
+- apps/api/tests/api/test_openapi_p2_surface.py
+- apps/api/tests/test_v1_exclusions.py
+- integration/contracts/b10-phase2.md
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/integration/test_p2_e2e_reports_warnings.py
+  apps/api/tests/integration/test_t7_rebrowse.py apps/api/tests/integration/test_t10_six_posts.py
+  apps/api/tests/api/test_openapi_p2_surface.py apps/api/tests/test_v1_exclusions.py
+  -q --tb=line'
+- 'итог: 10 passed, 1 warning'
+integration_check:
+- emulator-shaped report/warnings seam wired through public API
+- T7 quarantine, unknown, removed and stale states covered
+- T10 six connections, disconnect and cursor replay covered
+- OpenAPI p2 routes and no-v2 namespace asserted
+- forbidden forwarding/ML/AI terms scanned
+- B10 phase-2 contract note records HTTP/WS/T7/T10 policy
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

@@ -1,0 +1,33 @@
+schema: epic-qa/v1
+role: back
+date: '2026-07-28'
+reviewer: BACK QA
+verdict: fail
+scope:
+- 'task: T-008 MQTT connector'
+- 'step: s09 Mosquitto testcontainer integration E2E'
+- 'files: `apps/edge/collector/tests/integration/test_mqtt_e2e.py`, MQTT client/connector
+  path, dependency manifests'
+checks:
+- s09 live E2E green
+- 'MQTT dependencies installed: `aiomqtt==2.4.0`, `paho-mqtt==2.1.0`'
+- Mosquitto testcontainer starts with Docker access
+- 'non-MQTT collector/emulator unit regression: 286 passed'
+- 'remaining collector integration regression (excluding s09): 23 passed'
+- full backend suite green
+issues:
+- id: R-1
+  sev: high
+  file: '`apps/edge/collector/src/collector/plugins/mqtt/client.py`'
+  msg: '`aiomqtt 2.4.0` exposes `Message.topic` as `aiomqtt.Topic`, but `_dispatch_message()`
+    accepts only `str`; received messages are silently discarded before `MqttConnector._on_message()`.'
+blockers:
+- The original external dependency blocker is resolved in this environment.
+- s09 remains blocked by R-1. Fix the topic normalization/type check, then rerun both
+  Mosquitto E2E tests and the full backend suite.
+- QA did not modify production code; this is a diagnostic QA result.
+fix_plan: []
+limitations: []
+suite: []
+plan_id: v1-p1-mqtt
+epic_id: v1-p1-mqtt

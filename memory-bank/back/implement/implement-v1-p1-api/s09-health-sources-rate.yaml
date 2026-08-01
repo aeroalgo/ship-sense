@@ -1,0 +1,21 @@
+schema: epic-implement/v1
+role: back
+step_id: s09
+plan_id: unknown
+title: s09 — Health, sources/status, rate limits
+status: completed
+decompose_ref: memory-bank/back/plan/decompose-unknown/s09-health-sources-rate.yaml
+implement_index: memory-bank/back/implement/implement-unknown/index.md
+date: '2026-07-31'
+level: null
+task_id: null
+done: []
+files: []
+tests: []
+integration_check: []
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

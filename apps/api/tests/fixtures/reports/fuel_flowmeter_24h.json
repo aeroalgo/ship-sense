@@ -1,0 +1,16 @@
+{
+  "body": {
+    "type": "fuel",
+    "period": {
+      "from": "2026-07-31T00:00:00Z",
+      "to": "2026-08-01T00:00:00Z"
+    },
+    "flowmeter": {
+      "start_kg": 1000,
+      "end_kg": 1300,
+      "total_kg": 300
+    },
+    "generated_at": "2026-08-01T00:00:01Z"
+  },
+  "expected_body_sha256": "1a312859cc325e45c53aacb6129327fdbd176422afdc5b0c54732c9cfc9f09bc"
+}

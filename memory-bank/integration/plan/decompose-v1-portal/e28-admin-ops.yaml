@@ -1,0 +1,52 @@
+schema: integ-decompose/v1
+step_id: e28
+plan_id: v1-portal
+title: Admin ops (storage / OTA / audit)
+element_id: e28
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** none in crew portal; possible `/admin` later'
+  components: '** (future) admin panels (role-gated)'
+  user_sees: '** (future) storage health, OTA status/approve/trigger, access audit
+    list'
+data_need:
+- storage health, OTA status/approve/trigger, access audit list
+api_today:
+- status: ✅
+  detail: '`GET /api/admin/storage`'
+- status: ✅
+  detail: '`GET/POST /api/admin/ota/status'
+- status: ✅
+  detail: '`GET /api/admin/access/audit?limit&offset`'
+- status: —
+  detail: FRONT ❌
+contract:
+  method_path: '** `GET /api/admin/access/audit?limit&offset`'
+  response_shape: '** `{ items: [...], has_more }`'
+  front_client: '** (future) `lib/api/admin.ts` — role-gated'
+db: '- admin ops tables (storage, ota, access_audit)'
+back:
+- already live (T-005 s14/s16)
+- Out of P0 crew journeys; P2 section portal or separate ops app
+- 'If in scope: new routes under authenticated admin role only'
+front:
+- no UI yet (crew portal)
+- No accidental public fetch from crew screens
+grep_control:
+- back: GET/POST /api/admin/*
+  front: (future client, role-gated)
+verify:
+- '`grep -r "/api/admin" frontend/src api/`'
+- pytest admin authz
+- no accidental public fetch from crew screens
+tdd:
+- '1. Red: n/a (P2, no UI yet)'
+- '2. Green: role-gated admin UI (after decision)'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Admin routes role-gated (Permission.*)
+- id: cp2
+  criterion: No crew screen accidentally calls admin API
+- id: cp3
+  criterion: Audit list paginates

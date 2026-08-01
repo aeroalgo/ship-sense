@@ -187,13 +187,19 @@ describe("session login/logout", () => {
     expect(screen.queryByTestId(SESSION_CHIP_TEST_ID)).not.toBeInTheDocument();
   });
 
-  it("tiles sorted by tile_order", async () => {
+  it("tiles sorted by tile_order and hide inactive roster entries", async () => {
     server.use(
       http.get("http://localhost:8000/api/watch/roster", () =>
         HttpResponse.json({
           items: [
             { ...rosterFixture.items[1], tile_order: 2 },
             { ...rosterFixture.items[0], tile_order: 1 },
+            {
+              ...rosterFixture.items[2],
+              person_id: "inactive",
+              active: false,
+              tile_order: 0,
+            },
           ],
         }),
       ),
@@ -208,5 +214,10 @@ describe("session login/logout", () => {
     const tiles = screen.getAllByTestId(LOGIN_TILE_TEST_ID);
     expect(tiles[0]).toHaveAttribute("data-person-id", "ivanov");
     expect(tiles[1]).toHaveAttribute("data-person-id", "petrov");
+    expect(
+      screen
+        .getAllByTestId(LOGIN_TILE_TEST_ID)
+        .some((tile) => tile.getAttribute("data-person-id") === "inactive"),
+    ).toBe(false);
   });
 });

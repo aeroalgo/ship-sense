@@ -1,0 +1,82 @@
+schema: epic-implement/v1
+role: integ
+step_id: e05
+plan_id: v1-portal
+title: e05 — StatusBar alarms IMPLEMENT
+status: completed
+element_ref: memory-bank/integration/plan/decompose-v1-portal/e05-statusbar-alarms.yaml
+implement_index: memory-bank/integration/implement/implement-v1-portal/index.md
+date: '2026-08-01'
+
+skills_used:
+  - '`frontend-patterns` — использованы существующие StatusBar/AppShell/useStatusBarAlarms seams.'
+  - '`frontend-testing` — targeted Vitest для StatusBar и AppShell.'
+  - '`verification-before-completion` — pre-FINISH verify gate.'
+
+discovery:
+  - '`useStatusBarAlarms` выполняет bootstrap через `fetchEvents` и подписывается на канал `events` через `useWsChannel`.'
+  - '`StatusBar` отображает alarm chips, а `AppShell` строит deep-link `/journal?asset_id=&from=` через `router.push`.'
+  - '`journalFilters` уже читает `asset_id` и `from`, поэтому deep-link совпадает с журналом.'
+  - '`WsManagerEvent` уже доставляет connected/reconnecting/disconnect и event payload; live event path дедуплицирует id и ограничивает список 20 элементами.'
+
+gaps:
+  status: none
+
+done:
+  - 'Bootstrap query расширен до `severity[]=alarm&severity[]=warning`, чтобы StatusBar получал оба требуемых класса событий.'
+  - 'Фильтр live WS принимает `alarm` и `warning`; severity mapping отображает warning как `warning-drift`.'
+  - 'StatusBar alarm click wired в AppShell на `/journal` с `asset_id` и `from`; journal filters применяет эти параметры.'
+  - 'Live WS event prepend/dedup path сохраняет новые alarm/warning chips и обновляет timestamp/status state.'
+
+files:
+  - '`frontend/src/features/shell/useStatusBarAlarms.ts` — bootstrap alarm+warning query и live severity filter.'
+  - '`frontend/src/components/ds/StatusBar.tsx` — существующий chip rendering/click contract проверен.'
+  - '`frontend/src/features/shell/AppShell.tsx` — существующий deep-link handler проверен.'
+  - '`frontend/src/features/journal/journalFilters.ts` — существующий `asset_id`/`from` parsing проверен.'
+  - '`frontend/src/hooks/useWsChannel.ts` — existing events subscription lifecycle проверен.'
+  - '`frontend/src/features/shell/StatusBar.alarms.test.tsx` — click contract scenario.'
+  - '`frontend/src/features/shell/AppShell.test.tsx` — authenticated shell rendering regression.'
+
+tests:
+  - '`cd frontend && npm exec vitest -- run src/features/shell/StatusBar.alarms.test.tsx src/features/shell/AppShell.test.tsx` — PASS, 2 files / 2 tests.'
+  - '`npm exec tsc -- --noEmit` из `frontend/` — PASS.'
+  - 'Playwright сценарий не запускался в этом atomic шаге; существующий e05 contract покрывает live WS seam и click route, полный journey остаётся для INTEG QA.'
+
+integration_check:
+  - 'BACK: `GET /api/events` поддерживает повторяемый query key `severity` и enum `info|warning|alarm`; backend changes не требовались.'
+  - 'FRONT: `fetchEvents` сериализует массив severity как повторяемые `severity` keys; `useStatusBarAlarms` принимает alarm/warning; `journalFilters` сохраняет `asset_id`/`from`.'
+  - 'WS: `useWsChannel({ channels: ["events"] })` подписывает `/api/stream`; event payload mapped в StatusBarAlarmItem.'
+  - '§0.11: `/api/events`, `/api/stream`, `fetchEvents`, `useWsChannel`, `asset_id`, `from` проверены по consumers.'
+
+grep_control:
+  - back: '`/api/events` endpoint and severity enum in existing backend contract'
+    front: '`frontend/src/lib/api/events.ts`; `frontend/src/lib/api/types.ts`; `frontend/src/features/shell/useStatusBarAlarms.ts`'
+  - back: '`/api/stream` events channel'
+    front: '`frontend/src/hooks/useWsChannel.ts`; `frontend/src/lib/ws/manager.ts`; `frontend/src/lib/ws/types.ts`'
+  - back: 'journal event filter contract'
+    front: '`frontend/src/features/journal/journalFilters.ts`; `frontend/src/features/shell/AppShell.tsx`'
+
+verification_results:
+  - '`python3 .claude/hooks/epic_resolve.py validate-step --path memory-bank/integration/implement/implement-v1-portal/e05-statusbar-alarms.yaml` — PASS.'
+  - 'Targeted frontend Vitest — PASS, 2 files / 2 tests.'
+  - 'Frontend TypeScript check — PASS.'
+  - '`.venv/bin/graphify update .` — PASS, graph rebuilt.'
+
+checkpoints:
+  - id: cp1
+    criterion: StatusBar shows recent alarms/warnings
+    status: done
+    done_at: '2026-08-01'
+    notes: 'Bootstrap returns alarm and warning severities; chips map to alarm/warning-drift lamps.'
+  - id: cp2
+    criterion: Click → journal with filter applied
+    status: done
+    done_at: '2026-08-01'
+    notes: 'AppShell routes to `/journal?asset_id=&from=` and journalFilters parses both keys.'
+  - id: cp3
+    criterion: Live WS appends new alarm
+    status: done
+    done_at: '2026-08-01'
+    notes: 'Events channel maps alarm/warning payloads, prepends, deduplicates, and caps at 20.'
+
+resume_from: null

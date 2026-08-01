@@ -1,0 +1,56 @@
+schema: epic-implement/v1
+role: back
+step_id: s01
+plan_id: v1-p2-ship
+title: T-005 | s01 | i1-gateway IMPLEMENT
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s01-i1-gateway.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: T-005
+done:
+- Добавлен пакет `apps.edge.gateway` с типизированными настройками `GatewaySettings`
+  и environment-переменными для режима, listen/upstream endpoints и append-only reject
+  log.
+- Добавлен MBAP parser с поддержкой fragmented и pipelined Modbus TCP frames.
+- 'Добавлена FC policy: только FC 01–04 проходят upstream; write/unknown function
+  codes получают Modbus exception `0x01`.'
+- Добавлено append-only JSONL-логирование rejected requests с `ts`, `function_code`,
+  `source_ip` и SHA-256 `raw_pdu_hash`.
+- Добавлен async TCP gateway runtime с upstream forwarding для read requests.
+- Добавлена compose-секция `gateway` и разнесены сети `collector-gateway` / `gateway-upstream`,
+  чтобы collector не имел прямой сети с emulator.
+- Collector dev-конфигурация переведена с `emulator:5020` на `gateway:5020`.
+- pyproject.toml` включает gateway tests; gateway Dockerfile использует collector
+  requirements для Modbus runtime.
+files:
+- apps/edge/gateway/__init__.py
+- apps/edge/gateway/config.py
+- apps/edge/gateway/main.py
+- apps/edge/gateway/modbus_filter/__init__.py
+- apps/edge/gateway/modbus_filter/parser.py
+- apps/edge/gateway/modbus_filter/policy.py
+- apps/edge/gateway/tests/test_modbus_filter.py
+- apps/edge/gateway/Dockerfile
+- apps/edge/collector/config/sources.dev.yaml
+- docker-compose.yml
+- pyproject.toml
+tests:
+- 'cmd: `.venv/bin/pytest apps/edge/gateway/tests/test_modbus_filter.py -q --tb=line'
+- 'итог: `11 passed'
+- docker compose config` — ok; сети `collector-gateway` / `gateway-upstream`; collector
+  только на `collector-gateway
+- .venv/bin/python -m compileall -q apps/edge/gateway` — ok
+integration_check:
+- env vars gateway mode/listen/upstream/reject-log ↔ `GatewaySettings` / compose
+- collector `sources.dev.yaml` upstream → `gateway:5020`
+- 'compose networks: collector без прямой сети к emulator'
+- OPC UA read-only transport и live compose integration suite — out of scope (следующий
+  шаг/QA)
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

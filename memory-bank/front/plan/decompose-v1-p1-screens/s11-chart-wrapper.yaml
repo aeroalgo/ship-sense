@@ -1,0 +1,27 @@
+schema: epic-decompose/v1
+role: front
+step_id: s11
+plan_id: v1-p1-screens
+title: TrendChartContainer (CR-UI-02)
+next_phase: done (IMPLEMENT)
+needs_creative: yes (CR-UI-02) — **closed** | **tdd:** yes
+goal: 'Обёртка графика: series gaps, setpoint lines, event markers; библиотека **uPlot**
+  (CR-UI-02 closed).'
+context:
+  consumes:
+  - '**Consumes:** s02 tokens, s06 DS chrome; [CR-UI-02-chart-lib.md](../../creative/v1-p1-screens/CR-UI-02-chart-lib.md)
+    + spike + `chart-lib-spec.ts` + `uplot'
+  - '**Produces:** `TrendChartContainer` + fixture tests'
+  files:
+  - frontend/src/components/ds/TrendChartContainer.tsx` (Создание)
+  - frontend/src/features/trends/chart/adapters/uplotAdapter.ts` (Создание) — thin
+    adapter
+  - frontend/src/components/ds/TrendChartContainer.test.tsx` (Создание)
+  - frontend/src/features/trends/spike/` (reference — уже от creative)
+  - frontend/src/lib/trends/chart-lib-spec.ts` (уже от creative)
+checkpoints:
+- id: cp1
+  criterion: 'Обёртка графика: series gaps, setpoint lines, event markers; библиотека
+    **uPlot** (CR-UI-02 closed).'
+verify: []
+tdd: []

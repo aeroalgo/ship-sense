@@ -1,0 +1,29 @@
+schema: epic-decompose/v1
+role: front
+step_id: s13
+plan_id: v1-p1-screens
+title: Screen 6 Watch prototype
+next_phase: FRONT IMPLEMENT
+needs_creative: CR-UI-04 / DS0-3 — **closed** | **tdd:** yes
+goal: 'Вахтенный прототип: verdict, protections never collapse, alarms debounce groups,
+  drifts stub, data_quality, print.'
+context:
+  consumes:
+  - '**Consumes:** s04 reports, s06 Watch*, PrintLayout; [CR-UI-04](../../creative/v1-p1-screens/CR-UI-04-watch-compression.md)
+    + DS0-3'
+  - '**Produces:** features/watch/*'
+  files:
+  - frontend/src/features/watch/WatchPage.tsx` (Создание)
+  - frontend/src/features/watch/useWatchReport.ts` (Создание)
+  - frontend/src/features/watch/DebounceGroupRow.tsx` (Создание)
+  - frontend/src/features/watch/DataQualityPanel.tsx` (Создание)
+  - frontend/src/features/watch/debounce.ts` (Создание) — re-export / wrap `@/lib/watch/watch-compression-spec
+  - frontend/src/app/(authenticated)/watch/page.tsx` (Модификация)
+  - frontend/src/features/watch/WatchPage.test.tsx` (Создание)
+  - frontend/src/features/watch/debounce.test.ts` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Вахтенный прототип: verdict, protections never collapse, alarms debounce
+    groups, drifts stub, data_quality, print.'
+verify: []
+tdd: []

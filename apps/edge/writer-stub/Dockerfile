@@ -13,12 +13,15 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 COPY src/ ./src/
+RUN addgroup --system shipsense \
+    && adduser --system --ingroup shipsense shipsense
 
 ENV PYTHONPATH=/app/src
 
 EXPOSE 9009
 
 STOPSIGNAL SIGTERM
+USER shipsense
 
 ENTRYPOINT ["python", "-m", "writer_stub"]
 CMD ["--host", "0.0.0.0", "--port", "9009"]

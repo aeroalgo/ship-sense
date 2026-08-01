@@ -1,0 +1,42 @@
+schema: epic-implement/v1
+role: back
+step_id: s21
+plan_id: v1-p2-ship
+title: '[T-005 | s21 | qa3-access-audit-sqlite] IMPLEMENT'
+status: completed
+decompose_ref: ../../qa/v1-p2-ship/qa-20260801-v1-p2-ship.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-08-01'
+level: L1
+task_id: null
+done:
+- Добавлена SQLite schema initialization fixture для `access_audit` в API tests; таблица
+  создаётся до теста и очищается после него.
+- 'Исправлен raw SQL bind `AccessAuditWriter`: доменный UUID преобразуется в строку
+  для SQLite/PostgreSQL-compatible text/UUID parameter binding.'
+- Добавлен regression assertion на сериализацию `session_id`.
+- Зафиксирован root-cause bugfix-артефакт QA-3.
+files:
+- apps/api/tests/conftest.py
+- apps/api/app/audit/writer.py
+- apps/api/tests/audit/test_access_audit.py
+- memory-bank/back/bugfix/v1-p2-ship/bugfix-20260801-access-audit-sqlite-fixture.md
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_session.py -q --tb=line'
+- 'итог: `2 passed'
+- 'cmd: `.venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q --tb=line'
+- 'итог: `2 passed'
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_assets_tree.py apps/api/tests/api/test_series.py
+  -q --tb=line'
+- 'итог: `3 errors` — независимый QA-4 fixture blocker.'
+integration_check:
+- '`access_audit` test schema fields match writer INSERT'
+- UUID session identifier is serialised before SQLite bind
+- production PostgreSQL migration remains unchanged
+- QA-3 is isolated from QA-4 semantic fixture blocker
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

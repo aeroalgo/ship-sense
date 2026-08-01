@@ -1,0 +1,26 @@
+schema: epic-decompose/v1
+role: back
+step_id: s19
+plan_id: v1-p2-ship
+title: I4 deploy runbook + training materials
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: 'Runbook финального выезда: deploy from OTA image, visits, training mats (screens,
+  disk, stale, OTA standing), autonomy 24h check.'
+context:
+  consumes:
+  - '**Consumes:** s12–s18; plan §7.'
+  - '**Produces:** docs/runbooks/I4-*; training one-pagers; discrepancy list template.'
+  files:
+  - docs/runbooks/I4-integration-visit.md` (Создание)
+  - docs/runbooks/I4-acceptance-visit.md` (Создание)
+  - docs/training/crew-screens.md` (Создание)
+  - docs/training/disk-replace-a4.md` (Создание)
+  - docs/training/stale-quarantine-card.md` (Создание)
+  - docs/training/ota-anchorage.md` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Runbook финального выезда: deploy from OTA image, visits, training mats
+    (screens, disk, stale, OTA standing), autonomy 24h check.'
+verify: []
+tdd: []

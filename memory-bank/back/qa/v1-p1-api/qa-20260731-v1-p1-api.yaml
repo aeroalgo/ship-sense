@@ -1,0 +1,44 @@
+schema: epic-qa/v1
+role: back
+date: '2026-07-31'
+reviewer: BACK QA
+verdict: pass
+scope:
+- 'task: T-003'
+- 'epic: `v1-p1-api'
+- 'steps: s01–s10'
+- 'subject: API + session backend epic: REST API surface, read-only telemetry flows,
+  session lifecycle, reports, health/sources/rate controls, I1 audit and OpenAPI completeness'
+- 'files: `apps/api/`, related backend tests, compose/runtime wiring and storage contract
+  boundary'
+checks:
+- 'storage suite green: `.venv/bin/pytest tests/storage/ -q --tb=line` → **82 passed**'
+- 'backend suite без slow green: `.venv/bin/pytest -m ''not slow'' -q --tb=line` →
+  **453 passed, 9 deselected, 3 warnings**'
+- 'storage contracts: numeric payloads принимаются, non-numeric payload отклоняется;
+  contract coverage в `tests/storage/test_storage_contracts.py`'
+- 'API scope covered: API tests входят в non-slow suite и завершились green'
+- 'integration rule (§0.11): `DATABASE_URL` и `SHIPSSENSE_WRITER_ENDPOINT` согласованы
+  с compose wiring, writer TCP endpoint `9009` и контейнерными именами `db`/`writer`'
+- 'no phantom refs: reviewer read-only gate не выявил blocker в разрешённом scope'
+- 'edge cases covered: storage contract boundary и backend API regression scope зелёные'
+- 'reviewer gate: обязательный read-only `reviewer` завершён с `VERDICT: PASS`'
+issues: []
+blockers:
+- Нет.
+fix_plan: []
+limitations:
+- Полный прогон с slow-тестами отдельно не выполнялся; 9 slow-тестов были deselected.
+  Поэтому результат означает green для обязательного non-slow backend scope, а не
+  terminal green slow/full suite.
+- Live `docker compose` smoke в этой QA-сессии не запускался. Compose wiring проверен
+  статически по разрешённым файлам и не выдаётся за live runtime verification.
+- Отдельные lint/type/security CLI-инструменты в проектном QA scope не настроены;
+  blocker по ним не заявлен.
+suite:
+- 'storage suite green: `.venv/bin/pytest tests/storage/ -q --tb=line` → **82 passed**'
+- 'backend suite без slow green: `.venv/bin/pytest -m ''not slow'' -q --tb=line` →
+  **453 passed, 9 deselected, 3 warnings**'
+plan_id: REST
+epic_id: REST
+task_id: T-003

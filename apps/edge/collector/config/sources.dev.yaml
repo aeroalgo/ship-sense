@@ -8,7 +8,8 @@ collector:
 sources:
   - id: aps_main
     protocol: modbus_tcp
-    endpoint: emulator:5020
+    endpoint: gateway:5020
+    # Modbus FC 01-04 read-only traffic passes through the I1 gateway.
     poll:
       default_hz: 1.0
       groups:

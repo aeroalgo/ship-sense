@@ -1,0 +1,47 @@
+schema: integ-decompose/v1
+step_id: e26
+plan_id: v1-portal
+title: Warnings / B13 surface
+element_id: e26
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** none (product: drift warnings — arithmetic B13, no «AI» copy)'
+  components: '** (future) warnings strip / overlay / panel'
+  user_sees: '** (future) active warnings + history'
+data_need:
+- active warnings + history
+api_today:
+- status: ✅
+  detail: '`GET /api/warnings`, `GET /api/warnings/history`'
+- status: —
+  detail: FRONT ❌
+contract:
+  method_path: '** `GET /api/warnings/history?tag_id&asset_id&since&limit&offset`'
+  response_shape: '** `{ items: [...], has_more, next_offset }`'
+  front_client: '** (future) `lib/api/warnings.ts`'
+db: '- B13 warnings store'
+back:
+- already live (T-005 s06/s07)
+- 'Placement candidates: Overview strip, Trends overlay, dedicated panel — decide
+  in INTEG CREATIVE if multi-option'
+front:
+- no UI yet
+- Types + client + MSW + UI element (after CREATIVE decision)
+grep_control:
+- back: GET /api/warnings*
+  front: (future client)
+verify:
+- '`grep -r "/api/warnings" frontend/src api/`'
+- pytest warnings API
+- Playwright warning visible when fixture active
+tdd:
+- '1. Red: n/a (P1, no UI yet)'
+- '2. Green: add client + UI after CREATIVE'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: 'After UI: warnings strip shows active warnings'
+- id: cp2
+  criterion: History loads on demand
+- id: cp3
+  criterion: Placement decided (overview/trends/panel)

@@ -1,0 +1,49 @@
+schema: epic-qa/v1
+role: back
+date: '2026-07-27'
+reviewer: BACK QA
+verdict: pass
+scope:
+- 'task: T-001 / v1-p1-collector'
+- 'план: `memory-bank/back/plan/plan-v1-p1-collector.md'
+- 'decompose index: `memory-bank/back/plan/decompose-v1-p1-collector/index.md'
+- 'проверенные области: collector unit/integration/soak, emulator unit/integration,
+  Docker Compose, IPC peer, runtime healthchecks, §0.11 integration refs, базовый
+  OWASP review'
+- 'связанные последние изменения: s13 Normalizer, s23 Docker Compose, s24 stub plugin,
+  s25 soak, emulator Modbus overlap bugfix'
+checks:
+- migrated from md — review checks
+issues:
+- id: R-1
+  sev: '**high**'
+  file: '[apps/edge/collector/src/collector/app.py](../../apps/edge/collector/src/collector/app.py#L101)
+    / [apps/edge/collector/src/collector/health/snapshot_writer.py](../../apps/edge/collector/src/collector/health/snapshot_writer.py#L30)
+    / [docker-compose.yml](../../docker-compose.yml#L82)'
+  msg: Compose healthcheck ждёт snapshot во время работы, но `SnapshotWriter.write()`
+    вызывается только при `CollectorApp.stop()`; collector поэтому остаётся unhealthy
+    и `depends_on`-based edge smoke не проходит.
+- id: R-2
+  sev: '**high**'
+  file: '[apps/edge/collector/src/collector/__main__.py](../../apps/edge/collector/src/collector/__main__.py#L43)
+    / [docker-compose.yml](../../docker-compose.yml#L74)'
+  msg: Compose объявляет `SHIPSSENSE_WRITER_ENDPOINT=writer:9009`, однако entrypoint
+    всегда создаёт `NullSink` и `_noop_source_factory`; runtime collector не подключается
+    к writer и не собирает emulator telemetry.
+- id: R-3
+  sev: '**medium**'
+  file: '[apps/edge/emulator/src/emulator/protocols/opcua_server.py](../../apps/edge/emulator/src/emulator/protocols/opcua_server.py#L114)'
+  msg: OPC UA ticker пишет Python values без приведения к объявленному `ua.VariantType`;
+    полный profile генерирует `float/int` типов, несовместимых с node datatype, поэтому
+    обновления отклоняются и подписчики получают устаревшие значения.
+- id: R-4
+  sev: '**low**'
+  file: '[apps/edge/collector/pyproject.toml](../../apps/edge/collector/pyproject.toml#L1)'
+  msg: В проекте нет настроенного lint/type-check command; QA не может подтвердить
+    статическое качество, а Ruff не установлен в `.venv`.
+blockers: []
+fix_plan: []
+limitations: []
+suite: []
+plan_id: v1-p1-collector
+epic_id: v1-p1-collector

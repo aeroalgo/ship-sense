@@ -1,0 +1,31 @@
+schema: epic-decompose/v1
+role: back
+step_id: s06
+plan_id: v1-p1-api
+title: WebSocket fanout (/api/stream)
+next_phase: BACK IMPLEMENT
+needs_creative: no — **closed** (CR-API-02, CR-API-04)
+goal: 'WS `/api/stream`: hello/subscribe/ack/value/event/ping/error; resume cursor;
+  ring buffer; coalesce values; NOTIFY от writer. Политики — CR-API-02/04.'
+context:
+  consumes:
+  - '**Consumes:** s01; writer NOTIFY `shipsense_live`; creative CR-API-02 + CR-API-04;
+    plan §7–§8.'
+  - '**Produces:** stream endpoint + FanoutBridge + ConnectionManager + RingBuffer
+    + protocol models.'
+  files:
+  - apps/api/app/api/v1/endpoints/stream.py` (Создание)
+  - apps/api/app/stream/models.py` (Создание) — WS message types
+  - apps/api/app/stream/service.py` (Создание) — FanoutBridge
+  - apps/api/app/stream/connection_manager.py` (Создание)
+  - apps/api/app/stream/ring_buffer.py` (Создание)
+  - apps/api/app/stream/protocol.py` (Создание)
+  - apps/api/app/api/v1/api.py` (Модификация) — mount WS
+  - apps/api/app/main.py` (Модификация) — lifespan start FanoutBridge LISTEN
+  - apps/api/tests/api/test_ws_stream.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'WS `/api/stream`: hello/subscribe/ack/value/event/ping/error; resume
+    cursor; ring buffer; coalesce values; NOTIFY от writer. Политики — CR-API-02/04.'
+verify: []
+tdd: []

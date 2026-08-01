@@ -1,0 +1,43 @@
+schema: epic-implement/v1
+role: back
+step_id: s10
+plan_id: v1-p1-api
+title: T-003 | s10 | I1 audit + OpenAPI completeness
+status: completed
+decompose_ref: ../../plan/decompose-v1-p1-api/s10-tests-i1-openapi.yaml
+implement_index: memory-bank/back/implement/implement-v1-p1-api/index.md
+date: '2026-07-31'
+level: L2
+task_id: T-003
+done:
+- 'Добавлен AST-based I1 import audit для `apps/api/app`: запрещены прямые импорты
+  `pymodbus`, `asyncua` и `collector.plugins.*.connector`.'
+- 'Добавлен OpenAPI surface contract для всех 13 REST-маршрутов Appendix A: paths,
+  HTTP methods, operation IDs и tags.'
+- Добавлено правило, что mutating operations в OpenAPI ограничены `POST /api/session`
+  и `DELETE /api/session`.
+- Добавлена OpenAPI-проверка наличия `quarantine` в quality enum и примере `SeriesPoint.quality`.
+- Добавлена проверка отсутствия `AI` в OpenAPI descriptions.
+- README API дополнен I1 minimal disclaimer и read-only policy.
+files:
+- apps/api/tests/api/test_i1_no_write_paths.py
+- apps/api/tests/api/test_openapi_surface.py
+- apps/api/app/telemetry/schemas.py
+- apps/api/README.md
+tests:
+- PYTHONPATH=apps/api .venv/bin/pytest apps/api/tests/api/test_i1_no_write_paths.py
+  apps/api/tests/api/test_openapi_surface.py -q --tb=line` — 5 passed.
+- PYTHONPATH=apps/api .venv/bin/pytest apps/api/tests/api -q --tb=line` — 39 passed,
+  2 warnings.
+integration_check:
+- REST routes and OpenAPI operation IDs/tags covered.
+- Session-only mutations covered.
+- I1 import denylist covered.
+- Quality quarantine example covered.
+- README I1 disclaimer wired.
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

@@ -1,0 +1,56 @@
+schema: integ-decompose/v1
+step_id: e16
+plan_id: v1-portal
+title: Trends series / aggregate chart
+element_id: e16
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/trends'
+  components: '** `TrendChartContainer`, `useSeries`, uPlot adapter'
+  user_sees: '** line/area chart for single tag or aggregate (multi-tag + fn)'
+data_need:
+- 'single: `/api/series?tag&from&to&resolution`'
+- 'multi: `/api/series/aggregate?tags[]&from&to&resolution&fn`'
+api_today:
+- status: ✅
+  detail: both endpoints
+- status: ⚠️
+  detail: MSW series fixtures
+- status: —
+  detail: 'FRONT: `lib/api/series.ts`'
+contract:
+  method_path: '** `GET /api/series/aggregate?tags=&tags=&from=&to=&resolution=&fn=avg|min|max|last`'
+  response_shape: '** `SeriesAggregateResponse { from, to, resolution, series: [{
+    tag_id, unit, points }] }`'
+  front_client: '** `lib/api/series.ts` → `fetchSeries`, `fetchSeriesAggregate`'
+db: '- Timescale downsample (series endpoint)'
+back:
+- already live (T-003 s03)
+- '`buildQueryString` array → repeated keys must match FastAPI list parsing'
+- Downsample resolution vocabulary front presets ↔ BACK auto
+- Null gaps / quality coloring per product invariant
+front:
+- '`TrendChartContainer` + `useSeries` already wired (FRONT s11–s12)'
+- MSW must support multi-tag + fn for E2E
+grep_control:
+- back: GET /api/series
+  front: fetchSeries
+- back: GET /api/series/aggregate
+  front: fetchSeriesAggregate
+verify:
+- '`grep -r "/api/series" frontend/src api/`'
+- §0.11 series pairs
+- vitest TrendsPage / useSeries
+- pytest series tests
+- Playwright range change → refetch
+tdd:
+- '1. Red: vitest TrendsPage with series fixture'
+- '2. Green: live fetch, remove MSW'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Select tag → chart renders series
+- id: cp2
+  criterion: Multi-select + fn → aggregate chart
+- id: cp3
+  criterion: Range change → refetch with new params

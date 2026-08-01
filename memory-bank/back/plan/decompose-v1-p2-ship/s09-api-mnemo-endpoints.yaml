@@ -1,0 +1,24 @@
+schema: epic-decompose/v1
+role: back
+step_id: s09
+plan_id: v1-p2-ship
+title: API mnemo schemas/values + WS
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-05) — **closed**
+goal: GET /api/mnemo/schemas[/{id}][/values]; WS `mnemo:{schema_id}` subset fanout;
+  Q3 generators flag.
+context:
+  consumes:
+  - '**Consumes:** s08 loader; LatestValueCache; FanoutBridge; plan §11.1–11.3.'
+  - '**Produces:** REST+WS mnemo; OpenAPI; feature flag include_generators.'
+  files:
+  - apps/api/app/api/v1/endpoints/mnemo.py` (Создание)
+  - apps/api/app/mnemo/service.py` (Создание)
+  - apps/api/app/stream/` (Модификация) — mnemo topic filter by bound tags
+  - apps/api/tests/api/test_mnemo.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: GET /api/mnemo/schemas[/{id}][/values]; WS `mnemo:{schema_id}` subset
+    fanout; Q3 generators flag.
+verify: []
+tdd: []

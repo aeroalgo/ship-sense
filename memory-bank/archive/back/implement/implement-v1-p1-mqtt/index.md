@@ -9,7 +9,7 @@
 
 ## Реестр шагов (decompose ↔ implement)
 
-> Статусы — только в `implement/sNN-*.md` (источник истины) и `decompose/index.md` (агрегатор). Этот файл — навигационный портал. Без status-колонки.
+> Статусы — только в `implement/sNN-*.yaml` (источник истины) и `decompose/index.md` (агрегатор). Этот файл — навигационный портал. Без status-колонки.
 
 | step | decompose | implement |
 | :--- | :--- | :--- |

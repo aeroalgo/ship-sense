@@ -14,7 +14,7 @@ alwaysApply: false
 4. Visible UI → Read design stack (6 из workflow-implement) **до** UI edit
 5. bugfix-файл; scenario path; **Источник:** qa §Fix plan
 6. §0.11 если applicable
-7. FINISH → Handoff/повторный `FRONT QA` — `finish-doc-router.md` §BUGFIX FINISH
+7. FINISH: finish-block; next-mode — только `loop/transitions.yaml` (+ runner) · `finish-doc-router.md` §BUGFIX FINISH
 
 ## Abort
 

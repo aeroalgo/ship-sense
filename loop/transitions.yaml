@@ -1,0 +1,155 @@
+# Loop system — канон статусов и переходов
+# Версия схемы transitions: 1
+#
+# Loop runner (epic/program) НЕ придумывает политику:
+#   event + loop-state → match(transitions) → patch loop-state
+# activeContext.md = session view (проекция), не единственный канон автомата.
+#
+# Канон: loop/loop-state.yaml
+# Engine: .claude/hooks/loop_engine.py
+
+version: 1
+
+profiles:
+  BACK:
+    step_kind: sNN
+    auto_modes: [CREATIVE, IMPLEMENT, REFACTOR, SECURITY, QA, BUGFIX, REFLECT]
+    manual_modes: [PLAN, DECOMPOSE, VAN, ARCHIVE, TASK]
+  FRONT:
+    step_kind: sNN
+    auto_modes: [CREATIVE, IMPLEMENT, REFACTOR, SECURITY, QA, BUGFIX, REFLECT]
+    manual_modes: [PLAN, DECOMPOSE, VAN, ARCHIVE, TASK]
+  INTEG:
+    step_kind: eNN
+    auto_modes: [CREATIVE, IMPLEMENT, SECURITY, QA, BUGFIX, REFLECT, GAP, GAP CLOSE]
+    manual_modes: [PLAN, DECOMPOSE, VAN, ARCHIVE, TASK]
+
+# Events (FINISH / runner):
+#   finish_ok | finish_blocked | finish_fail | gaps_found | tick | epic_complete | human_halt
+#
+# NOTE: YAML 1.1 — ключ события всегда в кавычках: "on": finish_ok
+# (голый on: становится boolean True).
+
+transitions:
+  # --- epic step chain (any role with auto IMPLEMENT) ---
+  - id: implement-next-step
+    when: { mode: IMPLEMENT, pending_gt: 0 }
+    "on": finish_ok
+    then: { mode: IMPLEMENT, advance_step: true }
+
+  - id: creative-then-implement
+    when: { mode: CREATIVE }
+    "on": finish_ok
+    then: { mode: IMPLEMENT }
+
+  - id: implement-to-qa
+    when: { mode: IMPLEMENT, pending_eq: 0 }
+    "on": finish_ok
+    then: { mode: QA }
+
+  - id: refactor-next-step
+    when: { mode: REFACTOR, pending_gt: 0 }
+    "on": finish_ok
+    then: { mode: REFACTOR, advance_step: true }
+
+  - id: refactor-to-qa
+    when: { mode: REFACTOR, pending_eq: 0 }
+    "on": finish_ok
+    then: { mode: QA }
+
+  - id: security-next-step
+    when: { mode: SECURITY, pending_gt: 0 }
+    "on": finish_ok
+    then: { mode: SECURITY, advance_step: true }
+
+  - id: security-to-reflect
+    when: { mode: SECURITY, pending_eq: 0 }
+    "on": finish_ok
+    then: { mode: REFLECT }
+
+  - id: qa-pass-to-reflect
+    when: { mode: QA }
+    "on": finish_ok
+    then: { mode: REFLECT, verdict: pass }
+
+  - id: qa-blocked-to-bugfix
+    when: { mode: QA }
+    "on": finish_blocked
+    then: { mode: BUGFIX, verdict: blocked }
+
+  - id: qa-fail-to-bugfix
+    when: { mode: QA }
+    "on": finish_fail
+    then: { mode: BUGFIX, verdict: fail }
+
+  - id: bugfix-to-qa
+    when: { mode: BUGFIX }
+    "on": finish_ok
+    then: { mode: QA }
+
+  - id: reflect-to-archive
+    when: { mode: REFLECT }
+    "on": finish_ok
+    then: { mode: ARCHIVE, journey_phase: COMPLETE, complete: true }
+
+  # --- INTEG gap journey ---
+  - id: integ-gaps-open
+    when: { role: INTEG, mode: IMPLEMENT }
+    "on": gaps_found
+    then: { journey_phase: GAP_OPEN, mode: GAP }
+
+  - id: gap-to-fanout
+    when: { mode: GAP }
+    "on": finish_ok
+    then: { journey_phase: GAP_FANOUT, queue_from_gap: true }
+
+  - id: fanout-back-plan
+    when: { journey_phase: GAP_FANOUT, queue_head_role: BACK, queue_head_status: pending }
+    "on": tick
+    then: { role: BACK, mode: PLAN }
+
+  - id: fanout-plan-to-decompose
+    when: { journey_phase: GAP_FANOUT, mode: PLAN }
+    "on": finish_ok
+    then: { mode: DECOMPOSE, queue_item_status: plan }
+
+  - id: fanout-decompose-to-epic
+    when: { journey_phase: GAP_FANOUT, mode: DECOMPOSE }
+    "on": finish_ok
+    then: { mode: IMPLEMENT, queue_item_status: decompose, spawn_epic: true }
+
+  - id: fanout-epic-done
+    when: { journey_phase: GAP_FANOUT, mode: IMPLEMENT }
+    "on": epic_complete
+    then: { queue_item_status: done, advance_queue: true }
+
+  - id: fanout-front-plan
+    when: { journey_phase: GAP_FANOUT, queue_head_role: FRONT, queue_head_status: pending }
+    "on": tick
+    then: { role: FRONT, mode: PLAN }
+
+  - id: fanout-join
+    when: { journey_phase: GAP_FANOUT, queue_all_done: true }
+    "on": tick
+    then: { journey_phase: GAP_JOIN }
+
+  - id: join-to-close
+    when: { journey_phase: GAP_JOIN, queue_all_done: true }
+    "on": tick
+    then: { journey_phase: GAP_CLOSE, role: INTEG, mode: "GAP CLOSE" }
+
+  - id: close-to-resume
+    when: { mode: "GAP CLOSE" }
+    "on": finish_ok
+    then: { journey_phase: INTEG_RESUME, role: INTEG, mode: IMPLEMENT }
+
+  - id: integ-resume-to-qa
+    when: { role: INTEG, mode: IMPLEMENT, pending_eq: 0, journey_phase: INTEG_RESUME }
+    "on": finish_ok
+    then: { mode: QA, journey_phase: INTEG_QA }
+
+  # --- halt ---
+  - id: human-halt
+    when: {}
+    "on": human_halt
+    then: { halt: true, journey_phase: HALT }

@@ -1,0 +1,18 @@
+{
+  "body": {
+    "type": "daily_noon",
+    "period": {
+      "from": "2026-07-31T00:00:00Z",
+      "to": "2026-07-31T12:00:00Z"
+    },
+    "gaps": [
+      {
+        "from": "2026-07-31T06:00:00Z",
+        "to": "2026-07-31T06:30:00Z",
+        "reason": "stale"
+      }
+    ],
+    "generated_at": "2026-07-31T12:00:01Z"
+  },
+  "expected_body_sha256": "cce7f0fdb0e3b9616a6b6fbd99eaad43ed7b84586c893412492bdbc1c3ca6bf8"
+}

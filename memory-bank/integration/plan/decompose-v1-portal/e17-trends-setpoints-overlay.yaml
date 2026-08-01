@@ -1,0 +1,55 @@
+schema: integ-decompose/v1
+step_id: e17
+plan_id: v1-portal
+title: Trends setpoints overlay
+element_id: e17
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/trends'
+  components: '** `useSetpoints.ts` + chart overlays'
+  user_sees: '** setpoint lines overlaid on chart'
+data_need:
+- current setpoints list; optional history segments (client exists, UI may not call
+  history yet)
+api_today:
+- status: ✅
+  detail: '`GET /api/setpoints`'
+- status: ✅
+  detail: '`GET /api/setpoints/history?tag=` (FRONT `fetchSetpointHistory` **defined
+    but unused** in features)'
+- status: ✅
+  detail: '`GET /api/setpoints/changelog` (BACK only; FRONT ❌)'
+- status: ⚠️
+  detail: MSW setpoints + history
+contract:
+  method_path: '** `GET /api/setpoints/history?tag=`'
+  response_shape: '** `{ tag_id, segments: [{ from_ts, to_ts|null, value }] }`'
+  front_client: '** `lib/api/setpoints.ts` → `fetchSetpoints`, `fetchSetpointHistory`'
+db: '- ship-pack / APS (setpoints)'
+back:
+- already live (T-003 s05 / T-005 s11)
+- 'P0: wire list overlay for selected tags'
+- 'P1: wire history segments for range shading; changelog for audit UI if needed'
+front:
+- '`useSetpoints` partially wired (FRONT s12)'
+- Remove dead client or consume it (forbid forever-unused `fetchSetpointHistory`)
+grep_control:
+- back: GET /api/setpoints
+  front: fetchSetpoints
+- back: GET /api/setpoints/history
+  front: fetchSetpointHistory` (consume or delete)
+verify:
+- '`grep -r "/api/setpoints" frontend/src api/`'
+- §0.11 setpoints; history after UI uses it
+- vitest overlay with fixture
+tdd:
+- '1. Red: vitest setpoint overlay with fixture'
+- '2. Green: live fetch + overlay, consume or delete dead client'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Selected tag shows setpoint line
+- id: cp2
+  criterion: History segments shaded (after P1)
+- id: cp3
+  criterion: No unused dead client left

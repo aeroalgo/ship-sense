@@ -24,7 +24,7 @@ Skill: только `@.agents/skills/tdd/SKILL.md` из workflow (не дубл�
 - `activeContext.md` → **`load_now`** first (@.cursor/rules/token-economy-core.mdc §0.5.1)
 - Index → ONE shard; не грузить `done — do NOT load`
 - Session start: @.cursor/rules/shared/context-session-economy.mdc §3
-- Артефакты: `memory-bank/back/<режим>/` — путь режима в `_lean/<mode>.mdc`; полная таблица — `memory-bank-paths.mdc` (VAN)
+- Артефакты: `memory-bank/back/<режим>/` — путь в `isolation_rules/_lean/<mode>.mdc`; полная таблица — `memory-bank-paths.mdc` (VAN)
 
 ## УРОВНИ
 
@@ -37,11 +37,10 @@ Skill: только `@.agents/skills/tdd/SKILL.md` из workflow (не дубл�
 
 ## ПЕРЕХОДЫ
 
-```
-BACK VAN → (L1) → IMPLEMENT → [REFACTOR] → QA → REFLECT → ARCHIVE NOW
-BACK VAN → (L2-4) → PLAN → [DECOMPOSE] → [CREATIVE] → IMPLEMENT → [REFACTOR] → QA → REFLECT → ARCHIVE NOW
-BACK TASK / BUGFIX → QA → [REFLECT]
-```
+Next-mode: `loop/transitions.yaml` · ledger `loop/loop-state.yaml`  
+@.cursor/rules/shared/workflow-loop-state.mdc  
+
+Не дублировать таблицы «после QA → …» здесь — только transitions + FINISH sync ledger.
 
 ## ФОРМАТ
 

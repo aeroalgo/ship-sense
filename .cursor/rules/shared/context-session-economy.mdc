@@ -22,11 +22,12 @@ AC met · next substep differs · role switch · long debug trace · user confus
 
 ## 3. Session start
 
-1. `activeContext.md` → `load_now` only (PLAN: inventory per workflow-plan)
-2. **§Handoff** — единственный канон навигации: в `activeContext.md` **ровно один** блок `## Handoff` (перезапись на FINISH; стопка = FAIL)
+1. `activeContext.md` → `load_now` only (PLAN/DECOMPOSE: plan as work object; иначе — **без** полного `plan-*.md`)
+2. **§Handoff** — единственный канон навигации: в `activeContext.md` **ровно один** блок `## Handoff` (на FINISH — **Write весь файл**; стопка / ≥2 done = FAIL/halt)
 3. Не опираться на transcript
-4. ONE task shard + ONE plan shard (shard, not index)
+4. ONE work shard: `sNN|eNN` / implement step / task / bugfix / qa (не index; **не** полный `plan-*.md`)
 5. Skills: только для subtask
+6. Недостающий AC → дописать в step **или** jump `plan §N` из Consumes; **FORBIDDEN** тащить весь plan в `load_now`
 
 **PLAN:** Load ≠ Write — plan output unlimited (§0.0).
 
@@ -44,12 +45,12 @@ New chat: текст из `finish-doc-router.md` §«Сообщение поль
 
 ## 7. QA lean load
 
-`load_now` + ONE shard + diff + §0.11 grep. Skip plan если AC ясен. Skip explore/recall. Parent гоняет suite из handoff.
+`load_now` + qa/bugfix shard + diff + §0.11 grep. **Skip** полный `plan-*.md`. AC из Handoff Epic QA / Fix plan / implement index links. Если AC неясен — только `plan §N`. Skip explore/recall. Parent гоняет suite из handoff.
 
 ## 8. TASK / BUGFIX
 
-`load_now` first; core roots — только cross-cutting.
+`load_now` first (bugfix/qa shard с subject); core roots — только cross-cutting. **FORBIDDEN** полный plan как «acceptance context».
 
 ## 9. Forbidden
 
-`done — do NOT load` · plan prose в shard/chat · completed substep в `load_now` · over-refusal spawn
+`done — do NOT load` · plan prose в shard/chat · completed substep в `load_now` · **полный `plan-*.md` в `load_now`** вне PLAN/DECOMPOSE · over-refusal spawn

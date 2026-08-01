@@ -60,6 +60,7 @@ function writeStoredPerson(person: SessionPerson | null): void {
 
 type SessionContextValue = {
   person: SessionPerson | null;
+  isReady: boolean;
   toastMessage: string | null;
   clearToast: () => void;
   login: (personId: string) => Promise<string>;
@@ -71,10 +72,12 @@ const SessionContext = createContext<SessionContextValue | null>(null);
 export function SessionProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [person, setPerson] = useState<SessionPerson | null>(null);
+  const [isReady, setIsReady] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setPerson(readStoredPerson());
+    setIsReady(true);
   }, []);
 
   const clearSession = useCallback(() => {
@@ -123,12 +126,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const value = useMemo<SessionContextValue>(
     () => ({
       person,
+      isReady,
       toastMessage,
       clearToast,
       login,
       logout,
     }),
-    [person, toastMessage, clearToast, login, logout],
+    [person, isReady, toastMessage, clearToast, login, logout],
   );
 
   return (

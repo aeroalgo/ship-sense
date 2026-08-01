@@ -4,7 +4,7 @@ alwaysApply: false
 ---
 # INTEG DECOMPOSE — gates
 
-**Артефакт:** `memory-bank/integration/plan/decompose-<plan_id>/` (`index.md` + `eNN-*.md`)
+**Артефакт:** `memory-bank/integration/plan/decompose-<plan_id>/` (`index.md` + `eNN-*.yaml`)
 
 ## Gates
 

@@ -98,4 +98,19 @@ test.describe("PW-01 login tiles ≤2 taps", () => {
     await expect(page).toHaveURL(/\/overview/);
     await expect(page.getByTestId("session-chip")).toContainText("Иванов");
   });
+
+  test("root route redirects without rendering home content", async ({ page }) => {
+    await page.route(`${API}/api/watch/roster`, async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(roster),
+      });
+    });
+
+    await page.goto("/");
+
+    await expect(page).toHaveURL(/\/login/);
+    await expect(page.getByTestId("login-tile").first()).toBeVisible();
+  });
 });

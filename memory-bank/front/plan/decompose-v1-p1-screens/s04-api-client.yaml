@@ -1,0 +1,31 @@
+schema: epic-decompose/v1
+role: front
+step_id: s04
+plan_id: v1-p1-screens
+title: OpenAPI types + REST client + MSW
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: Typed REST client (`lib/api`) + types (codegen или hand-sync из BACK plan) +
+  MSW fixtures для offline UI.
+context:
+  consumes:
+  - '**Consumes:** s01; BACK plan-v1-p1-api §6/§19 (или live openapi.json)'
+  - '**Produces:** fetch wrappers + Query keys; MSW handlers'
+  files:
+  - frontend/src/lib/api/types.ts` (Создание)
+  - frontend/src/lib/api/client.ts` (Создание) — base URL, credentials cookies
+  - frontend/src/lib/api/assets.ts` (Создание) — GET /api/assets/tree
+  - frontend/src/lib/api/events.ts` (Создание)
+  - frontend/src/lib/api/series.ts` (Создание)
+  - frontend/src/lib/api/setpoints.ts` (Создание)
+  - frontend/src/lib/api/session.ts` (Создание) — roster/session
+  - frontend/src/lib/api/reports.ts` (Создание) — watch report
+  - frontend/src/lib/api/sources.ts` (Создание)
+  - frontend/src/test/msw/handlers.ts` (Создание)
+  - frontend/src/lib/api/client.test.ts` (Создание)
+checkpoints:
+- id: cp1
+  criterion: Typed REST client (`lib/api`) + types (codegen или hand-sync из BACK
+    plan) + MSW fixtures для offline UI.
+verify: []
+tdd: []

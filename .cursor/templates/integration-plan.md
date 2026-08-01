@@ -5,7 +5,7 @@
 **Scope:** portal | journey | section  
 **Домен/slug:** <portal-journey-slug>  
 **Статус:** draft | active | done  
-**Gap ref (опционально):** [gap-YYYYMMDD-<slug>.md](../gap/gap-YYYYMMDD-<slug>.md)
+**Gap ref (опционально):** [gap-YYYYMMDD-<slug>.md](../gap/<epic_id>/gap-YYYYMMDD-<slug>.md)
 
 → [decompose-<plan_id>/index.md](decompose-<plan_id>/index.md) — **после DECOMPOSE:** единственный трекер status `eNN` (не дублировать `- [ ] e01…` в этом plan)
 
@@ -96,5 +96,5 @@ response…
 
 - **Done:** …
 - **Files:** этот plan
-- **Next:** INTEG DECOMPOSE (element-first `eNN-*.md`)
+- **Next:** INTEG DECOMPOSE (element-first `eNN-*.yaml`)
 - **New chat:** yes

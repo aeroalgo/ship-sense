@@ -1,10 +1,13 @@
 ---
-description: "INTEG SECURITY — аудит безопасности контракта back↔front, authz, wire"
+description: "INTEG SECURITY — PLAN / DECOMPOSE / audit execute (wire, authz, contract)"
 alwaysApply: false
 ---
-### Команда: INTEG SECURITY
+### Команда: INTEG SECURITY | INTEG SECURITY PLAN | INTEG SECURITY DECOMPOSE
 **Контекст**: @.cursor/rules/integration_developer/mainrule-core.mdc
+**Gates**: @.cursor/rules/integration_developer/isolation_rules/_lean/security.mdc
+**Epic paths:** @.cursor/rules/shared/workflow-security-epic.mdc
 **Скиллы:**
+- @.agents/skills/writing-plans/SKILL.md (PLAN / DECOMPOSE)
 - @.agents/skills/owasp-security-check/SKILL.md
 - @.agents/skills/security-auditor/SKILL.md
 - @.agents/skills/security-auditor-owasp/SKILL.md
@@ -21,17 +24,39 @@ alwaysApply: false
 - @.agents/skills/sigil-scan/SKILL.md
 - @.agents/skills/variant-analysis/SKILL.md
 
-**Цель:** глубокий security-аудит интеграции back↔front (отдельно от ежедневного QA). Isolation maps не грузить.
+**Цель:** security-аудит интеграции back↔front кусками (эпик) или one-shot (S).
 
-**Scope:** wire portal — route × UI × API × authz/IDOR, filter/query injection на стыке, contract drift (публичные поля/секреты), insecure defaults в client+API mapping, CI Actions затрагивающие integ/e2e.
+**Scope:** wire portal — route × UI × API × authz/IDOR, filter/query injection, contract drift, insecure defaults mapping, e2e/integ CI.
 
-**Процесс**:
+**Detect submode:** `PLAN` → PLAN; `DECOMPOSE` → DECOMPOSE; иначе EXECUTE.
+
+---
+
+## A. SECURITY PLAN
+
+1. `OK INTEG SECURITY PLAN - Security plan` + `SUSPENSION GUARD active — plan output unlimited`
+1a. Gates + workflow-security-epic
+2. Inventory wire surfaces (routes×authz×filters×contract) + priority + skills map
+3. Сохрани `memory-bank/integration/security/plan/plan-<id>.md`
+4. `tasks.md` append-only
+5. **FINISH:** finish-block (`code_changed: no`)
+6. Next: **INTEG SECURITY DECOMPOSE**
+
+## B. SECURITY DECOMPOSE
+
+1. `OK INTEG SECURITY DECOMPOSE - [plan_id]`
+1a. Gates + workflow-security-epic
+2. Нарежь `aNN` → `memory-bank/integration/security/plan/decompose-<id>/`
+3. Каждый `aNN`: `audit_surface` + Audit skills + scope + threats + checkpoint
+4. **FINISH:** `load_now` → `a01-*.md`
+5. Next: **INTEG SECURITY** @a01
+
+## C. SECURITY execute (@aNN или S)
+
 1. `OK INTEG SECURITY - Security audit`
-2. `tasks.md`, `techContext.md`, scope (wired routes + API clients + filter-utils)
-3. OWASP (broken access, injection на стыке) + SAST по затронутым back+front путям wire
-4. Supply chain + insecure defaults + Actions (e2e/integ CI)
-5. `memory-bank/integration/security/security-audit-YYYYMMDD-<slug>.md` — findings, severity, skills
-6. `tasks.md` append-only
-7. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: no`, artifact: `security-audit-*.md`)
+1a. Gates + workflow-security-epic
+1b. Epic → `implement/implement-<id>/aNN-*.md`; S → `security-audit-YYYYMMDD-<slug>.md`
+2. Skills из step (эпик) или workflow (S); не чинить код; §0.11 wire
+3. **FINISH:** finish-block (`code_changed: no`)
 
-**Next:** BUGFIX / IMPLEMENT (фиксы) → QA · при drift контракта → GAP
+**Next (фиксы):** BUGFIX / IMPLEMENT; drift контракта → GAP.

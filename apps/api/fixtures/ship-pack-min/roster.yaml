@@ -1,0 +1,20 @@
+schema_version: 1
+watch:
+  - person_id: ivanov
+    name: "Иванов И.И."
+    rank: "вахтенный механик"
+    tile_order: 1
+    active: true
+    default_screen: 1
+  - person_id: petrov
+    name: "Петров П.П."
+    rank: "старший механик"
+    tile_order: 2
+    active: true
+    default_screen: 6
+  - person_id: inactive
+    name: "Неактивный"
+    rank: "вахтенный"
+    tile_order: 3
+    active: false
+    default_screen: 1

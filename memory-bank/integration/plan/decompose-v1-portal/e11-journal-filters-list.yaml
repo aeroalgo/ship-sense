@@ -1,0 +1,56 @@
+schema: integ-decompose/v1
+step_id: e11
+plan_id: v1-portal
+title: Journal filters + infinite list
+element_id: e11
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/journal` → `JournalPage'
+  components: '** DS `EventFilters`, `EventRow`; hooks: `useEventsInfinite`, `journalFilters.ts`,
+    `journalSort.ts`'
+  user_sees: '** filter bar + infinite-scroll list of events'
+data_need:
+- 'cursor pagination; filters: from/to, event_name[], severity[], asset_id, source,
+  ack?, limit'
+api_today:
+- status: ✅
+  detail: '`GET /api/events`'
+- status: ⚠️
+  detail: MSW (static list; cursor poorly simulated)
+- status: —
+  detail: 'FRONT: `lib/api/events.ts` `fetchEvents`'
+contract:
+  method_path: '** `GET /api/events`'
+  query_keys: '** `from?`, `to?`, `event_name[]?`, `severity[]?`, `asset_id?`, `source?`,
+    `ack?`, `cursor?`, `limit=50(1-200)`'
+  response_shape: '** `{ items: EventItem[], next_cursor, has_more }`'
+  response_header: '** `X-Events-Reconstruction`'
+  front_client: '** `lib/api/events.ts` → `fetchEvents`'
+db: '- events store (Timescale)'
+back:
+- already live (T-003 s04)
+- URL search params ↔ `EventsQuery` mirror (deep links from StatusBar / Trends / Handoff)
+- '**Не** внедрять QueryBuilder в этом eNN unless contract decision in CREATIVE —
+  as-built inline params'
+front:
+- '`useEventsInfinite` + filters already wired (FRONT s10)'
+- MSW must support multi-page cursor for E2E or E2E on live API
+grep_control:
+- back: GET /api/events
+  front: fetchEvents
+verify:
+- '`grep -r "/api/events" frontend/src api/`'
+- §0.11 events
+- vitest `JournalPage.test.tsx`
+- 'Playwright: apply severity filter → rows match; load more'
+tdd:
+- '1. Red: vitest JournalPage with filters → assert list'
+- '2. Green: live fetch + cursor, remove MSW'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: '`/journal` shows live events'
+- id: cp2
+  criterion: Filters applied → URL + list match
+- id: cp3
+  criterion: Infinite scroll loads next page

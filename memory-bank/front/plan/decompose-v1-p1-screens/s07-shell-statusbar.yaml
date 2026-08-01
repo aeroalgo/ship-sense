@@ -1,0 +1,29 @@
+schema: epic-decompose/v1
+role: front
+step_id: s07
+plan_id: v1-p1-screens
+title: App shell + StatusBar + nav
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: 'Authenticated layout: sticky StatusBar, nav (Обзор|Журнал|Тренды|Вахтенный),
+  slot banners, QueryClient provider.'
+context:
+  consumes:
+  - '**Consumes:** s02, s04–s06'
+  - '**Produces:** routing tree + shell wire StatusBar←WS/REST'
+  files:
+  - frontend/src/app/(authenticated)/layout.tsx` (Создание)
+  - frontend/src/app/(authenticated)/overview/page.tsx` (Создание) — placeholder
+  - frontend/src/app/(authenticated)/journal/page.tsx` (Создание) — placeholder
+  - frontend/src/app/(authenticated)/trends/page.tsx` (Создание) — placeholder
+  - frontend/src/app/(authenticated)/watch/page.tsx` (Создание) — placeholder
+  - frontend/src/features/shell/AppNav.tsx` (Создание)
+  - frontend/src/features/shell/useStatusBarAlarms.ts` (Создание)
+  - frontend/src/app/layout.tsx` (Модификация) — providers
+  - frontend/src/features/shell/AppNav.test.tsx` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Authenticated layout: sticky StatusBar, nav (Обзор|Журнал|Тренды|Вахтенный),
+    slot banners, QueryClient provider.'
+verify: []
+tdd: []

@@ -1,0 +1,26 @@
+schema: epic-decompose/v1
+role: back
+step_id: s16
+plan_id: v1-p2-ship
+title: Admin read API storage/OTA/audit
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-06) — **closed**
+goal: GET admin storage/ota/access audit; POST ota approve/trigger role-gated; localhost+role;
+  not public WAN.
+context:
+  consumes:
+  - '**Consumes:** s12–s14; CR-P2-06 roles; plan §8.5, §11.9.'
+  - '**Produces:** admin routers; role dependency; OpenAPI admin tag.'
+  files:
+  - apps/api/app/api/v1/endpoints/admin_ota.py` (Создание)
+  - apps/api/app/api/v1/endpoints/admin_storage.py` (Создание)
+  - apps/api/app/api/v1/endpoints/admin_audit.py` (Создание)
+  - apps/api/app/session/` (Модификация) — role gates
+  - apps/api/tests/api/test_admin_ota.py` (Создание)
+  - apps/api/tests/api/test_admin_storage.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: GET admin storage/ota/access audit; POST ota approve/trigger role-gated;
+    localhost+role; not public WAN.
+verify: []
+tdd: []

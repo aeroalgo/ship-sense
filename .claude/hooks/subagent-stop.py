@@ -40,6 +40,12 @@ def main() -> None:
         st["verify_done"] = True
         st["verify_verdict"] = verdict
         save_state(session_id, cwd, st)
+        try:
+            from epic_lib import mirror_verify_verdict
+
+            mirror_verify_verdict(cwd, verdict)
+        except Exception:
+            pass
         if verdict == "FAIL":
             print(
                 "verify VERDICT: FAIL — parent чинит только blockers, "

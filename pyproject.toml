@@ -14,6 +14,7 @@ dependencies = [
     "paho-mqtt>=2.1.0",
     "pymodbus>=3.14.0",
     "asyncua>=2.0.1",
+    "cryptography>=42.0",
 ]
 
 [project.optional-dependencies]
@@ -28,9 +29,11 @@ pythonpath = [
     ".",
     "apps/edge/collector/src",
     "apps/edge/emulator/src",
+    "apps/edge/ota",
     "apps/api",
 ]
 testpaths = [
+    "apps/edge/gateway/tests",
     "apps/edge/collector/tests",
     "apps/edge/emulator/tests",
     "tests/storage",
@@ -46,5 +49,6 @@ markers = [
     "slow: long-running soak or endurance test",
     "load: throughput and endurance harness",
     "e2e: end-to-end pipeline tests (compose or external dependencies)",
+    "t9: golden report fixture tests",
 ]
 asyncio_mode = "strict"

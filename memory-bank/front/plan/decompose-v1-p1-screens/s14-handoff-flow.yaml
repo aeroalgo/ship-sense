@@ -1,0 +1,25 @@
+schema: epic-decompose/v1
+role: front
+step_id: s14
+plan_id: v1-p1-screens
+title: Handoff flow 6→5/1
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: 'Пересменочный UX: с Watch «Что активно сейчас» → overview/journal; session
+  events visible in journal filters.'
+context:
+  consumes:
+  - '**Consumes:** s08 session, s09–s10, s13 watch'
+  - '**Produces:** handoff CTAs + routing helpers + journal session filter chip'
+  files:
+  - frontend/src/features/watch/HandoffButton.tsx` (Создание)
+  - frontend/src/lib/routing/handoff.ts` (Создание)
+  - frontend/src/features/journal/SessionEventFilter.tsx` (Создание) — опц.
+  - frontend/src/features/watch/HandoffButton.test.tsx` (Создание)
+  - Modify WatchPage / JournalPage as needed
+checkpoints:
+- id: cp1
+  criterion: 'Пересменочный UX: с Watch «Что активно сейчас» → overview/journal; session
+    events visible in journal filters.'
+verify: []
+tdd: []

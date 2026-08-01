@@ -1,0 +1,46 @@
+schema: epic-implement/v1
+role: back
+step_id: s19
+plan_id: v1-p2-ship
+title: '[T-005 | s19 | i4-runbook] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s19-i4-runbook.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-08-01'
+level: L2
+task_id: null
+done:
+- 'Подготовлен интеграционный runbook I4: preflight, deploy из того же подписанного
+  OTA image, A/B/health/rollback evidence, storage/backup gates, T4 read-only proof,
+  tag-map discrepancy list, screens handoff и подготовка 24-hour autonomy check.'
+- 'Подготовлен приёмочный runbook I4: повторяемый deploy, T4/T9/T10 acceptance, T5/T6
+  hardware gates, training sign-off, checkpoints T+0…T+24h и pass/abort criteria.'
+- 'Созданы четыре training one-pagers: экраны 1–10 по ролям, A4 disk replacement,
+  stale/quarantine response и OTA approval в anchorage.'
+- Все материалы cross-link существующие T4/T5/T6/A4/OTA артефакты и содержат поля
+  для evidence, владельца, результата и подписи.
+files:
+- docs/runbooks/I4-integration-visit.md
+- docs/runbooks/I4-acceptance-visit.md
+- docs/training/crew-screens.md
+- docs/training/disk-replace-a4.md
+- docs/training/stale-quarantine-card.md
+- docs/training/ota-anchorage.md
+tests:
+- 'cmd: `test -f docs/runbooks/I4-integration-visit.md && test -f docs/runbooks/I4-acceptance-visit.md
+  && test -f docs/training/crew-screens.md && test -f docs/training/disk-replace-a4.md
+  && test -f docs/training/stale-quarantine-card.md && test -f docs/training/ota-anchorage.md'
+- 'итог: 6 документов существуют; docs-only шаг, pytest не требуется'
+integration_check:
+- I4-F1 deploy использует тот же OTA image/release digest и health/rollback evidence
+- I4-F2 A/B slot и RAID/storage/backup gates связаны с I5/I6 материалами
+- I4-F3 APS integration остаётся read-only и ссылается на T4 proof protocol
+- I4-F4 integration и acceptance visits имеют отдельные цели, входы и sign-off
+- I4-F5 training покрывает screens, disk replace, stale/quarantine и OTA anchorage
+- T4/T5/T6/T9/T10 и 24-hour autonomy check имеют executable checklist fields
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

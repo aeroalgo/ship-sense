@@ -14,4 +14,5 @@ alwaysApply: false
 3. `integration/task/task-YYYYMMDD-<slug>.md`
 4. Contract change → обнови §Contract в eNN
 5. Фазы implement (сокращённо если L1); §0.11
-6. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`) → QA (new chat)
+6. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes`)  
+   Next-mode: только `loop/transitions.yaml` (+ runner) · @.cursor/rules/shared/workflow-loop-state.mdc

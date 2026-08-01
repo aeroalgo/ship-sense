@@ -1,0 +1,10 @@
+engine_rooms:
+  - id: room
+    label: "Room"
+    systems:
+      - id: system
+        label: "System"
+        mechanisms:
+          - id: mechanism
+            label: "Mechanism"
+            tags: [TAG_GOOD, TAG_STALE, TAG_QUARANTINE, SKT001]

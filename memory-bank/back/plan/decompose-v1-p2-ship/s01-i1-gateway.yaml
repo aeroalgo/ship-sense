@@ -1,0 +1,30 @@
+schema: epic-decompose/v1
+role: back
+step_id: s01
+plan_id: v1-p2-ship
+title: I1 Read-only gateway (Modbus/OPC barrier)
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-01) — **closed**
+goal: 'Production read-only барьер перед collector: Modbus FC whitelist 01–04 и/или
+  OPC UA read-only account по ADR CR-P2-01; rejected writes log; compose service `gateway`
+  без bypass к АПС.'
+context:
+  consumes:
+  - '**Consumes:** T-001 collector B2; plan §6; CR-P2-01 ADR (до IMPLEMENT — hard
+    stop).'
+  - '**Produces:** `apps/edge/gateway/` процесс; `rejected_writes.log`; docker network/iptables
+    без bypass; unit/integration тесты fragmentation/pipeline.'
+  files:
+  - apps/edge/gateway/modbus_filter/` (Создание) — MBAP/PDU parse, FC whitelist, Exception
+    0x01
+  - apps/edge/gateway/opcua_readonly/` (Создание|условно по ADR) — client без Write/Call/HistoryUpdate
+  - apps/edge/gateway/tests/` (Создание) — fragmentation, pipeline, write reject
+  - compose / docker service `gateway` (Модификация) — between collector and APS
+  - docs/runbooks snippet I1 (Создание) — log path, config hash
+checkpoints:
+- id: cp1
+  criterion: 'Production read-only барьер перед collector: Modbus FC whitelist 01–04
+    и/или OPC UA read-only account по ADR CR-P2-01; rejected writes log; compose service
+    `gateway` без bypass к АПС.'
+verify: []
+tdd: []

@@ -3,7 +3,9 @@
 **Дата:** YYYY-MM-DD  
 **Режим:** INTEG GAP CLOSE  
 **Статус:** blocked | pass | done  
-**Implement:** [eNN-….md](../implement/implement-<plan_id>/eNN-….md)  
+**Путь (epic):** `memory-bank/integration/gap/<epic_id>/close-YYYYMMDD-<slug>.md`  
+**Путь (ad-hoc):** `memory-bank/integration/gap/close-YYYYMMDD-<slug>.md`  
+**Implement:** [eNN-….md](../../implement/implement-<plan_id>/eNN-….md)  
 **Gap:** [gap-YYYYMMDD-….md](gap-YYYYMMDD-….md)  
 **Element Ref:** eNN
 

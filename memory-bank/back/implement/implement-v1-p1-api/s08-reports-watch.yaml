@@ -1,0 +1,45 @@
+schema: epic-implement/v1
+role: back
+step_id: s08
+plan_id: v1-p1-api
+title: T-003 | s08 | reports-watch IMPLEMENT
+status: completed
+decompose_ref: ../../plan/decompose-v1-p1-api/s08-reports-watch.yaml
+implement_index: memory-bank/back/implement/implement-v1-p1-api/index.md
+date: '2026-07-31'
+level: L2
+task_id: T-003
+done:
+- Добавлен read-only каталог `GET /api/reports` с единственным прототипом `watch`
+  и форматами `json`/`html`.
+- Добавлены схемы `ReportsListResponse`, `WatchReportResponse`, data-quality, summary,
+  highlights и KPI snapshot.
+- 'Добавлен `ReportsService`: deterministic verdict с приоритетом protection/alarm/warning,
+  debounce-группировка в пределах 60 секунд, top-five highlights, quarantine/stale
+  visibility и до трёх tag snapshots.'
+- Добавлен `GET /api/reports/watch` с UTC window validation, optional session watchkeeper
+  и JSON/HTML output. HTML остаётся read-only preview и экранирует event fields.
+- Добавлен minimal print-oriented watch template; полноценная B12 generation/export
+  state и PDF намеренно не реализуются.
+files:
+- apps/api/app/reports/schemas.py
+- apps/api/app/reports/service.py
+- apps/api/app/reports/templates/watch.html
+- apps/api/app/api/v1/endpoints/reports.py
+- apps/api/app/api/v1/api.py
+- apps/api/tests/api/test_reports_watch.py
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_reports_watch.py -q --tb=line'
+- 'итог: `3 passed'
+- 'verify gate: `VERDICT: PASS'
+integration_check:
+- routes wired through `apps/api/app/api/v1/api.py`
+- no new environment variables or ports
+- report reads use existing `events`/`samples`/`tag_quarantine` storage models
+- no report-generation write route, PDF route, or telemetry mutation introduced
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

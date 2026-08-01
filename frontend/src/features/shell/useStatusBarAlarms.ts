@@ -18,7 +18,7 @@ export type StatusBarAlarmItem = StatusBarAlarm & {
 
 const BOOTSTRAP_QUERY = {
   limit: 20,
-  severity: "alarm" as const,
+  severity: ["alarm", "warning"] as Array<"alarm" | "warning">,
 };
 
 function mapEventSeverity(severity: EventSeverity | string | null): LampSeverity {
@@ -43,7 +43,7 @@ function eventToAlarm(item: EventItem): StatusBarAlarmItem {
 }
 
 function isAlarmSeverity(severity: string | null | undefined): boolean {
-  return severity === "alarm";
+  return severity === "alarm" || severity === "warning";
 }
 
 export type UseStatusBarAlarmsResult = {

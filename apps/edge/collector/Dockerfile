@@ -17,7 +17,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && addgroup --system shipsense \
+    && adduser --system --ingroup shipsense shipsense
 
 # App source (src layout). PYTHONPATH=src — соответствует dev-запуску.
 COPY pyproject.toml ./
@@ -28,8 +30,10 @@ COPY maps/ ./maps/
 ENV PYTHONPATH=/app/src
 
 # Health snapshot volume (sources.dev.yaml → /var/lib/shipsense/health).
-RUN mkdir -p /var/lib/shipsense/health
+RUN mkdir -p /var/lib/shipsense/health \
+    && chown -R shipsense:shipsense /var/lib/shipsense/health
 VOLUME ["/var/lib/shipsense/health"]
+USER shipsense
 
 # 9009 — sink IPC framing collector → writer (AC-INT-01, README §framing).
 EXPOSE 9009

@@ -1,0 +1,29 @@
+schema: epic-decompose/v1
+role: back
+step_id: s02
+plan_id: v1-p1-api
+title: Assets tree + aggregate status
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: '`GET /api/assets/tree` — иерархия B8 + rollup AggregateStatus worst-of; Cache-Control;
+  503 если semantic не загружен.'
+context:
+  consumes:
+  - '**Consumes:** s01; `app.semantic` (RF-01 r03); LatestValueCache stub или in-memory
+    map; plan §5, §6.1.'
+  - '**Produces:** endpoint + `AssetsTreeResponse`; `AggregateStatusService`.'
+  files:
+  - apps/api/app/api/v1/endpoints/assets.py` (Создание)
+  - apps/api/app/assets/schemas.py` (Создание)
+  - apps/api/app/assets/service.py` (Создание) — tree build + rollup
+  - apps/api/app/telemetry/service.py` (Создание/мод.) — LatestValueCache read API
+    (минимальный stub)
+  - apps/api/app/api/v1/api.py` (Модификация) — include assets router
+  - apps/api/tests/api/test_assets_tree.py` (Создание)
+  - apps/api/fixtures/ship-pack-min/` (Создание при отсутствии) — YAML для pytest
+checkpoints:
+- id: cp1
+  criterion: '`GET /api/assets/tree` — иерархия B8 + rollup AggregateStatus worst-of;
+    Cache-Control; 503 если semantic не загружен.'
+verify: []
+tdd: []

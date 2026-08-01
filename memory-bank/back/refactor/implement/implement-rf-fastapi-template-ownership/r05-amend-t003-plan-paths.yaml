@@ -1,0 +1,30 @@
+schema: epic-refactor/v1
+role: back
+step_id: r05
+plan_id: rf-fastapi-template-ownership
+title: BACK REFACTOR — r05 amend T-003 plan paths
+status: in_progress
+date: '2026-07-30'
+behavior_freeze: preserve external behavior
+decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r05-amend-t003-plan-paths.yaml
+done:
+- T-003 plan §2/§4/§13 подтверждён на canonical tree `apps/api/app/...` по fastapi-templates.
+- decompose-v1-p1-api/index.md` и s01–s10 подтверждены на тех же путях.
+- Legacy `apps/edge/api` оставлен только в исторических пояснениях и verification
+  notes; target paths не используют его.
+files:
+- T-003 plan §2/§4/§13 подтверждён на canonical tree `apps/api/app/...` по fastapi-templates.
+- decompose-v1-p1-api/index.md` и s01–s10 подтверждены на тех же путях.
+- Legacy `apps/edge/api` оставлен только в исторических пояснениях и verification
+  notes; target paths не используют его.
+tests:
+- 'rg -n "apps/edge/api" memory-bank/back/plan/plan-v1-p1-api.md memory-bank/back/plan/decompose-v1-p1-api`
+  проверен: совпадения только в historical/verification notes.'
+- Spot-check всех s01–s10 file maps выполнен.
+- 'Тесты не запускались: docs-only, `code_changed: no`.'
+checkpoints:
+- id: cp1
+  criterion: refactor AC + behavior freeze
+  status: pending
+  done_at: null
+resume_from: cp1

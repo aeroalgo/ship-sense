@@ -37,7 +37,9 @@ export function LoginPage() {
 
   const tiles = useMemo(() => {
     const items = roster.data?.items ?? [];
-    return [...items].sort((a, b) => a.tile_order - b.tile_order);
+    return items
+      .filter((item) => item.active)
+      .sort((a, b) => a.tile_order - b.tile_order);
   }, [roster.data]);
 
   async function onSelect(personId: string) {

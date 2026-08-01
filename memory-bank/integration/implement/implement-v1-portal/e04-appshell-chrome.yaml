@@ -1,0 +1,83 @@
+schema: integ-implement/v1
+step_id: e04
+plan_id: v1-portal
+title: e04 — AppShell chrome IMPLEMENT
+status: completed
+element_ref: e04 — [e04-appshell-chrome.yaml](../../plan/decompose-v1-portal/e04-appshell-chrome.yaml)
+implement_index: memory-bank/integration/implement/implement-v1-portal/index.md
+date: '2026-08-01'
+skills_used:
+- '`query-builder` — не применялся: e04 не содержит list/filter API.'
+- '`frontend-patterns` — применён существующий AppShell/AppNav/session-provider wire.'
+- '`frontend-testing` — targeted Vitest и Playwright scenario.'
+- '`verification-before-completion` — pre-FINISH verify gate.'
+discovery:
+- '`frontend/src/app/(authenticated)/layout.tsx` оборачивает authenticated routes
+  в `AppShell` и передаёт `FreshnessController` через `freshnessSlot`.'
+- '`AppShell` владеет sticky `StatusBar`, `AppNav`, `SessionChip`, logout redirect
+  и theme/design switchers; `AppNav` содержит четыре статических маршрута `/overview`,
+  `/journal`, `/trends`, `/watch`.'
+- '`SessionProvider` гидратирует person из `sessionStorage` после mount и выставляет
+  `isReady`; `AppShell` не рендерит authenticated chrome до готовности и редиректит
+  отсутствующую сессию на `/login`.'
+- API boundary для logout остаётся `frontend/src/lib/api/session.ts` (`DELETE /api/session`);
+  e04 не добавляет backend endpoint.
+- E2E scenario получил sessionStorage fixture, чтобы проверять authenticated chrome
+  вместо login error state.
+gaps:
+  status: none
+done:
+- Добавлен `isReady` в session context, чтобы отличать гидратацию сессии от отсутствия
+  пользователя.
+- '`AppShell` ожидает восстановление сессии и при `isReady && !person` делает `router.replace("/login")`;
+  защищённый chrome не рендерится до проверки.'
+- Подтверждены существующие `AppNav`, `SessionChip`, logout, theme/design switchers
+  и authenticated layout без mock/API-смешения.
+- В `frontend/e2e/specs/shell/app-shell-nav.spec.ts` добавлена минимальная sessionStorage
+  fixture для authenticated scenario.
+files:
+- '`frontend/src/features/session/useSession.tsx` — readiness state в SessionProvider/context.'
+- '`frontend/src/features/shell/AppShell.tsx` — authenticated guard и redirect.'
+- '`frontend/src/features/shell/AppShell.test.tsx` — mock контекста дополнен `isReady`.'
+- '`frontend/e2e/specs/shell/app-shell-nav.spec.ts` — session fixture для shell scenario.'
+- '`frontend/src/features/shell/AppNav.tsx` — проверен, изменений не потребовал.'
+- '`frontend/src/components/ds/SessionChip.tsx` — проверен, изменений не потребовал.'
+- '`frontend/src/app/(authenticated)/layout.tsx` — проверен, изменений не потребовал.'
+tests:
+- '`npm --prefix frontend test -- --run src/features/shell/AppShell.test.tsx src/features/shell/AppNav.test.tsx`
+  — **2 files passed, 4 tests passed**.'
+- '`./frontend/node_modules/.bin/playwright test -c frontend/playwright.config.ts
+  frontend/e2e/specs/shell/app-shell-nav.spec.ts --project=chromium` — **1 passed**.'
+- 'Backend targeted pytest для e04 не требуется: endpoint не менялся; logout contract
+  покрыт e03.'
+integration_check: []
+grep_control:
+- back: apps/api/app/api/v1/endpoints/session.py
+  front: frontend/src/lib/api/session.ts`; `frontend/src/features/session/useSession.tsx`;
+    `frontend/src/features/shell/AppShell.tsx`; `frontend/src/components/ds/SessionChip.tsx
+- back: N/A (static navigation)
+  front: frontend/src/app/(authenticated)/layout.tsx`; `frontend/src/features/shell/AppNav.tsx`;
+    `frontend/src/features/shell/AppShell.tsx
+verification_results:
+- '`python3 .claude/hooks/epic_resolve.py validate-step --path memory-bank/integration/implement/implement-v1-portal/e04-appshell-chrome.yaml`
+  — ожидается exit 0 перед финализацией `result.yaml`.'
+- 'Targeted frontend unit tests: PASS, 2 files / 4 tests.'
+- 'Authenticated shell Playwright scenario: PASS, 1 test.'
+- '`.venv/bin/graphify update .` выполнен после code changes.'
+checkpoints:
+- id: cp1
+  criterion: Authenticated layout shows nav + chip
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+- id: cp2
+  criterion: Click nav → route changes
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+- id: cp3
+  criterion: Logout from chip works
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+resume_from: null

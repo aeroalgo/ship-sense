@@ -3,24 +3,30 @@
 **Task:** T-xxx  
 **Command:** BACK IMPLEMENT | QA | REFLECT | ARCHIVE | PLAN | VAN | INTEG …
 
-Канон заполнения `activeContext.md`: **ровно один** `## Handoff` — **перезапись**, не append.  
-**FAIL:** два и более `## Handoff` в файле. История шагов → `tasks/log/` + implement/qa/bugfix shards, не сюда.  
+Канон заполнения `activeContext.md`: **Write весь файл целиком** на FINISH.  
+Структура: `## load_now` → **ровно один** `## Handoff …` → **≤ один** `## done — do NOT load`.  
+**FAIL:** ≥2 `## Handoff` · ≥2 `## done` · sandwich (старый Handoff/done в хвосте) · completed shard в `load_now`.  
+История шагов → `tasks/log/` + implement/qa/bugfix shards, **не** копилка в activeContext.  
 Rules (`finish-doc-router.mdc`) дают **когда** и **By command** / graphify / Forbidden — не дублировать здесь.
 
-## Перенести в done
+## done (один короткий блок)
 
-- [ ] path/to/completed-shard-or-artifact.md  
-  → из `load_now` в `done — do NOT load`
+- [ ] Убрать completed shard из `load_now` (не оставлять с пометкой «не загружать»).
+- [ ] В `## done — do NOT load` — **≤5** свежих ссылок (последний шаг + связанные creative). Не дублировать заголовок `## done`. Не тащить весь backlog эпика.
 
 ## Новый load_now (max 3)
 
-1. next step shard (`decompose-*/sNN|eNN-*.md`) — **путь к shard-файлу**, не к index
-2. plan/AC shard если нужен AC — **INTEG:** implement artifact или integration plan (не back/front decompose как единственный вход)
-3. `decompose-*/index.md` если нужен обзор очереди шагов
+1. next work shard — **путь к файлу**, не index: `decompose-*/sNN|eNN-*.yaml` · `bugfix-*.md` · `qa-*.md` · `task-*.md` (**только pending/active**, не completed)
+2. при epic → QA: `implement-<id>/index.md` (навигация) — **без** `plan-*.md`
+3. опц. qa-артефакт при re-run / BUGFIX из Fix plan
+
+**FORBIDDEN в `load_now`:** полный `plan-*.md` · «acceptance context = plan» · completed shards  
+**AC:** в step / Handoff Epic QA / Fix plan. Jump `plan §N` только если Consumes требует и shard неполон.  
+**Исключение:** режим PLAN или вход DECOMPOSE — plan как объект работы OK до FINISH DECOMPOSE (после — tip `s01|e01`).
 
 ## load_if_needed (trim)
 
-- … — только shards, релевантные **следующему** шагу
+- … — только shards, релевантные **следующему** шагу; creative — только open CR; `plan §N` — jump, не целиком
 
 ## activeContext §Сейчас / §Следующий шаг
 
@@ -36,7 +42,7 @@ Rules (`finish-doc-router.mdc`) дают **когда** и **By command** / grap
 Файл: `memory-bank/tasks/log/YYYY-MM.md` — append **одна строка** в таблицу §Timeline:
 
 ```markdown
-| YYYY-MM-DD | T-xxx | BACK IMPLEMENT sNN | [sNN-slug.md](back/implement/.../sNN-slug.md) |
+| YYYY-MM-DD | T-xxx | BACK IMPLEMENT sNN | [sNN-slug.yaml](back/implement/.../sNN-slug.yaml) |
 ```
 
 Также обновить §Последние события в `tasks.md` (последние 5 строк, без деталей).
@@ -46,9 +52,9 @@ Rules (`finish-doc-router.mdc`) дают **когда** и **By command** / grap
 
 ## Shard checkbox / implement (ORDER — до decompose completed)
 
-- [ ] **Файл существует:** `memory-bank/{back|front|integration}/implement/implement-<plan>/sNN|eNN-<slug>.md` (не stub)
-- [x] Секции Реализация (Сделано/Файлы) · Верификация/Тесты · Статус=`completed` — **без** `## Handoff` внутри step
-- [ ] **ЗАПРЕЩЕНО** `## Handoff` / `## Следующий шаг` в implement step
+- [ ] **Файл существует:** `memory-bank/{back|front|integration}/implement/implement-<plan>/sNN|eNN-<slug>.yaml`
+- [x] Канон: `.cursor/templates/implement/epic-step.yaml` (`schema: epic-implement/v1`, `role`, `checkpoints`, FINISH только при все cp `done`)
+- [ ] **ЗАПРЕЩЕНО** legacy `.md` implement shards и Handoff внутри yaml step
 - [ ] **## Handoff** этого `sNN|eNN` уже в `activeContext.md` (шаг ниже) — **до** галки decompose
 
 ## Decompose index (если шаг из `decompose-*/`) — только после step + Handoff
@@ -60,19 +66,44 @@ Rules (`finish-doc-router.mdc`) дают **когда** и **By command** / grap
 
 ## Handoff (только `activeContext.md`)
 
-**HARD — ONE block:** в файле после FINISH должен остаться **единственный** заголовок `## Handoff …`.  
-Действие: **replace** всего предыдущего блока (или удалить все старые `## Handoff` и записать один новый).  
-**FORBIDDEN:** prepend/append второго Handoff; стопка «s03, s04, QA, REFLECT»; дублировать Handoff в implement step.  
-Порядок секций: `## load_now` → **один** `## Handoff …` → `## done — do NOT load`.  
-Писать **до** sync decompose/`load_now`:
+**HARD — Write whole file:** на FINISH записать **весь** `activeContext.md` инструментом Write (не partial Edit хвоста).  
+После FINISH: **единственный** `## Handoff …`, **≤ один** `## done`. Старые Handoff **удалить**, не оставлять под done.  
+**FORBIDDEN:** prepend/append; sandwich «новый Handoff + старый Handoff/done»; стопка done; completed в `load_now`; Handoff внутри implement step.  
+Порядок: `## load_now` → **один** `## Handoff …` → `## done — do NOT load` (опционально, один).  
+Писать **после** `@verify` PASS и **до** sync decompose как часть того же FINISH.
+
+**result.yaml (обязательно в том же FINISH при автоцикле):**  
+`loop/runtime/epic/result.yaml` (или `program/`) — machine status.  
+**Не** патчить `loop-state.yaml` вручную — runner `after` применяет transitions.
+
+```yaml
+version: 1
+status: ok
+verdict: null
+step_id: sNN
+artifact: null
+role: BACK
+mode: IMPLEMENT
+notes: null
+```
+
+```bash
+python3 .claude/hooks/loop_resolve.py result --template
+python3 .claude/hooks/loop_resolve.py graph --check
+```
+
+Канон: `loop/README.md` · `.cursor/rules/shared/workflow-loop-state.mdc`  
+`- **Следующий:**` = human hint (выровнять с tip / `loop-state.next`); машинный next — runner + `transitions.yaml`.
 
 ```markdown
 ## Handoff BACK IMPLEMENT T-xxx sNN
 
-- **Предыдущий:** [sNN slug](memory-bank/.../implement/.../sNN-slug.md) — done
-- **Следующий:** [sNN+1 slug](memory-bank/.../decompose-.../sNN+1-slug.md)
-- **Кратко:** …
-- **New chat:** yes | no (reason)
+- **Сделано:** …
+- **Артефакт:** [sNN-slug.yaml](back/implement/implement-<plan>/sNN-slug.yaml)
+- **Файлы:** `path/…` (если code_changed)
+- **Проверка:** pytest / verify PASS / result.yaml ok
+- **Статус:** sNN completed; …
+- **Следующий:** `<ROLE> <MODE>` @target — по tip `next_phase` / ledger (не выдумывать цепочку).
 ```
 
 QA (обязателен всегда — pass и blocked). Роль: `BACK` | `FRONT` | `INTEG` — подставить в заголовок и пути.
@@ -112,8 +143,8 @@ IMPLEMENT — последний шаг эпика (все строки decompos
 - **Epic QA:**
   - **Команда:** `BACK QA <plan_id> — <предмет из plan/decompose>`
   - **Эпик:** T-xxx / `<plan_id>`
-  - **Scope:** все шаги implement + plan AC (напр. s01–s18, compose, full suite)
-  - **Suite:** `.venv/bin/pytest` full; compose smoke если в plan
+  - **Scope:** все шаги implement (напр. s01–s18, compose, full suite) — AC из Handoff/suite, **не** полный plan в load_now
+  - **Suite:** `.venv/bin/pytest` full; compose smoke если в scope шагов
   - **Артефакт:** `memory-bank/back/qa/qa-YYYYMMDD-<plan_id>.md`
 - **Кратко:** implement done; QA эпика не выполнен / blocked — см. qa-артефакт
 - **New chat:** yes → `BACK QA`
@@ -164,7 +195,7 @@ BUGFIX FINISH — обязательная рекомендация QA:
 Старт:
 1. memory-bank/activeContext.md → §Handoff + load_now
 2. memory-bank/back/implement/implement-<plan_id>/index.md
-3. memory-bank/back/plan/plan-<plan_id>.md (AC)
+3. (опц.) последний qa-*.md при re-run — **не** plan-*.md
 ```
 
 **QA blocked → BUGFIX:**
@@ -177,6 +208,10 @@ QA заблокирован (verdict: blocked). Следующий шаг — т
 Файлы: <paths из Fix plan>
 Проверка: <verify из Fix plan>
 Источник: qa-YYYYMMDD-<plan_id>.md → issue QA-1
+
+Старт:
+1. memory-bank/activeContext.md → load_now + §Handoff
+2. memory-bank/back/qa/.../qa-*.md (Fix plan row) — **не** полный plan
 
 После green → BACK QA <plan_id> — повтор эпики (new chat).
 ```

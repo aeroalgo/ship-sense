@@ -15,7 +15,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && addgroup --system shipsense \
+    && adduser --system --ingroup shipsense shipsense
 
 COPY src/ ./src/
 COPY config/ ./config/
@@ -26,6 +28,7 @@ ENV PYTHONPATH=/app/src
 EXPOSE 5020 5021 4840
 
 STOPSIGNAL SIGTERM
+USER shipsense
 
 # host 0.0.0.0 — слушать во всех интерфейсах контейнера (dev default 127.0.0.1
 # в контейнере не даст collector'у подключиться из соседнего сервиса).

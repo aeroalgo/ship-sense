@@ -1,0 +1,28 @@
+schema: epic-decompose/v1
+role: back
+step_id: s14
+plan_id: v1-p2-ship
+title: I7 hardening + access_audit + threat model
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-06) — **closed**
+goal: 'Edge cyber baseline: STRIDE doc, CIS hardening checklist applied in image,
+  access_audit table, OT/IT diagram, org package template; OTA key lifecycle note.'
+context:
+  consumes:
+  - '**Consumes:** plan §10; s12 pubkey; CR-P2-06 for person/session roles.'
+  - '**Produces:** migration access_audit; middleware write hooks; docs threat model
+    + hardening.'
+  files:
+  - apps/api/migrations/versions/*_access_audit.py` (Создание)
+  - apps/api/app/audit/` (Создание)
+  - docs/security/threat-model-edge-v1.md` (Создание)
+  - docs/security/hardening-checklist.md` (Создание)
+  - docs/security/network-ot-it.md` (Создание)
+  - apps/api/tests/audit/test_access_audit.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Edge cyber baseline: STRIDE doc, CIS hardening checklist applied in
+    image, access_audit table, OT/IT diagram, org package template; OTA key lifecycle
+    note.'
+verify: []
+tdd: []

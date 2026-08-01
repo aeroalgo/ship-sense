@@ -1,0 +1,49 @@
+schema: integ-decompose/v1
+step_id: e27
+plan_id: v1-portal
+title: Vessel state
+element_id: e27
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** none (ops/mode chip future)'
+  components: '** (future) vessel mode chip (read-only first)'
+  user_sees: '** (future) mode ANCHORAGE/STEAMING/… with TTL'
+data_need:
+- mode ANCHORAGE/STEAMING/…; override with TTL (permissioned)
+api_today:
+- status: ✅
+  detail: '`GET /api/vessel/state`, `POST /api/vessel/state/override`'
+- status: —
+  detail: FRONT ❌
+contract:
+  method_path: '** `POST /api/vessel/state/override` body `{ mode, ttl_minutes }`'
+  response_shape: '** `VesselStateResponse`'
+  front_client: '** (future) `lib/api/vessel.ts`'
+db: '- vessel svc (mode + override TTL)'
+back:
+- already live (T-005 s11)
+- OTA gate depends on vessel mode (admin) — crew UI may be read-only chip first
+- Permission matrix B11 for override
+front:
+- no UI yet
+- OTA gate depends on vessel mode (admin) — crew UI may be read-only chip first
+grep_control:
+- back: GET /api/vessel/state
+  front: (future client)
+- back: POST /api/vessel/state/override
+  front: (future client)
+verify:
+- '`grep -r "/api/vessel/state" frontend/src api/`'
+- §0.11 after client
+- role-denied override → clear error (no silent fail)
+tdd:
+- '1. Red: n/a (P1, no UI yet)'
+- '2. Green: add client + read-only chip first'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Read-only chip shows current mode
+- id: cp2
+  criterion: Override (admin only) → clear error if denied
+- id: cp3
+  criterion: OTA respects vessel mode gate

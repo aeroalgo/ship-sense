@@ -6,6 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.telemetry.models import Quality
+from app.warnings.schemas import DriftWarning
 
 
 class ReportCatalogItem(BaseModel):
@@ -94,6 +95,7 @@ class WatchReportResponse(BaseModel):
     summary: ReportSummary
     highlights: list[ReportHighlight]
     tags_snapshot: list[ReportTagSnapshot]
+    drifts: list[DriftWarning] = Field(default_factory=list)
 
 
 ReportFormat = Literal["json", "html"]
@@ -149,3 +151,23 @@ class ReportOutput(BaseModel):
     provenance: ReportProvenance
     status: ReportStatus
     immutable: bool = True
+
+
+class ReportJob(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    job_id: str
+    status: Literal["queued", "running", "done", "failed"]
+    report: ReportOutput | None = None
+    error: str | None = None
+
+
+class ReportRunListResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    items: list[ReportOutput]
+    has_more: bool = False
+
+
+class ReportGenerateRequest(ReportRequest):
+    pass

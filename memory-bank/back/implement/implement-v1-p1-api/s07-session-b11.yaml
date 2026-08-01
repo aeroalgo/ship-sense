@@ -1,0 +1,34 @@
+schema: epic-implement/v1
+role: back
+step_id: s07
+plan_id: v1-p1-api
+title: 'Шаг s07: Session B11 (roster + lifecycle → B6)'
+status: completed
+decompose_ref: memory-bank/back/plan/decompose-v1-p1-api/s07-session-b11.yaml
+implement_index: memory-bank/back/implement/implement-v1-p1-api/index.md
+date: '2026-07-30'
+level: L2
+task_id: null
+done: []
+files:
+- apps/api/app/session/models.py
+- apps/api/app/session/schemas.py
+- apps/api/app/session/service.py
+- apps/api/app/api/v1/endpoints/session.py
+- apps/api/app/api/v1/api.py
+- apps/api/app/core/dependencies.py
+- apps/api/fixtures/ship-pack-min/roster.yaml
+- apps/api/tests/api/test_session.py
+tests: []
+integration_check:
+- session routes wired through `apps/api/app/api/v1/api.py`
+- '`API_SESSION_IDLE_SEC` уже существует в settings и используется service'
+- B6 events идут через `EventsRepo.insert_batch` с idempotency keys
+- cookie contract `shipsense_session; HttpOnly; SameSite=Lax; Path=/`
+- I1 mutation scope ограничен `/api/session`
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

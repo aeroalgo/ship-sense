@@ -7,7 +7,7 @@
 **Plan:** [plan-v1-p1-pipeline-db-e2e.md](../../plan/plan-v1-p1-pipeline-db-e2e.md)  
 **Decompose:** [decompose-v1-p1-pipeline-db-e2e/index.md](../../plan/decompose-v1-p1-pipeline-db-e2e/index.md)
 
-Каждый шаг = один заход IMPLEMENT. Имена файлов совпадают с decompose: `sNN-<slug>.md`.
+Каждый шаг = один заход IMPLEMENT. Имена файлов совпадают с decompose: `sNN-<slug>.yaml`.
 
 | step | decompose | implement |
 | :--- | :--- | :--- |

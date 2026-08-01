@@ -1,5 +1,5 @@
 ---
-description: front SECURITY — security audit (Cursor parity)
+description: front SECURITY — audit execute / PLAN / DECOMPOSE (Cursor parity)
 ---
 Apply `.claude/skills/role-command/SKILL.md` for **front SECURITY**.
 $ARGUMENTS

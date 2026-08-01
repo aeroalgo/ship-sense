@@ -1,0 +1,44 @@
+schema: integ-decompose/v1
+step_id: e19
+plan_id: v1-portal
+title: Trends realtime series patch
+element_id: e19
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/trends'
+  components: '** `useTrendRealtime.ts`'
+  user_sees: '** chart line extends/patches in realtime (WS values)'
+data_need:
+- WS values for selected tags append/patch last point
+api_today:
+- status: ✅
+  detail: WS values channel (e07)
+- status: —
+  detail: no dedicated REST
+contract:
+  front_client: '** `useTrendRealtime.ts`'
+db: '- none (WS fanout from values ring buffer)'
+back:
+- WS values already live (e07, T-003 s06)
+- Only patch tags currently plotted; unsubscribe on tag change
+front:
+- '`useTrendRealtime` already wired (FRONT s12)'
+- Stale quality must paint, not drop silently
+grep_control:
+- back: WS values channel (e07)
+  front: useTrendRealtime
+verify:
+- '`grep -r "useTrendRealtime" frontend/src`'
+- unit MockWebSocket patch
+- §0.11 WS URL
+tdd:
+- '1. Red: vitest MockWebSocket value → assert patch'
+- '2. Green: live WS, unsubscribe on tag change'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Selected tag chart extends in realtime
+- id: cp2
+  criterion: Unselect tag → no more patches for it
+- id: cp3
+  criterion: Stale quality painted (not dropped)

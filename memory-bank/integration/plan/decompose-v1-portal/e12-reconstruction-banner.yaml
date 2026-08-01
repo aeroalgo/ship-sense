@@ -1,0 +1,46 @@
+schema: integ-decompose/v1
+step_id: e12
+plan_id: v1-portal
+title: Reconstruction banner
+element_id: e12
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/journal'
+  components: '** `ReconstructionBanner` reads response header from events fetch'
+  user_sees: '** banner text from `X-Events-Reconstruction` header (e.g., "edge_only")'
+data_need:
+- '`X-Events-Reconstruction` value (`edge_only` etc.)'
+api_today:
+- status: ✅
+  detail: BACK sets header; FRONT constant `EVENTS_RECONSTRUCTION_HEADER`
+- status: ⚠️
+  detail: MSW sets header
+contract:
+  response_header: '** `X-Events-Reconstruction: <enum>`'
+  front_client: '** read header from `fetchEvents` response'
+db: '- none (header from events endpoint)'
+back:
+- already live (T-003 s04)
+- CORS expose header обязателен для browser (compose API CORS config)
+- Banner copy не маскирует partial reconstruction
+front:
+- '`ReconstructionBanner` already wired (FRONT s10)'
+- Read header from response, not invent value
+grep_control:
+- back: header `X-Events-Reconstruction
+  front: EVENTS_RECONSTRUCTION_HEADER` constant
+verify:
+- '`grep -r "X-Events-Reconstruction\|EVENTS_RECONSTRUCTION" frontend/src api/`'
+- 'unit: header → banner text'
+- §0.11 header name string equality front↔back
+tdd:
+- '1. Red: vitest banner with header fixture'
+- '2. Green: live header from API, remove MSW'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Banner shows when header present
+- id: cp2
+  criterion: Header value matches BACK enum
+- id: cp3
+  criterion: No banner when header absent

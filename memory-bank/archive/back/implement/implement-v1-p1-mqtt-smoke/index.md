@@ -6,9 +6,9 @@
 **Plan:** [plan-v1-p1-mqtt-smoke.md](../../plan/plan-v1-p1-mqtt-smoke.md)
 **Decompose:** [decompose-v1-p1-mqtt-smoke/index.md](../../plan/decompose-v1-p1-mqtt-smoke/index.md)
 
-Каждый шаг = один заход IMPLEMENT. Имена файлов совпадают с decompose: `sNN-<slug>.md`.
+Каждый шаг = один заход IMPLEMENT. Имена файлов совпадают с decompose: `sNN-<slug>.yaml`.
 
-> **Policy:** статусы живут в `implement/sNN-*.md` (источник истины) и `decompose/index.md` (агрегатор). Этот файл — навигационный hub, без status-колонки.
+> **Policy:** статусы живут в `implement/sNN-*.yaml` (источник истины) и `decompose/index.md` (агрегатор). Этот файл — навигационный hub, без status-колонки.
 
 ## Реестр шагов (decompose ↔ implement)
 

@@ -16,7 +16,7 @@ alwaysApply: false
 3. Regression red → fix → green: `.venv/bin/pytest` из корня
 4. bugfix-файл complete в правильной папке; **Источник:** qa §Fix plan
 5. §0.11 если refs
-6. FINISH → Handoff/повторный `BACK QA` — `finish-doc-router.md` §BUGFIX FINISH
+6. FINISH: finish-block; next-mode — только `loop/transitions.yaml` (+ runner) · `finish-doc-router.md` §BUGFIX FINISH
 
 ## Abort
 

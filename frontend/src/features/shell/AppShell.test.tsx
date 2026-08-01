@@ -26,6 +26,7 @@ vi.mock("@/features/session/useSession", () => ({
       rank: "вахтенный",
       default_screen: 1,
     },
+    isReady: true,
     logout: vi.fn(),
   }),
 }));

@@ -1,0 +1,36 @@
+schema: epic-refactor/v1
+role: back
+step_id: r06
+plan_id: rf-fastapi-template-ownership
+title: BACK REFACTOR — r06 migrations stub + ORM policy
+status: in_progress
+date: '2026-07-30'
+behavior_freeze: preserve external behavior
+decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r06-migrations-stub-orm-policy.yaml
+done:
+- apps/api/README.md` дополнен phase-1 ORM и migrations policy.
+- 'Создан `apps/api/migrations/env.py` без Alembic wiring: reserved stub, `__all__
+  = []`.'
+- Создан `apps/api/migrations/versions/.gitkeep`.
+- apps/edge/storage/schemas.py`, `migrations/env.py`, `alembic.ini` оставлены без
+  изменений.
+files:
+- apps/api/README.md` дополнен phase-1 ORM и migrations policy.
+- 'Создан `apps/api/migrations/env.py` без Alembic wiring: reserved stub, `__all__
+  = []`.'
+- Создан `apps/api/migrations/versions/.gitkeep`.
+- apps/edge/storage/schemas.py`, `migrations/env.py`, `alembic.ini` оставлены без
+  изменений.
+tests:
+- .venv/bin/pytest apps/api/tests/api/test_health_stub.py -q --tb=line` → `1 passed`
+  до правок.
+- .venv/bin/pytest apps/api/tests/api/test_health_stub.py -q --tb=line` → `1 passed`
+  после правок.
+- 'Проверено: единственная активная Alembic chain — корневая `migrations/`; API scaffold
+  не подключён как migration path и не создаёт вторую `DeclarativeBase`.'
+checkpoints:
+- id: cp1
+  criterion: refactor AC + behavior freeze
+  status: pending
+  done_at: null
+resume_from: cp1

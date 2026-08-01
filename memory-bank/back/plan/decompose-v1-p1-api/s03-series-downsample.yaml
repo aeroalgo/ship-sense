@@ -1,0 +1,29 @@
+schema: epic-decompose/v1
+role: back
+step_id: s03
+plan_id: v1-p1-api
+title: Series + DownsampleService
+next_phase: BACK IMPLEMENT
+needs_creative: no — **closed** (CR-API-01)
+goal: '`GET /api/series` и `GET /api/series/aggregate` с auto-resolution ~1500 points,
+  quality per bucket, quarantine не маскируется. Алгоритм — только после CR-API-01.'
+context:
+  consumes:
+  - '**Consumes:** s01–s02; T-002 samples repo/Timescale; creative CR-API-01; plan
+    §6.2–6.3, §9.'
+  - '**Produces:** DownsampleService + series endpoints/schemas + SQL queries.'
+  files:
+  - apps/api/app/api/v1/endpoints/series.py` (Создание)
+  - apps/api/app/telemetry/schemas.py` (Создание)
+  - apps/api/app/telemetry/service.py` (Модификация) — DownsampleService
+  - apps/api/app/telemetry/queries_series.py` (Создание) — time_bucket SQL
+  - apps/api/app/api/v1/api.py` (Модификация)
+  - apps/api/tests/api/test_series.py` (Создание)
+  - apps/api/tests/api/test_series_downsample.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: '`GET /api/series` и `GET /api/series/aggregate` с auto-resolution ~1500
+    points, quality per bucket, quarantine не маскируется. Алгоритм — только после
+    CR-API-01.'
+verify: []
+tdd: []

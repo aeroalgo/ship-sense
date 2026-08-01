@@ -1,0 +1,42 @@
+schema: integ-decompose/v1
+step_id: e30
+plan_id: v1-portal
+title: Guides (explicit n/a)
+element_id: e30
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/guides`, `/guides/[slug]` — **absent**'
+  components: '** n/a'
+  user_sees: '** n/a (product has no content guides surface in v1)'
+data_need:
+- n/a for ShipSense operational portal
+api_today:
+- status: —
+  detail: —
+contract:
+  method_path: '** N/A — product has no content guides surface in v1'
+  response_shape: '** N/A'
+db: '- n/a'
+back:
+- n/a
+front:
+- routes `/guides`, `/guides/[slug]` — **absent**
+- Do not invent mock guides to satisfy content-site templates
+- If later docs portal appears — new INTEG PLAN section
+grep_control:
+- back: N/A
+  front: n/a (explicit absence)
+verify:
+- '`Glob` confirms no `frontend/src/app/**/guides/**`'
+- registry documents absence
+tdd:
+- '1. Red: n/a'
+- '2. Green: n/a (explicit non-goal)'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: No `/guides` routes exist
+- id: cp2
+  criterion: Registry marks as n/a
+- id: cp3
+  criterion: No mock guides invented

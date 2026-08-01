@@ -1,0 +1,26 @@
+schema: epic-decompose/v1
+role: back
+step_id: s04
+plan_id: v1-p1-api
+title: Events REST (keyset pagination)
+next_phase: BACK IMPLEMENT
+needs_creative: no — **closed** (CR-API-04)
+goal: '`GET /api/events` с фильтрами и opaque keyset cursor; header `X-Events-Reconstruction`
+  при Q4 mode A. Формат cursor — CR-API-04.'
+context:
+  consumes:
+  - '**Consumes:** s01; T-002 events B6; creative CR-API-04; plan §6.4.'
+  - '**Produces:** events endpoint + schemas + queries; cursor encode/decode.'
+  files:
+  - apps/api/app/api/v1/endpoints/events.py` (Создание)
+  - apps/api/app/events/schemas.py` (Создание)
+  - apps/api/app/events/service.py` (Создание)
+  - apps/api/app/events/queries_events.py` (Создание)
+  - apps/api/app/api/v1/api.py` (Модификация)
+  - apps/api/tests/api/test_events.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: '`GET /api/events` с фильтрами и opaque keyset cursor; header `X-Events-Reconstruction`
+    при Q4 mode A. Формат cursor — CR-API-04.'
+verify: []
+tdd: []

@@ -1,0 +1,19 @@
+{
+  "body": {
+    "type": "watch",
+    "period": {
+      "from": "2026-07-31T22:00:00Z",
+      "to": "2026-08-01T06:00:00Z"
+    },
+    "alarms_collapsed": [
+      {
+        "event_name": "alarm.HH",
+        "asset_id": "pump-1",
+        "count": 2,
+        "first_timestamp": "2026-08-01T00:00:05Z"
+      }
+    ],
+    "generated_at": "2026-08-01T06:00:01Z"
+  },
+  "expected_body_sha256": "0ca5a18029f5ffd2772678026bd856ac37456c466fc6c747194657a15fdf9cb4"
+}

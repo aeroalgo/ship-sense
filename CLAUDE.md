@@ -40,14 +40,14 @@ Token economy: @.cursor/rules/token-economy-core.mdc — для PLAN / architect
 
 1. `memory-bank/activeContext.md` → **`load_now` only** — **кроме `* PLAN`**: для PLAN читай inventory из соответствующего `workflow-*-plan.mdc` (portal implement + routes)
 2. Handoff: `memory-bank/back/implement/implement-*.md` или `back/task/task-*.md` → §Handoff
-3. IMPLEMENT/TASK: ONE task shard + ONE plan shard. **PLAN:** полный inventory по workflow, не «один shard»
+3. IMPLEMENT/TASK/BUGFIX/QA: ONE work shard из `load_now` (`sNN|eNN` / task / bugfix / qa). **FORBIDDEN** полный `plan-*.md` как AC. **PLAN/DECOMPOSE:** plan как объект работы / полный inventory по workflow.
 4. Не опирайся на transcript — файлы = source of truth
 
 ## FINISH
 
 Канон: @.cursor/rules/shared/finish-block.mdc → @.cursor/rules/shared/finish-doc-router.mdc → шаблон `.cursor/templates/finish-doc-router.md`.
 
-1. **IMPLEMENT:** step-файл `implement-*/sNN|eNN-*.md` + `## Handoff` в `activeContext.md` **до** decompose `completed` / next `load_now` (5 точек + FAIL в finish-block)
+1. **IMPLEMENT:** step-файл `implement-*/sNN|eNN-*.yaml` + `## Handoff` в `activeContext.md` **до** decompose `completed` / next `load_now` (5 точек + FAIL в finish-block)
 2. Рекомендуй `/clear` когда §2 context-session-economy требует new chat
 3. **PLAN:** перед FINISH — `wc -l` plan-файла; если ниже acceptance из `/integ-plan` или `plan-artifact.md` → дописать, не закрывать
 4. **code_changed:** из корня репо `.venv/bin/graphify update .`

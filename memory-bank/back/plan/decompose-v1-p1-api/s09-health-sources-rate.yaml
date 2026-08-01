@@ -1,0 +1,29 @@
+schema: epic-decompose/v1
+role: back
+step_id: s09
+plan_id: v1-p1-api
+title: Health, sources/status, rate limits
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: Полный `GET /api/health` и `GET /api/sources/status` + in-memory rate limit
+  middleware (plan §10). Health stub r01 → production shape §6.12–6.13.
+context:
+  consumes:
+  - '**Consumes:** s01; collector health snapshots; LatestValueCache/WS connection
+    counts; plan §6.12–6.13, §10.'
+  - '**Produces:** health service full; sources status; rate_limit middleware + 429.'
+  files:
+  - apps/api/app/api/v1/endpoints/health.py` (Модификация) — health + sources/status
+  - apps/api/app/health/schemas.py` (Создание)
+  - apps/api/app/health/service.py` (Создание)
+  - apps/api/app/core/middleware.py` (Модификация) — rate limit sliding window **или**
+    `app/core/rate_limit.py
+  - apps/api/app/main.py` (Модификация) — wire middleware
+  - apps/api/tests/api/test_health.py` (Создание/мод.)
+  - apps/api/tests/api/test_rate_limit.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: Полный `GET /api/health` и `GET /api/sources/status` + in-memory rate
+    limit middleware (plan §10). Health stub r01 → production shape §6.12–6.13.
+verify: []
+tdd: []

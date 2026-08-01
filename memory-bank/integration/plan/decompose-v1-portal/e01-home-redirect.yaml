@@ -1,0 +1,42 @@
+schema: integ-decompose/v1
+step_id: e01
+plan_id: v1-portal
+title: Home redirect `/`
+element_id: e01
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `frontend/src/app/page.tsx'
+  components: '** Next.js `redirect("/login")`'
+  user_sees: '** мгновенный redirect на `/login` (не должен видеть контент на `/`)'
+data_need:
+- нет (статический redirect)
+api_today:
+- status: —
+  detail: static, no API
+contract:
+  method_path: '** N/A — server redirect only'
+  query_keys: '** none'
+  response_shape: '** 307/308 redirect to `/login`'
+  front_client: '** N/A — handled by server'
+db: '- none'
+back:
+- n/a (no backend work)
+front:
+- '`frontend/src/app/page.tsx` — ensure `redirect("/login")` (or `permanentRedirect`)'
+- no mock home page
+grep_control:
+- back: N/A
+  front: page.tsx` redirect
+verify:
+- '`grep -r "redirect" frontend/src/app/page.tsx`'
+- 'Playwright: open `/` → lands on `/login`'
+- 'Browser: no content flash on `/`'
+tdd:
+- '1. Red: n/a (no testable logic)'
+- '2. Green: redirect behavior'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Browser open `/` immediately shows `/login` URL
+- id: cp2
+  criterion: No flash of home page content

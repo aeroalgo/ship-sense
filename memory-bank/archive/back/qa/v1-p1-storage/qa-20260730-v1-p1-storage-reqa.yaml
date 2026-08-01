@@ -1,0 +1,50 @@
+schema: epic-qa/v1
+role: back
+date: '2026-07-30'
+reviewer: BACK QA (parent + Agent→reviewer)
+verdict: pass
+scope:
+- 'task: T-002'
+- 'step: s01–s18 storage + semantic (полный цикл после BUGFIX)'
+- 'files: `apps/edge/storage/`, `apps/edge/semantic/`, `migrations/versions/`, `docker-compose.yml`,
+  `tests/storage/`, `pyproject.toml`, `apps/edge/collector/'
+- 'context: re-QA после [bugfix-20260730-qa-storage-runtime.md](../../bugfix/v1-p1-storage/bugfix-20260730-qa-storage-runtime.md)'
+checks:
+- 'storage suite green: `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/
+  -q` — **67 passed in ~1.1s** (было 65 → +2 после bugfix: modbus contract + compression
+  idempotent)'
+- 'backend suite без slow-тестов: `.venv/bin/pytest -m ''not slow'' -q` — **397 passed,
+  3 deselected, 1 warning in ~21s**'
+- 'full suite collection: `.venv/bin/pytest --collect-only -q` — **400 tests collected**'
+- 'full suite включая slow: `.venv/bin/pytest -q` — **400 passed** (EXIT:0, медленный
+  MQTT E2E прошёл после hardening fixture timeout 60s)'
+- 'Python syntax: `.venv/bin/python -m compileall -q apps/edge tests/storage` — pass'
+- 'compose syntax: `docker compose config --quiet` — pass'
+- 'live Compose state: `docker compose ps` — `db`, `writer`, `collector`, `emulator`
+  healthy; writer image `shipsense/writer:dev`'
+- 'live DB storage presence: `docker compose exec -T db psql ... ''\dt''` — `samples`,
+  `events`, semantic/quarantine/quota/health tables present'
+- 'live DB data sanity: `samples > 200k` (212k+), `events > 4k` (4k+), Alembic `006_compression_retention`'
+- 'storage integration refs inspected (§0.11): compose, writer exports, database dependency
+  and test wiring internally consistent'
+- storage edge cases covered by contract, correlation, quota, quarantine and load
+  tests
+- 'runtime logs clean: `ModbusException` count = 0 после rebuild collector; нет crash
+  flood'
+- 'lint/types/security tools green: `ruff`, `mypy`, `semgrep`, `bandit` unavailable
+  in `.venv` (out of scope, как в предыдущем QA)'
+issues: []
+blockers: []
+fix_plan: []
+limitations: []
+suite:
+- 'storage suite green: `PYTHONPATH=.:apps/edge/collector/src .venv/bin/pytest tests/storage/
+  -q` — **67 passed in ~1.1s** (было 65 → +2 после bugfix: modbus contract + compression
+  idempotent)'
+- 'backend suite без slow-тестов: `.venv/bin/pytest -m ''not slow'' -q` — **397 passed,
+  3 deselected, 1 warning in ~21s**'
+- 'full suite collection: `.venv/bin/pytest --collect-only -q` — **400 tests collected**'
+- 'full suite включая slow: `.venv/bin/pytest -q` — **400 passed** (EXIT:0, медленный
+  MQTT E2E прошёл после hardening fixture timeout 60s)'
+plan_id: v1-p1-storage
+epic_id: v1-p1-storage

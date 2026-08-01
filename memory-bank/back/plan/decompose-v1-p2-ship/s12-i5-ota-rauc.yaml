@@ -1,0 +1,26 @@
+schema: epic-decompose/v1
+role: back
+step_id: s12
+plan_id: v1-p2-ship
+title: I5 OTA A/B sign health anchorage gate
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-02, CR-P2-10, CR-P2-12) — **closed**
+goal: 'OTA A/B (RAUC/Mender per ADR): signed bundles, watchdog health «data flows»,
+  anchorage gate, rollback paths for T5.'
+context:
+  consumes:
+  - '**Consumes:** CR-P2-02/10/12; s11 vessel_state; plan §8.'
+  - '**Produces:** ota agent scripts; pubkey path; healthcheck script; approve/trigger
+    hooks (API later s16).'
+  files:
+  - apps/edge/ota/` (Создание) — verify, switch, healthcheck, rollback
+  - /etc/shipsense/ota_pubkey.pem` path docs (Создание)
+  - apps/edge/ota/tests/test_signature.py` (Создание)
+  - apps/edge/ota/tests/test_healthcheck.py` (Создание)
+  - apps/edge/ota/tests/test_anchorage_gate.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'OTA A/B (RAUC/Mender per ADR): signed bundles, watchdog health «data
+    flows», anchorage gate, rollback paths for T5.'
+verify: []
+tdd: []

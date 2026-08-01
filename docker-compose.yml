@@ -3,6 +3,7 @@
 # Сервисы:
 #   emulator — I3 industrial test source (Modbus TCP 5020/5021 + OPC UA 4840)
 #   collector — edge telemetry collector (skeleton; runtime wiring-from-config — будущий шаг)
+#   gateway — read-only Modbus barrier between collector and emulator
 #   writer — storage writer: length-prefixed JSON → TimescaleDB
 #   db / api / web — db is real storage; api/web remain stubs
 #
@@ -36,7 +37,6 @@ services:
       - "--opcua-port"
       - "4840"
     ports:
-      - "5020:5020"   # Modbus TCP — aps_main
       - "4840:4840"   # OPC UA — opc.tcp://emulator:4840
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import socket; s=socket.socket(); s.settimeout(2); s.connect(('127.0.0.1',5020)); s.close()\""]
@@ -44,6 +44,30 @@ services:
       timeout: 3s
       retries: 6
       start_period: 5s
+    networks:
+      - gateway-upstream
+    restart: unless-stopped
+
+  gateway:
+    build:
+      context: .
+      dockerfile: apps/edge/gateway/Dockerfile
+    image: shipsense/gateway:dev
+    container_name: shipsense-gateway
+    depends_on:
+      emulator:
+        condition: service_healthy
+    environment:
+      SHIPSSENSE_GATEWAY_UPSTREAM_HOST: emulator
+      SHIPSSENSE_GATEWAY_UPSTREAM_PORT: "5020"
+      SHIPSSENSE_GATEWAY_LOG_PATH: /var/log/shipsense/rejected_writes.log
+    networks:
+      - gateway-upstream
+      - collector-gateway
+    ports:
+      - "5020:5020"
+    volumes:
+      - gateway-logs:/var/log/shipsense
     restart: unless-stopped
 
   writer:
@@ -76,8 +100,8 @@ services:
     image: shipsense/collector:dev
     container_name: shipsense-collector
     depends_on:
-      emulator:
-        condition: service_healthy
+      gateway:
+        condition: service_started
       writer:
         condition: service_healthy
       db:
@@ -89,6 +113,8 @@ services:
     volumes:
       # Health snapshot (sources.dev.yaml → /var/lib/shipsense/health)
       - collector-health:/var/lib/shipsense/health
+    networks:
+      - collector-gateway
     ports:
       - "9008:9008"   # зарезервировано под future collector HTTP/health-порт
     healthcheck:
@@ -121,12 +147,23 @@ services:
       retries: 6
 
   api:
-    image: nginx:alpine   # placeholder до T-003 FastAPI service
-    container_name: shipsense-api-stub
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    image: shipsense/api:dev
+    container_name: shipsense-api
     profiles: ["full"]
+    environment:
+      DATABASE_URL: postgresql+asyncpg://shipsense:shipsense@db:5432/shipsense
+      SHIP_PACK_PATH: /app/ship-pack
+      API_HOST: 0.0.0.0
+      API_PORT: 8000
+    ports:
+      - "127.0.0.1:8000:8000"
     depends_on:
       db:
         condition: service_healthy
+    restart: unless-stopped
 
   web:
     image: nginx:alpine   # placeholder до T-004 Next.js frontend
@@ -202,5 +239,10 @@ services:
 
 volumes:
   collector-health:
+  gateway-logs:
   tsdata:
   collector-mqtt-health:
+
+networks:
+  gateway-upstream:
+  collector-gateway:

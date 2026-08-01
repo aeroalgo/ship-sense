@@ -5,9 +5,11 @@ from uuid import UUID
 
 from sqlalchemy import DateTime, Index, Integer, JSON, String, Text
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from apps.edge.storage.schemas import Base
+
+class Base(DeclarativeBase):
+    pass
 
 
 class ReportRun(Base):

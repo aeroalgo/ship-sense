@@ -1,0 +1,46 @@
+schema: epic-implement/v1
+role: front
+step_id: s12
+plan_id: v1-p1-screens
+title: '[T-004 | s12 | screen-trends] IMPLEMENT'
+status: in_progress
+decompose_ref: ../../plan/decompose-v1-p1-screens/s12-screen-trends.yaml
+implement_index: memory-bank/front/implement/implement-v1-p1-screens/index.md
+date: '2026-07-26'
+level: L4
+task_id: null
+done:
+- 'TrendsPage: mode quick/extended, TagPicker, presets 1h/8h/24h/7d, Live toggle (extended)'
+- 'Hooks: useSeries (aggregate if multi), useSetpoints→bands, useEventMarkers, useTrendRealtime
+  (WS tail quick)'
+- 'Deep link searchParams: tag/from/to/mode; journalFromMarker → `/journal?event_name&highlight&from&to'
+- 413 → «Сократите период (max 90 дней)»; empty → «У тега нет данных за период»
+- Route `(authenticated)/trends` → Suspense + TrendsPage
+files:
+- frontend/src/features/trends/TrendsPage.tsx
+- frontend/src/features/trends/TrendsPage.test.tsx
+- frontend/src/features/trends/trendsParams.ts
+- frontend/src/features/trends/journalFromMarker.ts
+- frontend/src/features/trends/useSeries.ts
+- frontend/src/features/trends/useSetpoints.ts
+- frontend/src/features/trends/useEventMarkers.ts
+- frontend/src/features/trends/useTrendRealtime.ts
+- frontend/src/app/(authenticated)/trends/page.tsx
+- frontend/e2e/specs/trends/deep-link.spec.ts
+tests:
+- 'cmd: `cd frontend && npm test -- src/features/trends/TrendsPage.test.tsx'
+- 'итог: 3 passed (deep link; marker→journal; empty copy)'
+- 'Scenario E2E: `npx playwright test e2e/specs/trends/deep-link.spec.ts` — 1 passed'
+integration_check:
+- searchParams ↔ trendsDeepLink (tag/from/to/mode=quick)
+- GET /api/series · /api/series/aggregate · /api/setpoints · /api/events · /api/assets/tree
+- WS values tail via useWsChannel (quick on; extended Live toggle)
+- marker → journal intent (event_name + highlight + window)
+- 413 copy PERIOD_TOO_LONG_COPY
+- Full PW-04 suite polish → s16
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: pending
+  done_at: null
+resume_from: cp1

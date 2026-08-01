@@ -13,7 +13,7 @@ alwaysApply: false
 3. **Scenario:** user-visible → Playwright **или** `.venv/bin/pytest` HTTP outcome; unit alone insufficient
 4. bugfix-файл; contract update if keys; **Источник:** qa §Fix plan
 5. §0.11 re-verify
-6. FINISH → Handoff/повторный `INTEG QA` — `finish-doc-router.md` §BUGFIX FINISH
+6. FINISH: finish-block; next-mode — только `loop/transitions.yaml` (+ runner) · `finish-doc-router.md` §BUGFIX FINISH
 
 ## Abort
 

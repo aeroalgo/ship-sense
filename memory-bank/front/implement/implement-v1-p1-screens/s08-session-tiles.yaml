@@ -1,0 +1,52 @@
+schema: epic-implement/v1
+role: front
+step_id: s08
+plan_id: v1-p1-screens
+title: '[T-004 | s08 | session-tiles] IMPLEMENT'
+status: in_progress
+decompose_ref: ../../plan/decompose-v1-p1-screens/s08-session-tiles.yaml
+implement_index: memory-bank/front/implement/implement-v1-p1-screens/index.md
+date: '2026-07-26'
+level: L4
+task_id: null
+done:
+- '/login` + `LoginPage`: roster tiles sorted `tile_order`, tap → POST `/api/session`
+  → redirect `default_screen` (1→`/overview`, 6→`/watch`)'
+- 'SessionProvider` / `useSession`: person in sessionStorage, login/logout, 401 →
+  clear + toast «Сессия завершена по таймауту» + `/login'
+- SessionChip` в StatusBar (AppShell); anonymous — chip hidden
+- 'API client: `onUnauthorized` / `notifyUnauthorized` on 401 (`credentials: include`
+  уже был)'
+- MSW POST session возвращает name/rank/default_screen из roster
+- 'Scenario E2E PW-01: `e2e/specs/session/login-tiles.spec.ts'
+files:
+- frontend/src/app/login/page.tsx
+- frontend/src/features/session/LoginPage.tsx
+- frontend/src/features/session/useSession.tsx
+- frontend/src/features/session/session.test.tsx
+- frontend/src/features/session/AppearanceProviders.tsx` — SessionProvider
+- frontend/src/features/shell/AppShell.tsx` — SessionChip
+- frontend/src/lib/api/client.ts` — 401 notify
+- frontend/src/test/msw/handlers.ts` — session person lookup
+- frontend/e2e/specs/session/login-tiles.spec.ts
+tests:
+- 'cmd: `cd frontend && npm test -- src/features/session/session.test.tsx'
+- 'итог: 6 passed'
+- 'regression: `npm test -- src/features/session/ src/features/shell/AppNav.test.tsx`
+  → 25 passed; `client.test.ts` 5 passed'
+- 'scenario: `npx playwright test e2e/specs/session/login-tiles.spec.ts` → 1 passed'
+- 'Scenario E2E: `e2e/specs/session/login-tiles.spec.ts` (PW-01 ≤2 taps)'
+integration_check:
+- POST/DELETE `/api/session` ↔ `createSession`/`deleteSession` + MSW
+- GET `/api/watch/roster` ↔ `fetchRoster` + LoginPage
+- '`credentials: include` ↔ cookie session calls'
+- '`data-testid=login-tile` / `session-chip` ↔ plan PW-01'
+- 401 → toast copy plan §6.1
+- anonymous `/overview` без chip §6.2
+- Full PW-01..10 suite → s16
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: pending
+  done_at: null
+resume_from: cp1

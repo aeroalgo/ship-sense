@@ -26,13 +26,17 @@ alwaysApply: false
 |-------|----------|-----------|
 | PLAN | `plan/plan-<epic_id>.md` + `plan/decompose-<epic_id>/` | — (PLAN всегда с id) |
 | IMPLEMENT | `implement/implement-<epic_id>/` | `implement/<slug>/` или `implement/task-YYYYMMDD-<slug>.md` (без `implement-<epic>/`) |
+| REFACTOR | `refactor/plan/decompose-<epic_id>/` + execute `refactor/implement/implement-<epic_id>/rNN-*.md` | `refactor/session-YYYYMMDD-<slug>.md` (корень `refactor/`) |
+| SECURITY | `security/plan/decompose-<epic_id>/` + execute `security/implement/implement-<epic_id>/aNN-*.md` | `security/security-audit-YYYYMMDD-<slug>.md` (корень `security/`) |
 | CREATIVE | `creative/<epic_id>/creative-<feature>.md` | `creative/creative-<feature>.md` |
 | QA | `qa/<epic_id>/qa-YYYYMMDD-<slug>.md` | `qa/qa-YYYYMMDD-<slug>.md` |
 | BUGFIX | `bugfix/<epic_id>/bugfix-YYYYMMDD-<slug>.md` | `bugfix/bugfix-YYYYMMDD-<slug>.md` |
+| GAP (INTEG) | `gap/<epic_id>/gap-YYYYMMDD-<slug>.md` | `gap/gap-YYYYMMDD-<slug>.md` |
+| GAP CLOSE (INTEG) | `gap/<epic_id>/close-YYYYMMDD-<slug>.md` | `gap/close-YYYYMMDD-<slug>.md` |
 | REFLECT | `reflection/reflection-<task_id>-….md` | то же — **не** под `<epic_id>/` |
 | TASK | — | `task/task-YYYYMMDD-<slug>.md` |
 
-**FORBIDDEN:** писать epic-артефакт CREATIVE/QA/BUGFIX в корень `creative/` / `qa/` / `bugfix/` без `<epic_id>/`, если эпик известен.
+**FORBIDDEN:** писать epic-артефакт CREATIVE/QA/BUGFIX/GAP в корень `creative/` / `qa/` / `bugfix/` / `gap/` без `<epic_id>/`, если эпик известен.
 
 **Rewire CREATIVE:** ссылки из `decompose-<epic_id>/sNN` → `../../creative/<epic_id>/creative-….md` (с эпиком) или `../../creative/creative-….md` (без).
 
@@ -45,11 +49,14 @@ alwaysApply: false
 - `plan/plan-<epic_id>.md`
 - `plan/decompose-<epic_id>/` (целиком)
 - `implement/implement-<epic_id>/` (целиком)
+- `refactor/plan/{analysis,plan}-<epic_id>.md`, `refactor/plan/decompose-<epic_id>/`, `refactor/implement/implement-<epic_id>/` (целиком)
+- `security/plan/plan-<epic_id>.md`, `security/plan/decompose-<epic_id>/`, `security/implement/implement-<epic_id>/` (целиком)
 - `creative/<epic_id>/` (целиком)
 - `qa/<epic_id>/` (целиком)
 - `bugfix/<epic_id>/` (целиком)
+- `gap/<epic_id>/` (целиком; INTEG: gap-*.md + close-*.md)
 - Legacy flat-файлы с этим epic slug в имени, если ещё не в `<epic_id>/`:  
-  `qa/qa-*-<epic_id>*.md`, `bugfix/*<epic_id>*`, `creative/*` явно связанные в plan/decompose — перенести **в** `archive/.../qa|<bugfix|<creative>/<epic_id>/`
+  `qa/qa-*-<epic_id>*.md`, `bugfix/*<epic_id>*`, `creative/*`, `gap/gap-*` / `gap/close-*` явно связанные с эпиком — перенести **в** `archive/.../qa|bugfix|creative|gap/<epic_id>/`
 
 ### Не переносить
 

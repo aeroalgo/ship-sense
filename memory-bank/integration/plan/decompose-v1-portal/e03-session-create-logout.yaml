@@ -1,0 +1,58 @@
+schema: integ-decompose/v1
+step_id: e03
+plan_id: v1-portal
+title: Session create / logout
+element_id: e03
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/login` (tile click) + `(auth)/*` (logout via `SessionChip`)'
+  components: '** `LoginPage` on tile click → `useSession().login`; `AppShell` `SessionChip`
+    → logout'
+  user_sees: '** после клика на tile → cookie set → redirect to default_screen; logout
+    → clear → `/login`'
+data_need:
+- 'create: `{ person_id }` → session cookie `shipsense_session` + `SessionResponse`'
+- 'logout: clear cookie; optional session event'
+api_today:
+- status: ✅
+  detail: '`POST /api/session` → 201 + Set-Cookie'
+- status: ✅
+  detail: '`DELETE /api/session` → 204'
+- status: ⚠️
+  detail: MSW both
+- status: —
+  detail: 'FRONT: `createSession`, `deleteSession`; `onUnauthorized` → redirect login'
+contract:
+  method_path: '** `DELETE /api/session`'
+  query_keys: '** none'
+  response_shape: '** 204'
+  front_client: '** `lib/api/session.ts` → `createSession`, `deleteSession`'
+db: '- session table + cookie + events (T-003 s07)'
+back:
+- already live (T-003 s07)
+- audit writer / session events (T-005 hardening) — UI не показывает audit, но cookie
+  auth обязателен
+front:
+- после login navigate to `default_screen` mapping (overview/journal/trends/watch)
+  — проверить parity с BACK enum
+- '`onUnauthorized` global handler'
+grep_control:
+- back: POST /api/session
+  front: createSession
+- back: DELETE /api/session
+  front: deleteSession
+verify:
+- '`grep -r "/api/session" frontend/src api/`'
+- 'Playwright: pick tile → `/overview` (or mapped) with cookie; logout → `/login`'
+- pytest session endpoint suite
+tdd:
+- '1. Red: vitest createSession → assert cookie + navigate'
+- '2. Green: live POST, remove MSW'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Login sets `shipsense_session` cookie
+- id: cp2
+  criterion: Logout clears cookie and redirects
+- id: cp3
+  criterion: Unauthorized → redirect to `/login`

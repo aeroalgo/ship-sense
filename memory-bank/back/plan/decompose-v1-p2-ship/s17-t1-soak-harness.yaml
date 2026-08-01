@@ -1,0 +1,24 @@
+schema: epic-decompose/v1
+role: back
+step_id: s17
+plan_id: v1-p2-ship
+title: T1 soak harness long-run monitoring
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: 'Harness: RSS/disk/latency/WS metrics scrape; 72h CI fragment + scripts for
+  lab/ship soak criteria.'
+context:
+  consumes:
+  - '**Consumes:** plan §13.2; compose stack; prometheus or log scrapers.'
+  - '**Produces:** soak pytest markers; scrape scripts; pass criteria asserts.'
+  files:
+  - apps/api/tests/soak/test_t1_fragment.py` (Создание)
+  - scripts/soak/scrape_metrics.py` (Создание)
+  - scripts/soak/assert_pass_criteria.py` (Создание)
+  - docs/tests/T1-soak.md (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Harness: RSS/disk/latency/WS metrics scrape; 72h CI fragment + scripts
+    for lab/ship soak criteria.'
+verify: []
+tdd: []

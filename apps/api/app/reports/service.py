@@ -12,6 +12,7 @@ from app.reports.schemas import (
     ReportCatalogItem,
     ReportHighlight,
     ReportTagSnapshot,
+    ReportOutput,
     ReportSummary,
     ReportsListResponse,
     StaleInterval,
@@ -19,10 +20,17 @@ from app.reports.schemas import (
     WatchReportResponse,
 )
 from app.telemetry.models import Quality
+from app.warnings.schemas import DriftWarning
 from apps.edge.storage.schemas import Event as DBEvent, Sample as DBSample, TagQuarantine
 
 
-_REPORT_DESCRIPTION = "Прототип экрана 6; полный B12 — фаза 2"
+_REPORT_DESCRIPTION = "Отчёт B12 с provenance и печатным представлением"
+_REPORT_CATALOG = (
+    ("watch", "Вахтенная сводка", "Реконструкция вахты по official timestamp"),
+    ("daily_noon", "Полуденный отчёт", "Сводка суточных показателей"),
+    ("fuel", "Отчёт по топливу", "Расход и остатки топлива"),
+    ("register", "Реестр событий", "Реестр тревог и защит"),
+)
 _BANNER = "Часть периода под сверкой — см. quarantine_tags"
 _SEVERITY = {0: "info", 1: "warning", 2: "alarm", 3: "protection", 4: "protection"}
 _QUALITY = {
@@ -41,13 +49,71 @@ class ReportsService:
         return ReportsListResponse(
             items=[
                 ReportCatalogItem(
-                    type="watch",
-                    title="Вахтенная сводка",
+                    type=report_type,
+                    title=title,
                     formats=["json", "html"],
-                    description=_REPORT_DESCRIPTION,
+                    description=description,
                 )
+                for report_type, title, description in _REPORT_CATALOG
             ]
         )
+
+    async def generate(self, session: Any, request: Any):
+        from app.reports.engine import ReportEngine
+        from app.reports.repository import ReportRunRepository
+
+        if request.type == "watch":
+            watch = await self.build_watch(session, request.period.from_, request.period.to)
+            body_json = watch.model_dump(mode="json")
+            body_html = render_html(watch)
+            from app.reports.models import ReportRun
+            from uuid import uuid4
+            from datetime import datetime, timezone
+
+            report_id = uuid4()
+            generated_at = datetime.now(timezone.utc)
+            run = ReportRun(
+                report_id=report_id,
+                version=1,
+                type=request.type,
+                period_from=request.period.from_,
+                period_to=request.period.to,
+                boundary_rule=request.period.boundary_rule,
+                asset_scope=request.asset_scope,
+                formulas_version=request.formulas_version,
+                data_watermark=generated_at,
+                generated_at=generated_at,
+                initiated_by=request.initiated_by,
+                body_json=body_json,
+                body_html=body_html,
+                provenance={"official_ts_rule": "official_ts"},
+                status="final",
+            )
+            session.add(run)
+            await session.flush()
+            return ReportOutput(
+                report_id=str(report_id), version=1, type=request.type, period=request.period,
+                formulas_version=request.formulas_version, data_watermark=generated_at,
+                generated_at=generated_at, initiated_by=request.initiated_by,
+                body_json=body_json, body_html=body_html,
+                provenance={"official_ts_rule": "official_ts"}, status="final",
+            )
+        return await ReportEngine(ReportRunRepository(session)).generate(request)
+
+    async def list_runs(self, session: Any, **filters: Any):
+        from app.reports.repository import ReportRunRepository
+
+        return await ReportRunRepository(session).list_runs(**filters)
+
+    async def get_run(self, session: Any, report_id: Any, version: int | None = None):
+        from app.reports.repository import ReportRunRepository
+
+        return await ReportRunRepository(session).get_run(report_id, version)
+
+    @staticmethod
+    def schedule(roster: Any) -> dict[str, Any]:
+        items = roster.roster().items
+        return {"items": [item.model_dump(mode="json") for item in items], "boundary_rule": "watch_explicit"}
 
     async def build_watch(
         self,
@@ -59,6 +125,7 @@ class ReportsService:
         events = await self._load_events(session, from_ts, to_ts)
         samples = await self._load_samples(session, from_ts, to_ts)
         quarantine = await self._load_quarantine(session, from_ts, to_ts)
+        drifts = await self._load_drifts(session, from_ts, to_ts)
         quarantine_tags = {str(row.tag_id) for row in quarantine}
         quarantine_tags.update(
             str(tag_id)
@@ -81,7 +148,13 @@ class ReportsService:
             summary=summary,
             highlights=_highlights(events),
             tags_snapshot=_tag_snapshot(samples),
+            drifts=drifts,
         )
+
+    async def _load_drifts(self, session: Any, from_ts: datetime, to_ts: datetime) -> list[DriftWarning]:
+        from app.warnings.service import WarningService
+
+        return await WarningService().overlapping(session, from_ts=from_ts, to_ts=to_ts)
 
     async def _load_events(self, session: Any, from_ts: datetime, to_ts: datetime) -> list[Any]:
         result = await session.execute(

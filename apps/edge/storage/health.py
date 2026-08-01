@@ -10,6 +10,8 @@ import psutil
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from apps.edge.storage.raid.status import RaidHealth, RaidSnapshot
+
 
 @dataclass(frozen=True, slots=True)
 class HealthRow:
@@ -23,6 +25,56 @@ class HealthRow:
     events_bytes: int
     queue_depth: int
     extra: dict[str, Any]
+
+
+@dataclass(frozen=True, slots=True)
+class StorageHealth:
+    disk_pct: float | None
+    disk_warning: bool
+    raid_degraded: bool
+    backup_last_ok: bool
+    backup_age_hours: float | None
+    overall_healthy: bool
+    reason_codes: tuple[str, ...]
+
+
+def reduce_storage_health(
+    disk_pct: float | None,
+    raid: RaidSnapshot | None,
+    backup_last_ok: bool | None,
+    backup_age_hours: float | None,
+    *,
+    backup_max_age_hours: float = 24.0,
+) -> StorageHealth:
+    reasons: list[str] = []
+    disk_warning = disk_pct is None or disk_pct >= 80.0
+    if disk_pct is None:
+        reasons.append("storage.disk_unknown")
+    elif disk_warning:
+        reasons.append("storage.disk_high")
+
+    raid_degraded = raid is None or raid.degraded or raid.health == RaidHealth.UNKNOWN
+    if raid is None or raid.health == RaidHealth.UNKNOWN:
+        reasons.append("storage.raid_unknown")
+    elif raid.degraded:
+        reasons.append("storage.raid_degraded")
+
+    backup_ok = backup_last_ok is True
+    if backup_last_ok is not True:
+        reasons.append("storage.backup_stale")
+    elif backup_age_hours is None or backup_age_hours > backup_max_age_hours:
+        backup_ok = False
+        reasons.append("storage.backup_stale")
+
+    return StorageHealth(
+        disk_pct=disk_pct,
+        disk_warning=disk_warning,
+        raid_degraded=raid_degraded,
+        backup_last_ok=backup_ok,
+        backup_age_hours=backup_age_hours,
+        overall_healthy=not reasons,
+        reason_codes=tuple(reasons),
+    )
 
 
 class HealthSnapshotService:

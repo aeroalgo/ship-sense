@@ -1,0 +1,52 @@
+schema: integ-decompose/v1
+step_id: e20
+plan_id: v1-portal
+title: Watch report body
+element_id: e20
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/watch` → `WatchPage`, `useWatchReport'
+  components: '** DS `WatchSection`, print styles as applicable'
+  user_sees: '** watch report for period (json default); sections from report body'
+data_need:
+- watch report for period from/to (search params); format json default
+api_today:
+- status: ✅
+  detail: '`GET /api/reports/watch?from&to&format&session_id?`'
+- status: ⚠️
+  detail: MSW watch report (+ html branch)
+- status: —
+  detail: 'FRONT: `fetchWatchReport`'
+contract:
+  method_path: '** `GET /api/reports/watch?from=&to=&format=json|html&session_id?&watch_id?`'
+  front_client: '** `lib/api/reports.ts` → `fetchWatchReport`'
+db: '- reports svc (T-003 s08 / T-005 s10)'
+back:
+- already live (T-003 s08 / T-005 s10)
+- Period defaults (current watch window) must match BACK schedule semantics when `GET
+  /api/watch/schedule` wired (e25)
+- 'Fallback: if highlights empty, `useWatchReport` also fetches events — document
+  as intentional dual-fetch'
+front:
+- '`useWatchReport` already wired (FRONT s13)'
+- 'BACK also: generate jobs, catalog, versions (see e24) — Watch page does not poll
+  jobs yet'
+grep_control:
+- back: GET /api/reports/watch
+  front: fetchWatchReport
+verify:
+- '`grep -r "/api/reports/watch" frontend/src api/`'
+- §0.11 reports/watch
+- vitest WatchPage.test
+- Playwright load `/watch?from=&to=`
+tdd:
+- '1. Red: vitest WatchPage with report fixture'
+- '2. Green: live fetch, remove MSW'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: '`/watch?from=&to=` shows report sections'
+- id: cp2
+  criterion: Period from URL → report matches
+- id: cp3
+  criterion: Empty highlights → fallback events shown

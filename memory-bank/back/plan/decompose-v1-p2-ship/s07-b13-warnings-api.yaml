@@ -1,0 +1,25 @@
+schema: epic-decompose/v1
+role: back
+step_id: s07
+plan_id: v1-p2-ship
+title: B13 warnings REST + WS
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: GET /api/warnings (+history); WS channel `warnings` enter/exit; feed B12 watch
+  drifts[].
+context:
+  consumes:
+  - '**Consumes:** s06 engine; T-003 FanoutBridge; plan §11.8, §5.7.'
+  - '**Produces:** REST routers; WS topic; OpenAPI examples.'
+  files:
+  - apps/api/app/api/v1/endpoints/warnings.py` (Создание)
+  - apps/api/app/warnings/service.py` (Модификация)
+  - apps/api/app/stream/` (Модификация) — channel warnings
+  - apps/api/tests/api/test_warnings.py` (Создание)
+  - apps/api/tests/api/test_warnings_ws.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: GET /api/warnings (+history); WS channel `warnings` enter/exit; feed
+    B12 watch drifts[].
+verify: []
+tdd: []

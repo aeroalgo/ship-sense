@@ -4,14 +4,20 @@ alwaysApply: false
 ---
 # INTEG REFACTOR — gates
 
-**Артефакты:** `memory-bank/integration/refactor/analysis-<id>.md`, `plan-<id>.md`
+**Канон путей:** @.cursor/rules/shared/workflow-refactor-epic.mdc
+
+**Артефакты:**
+- **Эпик:** `integration/refactor/implement/implement-<id>/rNN-*.md`
+- **Без эпика:** `integration/refactor/session-YYYYMMDD-<slug>.md`
 
 ## Gates
 
-1. Analysis + plan
-2. Tests green before/after
-3. Contract unchanged unless in scope
+1. Path rule: эпик → implement/rNN; без эпика → session в корне
+2. Analysis + plan (S) или rNN shard (эпик)
+3. Tests green before/after
+4. Contract unchanged unless in scope
 
 ## Abort
 
 - Ломает filter key contract → update contract + tests
+- Session в корне при активном epic decompose → FAIL

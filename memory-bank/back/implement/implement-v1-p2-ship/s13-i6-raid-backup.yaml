@@ -1,0 +1,54 @@
+schema: epic-implement/v1
+role: back
+step_id: s13
+plan_id: v1-p2-ship
+title: '[T-005 | s13 | i6-raid-backup] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s13-i6-raid-backup.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L3
+task_id: null
+done:
+- 'Реализован typed ZFS status seam: `RaidSnapshot`, fail-closed parsing для malformed/unknown
+  output, degraded/resilvering состояния.'
+- 'Реализован `BackupCoordinator`: staging на backup mount, allowlisted payload input,
+  manifest schema v1 с SHA-256/размерами, `COMPLETE` как последний marker, atomic
+  publish и отдельная run-directory для повторного запуска дня.'
+- Реализован restore verification с stable `passed`/`failed`/`unknown` status codes
+  и checksum validation.
+- Добавлен pure `reduce_storage_health` с inclusive `disk_pct >= 80`, fail-closed
+  для unknown RAID/backup и stable reason codes.
+- Добавлены thin shell entrypoint, Python runner, typed settings и crew A4 serial/slot
+  replacement instructions.
+files:
+- apps/edge/storage/backup/__init__.py
+- apps/edge/storage/backup/coordinator.py
+- apps/edge/storage/backup/runner.py
+- apps/edge/storage/raid/__init__.py
+- apps/edge/storage/raid/status.py
+- apps/edge/storage/health.py
+- apps/edge/storage/tests/test_backup_restore.py
+- apps/edge/storage/tests/test_backup_runner.py
+- apps/edge/storage/tests/test_raid_status.py
+- apps/edge/storage/tests/test_storage_health.py
+- apps/api/app/core/settings.py
+- scripts/shipsense-backup-events.sh
+- docs/crew/storage-disk-replace-a4.md
+tests:
+- 'cmd: `.venv/bin/pytest apps/edge/storage/tests tests/storage/test_health_snapshot.py
+  tests/storage/test_quota_degrade.py -q --tb=line'
+- 'итог: 12 passed'
+integration_check:
+- storage keys wired
+- env vars in settings
+- DB cols ↔ migration — новые health snapshot columns не требуются; backup manifest
+  хранится в файловом контракте
+- events ↔ handlers — optional health event/dedup вынесены в последующий API/integration
+  scope
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

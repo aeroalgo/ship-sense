@@ -1,0 +1,45 @@
+schema: integ-decompose/v1
+step_id: e04
+plan_id: v1-portal
+title: AppShell chrome (nav + session chip + theme)
+element_id: e04
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `(auth)/*` layout'
+  components: '** `features/shell/AppShell.tsx`, `AppNav.tsx`; DS: `SessionChip`,
+    `ThemeSwitcher`, `DesignSwitcher`'
+  user_sees: '** top nav (overview/journal/trends/watch) + session chip (name, logout)
+    + theme toggle'
+data_need:
+- session person from client state / cookie presence
+- 'nav routes: `/overview`, `/journal`, `/trends`, `/watch`'
+api_today:
+- status: —
+  detail: session delete only for logout (see e03); nav — static
+contract:
+  method_path: '** N/A for nav links'
+db: '- none (derived from session cookie)'
+back:
+- 'Guard: unauthenticated access to `(authenticated)/*` must redirect `/login` (layout/middleware
+  as implemented in FRONT s07)'
+front:
+- '`AppShell` + `AppNav` + `SessionChip` already wired (FRONT s07)'
+- Не смешивать theme/design persistence с API
+grep_control:
+- back: N/A (nav static)
+  front: AppShell.tsx`, `AppNav.tsx
+verify:
+- '`grep -r "AppShell\|AppNav\|SessionChip" frontend/src`'
+- 'Playwright: nav between four screens; chip shows name'
+- 'vitest: `AppShell.test.tsx`, `AppNav.test.tsx`'
+tdd:
+- '1. Red: n/a (chrome, not data-driven)'
+- '2. Green: navigation + chip render'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Authenticated layout shows nav + chip
+- id: cp2
+  criterion: Click nav → route changes
+- id: cp3
+  criterion: Logout from chip works

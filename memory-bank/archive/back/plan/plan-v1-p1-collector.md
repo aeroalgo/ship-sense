@@ -1441,7 +1441,7 @@ async def test_soak_24h_no_task_leak(collector_app, task_counter):
 
 ## 19. Decompose (трекер шагов)
 
-**Единственный трекер IMPLEMENT-шагов:** [`decompose-v1-p1-collector/index.md`](decompose-v1-p1-collector/index.md) + `sNN-*.md` (26 шагов: s01–s25 + s05b).
+**Единственный трекер IMPLEMENT-шагов:** [`decompose-v1-p1-collector/index.md`](decompose-v1-p1-collector/index.md) + `sNN-*.yaml` (26 шагов: s01–s25 + s05b).
 
 Чеклисты sNN / статусы шагов **не** дублировать в этом plan-файле. Goal / AC §6 / архитектура / risks / CREATIVE §18 — остаются здесь.
 

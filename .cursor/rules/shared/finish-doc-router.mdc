@@ -12,15 +12,16 @@ alwaysApply: false
 
 | Command | load_now update |
 |---------|-----------------|
-| `* IMPLEMENT` | next substep OR epic complete → §Handoff epic complete (`* QA <plan_id>`) |
-| `* QA` | `## Handoff * QA` + qa link; fail/blocked → `review.md` §Fix plan + §Epic QA |
-| `* BUGFIX` | bugfix-artifact + §BUGFIX FINISH → `* QA` пока pass |
+| `* IMPLEMENT` | next `sNN\|eNN-*.yaml` OR epic complete → `implement-<id>/index.md` (**не** `plan-*.md`) + §Handoff Epic QA |
+| `* QA` | `## Handoff * QA` + qa link; fail/blocked → Fix plan #1 bugfix subject в `load_now` (qa-артефакт); **не** plan |
+| `* BUGFIX` | bugfix-artifact (+ qa link если нужен Fix plan row); next → `* QA` пока pass |
 | `* REFLECT` | align post-task |
 | `ARCHIVE NOW` | move epic → `memory-bank/archive/{role}/` via `scripts/mb-archive-epic.py`; reflection остаётся; clear `load_now`; «await VAN» / next T-xxx |
-| `* CREATIVE` | next IMPLEMENT shard + rewire `sNN`/`eNN` (`needs_creative — closed`) |
+| `* CREATIVE` | rewire `sNN`/`eNN` канон `yes (CR-…) — **closed**` / index `yes (CR-…) ✅`; next tip по open/closed (`templates/decompose/epic-step.yaml`) |
 | `INTEG PLAN/GAP/GAP CLOSE` | см. шаблон |
-| `* DECOMPOSE` | first step file `s01|e01-*.md` (не index) |
-| `VAN` / `TASK` / `BUGFIX` | init or shift focus |
+| `* DECOMPOSE` | first step file `s01|e01-*.md` (не index); plan был входом DECOMPOSE, **не** остаётся в `load_now` после FINISH |
+| `* PLAN` | plan artifact в `load_now` OK (объект работы) → next обычно DECOMPOSE |
+| `VAN` / `TASK` | init or shift focus |
 
 ## graphify update
 
@@ -29,12 +30,15 @@ alwaysApply: false
 ## Forbidden at FINISH
 
 - Completed work в `load_now`; full index в `load_now`
+- **Полный `plan-*.md` в `load_now`** после IMPLEMENT / QA / BUGFIX / TASK / REFLECT (и после DECOMPOSE FINISH — tip = `s01|e01`, не plan)
 - `decompose=completed` / next `load_now` **до** step-файл + `## Handoff`
 - IMPLEMENT done без step-файл
 - **≥2** блока `## Handoff` в `activeContext.md` (append/история) — хронология только в `tasks/log/` и role-артефактах
+- **≥2** блока `## done` / sandwich (старый Handoff или done в хвосте после нового)
 - Оставлять предыдущий Handoff «на всякий случай» рядом с новым
+- Partial Edit хвоста `activeContext` вместо Write всего файла
 
 ## After template
 
-1. `## Handoff` в `activeContext.md` — **ровно один**, полная **перезапись** (replace). Epic-loop читает первый `## Handoff`; стопка = дрейф и FAIL
+1. `## Handoff` в `activeContext.md` — **ровно один**, файл **целиком** (Write). Epic-loop читает первый `## Handoff`; стопка / ≥2 done = дрейф и **halt** (shape gate)
 2. New chat: context-session-economy §2

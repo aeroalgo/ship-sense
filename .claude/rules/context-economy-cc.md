@@ -19,8 +19,8 @@ paths:
 - Файл, который ты только что Read или Edit — **уже в контексте**. Не перечитывай
 - Re-read допустим **только** при: `offset` за пределами первого чтения; после внешней правки другим tool
 - `tasks/log/*.md`: читай **1×** за сессию для append; не перечитывай чтобы «убедиться»
-- `activeContext.md`: читай **1×** старт + 1× если сам только что переписал (diff нужен)
-- **Запрещено:** Read после Edit «чтобы проверить что записалось» — Edit идемпотентен
+- `activeContext.md`: читай **1×** старт; **перед FINISH** разрешён **1× re-read** (избежать stale Edit) **или** сразу `Write` весь файл без Edit
+- **Запрещено:** Read после Edit «чтобы проверить что записалось» — Edit/Write идемпотентен; на FINISH предпочитай Write целиком
 
 ## find / grep vs graphify
 
@@ -33,7 +33,7 @@ paths:
 
 За одну role-сессию каждый файл — Read **≤1×**:
 - `role-command/SKILL.md`, `mainrule*.mdc`, `workflow-*.mdc`, `_lean/*.mdc`
-- каждый `SKILL.md` из A∪B
+- каждый `SKILL.md` из Impl skills step (+ FINISH-only)
 - `activeContext.md` (повтор — только если сам переписал)
 
 **FAIL:** повторный Read workflow «для уверенности» / после каждого крупного шага.

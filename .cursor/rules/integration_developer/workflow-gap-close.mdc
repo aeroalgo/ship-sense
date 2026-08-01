@@ -13,7 +13,7 @@ alwaysApply: false
 - @.agents/skills/frontend-testing/SKILL.md
 - @.agents/skills/tdd/SKILL.md
 
-**Цель:** По одному `implement-*/eNN-*.md` пройти §Gaps → gap → plans → decompose; PASS → rewire Element Ref.
+**Цель:** По одному `implement-*/eNN-*.yaml` пройти §Gaps → gap → plans → decompose; PASS → rewire Element Ref.
 
 **Вход:** implement step с §Gaps = **link** на `gap-*.md` (иначе сначала `INTEG GAP`).
 
@@ -26,7 +26,7 @@ alwaysApply: false
 5. **Code verify** grep полей/endpoints (не только index)
 6. Gate: unfinished → `close-*.md` **blocked**, no code; else Rewire
 7. **Rewire:** убрать хардкод/mock; §0.11; targeted tests
-8. `close-YYYYMMDD-<slug>.md`; implement Status=closed; gap G-* closed
+8. `close-YYYYMMDD-<slug>.md` под `gap/<epic_id>/` (если эпик) или плоско; implement Status=closed; gap G-* closed
 9. `tasks.md` append-only
 10. **FINISH:** @.cursor/rules/shared/finish-block.mdc (`code_changed: yes` если rewire)
 11. New chat → next eNN или остаток BACK/FRONT

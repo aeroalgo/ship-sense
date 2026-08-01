@@ -1,0 +1,52 @@
+schema: epic-implement/v1
+role: front
+step_id: s07
+plan_id: v1-p1-screens
+title: '[T-004 | s07 | shell-statusbar] IMPLEMENT'
+status: in_progress
+decompose_ref: ../../plan/decompose-v1-p1-screens/s07-shell-statusbar.yaml
+implement_index: memory-bank/front/implement/implement-v1-p1-screens/index.md
+date: '2026-07-26'
+level: L4
+task_id: null
+done:
+- 'App shell `(authenticated)`: sticky StatusBar + AppNav + banner slots + QueryClient'
+- 'Routes §4.2: `/overview` `/journal` `/trends` `/watch` (placeholders StateShell
+  loading)'
+- 'useStatusBarAlarms`: REST bootstrap `GET /api/events?limit=20&severity=alarm` +
+  WS `events'
+- Alarm chip → `/journal?asset_id=&from=`; `ws-status` indicator; ThemeSwitcher in
+  StatusBar
+- SessionChip slot deferred → s08
+- 'Fix: `WatchSection` `"use client"` (hooks without directive broke RSC barrel)'
+files:
+- frontend/src/app/(authenticated)/layout.tsx
+- frontend/src/app/(authenticated)/{overview,journal,trends,watch}/page.tsx
+- frontend/src/features/shell/{AppNav,AppShell,QueryProvider,useStatusBarAlarms}.tsx|.ts
+- frontend/src/features/shell/AppNav.test.tsx
+- frontend/src/features/shell/StatusBar.alarms.test.tsx
+- frontend/src/app/layout.tsx` — QueryProvider
+- frontend/src/components/ds/WatchSection.tsx` — use client
+- frontend/e2e/specs/shell/app-shell-nav.spec.ts
+- frontend/package.json` — `@tanstack/react-query
+tests:
+- 'cmd: `cd frontend && npm test -- src/features/shell/'
+- 'итог: 4 passed (AppNav 3 + StatusBar click 1)'
+- 'scenario: `npx playwright test e2e/specs/shell/app-shell-nav.spec.ts` → 1 passed'
+- 'Scenario E2E: `e2e/specs/shell/app-shell-nav.spec.ts` (StatusBar sticky + nav →
+  /journal)'
+integration_check:
+- StatusBar `data-testid=status-bar` ↔ plan AC-1-05 / PW shell
+- '`ws-status` ↔ plan PW-08 testid'
+- fetchEvents `/api/events` ↔ queryKeys.events + BOOTSTRAP limit/severity
+- useWsChannel `events` ↔ WsManager.subscribeEvents
+- env `NEXT_PUBLIC_API_URL` / `NEXT_PUBLIC_WS_URL` ↔ `.env.example` (+ local `.env.local`)
+- SessionChip logout — s08
+- QuarantineBanner tags — s15
+- PW-08 full reconnect — s16
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: pending
+  done_at: null
+resume_from: cp1

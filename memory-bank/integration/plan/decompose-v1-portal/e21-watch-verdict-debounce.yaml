@@ -1,0 +1,44 @@
+schema: integ-decompose/v1
+step_id: e21
+plan_id: v1-portal
+title: Watch verdict + debounce groups
+element_id: e21
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/watch'
+  components: '** `WatchVerdict`, `DebounceGroupRow`, `debounce.ts`'
+  user_sees: '** summary verdict + alarms_count + debounce groups from highlights'
+data_need:
+- '`summary.verdict`, alarms_count, debounce groups from highlights / template output
+  (B12)'
+api_today:
+- status: —
+  detail: fields inside WatchReportResponse (BACK templates T-005 s04)
+contract:
+  front_client: '** `debounce.ts` helpers (no separate fetch)'
+db: '- none (derived from report body)'
+back:
+- already live (templates T-005 s04)
+- FRONT debounce helpers must match BACK template debounce policy (creative-report-forms)
+  — document mapping in eNN §Contract at DECOMPOSE
+front:
+- '`WatchVerdict` + `DebounceGroupRow` already wired (FRONT s13)'
+- No separate endpoint
+grep_control:
+- back: report `summary` + `highlights
+  front: debounce.ts
+verify:
+- '`grep -r "WatchVerdict\|DebounceGroupRow\|debounce" frontend/src`'
+- unit debounce.test.ts
+- fixture-driven WatchPage render
+tdd:
+- '1. Red: vitest debounce with highlights fixture'
+- '2. Green: live report → debounce groups'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Verdict displayed from report summary
+- id: cp2
+  criterion: Debounce groups rendered from highlights
+- id: cp3
+  criterion: Mapping matches BACK template policy

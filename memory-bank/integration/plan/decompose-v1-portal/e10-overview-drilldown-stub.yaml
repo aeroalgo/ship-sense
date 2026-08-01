@@ -1,0 +1,44 @@
+schema: integ-decompose/v1
+step_id: e10
+plan_id: v1-portal
+title: Overview drill-down stub → future mnemo
+element_id: e10
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/overview'
+  components: '** `DrillDownStubModal`'
+  user_sees: '** copy «Мнемосхема: фаза 2» (stub, not functional mnemo screen)'
+data_need:
+- 'future: schema list + values for selected group/system'
+api_today:
+- status: ❌
+  detail: 'FRONT: stub only'
+- status: ✅
+  detail: 'BACK: `GET /api/mnemo/schemas`, `GET /api/mnemo/schemas/{id}`, `GET /api/mnemo/schemas/{id}/values`,
+    `WS /api/mnemo/{schema_id}`'
+contract:
+  method_path: '** `GET /api/mnemo/schemas/{schema_id}/values`'
+  front_client: '** (future) `lib/api/mnemo.ts` — currently absent'
+db: '- mnemo registry (schemas + generators)'
+back:
+- already live (T-005 s08/s09)
+- 'P1 wire: replace stub with screen/panel + client'
+front:
+- stub only (FRONT s09)
+- 'До wire: оставить stub, но в DECOMPOSE пометить depends on FRONT creative mnemo'
+grep_control:
+- back: GET /api/mnemo/*` + WS
+  front: (future client)
+verify:
+- '`grep -r "mnemo\|DrillDownStub" frontend/src api/`'
+- 'after wire: §0.11 mnemo clients ↔ endpoints; Playwright open schema'
+- 'until wire: assert stub copy + no false-green API call'
+tdd:
+- '1. Red: n/a (stub, no data call yet)'
+- '2. Green: after FRONT creative mnemo — wire client + UI'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: 'Stub visible on overview (copy "Мнемосхема: фаза 2")'
+- id: cp2
+  criterion: 'After wire: click → real mnemo schema loads'

@@ -1,0 +1,81 @@
+version: 1
+updated_at: '2026-08-01T16:31:19Z'
+active: true
+status: running
+journey:
+  id: INTEG-v1-portal
+  phase: EPIC
+role: INTEG
+mode: IMPLEMENT
+epic:
+  decompose: memory-bank/integration/plan/decompose-v1-portal/index.md
+  plan_id: v1-portal
+  pending: 25
+  remaining:
+  - id: e06
+    next_phase: IMPLEMENT
+  - id: e07
+    next_phase: IMPLEMENT
+  - id: e08
+    next_phase: IMPLEMENT
+  - id: e09
+    next_phase: IMPLEMENT
+  - id: e10
+    next_phase: IMPLEMENT
+  - id: e11
+    next_phase: IMPLEMENT
+  - id: e12
+    next_phase: IMPLEMENT
+  - id: e13
+    next_phase: IMPLEMENT
+  - id: e14
+    next_phase: IMPLEMENT
+  - id: e15
+    next_phase: IMPLEMENT
+  - id: e16
+    next_phase: IMPLEMENT
+  - id: e17
+    next_phase: IMPLEMENT
+  - id: e18
+    next_phase: IMPLEMENT
+  - id: e19
+    next_phase: IMPLEMENT
+  - id: e20
+    next_phase: IMPLEMENT
+  - id: e21
+    next_phase: IMPLEMENT
+  - id: e22
+    next_phase: IMPLEMENT
+  - id: e23
+    next_phase: IMPLEMENT
+  - id: e24
+    next_phase: IMPLEMENT
+  - id: e25
+    next_phase: IMPLEMENT
+  - id: e26
+    next_phase: IMPLEMENT
+  - id: e27
+    next_phase: IMPLEMENT
+  - id: e28
+    next_phase: IMPLEMENT
+  - id: e29
+    next_phase: IMPLEMENT
+  - id: e30
+    next_phase: IMPLEMENT
+step:
+  id: e06
+  shard: memory-bank/integration/plan/decompose-v1-portal/e06-freshness-quarantine.yaml
+  artifact: null
+  checkpoint: null
+next:
+  command: INTEG IMPLEMENT
+  target: e06
+queue: []
+resume:
+  command: null
+  implement: null
+  gap: null
+verdict: null
+halt_reason: null
+model: gpt
+notes: e01–e05 completed; next e06 Freshness + quarantine.

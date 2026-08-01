@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["type", "alarms_collapsed"],
+  "properties": {
+    "type": {"const": "watch"},
+    "alarms_collapsed": {"type": "array"}
+  }
+}

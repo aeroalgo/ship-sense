@@ -1,0 +1,31 @@
+schema: epic-decompose/v1
+role: front
+step_id: s01
+plan_id: v1-p1-screens
+title: Scaffold Next.js 15 + Vitest + Playwright + env
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: Поднять каркас `frontend/` (Next.js 15 App Router, React 19, TS strict, Vitest,
+  Playwright, env) без экранов и DS-компонентов.
+context:
+  consumes:
+  - '**Consumes:** plan §1.3 Tech, §4.1 tree, §4.4 env; techContext frontend'
+  - '**Produces:** runnable Next app + test runners; пустые route stubs optional'
+  files:
+  - frontend/package.json` (Создание)
+  - frontend/next.config.ts` (Создание)
+  - frontend/tsconfig.json` (Создание)
+  - frontend/vitest.config.ts` (Создание)
+  - frontend/playwright.config.ts` (Создание)
+  - frontend/.env.example` (Создание) — NEXT_PUBLIC_API_URL, NEXT_PUBLIC_WS_URL, NEXT_PUBLIC_STALE_THRESHOLD_SEC
+  - frontend/src/app/layout.tsx` (Создание) — root shell placeholder
+  - frontend/src/app/page.tsx` (Создание) — redirect stub `/login
+  - frontend/src/app/globals.css` (Создание)
+  - frontend/src/test/setup.ts` (Создание)
+  - frontend/src/test/smoke.test.ts` (Создание)
+checkpoints:
+- id: cp1
+  criterion: Поднять каркас `frontend/` (Next.js 15 App Router, React 19, TS strict,
+    Vitest, Playwright, env) без экранов и DS-компонентов.
+verify: []
+tdd: []

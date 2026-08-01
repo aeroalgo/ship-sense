@@ -1,0 +1,26 @@
+schema: epic-decompose/v1
+role: back
+step_id: s05
+plan_id: v1-p2-ship
+title: B12 T9 golden fixtures + edge cases
+next_phase: BACK IMPLEMENT
+needs_creative: 'no'
+goal: 'Golden T9: bit-exact SHA256 canonical body (exclude generated_at) для midnight,
+  clock jump, fuel, gap; CI fixtures.'
+context:
+  consumes:
+  - '**Consumes:** s02–s04; plan §13.6.'
+  - '**Produces:** `tests/fixtures/reports/*`; compare harness; CI gate.'
+  files:
+  - apps/api/tests/fixtures/reports/watch_midnight_cross.json` (Создание)
+  - apps/api/tests/fixtures/reports/daily_clock_jump.json` (Создание)
+  - apps/api/tests/fixtures/reports/fuel_flowmeter_24h.json` (Создание)
+  - apps/api/tests/fixtures/reports/daily_gap_midday.json` (Создание)
+  - apps/api/tests/reports/test_t9_golden.py` (Создание)
+  - apps/api/tests/reports/golden_compare.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Golden T9: bit-exact SHA256 canonical body (exclude generated_at) для
+    midnight, clock jump, fuel, gap; CI fixtures.'
+verify: []
+tdd: []

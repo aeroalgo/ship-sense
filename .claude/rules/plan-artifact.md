@@ -6,6 +6,8 @@ paths:
   - "memory-bank/back/plan/plan-*.md"
   - "memory-bank/front/plan/plan-*.md"
   - "memory-bank/integration/plan/plan-*.md"
+  - "memory-bank/**/security/plan/plan-*.md"
+  - "memory-bank/**/refactor/plan/plan-*.md"
   - "memory-bank/architecture/**"
 ---
 

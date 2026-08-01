@@ -1,0 +1,121 @@
+version: "1"
+defaults:
+  threshold_pct: 0.90
+  ewma_window_hours: 24
+  min_trend_len_hours: 6
+  r2_min: 0.60
+  hysteresis_pct: 0.02
+  startup_guard_sec: 300
+  mode_filter:
+    rpm_tag: SKT001
+    rpm_min: 10
+
+tags:
+  - tag_id: TAI4101
+    setpoint_source: aps
+    threshold_pct: 0.88
+  - tag_id: TAI4102
+    setpoint_source: aps
+  - tag_id: TAI4202
+    setpoint_source: aps
+  - tag_id: TAI4204
+    setpoint_source: aps
+  - tag_id: TAI4205
+    setpoint_source: aps
+  - tag_id: TAI4207
+    setpoint_source: aps
+  - tag_id: TAI4208
+    setpoint_source: aps
+  - tag_id: TAI4210
+    setpoint_source: aps
+  - tag_id: TAI4211
+    setpoint_source: aps
+  - tag_id: TAI4213
+    setpoint_source: aps
+  - tag_id: TAI4214
+    setpoint_source: aps
+  - tag_id: TAI4216
+    setpoint_source: aps
+  - tag_id: TAI4217
+    setpoint_source: aps
+  - tag_id: TAI4219
+    setpoint_source: aps
+  - tag_id: TAI4220
+    setpoint_source: aps
+  - tag_id: TAI4222
+    setpoint_source: aps
+  - tag_id: TAI4223
+    setpoint_source: aps
+  - tag_id: TAI4225
+    setpoint_source: aps
+  - tag_id: TAI4226
+    setpoint_source: aps
+  - tag_id: TAI4228
+    setpoint_source: aps
+  - tag_id: TAI4229
+    setpoint_source: aps
+  - tag_id: TAI4231
+    setpoint_source: aps
+  - tag_id: TAI4232
+    setpoint_source: aps
+  - tag_id: TAI4234
+    setpoint_source: aps
+  - tag_id: TAI4235
+    setpoint_source: aps
+  - tag_id: TAI4237
+    setpoint_source: aps
+  - tag_id: TAI4238
+    setpoint_source: aps
+  - tag_id: TAI4240
+    setpoint_source: aps
+  - tag_id: TAI4241
+    setpoint_source: aps
+  - tag_id: TAI4243
+    setpoint_source: aps
+  - tag_id: TAI4244
+    setpoint_source: aps
+  - tag_id: TAI4246
+    setpoint_source: aps
+  - tag_id: TAI4247
+    setpoint_source: aps
+  - tag_id: TAI4249
+    setpoint_source: aps
+  - tag_id: TAI4250
+    setpoint_source: aps
+  - tag_id: TAI4252
+    setpoint_source: aps
+  - tag_id: TAI4253
+    setpoint_source: aps
+  - tag_id: TAI4255
+    setpoint_source: aps
+  - tag_id: TAI4256
+    setpoint_source: aps
+  - tag_id: TAI4258
+    setpoint_source: aps
+  - tag_id: TAI4259
+    setpoint_source: aps
+  - tag_id: TAI4261
+    setpoint_source: aps
+  - tag_id: TAI4262
+    setpoint_source: aps
+  - tag_id: TAI4264
+    setpoint_source: aps
+  - tag_id: TAI4265
+    setpoint_source: aps
+  - tag_id: TAI4267
+    setpoint_source: aps
+  - tag_id: TAI4268
+    setpoint_source: aps
+  - tag_id: TAI4270
+    setpoint_source: aps
+  - tag_id: TAI4271
+    setpoint_source: aps
+  - tag_id: TAI4273
+    setpoint_source: aps
+  - tag_id: TAI4274
+    setpoint_source: aps
+  - tag_id: TAI4276
+    setpoint_source: aps
+  - tag_id: SKT002
+    setpoint_source: aps
+    comparison: low

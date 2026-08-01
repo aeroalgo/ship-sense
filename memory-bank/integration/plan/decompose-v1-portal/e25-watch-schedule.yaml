@@ -1,0 +1,48 @@
+schema: integ-decompose/v1
+step_id: e25
+plan_id: v1-portal
+title: Watch schedule
+element_id: e25
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** none yet (period pickers use search params / local now)'
+  components: '** (future) period pickers default from schedule'
+  user_sees: '** (future) watch window boundaries auto-filled'
+data_need:
+- current watch window boundaries for default `/watch` period
+api_today:
+- status: ✅
+  detail: '`GET /api/watch/schedule` (`watch_schedule.py`)'
+- status: —
+  detail: FRONT ❌ no client
+contract:
+  method_path: '** `GET /api/watch/schedule`'
+  response_shape: '** dict schedule fields (as-built service) — pin exact schema in
+    DECOMPOSE eNN from OpenAPI/service'
+  front_client: '** (future) `lib/api/watch.ts` + query key'
+db: '- schedule svc (watch_schedule.py)'
+back:
+- already live (T-003 s08 / T-005 s10)
+- Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule when params
+  absent
+front:
+- no client yet
+- WatchPage defaults from schedule when params absent (after client)
+grep_control:
+- back: GET /api/watch/schedule
+  front: (future client)
+verify:
+- '`grep -r "/api/watch/schedule" frontend/src api/`'
+- §0.11 schedule pair after client
+- Playwright `/watch` without params uses server window
+tdd:
+- '1. Red: n/a (P1, no UI yet)'
+- '2. Green: add client + defaults'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: '`/watch` without params → uses server schedule window'
+- id: cp2
+  criterion: Client `fetchWatchSchedule` wired
+- id: cp3
+  criterion: Period pickers default from schedule

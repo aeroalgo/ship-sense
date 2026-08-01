@@ -1,0 +1,16 @@
+schema: epic-qa/v1
+role: front
+date: '2026-07-27'
+reviewer: FRONT QA
+verdict: pass
+scope:
+- 'epic: v1-p1-screens'
+checks:
+- migrated from md — review checks
+issues: []
+blockers: []
+fix_plan: []
+limitations: []
+suite: []
+plan_id: v1-p1-screens
+epic_id: v1-p1-screens

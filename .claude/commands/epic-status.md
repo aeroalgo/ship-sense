@@ -15,5 +15,5 @@ python3 .claude/hooks/epic_resolve.py status
 python3 .claude/hooks/epic_resolve.py resolve; echo exit:$?
 ```
 
-Не запускай `./scripts/epic-loop.sh` из этой команды.
+Не запускай `./loop/epic-loop.sh` из этой команды.
 $ARGUMENTS

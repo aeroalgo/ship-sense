@@ -1,0 +1,30 @@
+schema: epic-decompose/v1
+role: back
+step_id: s02
+plan_id: v1-p2-ship
+title: B12 ReportEngine core + report_runs
+next_phase: BACK IMPLEMENT
+needs_creative: yes (CR-P2-04) — **closed**
+goal: 'Ядро ReportEngine: period rules (watch/noon/midnight/clock jump/gaps), append-only
+  `report_runs`, async job queue без блокировки collector hot path.'
+context:
+  consumes:
+  - '**Consumes:** T-002 samples/events/B7; T-003 reports stub; plan §4.5–4.8; CR-P2-04
+    (formulas versioning contract).'
+  - '**Produces:** Alembic migration `report_runs`; ORM/repo; `ReportRequest`/`ReportOutput`/`ReportProvenance`;
+    engine skeleton + immutability trigger.'
+  files:
+  - apps/api/migrations/versions/*_report_runs.py` (Создание)
+  - apps/api/app/reports/models.py` (Создание|Модификация) — ReportRun
+  - apps/api/app/reports/engine.py` (Создание) — ReportEngine
+  - apps/api/app/reports/period.py` (Создание) — boundary rules
+  - apps/api/app/reports/schemas.py` (Модификация) — Request/Output/Provenance
+  - apps/api/app/reports/repository.py` (Создание) — append-only insert
+  - apps/api/tests/reports/test_engine_core.py` (Создание)
+  - apps/api/tests/reports/test_report_runs_immutability.py` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Ядро ReportEngine: period rules (watch/noon/midnight/clock jump/gaps),
+    append-only `report_runs`, async job queue без блокировки collector hot path.'
+verify: []
+tdd: []

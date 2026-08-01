@@ -1,0 +1,24 @@
+schema: epic-decompose/v1
+role: front
+step_id: s05
+plan_id: v1-p1-screens
+title: WS manager subscribe/resume/reconnect
+next_phase: FRONT IMPLEMENT
+needs_creative: no | **tdd:** yes
+goal: 'Единый WebSocket manager: channels values/events, tag budget, resume после
+  reconnect, CURSOR_EXPIRED→refetch signal.'
+context:
+  consumes:
+  - '**Consumes:** s01, s04 (URL); BACK WS contract'
+  - '**Produces:** `lib/ws` + hooks stub for features'
+  files:
+  - frontend/src/lib/ws/manager.ts` (Создание)
+  - frontend/src/lib/ws/types.ts` (Создание)
+  - frontend/src/lib/ws/manager.test.ts` (Создание)
+  - frontend/src/hooks/useWsChannel.ts` (Создание)
+checkpoints:
+- id: cp1
+  criterion: 'Единый WebSocket manager: channels values/events, tag budget, resume
+    после reconnect, CURSOR_EXPIRED→refetch signal.'
+verify: []
+tdd: []

@@ -58,6 +58,8 @@ class ReportEngine:
             data_watermark=watermark,
             generated_at=generated_at,
             initiated_by=request.initiated_by,
+            body_json=body_json,
+            body_html=body_html,
             provenance=provenance,
             status=status,
         )

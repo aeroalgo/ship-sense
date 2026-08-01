@@ -1,0 +1,62 @@
+schema: epic-implement/v1
+role: back
+step_id: s11
+plan_id: v1-p2-ship
+title: '[T-005 | s11 | api-vessel-setpoints] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s11-api-vessel-setpoints.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L2
+task_id: null
+done:
+- Добавлен typed vessel state contract и validated `vessel.yaml` configuration для
+  rpm tag, transit threshold, freshness и sound/night policy.
+- 'Реализован fail-closed automatic mode на существующем `LatestValueCache`: missing,
+  stale, bad, quarantine и non-numeric rpm дают anchorage с `rpm_ge1=null`; threshold
+  boundary `rpm >= threshold` даёт transit.'
+- Добавлен bounded manual override `POST /api/vessel/state/override` с integer TTL
+  `1..1440`, lazy expiry и read-only `GET /api/vessel/state`.
+- Добавлен read-only setpoints changelog adapter над canonical `EventsRepo` с UTC
+  range validation, фильтром `setpoint_changed`, сортировкой и пропуском malformed
+  events.
+- Сохранены отсутствие mutation routes для `/api/setpoints` и OpenAPI exposure только
+  GET для setpoints endpoints.
+files:
+- ship-pack/makarov/vessel.yaml
+- apps/api/fixtures/ship-pack-min/vessel.yaml
+- apps/api/app/vessel/__init__.py
+- apps/api/app/vessel/schemas.py
+- apps/api/app/vessel/service.py
+- apps/api/app/vessel/store.py
+- apps/api/app/api/v1/endpoints/vessel.py
+- apps/api/app/api/v1/endpoints/setpoints.py
+- apps/api/app/api/v1/api.py
+- apps/api/app/core/dependencies.py
+- apps/api/app/setpoints/events.py
+- apps/api/app/setpoints/schemas.py
+- apps/api/app/setpoints/service.py
+- apps/api/tests/api/test_vessel_state.py
+- apps/api/tests/api/test_setpoints_changelog.py
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/api/test_vessel_state.py apps/api/tests/api/test_setpoints.py
+  apps/api/tests/api/test_setpoints_changelog.py -q --tb=line'
+- 'итог: `10 passed'
+- 'note: `apps/api/tests/api/test_openapi_surface.py` остаётся красным по устаревшему
+  baseline, который не включает ранее добавленные reports/warnings/mnemo routes; s11-specific
+  OpenAPI assertions проходят в `test_vessel_state.py`.'
+integration_check:
+- storage keys wired — latest rpm использует существующий `LatestValueCache`; changelog
+  использует `EventsRepo/EventFilters`.
+- env vars in settings — используется существующий `SHIP_PACK_PATH`, новые env vars
+  не добавлялись.
+- DB cols ↔ migration — новых колонок/миграций нет; changelog остаётся read-only adapter
+  над `events`.
+- events ↔ handlers — фильтр canonical `setpoint_changed`, params mapping и malformed-event
+  skip реализованы в setpoints adapter.
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null

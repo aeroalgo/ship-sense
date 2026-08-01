@@ -1,0 +1,46 @@
+schema: integ-decompose/v1
+step_id: e13
+plan_id: v1-portal
+title: Journal session event filter
+element_id: e13
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/journal'
+  components: '** `SessionEventFilter.tsx`'
+  user_sees: '** toggle/filter for `source=session` events (login/logout)'
+data_need:
+- filter `source=session` (and related session events from B11)
+api_today:
+- status: ✅
+  detail: same `/api/events?source=session`
+- status: —
+  detail: FRONT filter util maps UI → query
+contract:
+  method_path: '** `GET /api/events?source=session&from=&to=&…`'
+  query_keys: '** `source=session` + standard event filters'
+  front_client: '** filter util in `journalFilters.ts`'
+db: '- events store (source=session emitted by BACK session service)'
+back:
+- Session login/logout must emit events visible here (BACK session service)
+- Empty state when no session events
+front:
+- '`SessionEventFilter` already exists (FRONT s10)'
+- Filter util maps UI → query
+grep_control:
+- back: GET /api/events?source=session
+  front: filter util
+verify:
+- '`grep -r "source=session\|SessionEventFilter" frontend/src api/`'
+- Playwright after login/logout → session events appear with filter on
+- pytest events source filter
+tdd:
+- '1. Red: n/a (filter on existing endpoint)'
+- '2. Green: login → emit event → filter shows it'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Login/logout emits session event
+- id: cp2
+  criterion: Filter `source=session` shows only session events
+- id: cp3
+  criterion: Empty state when no matches

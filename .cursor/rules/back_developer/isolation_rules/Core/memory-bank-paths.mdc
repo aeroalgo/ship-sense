@@ -15,7 +15,7 @@ alwaysApply: false
 
 **As-built карта (все роли, brownfield VAN):** `memory-bank/architecture/` — `index.md` + shards: `overview` · `services` · `data-flow` · `erd` · `workers` · `containers` · `frontend`. Канон процесса: @.cursor/rules/shared/workflow-van-brownfield.mdc. **Не резать** (§0.0 architecture). Session VAN-лог остаётся в `back|front|integration/van/`.
 
-**Шаблоны (вне memory-bank):** `.cursor/templates/` — копируются с `.cursor`, без всей `memory-bank/`. Состав: `plan.md` · `decompose/{index,step}.md` · `implement.md` (legacy) · `implement/{index,step}.md` · `implement/integ-{index,step}.md` (INTEG IMPLEMENT) · `integration-{plan,gap,gap-close,contract}.md` · `architecture/{index,overview,services,data-flow,erd,workers,containers,frontend,van-session}.md` · `review.md` · `task-shard.md` · `idea-pipeline.md` · `finish-doc-router.md`
+**Шаблоны (вне memory-bank):** `.cursor/templates/` — `plan.md` · `integration-plan.md` · `decompose/{README,index,epic-step.yaml}` · `implement/{README,index,epic-step.yaml}` · `security/{plan,index,step,execute}.md` · `integration-{gap,gap-close,contract}.md` · `architecture/*` · `review.md` · `task-shard.md` · `finish-doc-router.md`
 
 **Split (non-plan, >200 → index + shards).** Plan/gap/**architecture** не резать (§0.0).
 
@@ -32,41 +32,41 @@ alwaysApply: false
 |-------|--------|------------|
 | VAN | `back/van/` | `van-YYYYMMDD.md` (session; карта → `architecture/`) |
 | PLAN | `back/plan/` | `plan-<epic_id>.md` + `decompose-<epic_id>/` |
-| DECOMPOSE | `back/plan/decompose-<epic_id>/` | `index.md` + `sNN-<slug>.md` (+ `implement`) |
+| DECOMPOSE | `back/plan/decompose-<epic_id>/` | `index.md` + `sNN-<slug>.yaml` (+ `implement`) |
 | CREATIVE | `back/creative/<epic_id>/` или `back/creative/` | `creative-<feature>.md` — **с эпиком** под `<epic_id>/`; без эпика — плоско. @.cursor/rules/shared/epic-scoped-paths.mdc |
-| IMPLEMENT | `back/implement/implement-<epic_id>/` | `index.md` + `sNN-<slug>.md`. Без эпика: `back/implement/<slug>/` |
+| IMPLEMENT | `back/implement/implement-<epic_id>/` | `index.md` + `sNN-<slug>.yaml`. Без эпика: `back/implement/<slug>/` |
 | TASK | `back/task/` | `task-YYYYMMDD-<slug>.md` |
 | BUGFIX | `back/bugfix/<epic_id>/` или `back/bugfix/` | `bugfix-YYYYMMDD-<slug>.md` — с эпиком / без |
-| REFACTOR | `back/refactor/` | `analysis-<id>.md`, `plan-<id>.md`, `session-YYYYMMDD-<slug>.md` |
+| REFACTOR | `back/refactor/` | **Эпик:** `plan/{analysis,plan,decompose-<id>/}` + `implement/implement-<id>/rNN-*.md`. **Без эпика:** `session-YYYYMMDD-<slug>.md` в корне `refactor/`. Канон: @.cursor/rules/shared/workflow-refactor-epic.mdc |
 | REFLECT | `back/reflection/` | `reflection-<task_id>.md` — **не** под epic; **не** переносится ARCHIVE |
 | ARCHIVE NOW | `memory-bank/archive/back/` | **move** epic tree (plan/decompose/implement/creative/qa/bugfix); манифест `archive-*.md` **убран**. Канон: @.cursor/rules/shared/epic-scoped-paths.mdc |
 | QA | `back/qa/<epic_id>/` или `back/qa/` | `qa-YYYYMMDD-<slug>.md` — с эпиком / без |
-| SECURITY | `back/security/` | `security-audit-YYYYMMDD-<slug>.md` |
+| SECURITY | `back/security/` | **Эпик:** `plan/{plan,decompose-<id>/}` + `implement/implement-<id>/aNN-*.md`. **Без эпика:** `security-audit-YYYYMMDD-<slug>.md`. Канон: @.cursor/rules/shared/workflow-security-epic.mdc |
 
 **Front `memory-bank/front/`** — та же схема, префикс `front/` + ARCHIVE → `memory-bank/archive/front/`.
 
 | Режим | Папка | Именование |
 |-------|--------|------------|
-| SECURITY | `front/security/` | `security-audit-YYYYMMDD-<slug>.md` |
+| SECURITY | `front/security/` | Как BACK: эпик → `plan/` + `implement/…/aNN-*.md`; S → `security-audit-*.md`. @.cursor/rules/shared/workflow-security-epic.mdc |
 
 **Integration `memory-bank/integration/`:**
 
 | Режим | Папка | Именование |
 |-------|--------|------------|
 | VAN | `integration/van/` | `van-YYYYMMDD-<slug>.md` (session; полная карта → `architecture/`) |
-| GAP | `integration/gap/` | `gap-YYYYMMDD-<slug>.md` |
-| GAP CLOSE | `integration/gap/` | `close-YYYYMMDD-<slug>.md` |
+| GAP | `integration/gap/<epic_id>/` (с эпиком) · `integration/gap/` (ad-hoc) | `gap-YYYYMMDD-<slug>.md` |
+| GAP CLOSE | `integration/gap/<epic_id>/` (с эпиком) · `integration/gap/` (ad-hoc) | `close-YYYYMMDD-<slug>.md` |
 | PLAN | `integration/plan/` | `plan-<epic_id>.md` |
 | DECOMPOSE | `integration/plan/decompose-<epic_id>/` | `index.md` + `eNN-<slug>.md` (+ `implement`) |
 | CREATIVE | `integration/creative/<epic_id>/` или плоско | `creative-<feature>.md` |
 | IMPLEMENT | `integration/implement/implement-<epic_id>/` | `index.md` + `eNN-<slug>.md` |
 | TASK | `integration/task/` | `task-YYYYMMDD-<slug>.md` |
 | BUGFIX | `integration/bugfix/<epic_id>/` или плоско | `bugfix-YYYYMMDD-<slug>.md` |
-| REFACTOR | `integration/refactor/` | `analysis-<id>.md`, `plan-<id>.md` |
+| REFACTOR | `integration/refactor/` | Как BACK: эпик → `implement/implement-<id>/rNN-*.md`; без эпика → `session-YYYYMMDD-<slug>.md`. @.cursor/rules/shared/workflow-refactor-epic.mdc |
 | REFLECT | `integration/reflection/` | `reflection-<task_id>.md` — не переносится ARCHIVE |
 | ARCHIVE NOW | `memory-bank/archive/integration/` | move epic tree; без `archive-*.md` манифеста |
 | QA | `integration/qa/<epic_id>/` или плоско | `qa-YYYYMMDD-<slug>.md` |
-| SECURITY | `integration/security/` | `security-audit-YYYYMMDD-<slug>.md` |
+| SECURITY | `integration/security/` | Как BACK: эпик → `plan/` + `implement/…/aNN-*.md`; S → `security-audit-*.md`. @.cursor/rules/shared/workflow-security-epic.mdc |
 | Contracts | `integration/contracts/` | `<domain-slug>.md` |
 | Reference | `integration/reference/` | stubs → query-builder skill |
 

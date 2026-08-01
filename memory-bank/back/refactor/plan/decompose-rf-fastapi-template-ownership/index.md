@@ -46,12 +46,12 @@
 
 | step_id | title & files | implement | needs_creative | tdd | next_phase | status |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| **r01** | [r01-scaffold-apps-api.md](r01-scaffold-apps-api.md)<br>• `apps/api` skill tree, pythonpath, health stub | [session-20260730-r01-scaffold-apps-api.md](../../session-20260730-r01-scaffold-apps-api.md) | no | yes | BACK REFACTOR | done |
+| **r01** | [r01-scaffold-apps-api.md](r01-scaffold-apps-api.md)<br>• `apps/api` skill tree, pythonpath, health stub | [r01…](../../implement/implement-rf-fastapi-template-ownership/r01-scaffold-apps-api.md) | no | yes | BACK REFACTOR | done |
 | **r02** | [r02-move-canonical-models.md](r02-move-canonical-models.md)<br>• Quality/TelemetrySample/Event* → app.*; split Raw*/health; rewire | [r02…](../../implement/implement-rf-fastapi-template-ownership/r02-move-canonical-models.md) | no | yes | BACK REFACTOR | done |
 | **r03** | [r03-move-semantic.md](r03-move-semantic.md)<br>• `apps.edge.semantic` → `app.semantic`; delete old pkg | [r03…](../../implement/implement-rf-fastapi-template-ownership/r03-move-semantic.md) | no | yes | BACK REFACTOR | done |
 | **r04** | [r04-import-graph-audit.md](r04-import-graph-audit.md)<br>• audit tests + README domain ownership | [r04…](../../implement/implement-rf-fastapi-template-ownership/r04-import-graph-audit.md) | no | yes | BACK REFACTOR | done |
-| **r05** | [r05-amend-t003-plan-paths.md](r05-amend-t003-plan-paths.md)<br>• plan-v1-p1-api + decompose s01–s10 → `apps/api` | [r05…](../../implement/implement-rf-fastapi-template-ownership/r05-amend-t003-plan-paths.md) | no | no | BACK REFACTOR | pending |
-| **r06** | [r06-migrations-stub-orm-policy.md](r06-migrations-stub-orm-policy.md)<br>• empty migrations stub; ORM остаётся storage | [r06…](../../implement/implement-rf-fastapi-template-ownership/r06-migrations-stub-orm-policy.md) | no | no | BACK REFACTOR | pending |
+| **r05** | [r05-amend-t003-plan-paths.md](r05-amend-t003-plan-paths.md)<br>• plan-v1-p1-api + decompose s01–s10 → `apps/api` | [r05…](../../implement/implement-rf-fastapi-template-ownership/r05-amend-t003-plan-paths.md) | no | no | BACK REFACTOR | done |
+| **r06** | [r06-migrations-stub-orm-policy.md](r06-migrations-stub-orm-policy.md)<br>• empty migrations stub; ORM остаётся storage | [r06…](../../implement/implement-rf-fastapi-template-ownership/r06-migrations-stub-orm-policy.md) | no | no | BACK REFACTOR | done |
 
 Статусы: `pending` | `active` | `done` | `blocked` | `needs_creative`
 
@@ -75,12 +75,13 @@ r01 → r02 → r03 → r04 → r05 → r06
 - [x] r02 — Move canonical models + split collector domain
 - [x] r03 — Move semantic → `app.semantic`
 - [x] r04 — Import-graph audit tests + README
-- [ ] r05 — Amend T-003 plan/decompose paths
-- [ ] r06 — Migrations stub + ORM policy doc
+- [x] r05 — Amend T-003 plan/decompose paths
+- [x] r06 — Migrations stub + ORM policy doc
 
 ## Handoff
 
-- **Next:** `BACK REFACTOR` @r05 — amend T-003 plan paths
-- **load_now:** `memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r05-amend-t003-plan-paths.md`
+- **Next:** `BACK QA rf-fastapi-template-ownership`
+- **load_now:** `memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/index.md` + epic plan AC
 - **Epic loop:** `./scripts/epic-loop.sh memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership`
-- **T-003:** IMPLEMENT s01 **blocked** until r01+r02+r05 `done`
+- **T-003:** IMPLEMENT s01 разблокирован по path после r01+r02+r05; r06 policy/stub завершён как optional шаг относительно A–C
+- **Epic QA scope:** проверить r01–r06 behavior freeze, import ownership, storage ORM/Alembic ownership и backend suite

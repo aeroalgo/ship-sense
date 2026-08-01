@@ -1,0 +1,52 @@
+schema: integ-implement/v1
+step_id: e01
+plan_id: v1-portal
+title: e01 — Home redirect `/` IMPLEMENT
+status: completed
+element_ref: e01 — [e01-home-redirect.yaml](../../plan/decompose-v1-portal/e01-home-redirect.yaml)
+implement_index: memory-bank/integration/implement/implement-v1-portal/index.md
+date: '2026-08-01'
+skills_used:
+- '`frontend-testing` — добавлен пользовательский scenario для root redirect.'
+- '`verification-before-completion` — проверены acceptance и integration boundary
+  перед FINISH.'
+discovery:
+- '`frontend/src/app/page.tsx` уже использует серверный `redirect("/login")`, поэтому
+  `/` не рендерит home content и не требует BACK/API/DB изменений.'
+- Root route относится к Next.js App Router; client fetch и mock path отсутствуют.
+- Existing login E2E suite предоставляет стабильный `/login` destination и roster
+  fixture для проверки отсутствия контентного flash.
+gaps:
+  status: none
+done: []
+files: []
+tests: []
+integration_check:
+- '**Endpoint ↔ fetch:** N/A — API отсутствует по контракту e01.'
+- '**Route ↔ UI:** `frontend/src/app/page.tsx` server redirect ведёт на `/login`;
+  scenario подтверждает конечный URL и render destination.'
+- '**Mock removal:** production path не содержит mock home page; E2E использует только
+  roster fixture для страницы назначения.'
+- '**Gaps:** нет.'
+grep_control:
+- back: N/A — static redirect, no API/DB contract
+  front: frontend/src/app/page.tsx`; `frontend/e2e/specs/session/login-tiles.spec.ts
+verification_results:
+- '`frontend/src/app/page.tsx` сохраняет server-side `redirect("/login")`.'
+- 'Добавлен scenario: `GET /` → `/login`, login tile видим, home content не появляется
+  в пользовательском пути.'
+- '`cd frontend && npm run test:e2e -- e2e/specs/session/login-tiles.spec.ts` — **2
+  passed**.'
+- No backend changes; targeted `.venv/bin/pytest` не требовался.
+checkpoints:
+- id: cp1
+  criterion: Browser open `/` immediately shows `/login` URL
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+- id: cp2
+  criterion: No flash of home page content
+  status: done
+  done_at: '2026-08-01'
+  notes: null
+resume_from: null

@@ -1,0 +1,46 @@
+schema: integ-decompose/v1
+step_id: e18
+plan_id: v1-portal
+title: Trends event markers + deep-link
+element_id: e18
+next_phase: INTEG IMPLEMENT
+ui:
+  route: '** `/trends'
+  components: '** `useEventMarkers.ts`, `journalFromMarker.ts`, `trendsParams.ts`'
+  user_sees: '** event markers on chart; click → `/journal?...` with filters'
+data_need:
+- events in chart from/to window; click → `/journal?...`
+api_today:
+- status: ✅
+  detail: '`GET /api/events` with from/to (+ optional asset)'
+- status: —
+  detail: no dedicated marker endpoint
+contract:
+  method_path: '** `GET /api/events?from=&to=&asset_id?=&limit=`'
+  response_shape: '** `{ items: EventItem[] }` (reuse EventItem from journal)'
+  front_client: '** `useEventMarkers.ts` + `journalFromMarker.ts`'
+db: '- events store (reuse `/api/events`)'
+back:
+- already live (T-003 s04)
+- Param names identical to journalFilters
+front:
+- '`useEventMarkers` + deep-link helpers (FRONT s12)'
+- Marker severity colors ≡ EventRow
+grep_control:
+- back: GET /api/events` (from/to)
+  front: useEventMarkers
+verify:
+- '`grep -r "useEventMarkers\|journalFromMarker" frontend/src`'
+- Playwright click marker → journal URL params
+- vitest journalFromMarker
+tdd:
+- '1. Red: vitest marker click → assert URL params'
+- '2. Green: live events fetch + deep-link'
+- 3. Wire + §Verify
+checkpoints:
+- id: cp1
+  criterion: Chart shows markers for events in range
+- id: cp2
+  criterion: Click marker → journal with matching filters
+- id: cp3
+  criterion: Severity colors match EventRow

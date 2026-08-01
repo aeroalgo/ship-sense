@@ -1,0 +1,53 @@
+schema: epic-implement/v1
+role: back
+step_id: s06
+plan_id: v1-p2-ship
+title: '[T-005 | s06 | b13-drift-engine] IMPLEMENT'
+status: completed
+decompose_ref: ../../plan/decompose-v1-p2-ship/s06-b13-drift-engine.yaml
+implement_index: memory-bank/back/implement/implement-v1-p2-ship/index.md
+date: '2026-07-31'
+level: L4
+task_id: null
+done:
+- Реализована pure continuous-time EWMA с timestamp-based `dt`, seed, zero-delta idempotence
+  и защитой от time travel.
+- Добавлены linear drift rate и deterministic ETA с fail-closed условиями для недостаточного/неположительного
+  тренда и достигнутой уставки.
+- Реализован `DriftEngine` с typed sample/result контрактом, startup guard, `SKT001`
+  rpm mode filter, state suppression и hysteresis enter/exit.
+- Добавлен fail-closed YAML loader для explicit B13 allowlist, immutable tuple snapshot,
+  defaults/per-tag overrides, duplicate/unknown tag validation и APS/config provenance
+  fields.
+- Создан Makarov `warnings.yaml` с 53-tag baseline из CR-P2-08; `SKT002` сохранён
+  как low-side provisional policy.
+- Добавлены public `DriftWarning` и transition schemas для s07 transport seam.
+- Добавлена SQL migration `008_warnings` для `warnings_active` и append-only `warnings_history`
+  storage surface.
+files:
+- apps/api/app/warnings/__init__.py
+- apps/api/app/warnings/math.py
+- apps/api/app/warnings/engine.py
+- apps/api/app/warnings/config.py
+- apps/api/app/warnings/schemas.py
+- apps/api/migrations/versions/008_warnings.py
+- ship-pack/makarov/warnings.yaml
+- apps/api/tests/warnings/test_ewma.py
+- apps/api/tests/warnings/test_mode_filter.py
+- apps/api/tests/warnings/test_no_ml_imports.py
+tests:
+- 'cmd: `.venv/bin/pytest apps/api/tests/warnings -q --tb=line'
+- 'итог: 9 passed'
+integration_check:
+- storage keys wired — `warnings_active` / `warnings_history` migration и typed warning
+  schemas согласованы по полям
+- env vars in settings — новые ENV не добавлялись; loader принимает явный путь
+- DB cols ↔ migration — active/history columns зафиксированы в `008_warnings`
+- events ↔ handlers — transition schema является seam для следующего s07; handlers/API
+  намеренно остаются scope s07
+checkpoints:
+- id: cp1
+  criterion: step AC complete
+  status: done
+  done_at: '2026-08-01'
+resume_from: null
