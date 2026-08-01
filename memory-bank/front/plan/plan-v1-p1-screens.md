@@ -1269,7 +1269,7 @@ type AggregateStatus = Quality | 'unknown';
 - **Done:** FRONT DECOMPOSE T-004 — 16 шагов s01–s16
 - **Files:** `memory-bank/front/plan/decompose-v1-p1-screens/` (трекер = index)
 - **Next:** `FRONT CREATIVE` CR-UI-01 → 03 → 02 → 04 → 05; параллельно `FRONT IMPLEMENT` s01 scaffold-app
-- **load_now:** `memory-bank/front/plan/decompose-v1-p1-screens/s01-scaffold-app.md`
+- **load_now:** `memory-bank/front/plan/decompose-v1-p1-screens/s01-scaffold-app.yaml`
 - **Tool / model:** Claude Code + premium-coding (CREATIVE); Cursor + fast-editing (s01/s03–s05)
 - **New chat:** yes
 

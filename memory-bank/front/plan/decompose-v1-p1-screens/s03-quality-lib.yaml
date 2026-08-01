@@ -5,21 +5,43 @@ plan_id: v1-p1-screens
 title: Quality rollup + event priority sort
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: Чистые функции `lib/quality` (worst-of rollup) и `lib/events/priority` (журнал
-  sort) — до UI.
+goal: Чистые функции `lib/quality` (worst-of rollup) и `lib/events/priority` (журнал sort) — до UI.
 context:
   consumes:
   - '**Consumes:** s01; Quality enum plan §15'
   - '**Produces:** shared helpers для Overview/Journal/StatusBar'
   files:
-  - frontend/src/lib/quality/rollup.ts` (Создание)
-  - frontend/src/lib/quality/types.ts` (Создание) — Quality, AggregateStatus имена
-  - frontend/src/lib/events/priority.ts` (Создание)
-  - frontend/src/lib/quality/rollup.test.ts` (Создание)
-  - frontend/src/lib/events/priority.test.ts` (Создание)
+  - frontend/src/lib/quality/rollup.ts (Создание)
+  - frontend/src/lib/quality/types.ts (Создание) — Quality, AggregateStatus имена
+  - frontend/src/lib/events/priority.ts (Создание)
+  - frontend/src/lib/quality/rollup.test.ts (Создание)
+  - frontend/src/lib/events/priority.test.ts (Создание)
+  plan_refs:
+  - plan §15
+as_built:
+- 'Consumes: s01; Quality enum plan §15'
+delta:
+- 'Создание: frontend/src/lib/quality/rollup.ts'
+- 'Создание: frontend/src/lib/quality/types.ts'
+- 'Создание: frontend/src/lib/events/priority.ts'
+- 'Создание: frontend/src/lib/quality/rollup.test.ts'
+- 'Создание: frontend/src/lib/events/priority.test.ts'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: Чистые функции `lib/quality` (worst-of rollup) и `lib/events/priority`
-    (журнал sort) — до UI.
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/lib/quality/rollup.ts, frontend/src/lib/quality/types.ts…'
+  verify: cd frontend && npm exec vitest -- run src/lib/quality/rollup.test.ts
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/lib/events/priority.test.ts
+verify:
+- cd frontend && npm exec vitest -- run src/lib/quality/rollup.test.ts
+- cd frontend && npm exec vitest -- run src/lib/events/priority.test.ts
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

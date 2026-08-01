@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e14
 plan_id: v1-portal
 title: Journal realtime append
 element_id: e14
 next_phase: INTEG IMPLEMENT
+goal: new events appended to list in realtime (WS)
 ui:
-  route: '** `/journal'
+  route: '** /journal'
   components: '** `useEventsRealtime.ts`'
   user_sees: '** new events appended to list in realtime (WS)'
 data_need:
@@ -24,6 +26,19 @@ back:
 front:
 - '`useEventsRealtime` already wired (FRONT s10)'
 - Respect active filters client-side on WS append
+as_built:
+- 'API live: WS events channel (e07)'
+- 'BACK: WS events already live (e07, T-003 s06)'
+- 'FRONT: useEventsRealtime already wired (FRONT s10)'
+- 'UI seams: useEventsRealtime.ts'
+delta:
+- 'Довести client/fixture: no dedicated REST'
+- 'BACK caveat: Dedupe by event `id` when REST page + WS overlap'
+- 'FRONT: Respect active filters client-side on WS append'
+- 'Data need: WS event frames merged into infinite query pages'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: WS events channel (e07)
   front: useEventsRealtime
@@ -38,7 +53,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: New event via WS appears in list
+  verify: grep -r "useEventsRealtime" frontend/src
 - id: cp2
   criterion: Dedupe works (no duplicate rows)
+  verify: vitest realtime merge
 - id: cp3
   criterion: Filter active → WS append respects it
+  verify: 'compose smoke: emit event → row appears without reload'

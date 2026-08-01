@@ -2,7 +2,7 @@
 
 **Тип:** Architecture + Algorithm + UI-UX  
 **Задача:** T-004 / plan `plan-v1-p1-screens.md` §3.3 DS0-3, §5.4, §6, §10 CR-UI-04  
-**Decompose:** [s13-screen-watch.md](../../plan/decompose-v1-p1-screens/s13-screen-watch.md)  
+**Decompose:** [s13-screen-watch.yaml](../../plan/decompose-v1-p1-screens/s13-screen-watch.yaml)  
 **Deps tokens:** [CR-UI-01-tokens.md](CR-UI-01-tokens.md)  
 **Deps lamps:** [CR-UI-03-alarm-grammar.md](CR-UI-03-alarm-grammar.md) (Lamp в rows)  
 **Дата:** 2026-07-26  

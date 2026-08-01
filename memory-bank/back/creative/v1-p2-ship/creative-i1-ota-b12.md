@@ -58,7 +58,7 @@ infrastructure adapters (socket, filesystem, DB, bootloader, logger)
 
 # 🎨🎨🎨 ENTERING CREATIVE PHASE: Architecture — CR-P2-01 I1 read-only gateway
 
-**Decompose step:** [s01-i1-gateway.md](../../plan/decompose-v1-p2-ship/s01-i1-gateway.md)  
+**Decompose step:** [s01-i1-gateway.yaml](../../plan/decompose-v1-p2-ship/s01-i1-gateway.yaml)  
 **Дополнительный consumer:** s15 proof artifact.  
 **Компонент:** production barrier перед АПС: Modbus filtering gateway с возможностью позже подключить OPC UA read-only adapter.  
 **Требования и ограничения:** I1-F1..F6, T4, FC 01–04 only, TCP fragmentation/pipelining, rejected-write log, отсутствие collector→APS bypass, не передавать write capability в collector.
@@ -153,7 +153,7 @@ classify(frame, policy) -> AllowRead | RejectWrite(reason, exception_code=0x01)
 
 # 🎨🎨🎨 ENTERING CREATIVE PHASE: Architecture — CR-P2-02 I5 OTA A/B
 
-**Decompose steps:** [s12-i5-ota-rauc.md](../../plan/decompose-v1-p2-ship/s12-i5-ota-rauc.md), s19 runbook.  
+**Decompose steps:** [s12-i5-ota-rauc.yaml](../../plan/decompose-v1-p2-ship/s12-i5-ota-rauc.yaml), s19 runbook.  
 **Связанные gates:** CR-P2-10 (точные health thresholds) и CR-P2-12 (edge OS base) остаются открытыми и не считаются закрытыми этим решением.  
 **Компонент:** подписанное A/B обновление edge image без brick, с watchdog, health gate и anchorage policy.
 
@@ -238,7 +238,7 @@ Property-based tests cover state transitions: no path from unverified bundle to 
 
 # 🎨🎨🎨 ENTERING CREATIVE PHASE: Algorithm + Architecture — CR-P2-04 B12 formulas v1
 
-**Decompose steps:** [s02-b12-engine-core.md](../../plan/decompose-v1-p2-ship/s02-b12-engine-core.md), [s03-b12-formulas-v1.md](../../plan/decompose-v1-p2-ship/s03-b12-formulas-v1.md), [s05-b12-t9-fixtures.md](../../plan/decompose-v1-p2-ship/s05-b12-t9-fixtures.md).  
+**Decompose steps:** [s02-b12-engine-core.yaml](../../plan/decompose-v1-p2-ship/s02-b12-engine-core.yaml), [s03-b12-formulas-v1.yaml](../../plan/decompose-v1-p2-ship/s03-b12-formulas-v1.yaml), [s05-b12-t9-fixtures.yaml](../../plan/decompose-v1-p2-ship/s05-b12-t9-fixtures.yaml).  
 **Компонент:** versioned ship-pack formulas для motohours, fuel, averages/peaks, rounding и debounce.
 
 ## Вариант 1 — одна общая формульная функция с ветвлением по `type`

@@ -34,7 +34,9 @@ Parent **обязан** передать секции. Если нет — ср�
 5. Diff вне ALLOW / scope step → blocker (лишние файлы).
 6. Step-файл implement из `result.artifact` / ALLOW / prompt — **существует на диске** под `implement/implement-*` (не `plan/decompose-*`). Шаблон **по роли** (канон = `epic_lib.validate_implement_step_format`):
    - **INTEG `eNN-*`** (`memory-bank/integration/implement/…/*.yaml` или `role: INTEG` в result.yaml): `.cursor/templates/implement/epic-step.yaml` — `schema: epic-implement/v1`; обязательны `grep_control` · `verification_results` · `gaps` · `checkpoints[]` · `status: completed` (все cp `done`). **FORBIDDEN:** `.md` shard для eNN.
-   - **BACK/FRONT `sNN-*`**: `.cursor/templates/implement/epic-step.yaml` — `schema: epic-implement/v1`, `role: back|front`; обязательны `done` · `files` · `tests` · `integration_check` · `checkpoints[]` · `status: completed`. **FORBIDDEN:** legacy `.md` shard.
+   - **BACK/FRONT `sNN-*`**: `.cursor/templates/implement/epic-step.yaml` — `schema: epic-implement/v1`, `role: back|front`; обязательны `done` · `files` · `tests` · `integration_check` · `checkpoints[]` · `status: completed`. **FORBIDDEN:** `.md` shard.
+   - **QA:** `.cursor/templates/qa/epic-step.yaml` — `schema: epic-qa/v1`; `verdict` · `scope[]` · `checks[]`; `fix_plan[]` при fail/blocked. **FORBIDDEN:** `.md` qa shard.
+   - **REFACTOR `rNN`:** `.cursor/templates/refactor/epic-step.yaml` — `schema: epic-refactor/v1`. **SECURITY `aNN`:** `.cursor/templates/security/epic-step.yaml` — `schema: epic-security/v1`.
    - Не применяй BACK-секции к INTEG eNN и наоборот. Нет → `FAIL` (`template_mismatch` / `result_artifact_path_mismatch`).
 7. **RESULT** (machine contract — **read-only**):
    - Прочитай `loop/runtime/epic/result.yaml` (или path из секции). Нет файла / битый YAML → `FAIL` blocker `RESULT`.

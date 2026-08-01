@@ -5,23 +5,46 @@ plan_id: v1-p2-ship
 title: Mnemo bindings YAML loader + validation
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-05) — **closed**
-goal: 'Loader ship-pack mnemo_bindings/*.yaml: schema validation, revision, computed
-  binding specs (sibling_mean_delta), quarantine→unknown.'
+goal: 'Loader ship-pack mnemo_bindings/*.yaml: schema validation, revision, computed binding specs (sibling_mean_delta),
+  quarantine→unknown.'
 context:
   consumes:
   - '**Consumes:** B8 assets; CR-P2-05 computed spec; plan §11.2.'
-  - '**Produces:** MnemoBindingLoader; validated in-memory registry; errors on bad
-    YAML.'
+  - '**Produces:** MnemoBindingLoader; validated in-memory registry; errors on bad YAML.'
   files:
-  - ship-pack/makarov/mnemo_bindings/engine_diesel_main.yaml` (Создание MVP)
-  - apps/api/app/mnemo/loader.py` (Создание)
-  - apps/api/app/mnemo/models.py` (Создание)
-  - apps/api/app/mnemo/computed.py` (Создание)
-  - apps/api/tests/mnemo/test_loader.py` (Создание)
-  - apps/api/tests/mnemo/test_computed_sibling_mean.py` (Создание)
+  - ship-pack/makarov/mnemo_bindings/engine_diesel_main.yaml (Создание MVP)
+  - apps/api/app/mnemo/loader.py (Создание)
+  - apps/api/app/mnemo/models.py (Создание)
+  - apps/api/app/mnemo/computed.py (Создание)
+  - apps/api/tests/mnemo/test_loader.py (Создание)
+  - apps/api/tests/mnemo/test_computed_sibling_mean.py (Создание)
+  plan_refs:
+  - CR-P2-05
+  - plan §11.2.
+as_built:
+- 'Consumes: B8 assets; CR-P2-05 computed spec; plan §11.2.'
+delta:
+- 'Создание: ship-pack/makarov/mnemo_bindings/engine_diesel_main.yaml'
+- 'Создание: apps/api/app/mnemo/loader.py'
+- 'Создание: apps/api/app/mnemo/models.py'
+- 'Создание: apps/api/app/mnemo/computed.py'
+- 'Создание: apps/api/tests/mnemo/test_loader.py'
+- 'Создание: apps/api/tests/mnemo/test_computed_sibling_mean.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Loader ship-pack mnemo_bindings/*.yaml: schema validation, revision,
-    computed binding specs (sibling_mean_delta), quarantine→unknown.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: ship-pack/makarov/mnemo_bindings/engine_diesel_main.yaml, apps/api/app/mnemo/loader.py…'
+  verify: .venv/bin/pytest apps/api/tests/mnemo/test_loader.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/mnemo/test_computed_sibling_mean.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/mnemo/test_loader.py -q
+- .venv/bin/pytest apps/api/tests/mnemo/test_computed_sibling_mean.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

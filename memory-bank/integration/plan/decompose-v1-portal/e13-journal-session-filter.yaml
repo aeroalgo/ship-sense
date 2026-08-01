@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e13
 plan_id: v1-portal
 title: Journal session event filter
 element_id: e13
 next_phase: INTEG IMPLEMENT
+goal: toggle/filter for `source=session` events (login/logout)
 ui:
-  route: '** `/journal'
+  route: '** /journal'
   components: '** `SessionEventFilter.tsx`'
   user_sees: '** toggle/filter for `source=session` events (login/logout)'
 data_need:
@@ -26,6 +28,19 @@ back:
 front:
 - '`SessionEventFilter` already exists (FRONT s10)'
 - Filter util maps UI → query
+as_built:
+- 'API live: same /api/events?source=session'
+- 'FRONT: SessionEventFilter already exists (FRONT s10)'
+- 'UI seams: SessionEventFilter.tsx'
+delta:
+- 'Довести client/fixture: FRONT filter util maps UI → query'
+- 'BACK caveat: Session login/logout must emit events visible here (BACK session service)'
+- 'BACK caveat: Empty state when no session events'
+- 'FRONT: Filter util maps UI → query'
+- 'Data need: filter `source=session` (and related session events from B11)'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: GET /api/events?source=session
   front: filter util
@@ -40,7 +55,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Login/logout emits session event
+  verify: grep -r "source=session\|SessionEventFilter" frontend/src api/
 - id: cp2
   criterion: Filter `source=session` shows only session events
+  verify: Playwright after login/logout → session events appear with filter on
 - id: cp3
   criterion: Empty state when no matches
+  verify: pytest events source filter

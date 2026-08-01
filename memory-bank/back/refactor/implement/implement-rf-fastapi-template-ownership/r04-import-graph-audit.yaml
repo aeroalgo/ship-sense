@@ -7,7 +7,7 @@ status: in_progress
 date: '2026-07-30'
 behavior_freeze: import ownership rules (Shared Kernel); model fields, IPC wire, DB
   schema, plugin semantics unchanged.
-decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r04-import-graph-audit.yaml
+decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r04-import-graph-audit.md
 done:
 - 'Создан `apps/api/tests/unit/test_domain_no_fastapi.py` (усилен): AST-проверка —
   `app.telemetry`, `app.events`, `app.semantic` не импортируют `fastapi`, `starlette`,

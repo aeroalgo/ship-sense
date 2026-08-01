@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e12
 plan_id: v1-portal
 title: Reconstruction banner
 element_id: e12
 next_phase: INTEG IMPLEMENT
+goal: banner text from `X-Events-Reconstruction` header (e.g., "edge_only")
 ui:
-  route: '** `/journal'
+  route: '** /journal'
   components: '** `ReconstructionBanner` reads response header from events fetch'
   user_sees: '** banner text from `X-Events-Reconstruction` header (e.g., "edge_only")'
 data_need:
@@ -26,9 +28,23 @@ back:
 front:
 - '`ReconstructionBanner` already wired (FRONT s10)'
 - Read header from response, not invent value
+as_built:
+- 'API live: BACK sets header; FRONT constant EVENTS_RECONSTRUCTION_HEADER'
+- 'BACK: already live (T-003 s04)'
+- 'FRONT: ReconstructionBanner already wired (FRONT s10)'
+- 'UI seams: `ReconstructionBanner` reads response header from events fetch'
+delta:
+- 'Исправить/заменить mock: MSW sets header'
+- 'BACK caveat: CORS expose header обязателен для browser (compose API CORS config)'
+- 'BACK caveat: Banner copy не маскирует partial reconstruction'
+- 'FRONT: Read header from response, not invent value'
+- 'Data need: X-Events-Reconstruction` value (`edge_only etc.)'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
-- back: header `X-Events-Reconstruction
-  front: EVENTS_RECONSTRUCTION_HEADER` constant
+- back: header X-Events-Reconstruction
+  front: EVENTS_RECONSTRUCTION_HEADER constant
 verify:
 - '`grep -r "X-Events-Reconstruction\|EVENTS_RECONSTRUCTION" frontend/src api/`'
 - 'unit: header → banner text'
@@ -40,7 +56,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Banner shows when header present
+  verify: grep -r "X-Events-Reconstruction\|EVENTS_RECONSTRUCTION" frontend/src api/
 - id: cp2
   criterion: Header value matches BACK enum
+  verify: 'unit: header → banner text'
 - id: cp3
   criterion: No banner when header absent
+  verify: §0.11 header name string equality front↔back

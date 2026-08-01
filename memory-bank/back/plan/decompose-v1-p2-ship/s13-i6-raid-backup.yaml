@@ -5,21 +5,43 @@ plan_id: v1-p2-ship
 title: I6 RAID mirror + daily backup + alerts
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-03) — **closed**
-goal: ZFS/mdraid mirror per ADR; daily events+config backup; disk 80% alert; spare
-  ZIP instruction inputs.
+goal: ZFS/mdraid mirror per ADR; daily events+config backup; disk 80% alert; spare ZIP instruction inputs.
 context:
   consumes:
   - '**Consumes:** CR-P2-03; plan §9; Postgres events.'
   - '**Produces:** backup script; raid status exporter; restore verify path for T6.'
   files:
-  - apps/edge/storage/raid/` (Создание|Модификация)
-  - /usr/local/bin/shipsense-backup-events.sh` (Создание in repo scripts/)
-  - scripts/shipsense-backup-events.sh` (Создание)
-  - apps/edge/storage/tests/test_backup_restore.py` (Создание)
+  - apps/edge/storage/raid/ (Создание|Модификация)
+  - /usr/local/bin/shipsense-backup-events.sh (Создание in repo scripts/)
+  - scripts/shipsense-backup-events.sh (Создание)
+  - apps/edge/storage/tests/test_backup_restore.py (Создание)
   - docs crew disk replace A4 inputs (Создание)
+  plan_refs:
+  - CR-P2-03
+  - plan §9
+as_built:
+- 'Consumes: CR-P2-03; plan §9; Postgres events.'
+delta:
+- 'Создание: apps/edge/storage/raid/'
+- 'Создание: /usr/local/bin/shipsense-backup-events.sh'
+- 'Создание: scripts/shipsense-backup-events.sh'
+- 'Создание: apps/edge/storage/tests/test_backup_restore.py'
+- 'Создание: docs crew disk replace A4 inputs'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: ZFS/mdraid mirror per ADR; daily events+config backup; disk 80% alert;
-    spare ZIP instruction inputs.
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/edge/storage/raid/, /usr/local/bin/shipsense-backup-events.sh…'
+  verify: .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q
+verify:
+- .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q
+- .venv/bin/pytest apps/edge/storage/tests/test_backup_restore.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

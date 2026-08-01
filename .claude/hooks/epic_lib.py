@@ -1143,19 +1143,6 @@ def validate_implement_step_format(path: Path) -> list[str]:
     return ey.validate_implement_yaml(path, finish=True)
 
 
-def validate_integ_step_format(path: Path) -> list[str]:
-    """Validate epic yaml shard — decompose or implement (yaml only)."""
-    if path.suffix.lower() in {".md"}:
-        return [f"Epic shard must be .yaml, not .md: {path}"]
-    if path.suffix.lower() not in {".yaml", ".yml"}:
-        return [f"Epic shard must be .yaml: {path}"]
-    if not path.is_file():
-        return [f"missing epic yaml: {path}"]
-    import epic_yaml as ey
-
-    return ey.validate_shard_yaml(path, finish=True)
-
-
 def decompose_step_status(
     cwd: str | Path, decompose: str | None, step_id: str
 ) -> str | None:
@@ -1327,36 +1314,6 @@ def validate_security_step_format(path: Path) -> list[str]:
     return validate_security_yaml(path, finish=True)
 
 
-def _validate_qa_shard_md_legacy(path: Path, expected_verdict: str) -> list[str]:
-    errors: list[str] = []
-    if not path.is_file():
-        return [f"missing qa shard: {path}"]
-    try:
-        text = path.read_text(encoding="utf-8")
-    except OSError as exc:
-        return [f"unreadable qa shard: {path} ({exc})"]
-
-    vm = re.search(r"(?im)^\*\*Verdict:\*\*\s*(\w+)\s*$", text)
-    if not vm:
-        errors.append("qa shard missing **Verdict:** pass|fail|blocked")
-    else:
-        got = vm.group(1).strip().lower()
-        exp = expected_verdict.strip().lower()
-        if got != exp:
-            errors.append(f"qa **Verdict:** {got!r} ≠ result.verdict={exp!r}")
-
-    if not re.search(r"(?im)^##\s*Checks\b", text):
-        errors.append("qa missing ## Checks")
-    if not re.search(r"(?im)^##\s*Scope\b", text):
-        errors.append("qa missing ## Scope")
-
-    if expected_verdict.strip().lower() in {"fail", "blocked"}:
-        if not re.search(r"(?im)^##\s*Fix plan\b", text):
-            errors.append("qa fail/blocked requires ## Fix plan")
-
-    return errors
-
-
 def validate_creative_shard(path: Path) -> list[str]:
     errors: list[str] = []
     if not path.is_file():
@@ -1470,7 +1427,9 @@ def _crosscheck_creative(
         idx = _decompose_index_path(cwd, decompose)
         if idx and idx.is_file():
             open_steps: list[str] = []
-            for step in sorted(idx.parent.glob("s*.md")):
+            for step in sorted(
+                list(idx.parent.glob("s*.yaml")) + list(idx.parent.glob("e*.yaml"))
+            ):
                 st_text = step.read_text(encoding="utf-8", errors="replace")
                 if cr not in st_text.upper():
                     continue
@@ -1710,7 +1669,7 @@ def _extract_verify_commands(cwd: str | Path, load_now: list[str]) -> list[str]:
     prioritized = sorted(
         load_now,
         key=lambda p: (
-            0 if re.search(r"/[ser]\d{2}-.*\.md$", p) else 1,
+            0 if p.endswith((".yaml", ".yml")) else 1,
             0 if "qa/" in p else 1,
             p,
         ),

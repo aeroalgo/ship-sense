@@ -5,26 +5,54 @@ plan_id: v1-p2-ship
 title: B12 ReportEngine core + report_runs
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-04) — **closed**
-goal: 'Ядро ReportEngine: period rules (watch/noon/midnight/clock jump/gaps), append-only
-  `report_runs`, async job queue без блокировки collector hot path.'
+goal: 'Ядро ReportEngine: period rules (watch/noon/midnight/clock jump/gaps), append-only `report_runs`,
+  async job queue без блокировки collector hot path.'
 context:
   consumes:
-  - '**Consumes:** T-002 samples/events/B7; T-003 reports stub; plan §4.5–4.8; CR-P2-04
-    (formulas versioning contract).'
+  - '**Consumes:** T-002 samples/events/B7; T-003 reports stub; plan §4.5–4.8; CR-P2-04 (formulas versioning
+    contract).'
   - '**Produces:** Alembic migration `report_runs`; ORM/repo; `ReportRequest`/`ReportOutput`/`ReportProvenance`;
     engine skeleton + immutability trigger.'
   files:
-  - apps/api/migrations/versions/*_report_runs.py` (Создание)
-  - apps/api/app/reports/models.py` (Создание|Модификация) — ReportRun
-  - apps/api/app/reports/engine.py` (Создание) — ReportEngine
-  - apps/api/app/reports/period.py` (Создание) — boundary rules
-  - apps/api/app/reports/schemas.py` (Модификация) — Request/Output/Provenance
-  - apps/api/app/reports/repository.py` (Создание) — append-only insert
-  - apps/api/tests/reports/test_engine_core.py` (Создание)
-  - apps/api/tests/reports/test_report_runs_immutability.py` (Создание)
+  - apps/api/migrations/versions/*_report_runs.py (Создание)
+  - apps/api/app/reports/models.py (Создание|Модификация) — ReportRun
+  - apps/api/app/reports/engine.py (Создание) — ReportEngine
+  - apps/api/app/reports/period.py (Создание) — boundary rules
+  - apps/api/app/reports/schemas.py (Модификация) — Request/Output/Provenance
+  - apps/api/app/reports/repository.py (Создание) — append-only insert
+  - apps/api/tests/reports/test_engine_core.py (Создание)
+  - apps/api/tests/reports/test_report_runs_immutability.py (Создание)
+  plan_refs:
+  - plan §4.5
+  - CR-P2-04
+as_built:
+- apps/api/app/reports/schemas.py — существует; правим в этом шаге
+- 'Consumes: T-002 samples/events/B7; T-003 reports stub; plan §4.5–4.8; CR-P2-04 (formulas versioning
+  contract).'
+delta:
+- 'Создание: apps/api/migrations/versions/*_report_runs.py'
+- 'Создание: apps/api/app/reports/models.py'
+- 'Создание: apps/api/app/reports/engine.py'
+- 'Создание: apps/api/app/reports/period.py'
+- 'Модификация: apps/api/app/reports/schemas.py'
+- 'Создание: apps/api/app/reports/repository.py'
+- 'Создание: apps/api/tests/reports/test_engine_core.py'
+- 'Создание: apps/api/tests/reports/test_report_runs_immutability.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Ядро ReportEngine: period rules (watch/noon/midnight/clock jump/gaps),
-    append-only `report_runs`, async job queue без блокировки collector hot path.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/migrations/versions/*_report_runs.py, apps/api/app/reports/models.py…'
+  verify: .venv/bin/pytest apps/api/tests/reports/test_engine_core.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/reports/test_report_runs_immutability.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/reports/test_engine_core.py -q
+- .venv/bin/pytest apps/api/tests/reports/test_report_runs_immutability.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

@@ -5,24 +5,53 @@ plan_id: v1-p1-screens
 title: Screen 5 Journal
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: 'Журнал: фильтры+URL sync, virtual list, sort, WS prepend, print, deep link
-  to trends, Q4 banner, no ack button.'
+goal: 'Журнал: фильтры+URL sync, virtual list, sort, WS prepend, print, deep link to trends, Q4 banner,
+  no ack button.'
 context:
   consumes:
   - '**Consumes:** s03 priority, s04 events, s05 WS, s06 EventRow/Filters/PrintLayout'
   - '**Produces:** features/journal/*'
   files:
-  - frontend/src/features/journal/JournalPage.tsx` (Создание)
-  - frontend/src/features/journal/useEventsInfinite.ts` (Создание)
-  - frontend/src/features/journal/useEventsRealtime.ts` (Создание)
-  - frontend/src/features/journal/ReconstructionBanner.tsx` (Создание)
-  - frontend/src/lib/routing/trendsDeepLink.ts` (Создание)
-  - frontend/src/app/(authenticated)/journal/page.tsx` (Модификация)
-  - frontend/src/features/journal/JournalPage.test.tsx` (Создание)
-  - frontend/src/styles/print-journal.css` (Создание)
+  - frontend/src/features/journal/JournalPage.tsx (Создание)
+  - frontend/src/features/journal/useEventsInfinite.ts (Создание)
+  - frontend/src/features/journal/useEventsRealtime.ts (Создание)
+  - frontend/src/features/journal/ReconstructionBanner.tsx (Создание)
+  - frontend/src/lib/routing/trendsDeepLink.ts (Создание)
+  - frontend/src/app/(authenticated)/journal/page.tsx (Модификация)
+  - frontend/src/features/journal/JournalPage.test.tsx (Создание)
+  - frontend/src/styles/print-journal.css (Создание)
+as_built:
+- frontend/src/app/(authenticated)/journal/page.tsx — существует; правим в этом шаге
+- 'Consumes: s03 priority, s04 events, s05 WS, s06 EventRow/Filters/PrintLayout'
+delta:
+- 'Создание: frontend/src/features/journal/JournalPage.tsx'
+- 'Создание: frontend/src/features/journal/useEventsInfinite.ts'
+- 'Создание: frontend/src/features/journal/useEventsRealtime.ts'
+- 'Создание: frontend/src/features/journal/ReconstructionBanner.tsx'
+- 'Создание: frontend/src/lib/routing/trendsDeepLink.ts'
+- 'Модификация: frontend/src/app/(authenticated)/journal/page.tsx'
+- 'Создание: frontend/src/features/journal/JournalPage.test.tsx'
+- 'Создание: frontend/src/styles/print-journal.css'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
+- INTEG eNN wire (live contract) — FRONT only UI/MSW path
+- Full Playwright suite → s16
 checkpoints:
 - id: cp1
-  criterion: 'Журнал: фильтры+URL sync, virtual list, sort, WS prepend, print, deep
-    link to trends, Q4 banner, no ack button.'
-verify: []
-tdd: []
+  criterion: Journal list + filters render from API
+  verify: cd frontend && npm exec vitest -- run src/features/journal
+- id: cp2
+  criterion: Filter query keys match contract
+  verify: cd frontend && npm exec vitest -- run src/features/journal
+- id: cp3
+  criterion: Targeted journal tests PASS
+  verify: cd frontend && npm exec vitest -- run src/features/journal
+verify:
+- cd frontend && npm exec vitest -- run src/features/journal
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

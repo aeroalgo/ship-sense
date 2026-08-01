@@ -1,55 +1,74 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e06
 plan_id: v1-portal
 title: Freshness + quarantine chrome
 element_id: e06
 next_phase: INTEG IMPLEMENT
+goal: |
+  Banner quarantine/stale из GET /api/sources/status; текст с BACK (не invented "OK");
+  WS может обновить freshness/stale.
 ui:
-  route: '** `(auth)/*` (inside `AppShell`)'
-  components: '** `FreshnessController`, DS `FreshnessBanner`, `QuarantineBanner`;
-    quality global (FRONT s15)'
-  user_sees: '** banners for stale/quarantine sources; never masked as "OK"'
+  route: '`(auth)/*` (inside AppShell)'
+  components: '`FreshnessController`, DS `FreshnessBanner`, `QuarantineBanner`; quality global (FRONT s15)'
+  user_sees: 'banners for stale/quarantine sources; never masked as "OK"'
 data_need:
-- '`GET /api/sources/status`: connected, last_poll_ts, tags_quarantine/stale/active,
-  quality_summary'
+- '`GET /api/sources/status`: connected, last_poll_ts, tags_quarantine/stale/active, quality_summary'
 - WS can force stale / last ts
 api_today:
 - status: ✅
-  detail: '`GET /api/sources/status` (`health.py`)'
+  detail: '`GET /api/sources/status` (health.py)'
 - status: ✅
   detail: WS stream side-effects via `useWsChannel`
 - status: ⚠️
   detail: MSW sources fixture
 - status: —
-  detail: 'FRONT: `lib/api/sources.ts` `fetchSourcesStatus`'
+  detail: 'FRONT: `lib/api/sources.ts` → `fetchSourcesStatus`'
 contract:
-  method_path: '** `GET /api/sources/status`'
-  query_keys: '** none'
-  response_shape: '** `{ items: [{ source_id, name, connected, last_poll_ts, error_count_24h,
-    quality_summary, tags_active, tags_quarantine, tags_stale }] }`'
-  front_client: '** `lib/api/sources.ts` → `fetchSourcesStatus`'
-db: '- health aggregator (sources + tags)'
+  method_path: '`GET /api/sources/status`'
+  query_keys: none
+  response_shape: '`{ items: [{ source_id, name, connected, last_poll_ts, error_count_24h, quality_summary, tags_active, tags_quarantine, tags_stale }] }`'
+  front_client: '`lib/api/sources.ts` → `fetchSourcesStatus`'
+db: health aggregator (sources + tags)
 back:
 - already live (T-003 s09)
-- 'Инвариант продукта: quarantine/stale **не** маскировать «нормой» в UI'
+- 'Инвариант продукта: quarantine/stale не маскировать «нормой» в UI'
 front:
 - '`FreshnessController` already wired (FRONT s07/s15)'
-- Overview/Journal also duplicate sources query — dedup via `queryKeys.sourcesStatus`
+- 'Overview/Journal also duplicate sources query — dedup via `queryKeys.sourcesStatus`'
+as_built:
+- '`GET /api/sources/status` live (T-003 s09) — health.py / health service'
+- '`FreshnessController` wired in auth layout; DS banners exist'
+- '`fetchSourcesStatus` client exists'
+- '`last_poll_ts` typed as string; BACK may return null — earliestPollTs breaks'
+delta:
+- 'allow `last_poll_ts: string | null` in types + earliestPollTs'
+- 'quarantine/stale banner from live status (text = BACK source name / quality, not invented OK)'
+- 'WS path updates lastFresh / stale (cp3)'
+- 'vitest: quarantine fixture → QuarantineBanner visible with source name'
+- 'MSW sources fixture aligns with live shape (or unused on prod path)'
+out_of_scope:
+- 'Playwright full journey → INTEG QA'
+- 'Overview/Journal sources query dedup beyond queryKeys (не рефактор страниц)'
+- 'e07 WS fanout manager rewrite'
 grep_control:
 - back: GET /api/sources/status
   front: fetchSourcesStatus
 verify:
-- '`grep -r "/api/sources/status" frontend/src api/`'
-- vitest FreshnessController
-- 'Playwright: banner visible when fixture quarantine > 0'
+- 'rg "/api/sources/status" frontend/src apps/api'
+- 'cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx'
+- 'Playwright: banner visible when fixture quarantine > 0 (optional this step; full → QA)'
 tdd:
 - '1. Red: vitest FreshnessController with quarantine fixture'
-- '2. Green: live fetch, remove MSW'
-- 3. Wire + §Verify
+- '2. Green: live fetch + null-safe last_poll_ts'
+- '3. Wire WS freshness update + §Verify'
 checkpoints:
 - id: cp1
   criterion: Banner shows when sources stale/quarantine
+  verify: 'cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx'
 - id: cp2
   criterion: Banner text from BACK (not invented "OK")
+  verify: 'cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx'
 - id: cp3
   criterion: Live WS can update freshness
+  verify: 'cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx src/hooks/useStaleGate.test.ts'

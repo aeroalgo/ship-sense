@@ -5,20 +5,40 @@ plan_id: v1-p2-ship
 title: T1 soak harness long-run monitoring
 next_phase: BACK IMPLEMENT
 needs_creative: 'no'
-goal: 'Harness: RSS/disk/latency/WS metrics scrape; 72h CI fragment + scripts for
-  lab/ship soak criteria.'
+goal: 'Harness: RSS/disk/latency/WS metrics scrape; 72h CI fragment + scripts for lab/ship soak criteria.'
 context:
   consumes:
   - '**Consumes:** plan §13.2; compose stack; prometheus or log scrapers.'
   - '**Produces:** soak pytest markers; scrape scripts; pass criteria asserts.'
   files:
-  - apps/api/tests/soak/test_t1_fragment.py` (Создание)
-  - scripts/soak/scrape_metrics.py` (Создание)
-  - scripts/soak/assert_pass_criteria.py` (Создание)
+  - apps/api/tests/soak/test_t1_fragment.py (Создание)
+  - scripts/soak/scrape_metrics.py (Создание)
+  - scripts/soak/assert_pass_criteria.py (Создание)
   - docs/tests/T1-soak.md (Создание)
+  plan_refs:
+  - plan §13.2
+as_built:
+- 'Consumes: plan §13.2; compose stack; prometheus or log scrapers.'
+delta:
+- 'Создание: apps/api/tests/soak/test_t1_fragment.py'
+- 'Создание: scripts/soak/scrape_metrics.py'
+- 'Создание: scripts/soak/assert_pass_criteria.py'
+- 'Создание: docs/tests/T1-soak.md'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Harness: RSS/disk/latency/WS metrics scrape; 72h CI fragment + scripts
-    for lab/ship soak criteria.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: scripts/soak/scrape_metrics.py, scripts/soak/assert_pass_criteria.py'
+  verify: .venv/bin/pytest apps/api/tests/soak/test_t1_fragment.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest docs/tests/T1-soak.md -q
+verify:
+- .venv/bin/pytest apps/api/tests/soak/test_t1_fragment.py -q
+- .venv/bin/pytest docs/tests/T1-soak.md -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

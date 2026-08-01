@@ -1,16 +1,17 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e21
 plan_id: v1-portal
 title: Watch verdict + debounce groups
 element_id: e21
 next_phase: INTEG IMPLEMENT
+goal: summary verdict + alarms_count + debounce groups from highlights
 ui:
-  route: '** `/watch'
+  route: '** /watch'
   components: '** `WatchVerdict`, `DebounceGroupRow`, `debounce.ts`'
   user_sees: '** summary verdict + alarms_count + debounce groups from highlights'
 data_need:
-- '`summary.verdict`, alarms_count, debounce groups from highlights / template output
-  (B12)'
+- '`summary.verdict`, alarms_count, debounce groups from highlights / template output (B12)'
 api_today:
 - status: —
   detail: fields inside WatchReportResponse (BACK templates T-005 s04)
@@ -19,13 +20,26 @@ contract:
 db: '- none (derived from report body)'
 back:
 - already live (templates T-005 s04)
-- FRONT debounce helpers must match BACK template debounce policy (creative-report-forms)
-  — document mapping in eNN §Contract at DECOMPOSE
+- FRONT debounce helpers must match BACK template debounce policy (creative-report-forms) — document mapping
+  in eNN §Contract at DECOMPOSE
 front:
 - '`WatchVerdict` + `DebounceGroupRow` already wired (FRONT s13)'
 - No separate endpoint
+as_built:
+- 'BACK: already live (templates T-005 s04)'
+- 'FRONT: WatchVerdict` + `DebounceGroupRow already wired (FRONT s13)'
+- 'UI seams: `WatchVerdict`, `DebounceGroupRow`, debounce.ts'
+delta:
+- 'Довести client/fixture: fields inside WatchReportResponse (BACK templates T-005 s04)'
+- 'BACK caveat: FRONT debounce helpers must match BACK template debounce policy (creative-report-forms)
+  — document mapping in eNN §Contract at DECOMPOSE'
+- 'FRONT: No separate endpoint'
+- 'Data need: summary.verdict, alarms_count, debounce groups from highlights / template output (B12)'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
-- back: report `summary` + `highlights
+- back: report `summary` + highlights
   front: debounce.ts
 verify:
 - '`grep -r "WatchVerdict\|DebounceGroupRow\|debounce" frontend/src`'
@@ -38,7 +52,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Verdict displayed from report summary
+  verify: grep -r "WatchVerdict\|DebounceGroupRow\|debounce" frontend/src
 - id: cp2
   criterion: Debounce groups rendered from highlights
+  verify: unit debounce.test.ts
 - id: cp3
   criterion: Mapping matches BACK template policy
+  verify: fixture-driven WatchPage render

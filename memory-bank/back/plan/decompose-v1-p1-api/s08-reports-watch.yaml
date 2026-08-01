@@ -5,22 +5,47 @@ plan_id: v1-p1-api
 title: Reports watch stub (экран 6)
 next_phase: BACK IMPLEMENT
 needs_creative: no — **closed** (CR-API-05)
-goal: '`GET /api/reports` (stub list) и `GET /api/reports/watch` JSON|HTML прототип
-  экрана 6. Verdict/KPI — CR-API-05. Полный B12 — out of scope.'
+goal: '`GET /api/reports` (stub list) и `GET /api/reports/watch` JSON|HTML прототип экрана 6. Verdict/KPI
+  — CR-API-05. Полный B12 — out of scope.'
 context:
   consumes:
   - '**Consumes:** s04 events + s07 session preferred; creative CR-API-05; plan §6.7–6.8.'
   - '**Produces:** reports feature + Jinja HTML minimal.'
   files:
-  - apps/api/app/api/v1/endpoints/reports.py` (Создание)
-  - apps/api/app/reports/schemas.py` (Создание)
-  - apps/api/app/reports/service.py` (Создание)
-  - apps/api/app/reports/templates/watch.html` (Создание) — minimal print CSS
-  - apps/api/app/api/v1/api.py` (Модификация)
-  - apps/api/tests/api/test_reports_watch.py` (Создание)
+  - apps/api/app/api/v1/endpoints/reports.py (Создание)
+  - apps/api/app/reports/schemas.py (Создание)
+  - apps/api/app/reports/service.py (Создание)
+  - apps/api/app/reports/templates/watch.html (Создание) — minimal print CSS
+  - apps/api/app/api/v1/api.py (Модификация)
+  - apps/api/tests/api/test_reports_watch.py (Создание)
+  plan_refs:
+  - CR-API-05
+  - plan §6.7
+as_built:
+- apps/api/app/api/v1/api.py — существует; правим в этом шаге
+- 'Consumes: s04 events + s07 session preferred; creative CR-API-05; plan §6.7–6.8.'
+delta:
+- 'Создание: apps/api/app/api/v1/endpoints/reports.py'
+- 'Создание: apps/api/app/reports/schemas.py'
+- 'Создание: apps/api/app/reports/service.py'
+- 'Создание: apps/api/app/reports/templates/watch.html'
+- 'Модификация: apps/api/app/api/v1/api.py'
+- 'Создание: apps/api/tests/api/test_reports_watch.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: '`GET /api/reports` (stub list) и `GET /api/reports/watch` JSON|HTML
-    прототип экрана 6. Verdict/KPI — CR-API-05. Полный B12 — out of scope.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/app/api/v1/endpoints/reports.py, apps/api/app/reports/schemas.py…'
+  verify: .venv/bin/pytest apps/api/tests/api/test_reports_watch.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_reports_watch.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_reports_watch.py -q
+- .venv/bin/pytest apps/api/tests/api/test_reports_watch.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

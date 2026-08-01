@@ -1,0 +1,26 @@
+schema: epic-refactor/v1
+role: back
+step_id: r03
+plan_id: rf-fastapi-template-ownership
+title: BACK REFACTOR — r03 move semantic
+status: completed
+date: '2026-07-30'
+behavior_freeze: SemanticEngine, SemanticPack, loader/quarantine public behavior, YAML schema and quarantine semantics.
+decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r03-move-semantic.md
+done:
+- Перенесён semantic-пакет apps/edge/semantic → apps/api/app/semantic/.
+- Все импорты apps.edge.semantic → app.semantic.
+- Старый каталог apps/edge/semantic/ удалён.
+files:
+- apps/api/app/semantic/__init__.py
+- apps/api/app/semantic/models.py
+- apps/api/app/semantic/loader.py
+- apps/api/app/semantic/engine.py
+- apps/api/app/semantic/quarantine.py
+tests:
+- '`.venv/bin/pytest tests/storage/test_semantic_engine.py tests/storage/test_semantic_loader.py tests/storage/test_quarantine.py -q --tb=line` → 33 passed'
+checkpoints:
+- id: cp1
+  criterion: refactor AC + behavior freeze
+  status: done
+  done_at: '2026-07-30'

@@ -11,13 +11,19 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 
 SCHEMA_EPIC_IMPLEMENT = "epic-implement/v1"
 SCHEMA_EPIC_DECOMPOSE = "epic-decompose/v1"
+# Read-time alias only (@model_validator before); files must store epic-* schema.
 SCHEMA_DECOMPOSE_LEGACY = "integ-decompose/v1"
 SCHEMA_IMPLEMENT_LEGACY = "integ-implement/v1"
 
 STEP_S_RE = re.compile(r"(?i)^((?:s)\d{2}-[a-z0-9][a-z0-9-]*)$")
 STEP_E_RE = re.compile(r"(?i)^((?:e)\d{2}-[a-z0-9][a-z0-9-]*)$")
 _EPIC_MD_ARTIFACT = re.compile(
-    r"(?i)(memory-bank/(?:back|front|integration)/implement/implement-[^/]+/(?:[se]\d{2}-[a-z0-9-]+))\.md$"
+    r"(?i)(memory-bank/(?:back|front|integration)/(?:"
+    r"implement/implement-[^/]+/(?:[sera]\d{2}-[a-z0-9-]+)|"
+    r"qa/[^/]+/qa-\d{8}-[a-z0-9-]+|"
+    r"(?:refactor|security)/implement/implement-[^/]+/(?:[ra]\d{2}-[a-z0-9-]+)|"
+    r"plan/decompose-[^/]+/(?:[se]\d{2}-[a-z0-9-]+)"
+    r"))\.md$"
 )
 
 
@@ -101,7 +107,7 @@ class EpicImplementDoc(BaseModel):
     @field_validator("schema_version")
     @classmethod
     def _schema_ok(cls, v: str) -> str:
-        if v not in {SCHEMA_EPIC_IMPLEMENT, SCHEMA_IMPLEMENT_LEGACY}:
+        if v != SCHEMA_EPIC_IMPLEMENT:
             raise ValueError(f"schema must be {SCHEMA_EPIC_IMPLEMENT!r}")
         return SCHEMA_EPIC_IMPLEMENT
 
@@ -129,6 +135,9 @@ class EpicDecomposeDoc(BaseModel):
     checkpoints: list[CheckpointSpec] = Field(default_factory=list)
     context: dict[str, Any] = Field(default_factory=dict)
     skills: dict[str, Any] = Field(default_factory=dict)
+    as_built: list[str] = Field(default_factory=list)
+    delta: list[str] = Field(default_factory=list)
+    out_of_scope: list[str] = Field(default_factory=list)
 
     model_config = {"populate_by_name": True}
 
@@ -150,7 +159,7 @@ class EpicDecomposeDoc(BaseModel):
     @field_validator("schema_version")
     @classmethod
     def _schema_ok(cls, v: str) -> str:
-        if v not in {SCHEMA_EPIC_DECOMPOSE, SCHEMA_DECOMPOSE_LEGACY}:
+        if v != SCHEMA_EPIC_DECOMPOSE:
             raise ValueError(f"schema must be {SCHEMA_EPIC_DECOMPOSE!r}")
         return SCHEMA_EPIC_DECOMPOSE
 
@@ -191,19 +200,12 @@ def coerce_epic_artifact_path(
     if not artifact:
         return artifact, None
     norm = artifact.replace("\\", "/")
-    m = _EPIC_MD_ARTIFACT.search(norm)
-    if m:
-        yaml_rel = f"{m.group(1)}.yaml"
-        if (Path(cwd) / yaml_rel).is_file():
-            return yaml_rel, f"artifact {artifact!r}→{yaml_rel!r} (epic yaml canonical)"
-    try:
-        from epic_shard_extra import coerce_mode_artifact_path
-
-        coerced, msg = coerce_mode_artifact_path(cwd, artifact)
-        if msg and coerced:
-            return coerced, msg
-    except Exception:
-        pass
+    for pat in (_EPIC_MD_ARTIFACT,):
+        m = pat.search(norm)
+        if m:
+            yaml_rel = f"{m.group(1)}.yaml"
+            if (Path(cwd) / yaml_rel).is_file():
+                return yaml_rel, f"artifact {artifact!r}→{yaml_rel!r} (epic yaml canonical)"
     return artifact, None
 
 

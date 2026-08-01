@@ -1,9 +1,11 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e26
 plan_id: v1-portal
 title: Warnings / B13 surface
 element_id: e26
 next_phase: INTEG IMPLEMENT
+goal: (future) active warnings + history
 ui:
   route: '** none (product: drift warnings — arithmetic B13, no «AI» copy)'
   components: '** (future) warnings strip / overlay / panel'
@@ -22,11 +24,25 @@ contract:
 db: '- B13 warnings store'
 back:
 - already live (T-005 s06/s07)
-- 'Placement candidates: Overview strip, Trends overlay, dedicated panel — decide
-  in INTEG CREATIVE if multi-option'
+- 'Placement candidates: Overview strip, Trends overlay, dedicated panel — decide in INTEG CREATIVE if
+  multi-option'
 front:
 - no UI yet
 - Types + client + MSW + UI element (after CREATIVE decision)
+as_built:
+- 'API live: GET /api/warnings`, `GET /api/warnings/history'
+- 'BACK: already live (T-005 s06/s07)'
+- 'UI seams: (future) warnings strip / overlay / panel'
+delta:
+- 'Довести client/fixture: FRONT ❌'
+- 'BACK caveat: Placement candidates: Overview strip, Trends overlay, dedicated panel — decide in INTEG
+  CREATIVE if multi-option'
+- 'FRONT: no UI yet'
+- 'FRONT: Types + client + MSW + UI element (after CREATIVE decision)'
+- 'Data need: active warnings + history'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: GET /api/warnings*
   front: (future client)
@@ -41,7 +57,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: 'After UI: warnings strip shows active warnings'
+  verify: grep -r "/api/warnings" frontend/src api/
 - id: cp2
   criterion: History loads on demand
+  verify: pytest warnings API
 - id: cp3
   criterion: Placement decided (overview/trends/panel)
+  verify: Playwright warning visible when fixture active

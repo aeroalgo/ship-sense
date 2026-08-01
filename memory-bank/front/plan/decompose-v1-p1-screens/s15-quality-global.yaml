@@ -5,21 +5,44 @@ plan_id: v1-p1-screens
 title: Global stale desaturate + quarantine banners
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: Глобальный `data-stale` overlay + FreshnessBanner поверх; QuarantineBanner scope;
-  единый stale detection из WS/REST.
+goal: Глобальный `data-stale` overlay + FreshnessBanner поверх; QuarantineBanner scope; единый stale detection
+  из WS/REST.
 context:
   consumes:
   - '**Consumes:** s05 WS stale events, s06 banners, s07 shell'
   - '**Produces:** features/shell freshness controller'
   files:
-  - frontend/src/features/shell/FreshnessController.tsx` (Создание)
-  - frontend/src/hooks/useStaleGate.ts` (Создание)
-  - frontend/src/app/(authenticated)/layout.tsx` (Модификация) — wire controller
-  - frontend/src/app/globals.css` (Модификация) — body[data-stale] filter §2.2.3
-  - frontend/src/features/shell/FreshnessController.test.tsx` (Создание)
+  - frontend/src/features/shell/FreshnessController.tsx (Создание)
+  - frontend/src/hooks/useStaleGate.ts (Создание)
+  - frontend/src/app/(authenticated)/layout.tsx (Модификация) — wire controller
+  - frontend/src/app/globals.css (Модификация) — body[data-stale] filter §2.2.3
+  - frontend/src/features/shell/FreshnessController.test.tsx (Создание)
+as_built:
+- frontend/src/app/ — существует; правим в этом шаге
+- frontend/src/app/globals.css — существует; правим в этом шаге
+- 'Consumes: s05 WS stale events, s06 banners, s07 shell'
+delta:
+- 'Создание: frontend/src/features/shell/FreshnessController.tsx'
+- 'Создание: frontend/src/hooks/useStaleGate.ts'
+- 'Модификация: frontend/src/app/'
+- 'Модификация: frontend/src/app/globals.css'
+- 'Создание: frontend/src/features/shell/FreshnessController.test.tsx'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: Глобальный `data-stale` overlay + FreshnessBanner поверх; QuarantineBanner
-    scope; единый stale detection из WS/REST.
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/features/shell/FreshnessController.tsx, frontend/src/hooks/useStaleGate.ts'
+  verify: cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx
+verify:
+- cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx
+- cd frontend && npm exec vitest -- run src/features/shell/FreshnessController.test.tsx
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

@@ -11,10 +11,11 @@ alwaysApply: false
 1. Source: `plan-<task_id>.md` Element registry
 2. Folder: все eNN из plan
 3. Step: §UI, §Data, §API today, §Contract lean, §BACK/FRONT/DB, §0.11, §Verify
+3a. Delta layer: `goal` · `as_built` · `delta` · `out_of_scope`; checkpoints 2–4 с `criterion` + `verify`
 4. One element per file — не layer-first
 5. Batch: весь decompose за один проход
 6. Plan → index tracker; колонка `implement`
-7. `load_now` → `e01-*.md` на FINISH
+7. `load_now` → `e01-*.yaml` на FINISH
 8. Не читать gap/contracts; не грузить executing-plans
 
 ## Abort

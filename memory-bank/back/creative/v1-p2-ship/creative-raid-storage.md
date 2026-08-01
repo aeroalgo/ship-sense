@@ -3,7 +3,7 @@
 **Creative ID:** CR-P2-03  
 **Plan:** [plan-v1-p2-ship.md](../../plan/plan-v1-p2-ship.md)  
 **Decompose:** [decompose-v1-p2-ship/index.md](../../plan/decompose-v1-p2-ship/index.md)  
-**Связанный шаг:** [s13-i6-raid-backup.md](../../plan/decompose-v1-p2-ship/s13-i6-raid-backup.md)  
+**Связанный шаг:** [s13-i6-raid-backup.yaml](../../plan/decompose-v1-p2-ship/s13-i6-raid-backup.yaml)  
 **Дата:** 2026-07-31  
 **Режим:** BACK CREATIVE  
 **Уровень:** L3  
@@ -242,7 +242,7 @@ flowchart LR
 ## Handoff
 
 - **Done:** BACK CREATIVE CR-P2-03 — selected ZFS mirror, atomic daily backup contract, disposable restore verification, typed storage health and inclusive 80% alert threshold.
-- **Files:** [creative-raid-storage.md](creative-raid-storage.md); rewired [s13-i6-raid-backup.md](../../plan/decompose-v1-p2-ship/s13-i6-raid-backup.md) and [decompose index](../../plan/decompose-v1-p2-ship/index.md).
+- **Files:** [creative-raid-storage.md](creative-raid-storage.md); rewired [s13-i6-raid-backup.yaml](../../plan/decompose-v1-p2-ship/s13-i6-raid-backup.yaml) and [decompose index](../../plan/decompose-v1-p2-ship/index.md).
 - **Next:** `BACK IMPLEMENT` @s13.
 - **Tool / model:** Claude Code + GPT for CREATIVE; implementation runs in a new chat.
 - **New chat:** yes — один чат = один atomic subtask.

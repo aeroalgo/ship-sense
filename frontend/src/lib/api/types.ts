@@ -181,7 +181,7 @@ export type SourceStatusItem = {
   source_id: string;
   name: string;
   connected: boolean;
-  last_poll_ts: string;
+  last_poll_ts: string | null;
   error_count_24h: number;
   quality_summary: Quality;
   tags_active: number;

@@ -4,35 +4,61 @@ step_id: s02
 plan_id: v1-p1-screens
 title: Theme/Design providers + switchers
 next_phase: FRONT IMPLEMENT
-needs_creative: yes (CR-UI-01) — **closed**; soft CR-UI-05 — **closed** | **tdd:**
-  yes
-goal: 'Подключить уже созданные token CSS (CR-UI-01): ThemeProvider + DesignProvider,
-  blocking script anti-flash, ThemeSwitcher (продукт) + DesignSwitcher (preview),
-  persist localStorage. Type/touch floor — CR-UI-05.'
+needs_creative: yes (CR-UI-01) — **closed**; soft CR-UI-05 — **closed** | **tdd:** yes
+goal: 'Подключить уже созданные token CSS (CR-UI-01): ThemeProvider + DesignProvider, blocking script
+  anti-flash, ThemeSwitcher (продукт) + DesignSwitcher (preview), persist localStorage. Type/touch floor
+  — CR-UI-05.'
 context:
   consumes:
-  - '**Consumes:** s01; [CR-UI-01-tokens.md](../../creative/v1-p1-screens/CR-UI-01-tokens.md);
-    [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md);
+  - '**Consumes:** s01; [CR-UI-01-tokens.md](../../creative/v1-p1-screens/CR-UI-01-tokens.md); [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md);
     plan §2.2–2.5'
   - '**Produces:** providers, hooks, switchers; layout import tokens'
-  - '**Already on disk:** `styles/tokens/**` (5 skins × day/night/dim + semantic +
-    density floor), `lib/theme/types.ts`, `switcher-spec.ts`, `post-density-spec.ts'
+  - '**Already on disk:** `styles/tokens/**` (5 skins × day/night/dim + semantic + density floor), `lib/theme/types.ts`,
+    `switcher-spec.ts`, post-density-spec.ts'
   files:
-  - frontend/src/styles/tokens/*` (Уже есть — не пересоздавать; править только при
-    утверждении skin)
-  - frontend/src/features/session/ThemeProvider.tsx` (Создание) — или AppearanceProvider
-  - frontend/src/hooks/useTheme.ts` (Создание)
-  - frontend/src/hooks/useDesign.ts` (Создание)
-  - frontend/src/components/ds/ThemeSwitcher.tsx` (Создание)
-  - frontend/src/components/ds/DesignSwitcher.tsx` (Создание) — gate preview
-  - frontend/src/app/layout.tsx` (Модификация) — import tokens + blocking script +
-    `data-theme`/`data-design
-  - frontend/src/features/session/theme.test.ts` (Создание)
-  - frontend/src/features/session/design.test.ts` (Создание)
+  - frontend/src/styles/tokens/* (Уже есть — не пересоздавать; править только при утверждении skin)
+  - frontend/src/features/session/ThemeProvider.tsx (Создание) — или AppearanceProvider
+  - frontend/src/hooks/useTheme.ts (Создание)
+  - frontend/src/hooks/useDesign.ts (Создание)
+  - frontend/src/components/ds/ThemeSwitcher.tsx (Создание)
+  - frontend/src/components/ds/DesignSwitcher.tsx (Создание) — gate preview
+  - frontend/src/app/layout.tsx` (Модификация) — import tokens + blocking script + `data-theme`/`data-design
+  - frontend/src/features/session/theme.test.ts (Создание)
+  - frontend/src/features/session/design.test.ts (Создание)
+  plan_refs:
+  - CR-UI-01-tokens
+  - CR-UI-05-post-density
+  - plan §2.2
+as_built:
+- frontend/src/app/layout.tsx — существует; правим в этом шаге
+- 'Consumes: s01; [CR-UI-01-tokens.md](../../creative/v1-p1-screens/CR-UI-01-tokens.md); [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md);
+  plan §2.2–2.5'
+delta:
+- frontend/src/styles/tokens/*
+- 'Создание: frontend/src/features/session/ThemeProvider.tsx'
+- 'Создание: frontend/src/hooks/useTheme.ts'
+- 'Создание: frontend/src/hooks/useDesign.ts'
+- 'Создание: frontend/src/components/ds/ThemeSwitcher.tsx'
+- 'Создание: frontend/src/components/ds/DesignSwitcher.tsx'
+- 'Модификация: frontend/src/app/layout.tsx'
+- 'Создание: frontend/src/features/session/theme.test.ts'
+- 'Создание: frontend/src/features/session/design.test.ts'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: 'Подключить уже созданные token CSS (CR-UI-01): ThemeProvider + DesignProvider,
-    blocking script anti-flash, ThemeSwitcher (продукт) + DesignSwitcher (preview),
-    persist localStorage. Type/touch floor — '
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/features/session/ThemeProvider.tsx, frontend/src/hooks/useTheme.ts…'
+  verify: cd frontend && npm exec vitest -- run src/features/session/theme.test.ts
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/features/session/design.test.ts
+verify:
+- cd frontend && npm exec vitest -- run src/features/session/theme.test.ts
+- cd frontend && npm exec vitest -- run src/features/session/design.test.ts
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

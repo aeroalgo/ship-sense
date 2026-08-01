@@ -4,7 +4,7 @@
 
 ## Handoff INTEG IMPLEMENT v1-portal
 - **Эпик:** T-006 v1-portal · шаги **e01–e05 completed** · pending **e06–e30**.
-- **Формат:** INTEG decompose/implement → **YAML** (`integ-decompose/v1`, `integ-implement/v1`) + **checkpoints** в implement для resume loop.
+- **Формат:** INTEG decompose/implement → **YAML** (`epic-decompose/v1`, `epic-implement/v1`) + **checkpoints** в implement для resume loop.
 - **Текущий шаг:** e05 StatusBar alarms — bootstrap alarm/warning events, StatusBar chips, journal deep-link и live WS events.
 - **Artifact:** [e05-statusbar-alarms.yaml](integration/implement/implement-v1-portal/e05-statusbar-alarms.yaml) `completed`.
 - **Проверки:** targeted frontend Vitest PASS (2 files / 2 tests), frontend TypeScript PASS, `validate-step` PASS, `@verify` PASS.

@@ -5,20 +5,39 @@ plan_id: v1-p2-ship
 title: I1 proof artifact PDF + config hash for T4
 next_phase: BACK IMPLEMENT
 needs_creative: 'no'
-goal: 'Артефакт «доказательство read-only»: PDF+config hash из gateway logs/config;
-  T4 protocol script outline executable.'
+goal: 'Артефакт «доказательство read-only»: PDF+config hash из gateway logs/config; T4 protocol script
+  outline executable.'
 context:
   consumes:
   - '**Consumes:** s01 gateway; plan §6.5–6.6.'
-  - '**Produces:** proof generator; hash of gateway config; T4 runbook steps automation
-    stub.'
+  - '**Produces:** proof generator; hash of gateway config; T4 runbook steps automation stub.'
   files:
-  - apps/edge/gateway/proof/` (Создание)
-  - apps/edge/gateway/tests/test_proof_artifact.py` (Создание)
-  - docs/acceptance/T4-readonly-protocol.md` (Создание)
+  - apps/edge/gateway/proof/ (Создание)
+  - apps/edge/gateway/tests/test_proof_artifact.py (Создание)
+  - docs/acceptance/T4-readonly-protocol.md (Создание)
+  plan_refs:
+  - plan §6.5
+as_built:
+- 'Consumes: s01 gateway; plan §6.5–6.6.'
+delta:
+- 'Создание: apps/edge/gateway/proof/'
+- 'Создание: apps/edge/gateway/tests/test_proof_artifact.py'
+- 'Создание: docs/acceptance/T4-readonly-protocol.md'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Артефакт «доказательство read-only»: PDF+config hash из gateway logs/config;
-    T4 protocol script outline executable.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/edge/gateway/proof/, docs/acceptance/T4-readonly-protocol.md'
+  verify: .venv/bin/pytest apps/edge/gateway/tests/test_proof_artifact.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/edge/gateway/tests/test_proof_artifact.py -q
+verify:
+- .venv/bin/pytest apps/edge/gateway/tests/test_proof_artifact.py -q
+- .venv/bin/pytest apps/edge/gateway/tests/test_proof_artifact.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

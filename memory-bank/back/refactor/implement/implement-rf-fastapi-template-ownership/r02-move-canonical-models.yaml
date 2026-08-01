@@ -3,11 +3,11 @@ role: back
 step_id: r02
 plan_id: rf-fastapi-template-ownership
 title: BACK REFACTOR — r02 move canonical models
-status: in_progress
+status: completed
 date: '2026-07-30'
 behavior_freeze: IPC wire, Quality/EventSeverity values, DB ORM schema и семантика
   коннекторов сохранены.
-decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r02-move-canonical-models.yaml
+decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r02-move-canonical-models.md
 done:
 - Созданы `apps/api/app/telemetry/models.py` с каноническими `Quality` и `TelemetrySample`.
 - Созданы `apps/api/app/events/models.py` с каноническими `EventSeverity` и `Event`;
@@ -50,6 +50,5 @@ tests:
 checkpoints:
 - id: cp1
   criterion: refactor AC + behavior freeze
-  status: pending
-  done_at: null
-resume_from: cp1
+  status: done
+  done_at: '2026-07-30'

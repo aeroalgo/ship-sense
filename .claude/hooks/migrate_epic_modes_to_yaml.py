@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Migrate epic QA + REFACTOR implement shards *.md → *.yaml."""
+"""One-shot (historical): migrate epic QA + REFACTOR implement shards *.md → *.yaml."""
 from __future__ import annotations
 
 import re

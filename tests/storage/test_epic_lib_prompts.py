@@ -87,14 +87,40 @@ def _write_result(cwd: Path, data: dict) -> None:
 
 def test_build_prompt_implement_packs_verify_contract(tmp_path: Path) -> None:
     epic_lib = _load_epic_lib()
-    step = _write(
-        "memory-bank/back/plan/decompose-demo/s01-demo.md",
-        "# s01\n\n- `.venv/bin/pytest tests/storage/test_demo.py -q`\n",
+    import yaml
+
+    step_yaml = tmp_path / "memory-bank/back/plan/decompose-demo/s01-demo.yaml"
+    step_yaml.parent.mkdir(parents=True, exist_ok=True)
+    step_yaml.write_text(
+        yaml.safe_dump(
+            {
+                "schema": "epic-decompose/v1",
+                "role": "back",
+                "step_id": "s01",
+                "plan_id": "demo",
+                "title": "s01 demo",
+                "next_phase": "BACK IMPLEMENT",
+                "needs_creative": "no",
+                "goal": "demo",
+                "checkpoints": [{"id": "cp1", "criterion": "ac"}],
+                "verify": ["`.venv/bin/pytest tests/storage/test_demo.py -q`"],
+            },
+            allow_unicode=True,
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    qa = _write(
+        "memory-bank/back/qa/qa-demo/qa-20260801-demo.yaml",
+        "schema: epic-qa/v1\n",
         tmp_path,
     )
-    qa = _write("memory-bank/back/qa/qa-demo.md", "# qa\n", tmp_path)
 
-    prompt = epic_lib.build_prompt("BACK IMPLEMENT", tmp_path, [qa, step])
+    prompt = epic_lib.build_prompt(
+        "BACK IMPLEMENT",
+        tmp_path,
+        [qa, str(step_yaml.relative_to(tmp_path))],
+    )
 
     assert "## path-rule IMPLEMENT step (HARD)" in prompt
     assert "## spawn (pointer)" in prompt

@@ -1,15 +1,15 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e04
 plan_id: v1-portal
 title: AppShell chrome (nav + session chip + theme)
 element_id: e04
 next_phase: INTEG IMPLEMENT
+goal: top nav (overview/journal/trends/watch) + session chip (name, logout) + theme toggle
 ui:
   route: '** `(auth)/*` layout'
-  components: '** `features/shell/AppShell.tsx`, `AppNav.tsx`; DS: `SessionChip`,
-    `ThemeSwitcher`, `DesignSwitcher`'
-  user_sees: '** top nav (overview/journal/trends/watch) + session chip (name, logout)
-    + theme toggle'
+  components: '** `features/shell/AppShell.tsx`, `AppNav.tsx`; DS: `SessionChip`, `ThemeSwitcher`, `DesignSwitcher`'
+  user_sees: '** top nav (overview/journal/trends/watch) + session chip (name, logout) + theme toggle'
 data_need:
 - session person from client state / cookie presence
 - 'nav routes: `/overview`, `/journal`, `/trends`, `/watch`'
@@ -20,11 +20,24 @@ contract:
   method_path: '** N/A for nav links'
 db: '- none (derived from session cookie)'
 back:
-- 'Guard: unauthenticated access to `(authenticated)/*` must redirect `/login` (layout/middleware
-  as implemented in FRONT s07)'
+- 'Guard: unauthenticated access to `(authenticated)/*` must redirect `/login` (layout/middleware as implemented
+  in FRONT s07)'
 front:
 - '`AppShell` + `AppNav` + `SessionChip` already wired (FRONT s07)'
 - Не смешивать theme/design persistence с API
+as_built:
+- 'FRONT: AppShell` + `AppNav` + `SessionChip already wired (FRONT s07)'
+- 'UI seams: `features/shell/AppShell.tsx`, `AppNav.tsx`; DS: `SessionChip`, `ThemeSwitcher`, DesignSwitcher'
+delta:
+- 'Довести client/fixture: session delete only for logout (see e03); nav — static'
+- 'BACK caveat: Guard: unauthenticated access to `(authenticated)/*` must redirect `/login` (layout/middleware
+  as implemented in FRONT s07)'
+- 'FRONT: Не смешивать theme/design persistence с API'
+- 'Data need: session person from client state / cookie presence'
+- 'Data need: nav routes: `/overview`, `/journal`, `/trends`, /watch'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: N/A (nav static)
   front: AppShell.tsx`, `AppNav.tsx
@@ -39,7 +52,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Authenticated layout shows nav + chip
+  verify: grep -r "AppShell\|AppNav\|SessionChip" frontend/src
 - id: cp2
   criterion: Click nav → route changes
+  verify: 'Playwright: nav between four screens; chip shows name'
 - id: cp3
   criterion: Logout from chip works
+  verify: 'vitest: `AppShell.test.tsx`, AppNav.test.tsx'

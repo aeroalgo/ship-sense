@@ -5,23 +5,51 @@ plan_id: v1-p1-screens
 title: Screen 8 Trends
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: 'Страница трендов: quick/extended modes, TagPicker, series/setpoints/markers
-  hooks, WS tail in quick, searchParams deep link.'
+goal: 'Страница трендов: quick/extended modes, TagPicker, series/setpoints/markers hooks, WS tail in quick,
+  searchParams deep link.'
 context:
   consumes:
   - '**Consumes:** s04 series/setpoints, s05 WS, s10 deep link, s11 chart'
   - '**Produces:** features/trends/* page'
   files:
-  - frontend/src/features/trends/TrendsPage.tsx` (Создание)
-  - frontend/src/features/trends/useSeries.ts` (Создание)
-  - frontend/src/features/trends/useSetpoints.ts` (Создание)
-  - frontend/src/features/trends/useEventMarkers.ts` (Создание)
-  - frontend/src/features/trends/useTrendRealtime.ts` (Создание)
-  - frontend/src/app/(authenticated)/trends/page.tsx` (Модификация)
-  - frontend/src/features/trends/TrendsPage.test.tsx` (Создание)
+  - frontend/src/features/trends/TrendsPage.tsx (Создание)
+  - frontend/src/features/trends/useSeries.ts (Создание)
+  - frontend/src/features/trends/useSetpoints.ts (Создание)
+  - frontend/src/features/trends/useEventMarkers.ts (Создание)
+  - frontend/src/features/trends/useTrendRealtime.ts (Создание)
+  - frontend/src/app/(authenticated)/trends/page.tsx (Модификация)
+  - frontend/src/features/trends/TrendsPage.test.tsx (Создание)
+as_built:
+- frontend/src/app/(authenticated)/trends/page.tsx — существует; правим в этом шаге
+- 'Consumes: s04 series/setpoints, s05 WS, s10 deep link, s11 chart'
+delta:
+- 'Создание: frontend/src/features/trends/TrendsPage.tsx'
+- 'Создание: frontend/src/features/trends/useSeries.ts'
+- 'Создание: frontend/src/features/trends/useSetpoints.ts'
+- 'Создание: frontend/src/features/trends/useEventMarkers.ts'
+- 'Создание: frontend/src/features/trends/useTrendRealtime.ts'
+- 'Модификация: frontend/src/app/(authenticated)/trends/page.tsx'
+- 'Создание: frontend/src/features/trends/TrendsPage.test.tsx'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
+- INTEG eNN wire (live contract) — FRONT only UI/MSW path
+- Full Playwright suite → s16
 checkpoints:
 - id: cp1
-  criterion: 'Страница трендов: quick/extended modes, TagPicker, series/setpoints/markers
-    hooks, WS tail in quick, searchParams deep link.'
-verify: []
-tdd: []
+  criterion: 'Trends page: tag picker + series chart shell'
+  verify: cd frontend && npm exec vitest -- run src/features/trends
+- id: cp2
+  criterion: Setpoints/event markers hooks wired (UI)
+  verify: cd frontend && npm exec vitest -- run src/features/trends
+- id: cp3
+  criterion: Targeted trends tests PASS
+  verify: cd frontend && npm exec vitest -- run src/features/trends
+verify:
+- cd frontend && npm exec vitest -- run src/features/trends
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

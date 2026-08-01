@@ -1,4 +1,4 @@
-schema: integ-implement/v1
+schema: epic-implement/v1
 step_id: e03
 plan_id: v1-portal
 title: e03 — Session create / logout IMPLEMENT

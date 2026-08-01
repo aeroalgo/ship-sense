@@ -5,25 +5,47 @@ plan_id: v1-p1-screens
 title: App shell + StatusBar + nav
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: 'Authenticated layout: sticky StatusBar, nav (Обзор|Журнал|Тренды|Вахтенный),
-  slot banners, QueryClient provider.'
+goal: 'Authenticated layout: sticky StatusBar, nav (Обзор|Журнал|Тренды|Вахтенный), slot banners, QueryClient
+  provider.'
 context:
   consumes:
   - '**Consumes:** s02, s04–s06'
   - '**Produces:** routing tree + shell wire StatusBar←WS/REST'
   files:
-  - frontend/src/app/(authenticated)/layout.tsx` (Создание)
-  - frontend/src/app/(authenticated)/overview/page.tsx` (Создание) — placeholder
-  - frontend/src/app/(authenticated)/journal/page.tsx` (Создание) — placeholder
-  - frontend/src/app/(authenticated)/trends/page.tsx` (Создание) — placeholder
-  - frontend/src/app/(authenticated)/watch/page.tsx` (Создание) — placeholder
-  - frontend/src/features/shell/AppNav.tsx` (Создание)
-  - frontend/src/features/shell/useStatusBarAlarms.ts` (Создание)
-  - frontend/src/app/layout.tsx` (Модификация) — providers
-  - frontend/src/features/shell/AppNav.test.tsx` (Создание)
+  - frontend/src/app/(authenticated)/layout.tsx (Создание)
+  - frontend/src/app/(authenticated)/overview/page.tsx (Создание) — placeholder
+  - frontend/src/app/(authenticated)/journal/page.tsx (Создание) — placeholder
+  - frontend/src/app/(authenticated)/trends/page.tsx (Создание) — placeholder
+  - frontend/src/app/(authenticated)/watch/page.tsx (Создание) — placeholder
+  - frontend/src/features/shell/AppNav.tsx (Создание)
+  - frontend/src/features/shell/useStatusBarAlarms.ts (Создание)
+  - frontend/src/app/(authenticated)/layout.tsx (Создание) — + placeholder pages
+  - frontend/src/features/shell/AppNav.test.tsx (Создание)
+as_built:
+- frontend/src/app/(authenticated)/layout.tsx — существует; правим в этом шаге
+- 'Consumes: s02, s04–s06'
+delta:
+- 'Модификация: frontend/src/app/(authenticated)/layout.tsx'
+- 'Создание: frontend/src/features/shell/AppNav.tsx'
+- 'Создание: frontend/src/features/shell/useStatusBarAlarms.ts'
+- 'Модификация: frontend/src/app/layout.tsx'
+- 'Создание: frontend/src/features/shell/AppNav.test.tsx'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: 'Authenticated layout: sticky StatusBar, nav (Обзор|Журнал|Тренды|Вахтенный),
-    slot banners, QueryClient provider.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/app/, frontend/src/app/…'
+  verify: cd frontend && npm exec vitest -- run src/features/shell/AppNav.test.tsx
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/features/shell/AppNav.test.tsx
+verify:
+- cd frontend && npm exec vitest -- run src/features/shell/AppNav.test.tsx
+- cd frontend && npm exec vitest -- run src/features/shell/AppNav.test.tsx
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

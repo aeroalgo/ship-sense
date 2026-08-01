@@ -5,13 +5,13 @@
 **План:** [plan-rf-fastapi-template-ownership.md](../../plan/plan-rf-fastapi-template-ownership.md)  
 **Режим:** BACK REFACTOR (M/L)
 
-Navigation hub. **Без** status suffix — статусы только в decompose index + `rNN-*.md` артефактах execute.
+Navigation hub. **Без** status suffix — статусы только в decompose index + `rNN-*.yaml` артефактах execute.
 
 | step | artifact |
 |------|----------|
-| r01 | [r01-scaffold-apps-api.md](r01-scaffold-apps-api.md) |
-| r02 | [r02-move-canonical-models.md](r02-move-canonical-models.md) |
-| r03 | [r03-move-semantic.md](r03-move-semantic.md) |
-| r04 | [r04-import-graph-audit.md](r04-import-graph-audit.md) |
-| r05 | [r05-amend-t003-plan-paths.md](r05-amend-t003-plan-paths.md) |
-| r06 | [r06-migrations-stub-orm-policy.md](r06-migrations-stub-orm-policy.md) |
+| r01 | [r01-scaffold-apps-api.yaml](r01-scaffold-apps-api.yaml) |
+| r02 | [r02-move-canonical-models.yaml](r02-move-canonical-models.yaml) |
+| r03 | [r03-move-semantic.yaml](r03-move-semantic.yaml) |
+| r04 | [r04-import-graph-audit.yaml](r04-import-graph-audit.yaml) |
+| r05 | [r05-amend-t003-plan-paths.yaml](r05-amend-t003-plan-paths.yaml) |
+| r06 | [r06-migrations-stub-orm-policy.yaml](r06-migrations-stub-orm-policy.yaml) |

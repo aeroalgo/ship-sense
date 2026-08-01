@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e09
 plan_id: v1-portal
 title: Overview MoSection lamps
 element_id: e09
 next_phase: INTEG IMPLEMENT
+goal: per-node lamps (status/quality) derived from tree
 ui:
-  route: '** `/overview'
+  route: '** /overview'
   components: '** `features/overview/MoSection.tsx` + DS `Lamp`'
   user_sees: '** per-node lamps (status/quality) derived from tree'
 data_need:
@@ -14,8 +16,8 @@ api_today:
 - status: —
   detail: data from e08 tree; no separate endpoint
 contract:
-  notes: 'Только якоря wire. **Запрещено:** полные TypeScript/Pydantic блоки, готовые
-    тела handlers, copy-paste response schemas.
+  notes: 'Только якоря wire. **Запрещено:** полные TypeScript/Pydantic блоки, готовые тела handlers, copy-paste
+    response schemas.
 
 
     - **Derived from:** `AssetsTreeResponse` + WS value frames
@@ -30,9 +32,20 @@ back:
 front:
 - '`MoSection` + `Lamp` already wired (FRONT s09)'
 - No extra REST
+as_built:
+- 'FRONT: MoSection` + `Lamp already wired (FRONT s09)'
+- 'UI seams: `features/overview/MoSection.tsx` + DS Lamp'
+delta:
+- 'Довести client/fixture: data from e08 tree; no separate endpoint'
+- 'BACK caveat: Align quality vocabulary (good/stale/quarantine/… as implemented)'
+- 'FRONT: No extra REST'
+- 'Data need: per-node AggregateStatus / Quality from tree (+ live)'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: quality codes in tree response
-  front: quality/types.ts` enum
+  front: quality/types.ts enum
 verify:
 - '`grep -r "quality\|Lamp\|MoSection" frontend/src/features/overview`'
 - vitest Lamp / OverviewPage status rendering
@@ -44,5 +57,7 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Lamps match tree node status/quality
+  verify: grep -r "quality\|Lamp\|MoSection" frontend/src/features/overview
 - id: cp2
   criterion: Live WS patch updates lamp colors
+  verify: vitest Lamp / OverviewPage status rendering

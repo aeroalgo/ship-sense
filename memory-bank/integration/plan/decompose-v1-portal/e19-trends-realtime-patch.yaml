@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e19
 plan_id: v1-portal
 title: Trends realtime series patch
 element_id: e19
 next_phase: INTEG IMPLEMENT
+goal: chart line extends/patches in realtime (WS values)
 ui:
-  route: '** `/trends'
+  route: '** /trends'
   components: '** `useTrendRealtime.ts`'
   user_sees: '** chart line extends/patches in realtime (WS values)'
 data_need:
@@ -24,6 +26,19 @@ back:
 front:
 - '`useTrendRealtime` already wired (FRONT s12)'
 - Stale quality must paint, not drop silently
+as_built:
+- 'API live: WS values channel (e07)'
+- 'BACK: WS values already live (e07, T-003 s06)'
+- 'FRONT: useTrendRealtime already wired (FRONT s12)'
+- 'UI seams: useTrendRealtime.ts'
+delta:
+- 'Довести client/fixture: no dedicated REST'
+- 'BACK caveat: Only patch tags currently plotted; unsubscribe on tag change'
+- 'FRONT: Stale quality must paint, not drop silently'
+- 'Data need: WS values for selected tags append/patch last point'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: WS values channel (e07)
   front: useTrendRealtime
@@ -38,7 +53,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Selected tag chart extends in realtime
+  verify: grep -r "useTrendRealtime" frontend/src
 - id: cp2
   criterion: Unselect tag → no more patches for it
+  verify: unit MockWebSocket patch
 - id: cp3
   criterion: Stale quality painted (not dropped)
+  verify: §0.11 WS URL

@@ -46,9 +46,9 @@ cd /path/to/ship-sense
 
 Или slash `/epic-run <decompose>` (arm) → в терминале `./loop/epic-loop.sh [--model …]`.
 
-**REFACTOR:** arm на `memory-bank/{back|front|integration}/refactor/plan/decompose-<id>/`; pending считает `rNN`. FINISH artifact = `refactor/implement/implement-<id>/rNN-*.md`. Канон: `.cursor/rules/shared/workflow-refactor-epic.mdc`.
+**REFACTOR:** arm на `memory-bank/{back|front|integration}/refactor/plan/decompose-<id>/`; pending считает `rNN`. FINISH artifact = `refactor/implement/implement-<id>/rNN-*.yaml` (`epic-refactor/v1`). Канон: `.cursor/rules/shared/workflow-refactor-epic.mdc`.
 
-**SECURITY:** arm на `memory-bank/{back|front|integration}/security/plan/decompose-<id>/`; pending считает `aNN`. FINISH artifact = `security/implement/implement-<id>/aNN-*.md`. Цепочка: `* SECURITY PLAN` → `* SECURITY DECOMPOSE` → `* SECURITY` @aNN. Канон: `.cursor/rules/shared/workflow-security-epic.mdc`.
+**SECURITY:** arm на `memory-bank/{back|front|integration}/security/plan/decompose-<id>/`; pending считает `aNN`. FINISH artifact = `security/implement/implement-<id>/aNN-*.yaml` (`epic-security/v1`). Цепочка: `* SECURITY PLAN` → `* SECURITY DECOMPOSE` → `* SECURITY` @aNN. Канон: `.cursor/rules/shared/workflow-security-epic.mdc`.
 
 ## Env
 

@@ -5,21 +5,44 @@ plan_id: v1-p2-ship
 title: B13 warnings REST + WS
 next_phase: BACK IMPLEMENT
 needs_creative: 'no'
-goal: GET /api/warnings (+history); WS channel `warnings` enter/exit; feed B12 watch
-  drifts[].
+goal: GET /api/warnings (+history); WS channel `warnings` enter/exit; feed B12 watch drifts[].
 context:
   consumes:
   - '**Consumes:** s06 engine; T-003 FanoutBridge; plan §11.8, §5.7.'
   - '**Produces:** REST routers; WS topic; OpenAPI examples.'
   files:
-  - apps/api/app/api/v1/endpoints/warnings.py` (Создание)
-  - apps/api/app/warnings/service.py` (Модификация)
-  - apps/api/app/stream/` (Модификация) — channel warnings
-  - apps/api/tests/api/test_warnings.py` (Создание)
-  - apps/api/tests/api/test_warnings_ws.py` (Создание)
+  - apps/api/app/api/v1/endpoints/warnings.py (Создание)
+  - apps/api/app/warnings/service.py (Модификация)
+  - apps/api/app/stream/ (Модификация) — channel warnings
+  - apps/api/tests/api/test_warnings.py (Создание)
+  - apps/api/tests/api/test_warnings_ws.py (Создание)
+  plan_refs:
+  - plan §11.8
+as_built:
+- apps/api/app/warnings/service.py — существует; правим в этом шаге
+- apps/api/app/stream/ — существует; правим в этом шаге
+- 'Consumes: s06 engine; T-003 FanoutBridge; plan §11.8, §5.7.'
+delta:
+- 'Создание: apps/api/app/api/v1/endpoints/warnings.py'
+- 'Модификация: apps/api/app/warnings/service.py'
+- 'Модификация: apps/api/app/stream/'
+- 'Создание: apps/api/tests/api/test_warnings.py'
+- 'Создание: apps/api/tests/api/test_warnings_ws.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: GET /api/warnings (+history); WS channel `warnings` enter/exit; feed
-    B12 watch drifts[].
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/app/api/v1/endpoints/warnings.py'
+  verify: .venv/bin/pytest apps/api/tests/api/test_warnings.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_warnings_ws.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_warnings.py -q
+- .venv/bin/pytest apps/api/tests/api/test_warnings_ws.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

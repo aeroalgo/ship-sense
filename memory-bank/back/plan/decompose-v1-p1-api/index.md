@@ -38,18 +38,18 @@ Creative artifact: [creative-api-gates.md](../../creative/v1-p1-api/creative-api
 
 | step_id | title & files | implement | needs_creative | tdd | next_phase | status |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| **s01** | [s01-scaffold.md](s01-scaffold.md)<br>• OpenAPI factory, envelope, DI, docker | [s01…](../../implement/implement-v1-p1-api/s01-scaffold.md) | no | yes | BACK IMPLEMENT | done |
-| **s02** | [s02-assets-tree.md](s02-assets-tree.md)<br>• GET /api/assets/tree + aggregate status | [s02…](../../implement/implement-v1-p1-api/s02-assets-tree.md) | no | yes | BACK IMPLEMENT | done |
-| **s03** | [s03-series-downsample.md](s03-series-downsample.md)<br>• GET /api/series + aggregate | [s03…](../../implement/implement-v1-p1-api/s03-series-downsample.md) | no — CR-API-01 closed | yes | BACK IMPLEMENT | done |Исправление статуса s03 после targeted green тестов|
-| **s04** | [s04-events-rest.md](s04-events-rest.md)<br>• GET /api/events keyset | [s04…](../../implement/implement-v1-p1-api/s04-events-rest.md) | no — CR-API-04 closed | yes | BACK IMPLEMENT | done | Реализован GET /api/events, cursor, filters; targeted 7 passed |
-| **s05** | [s05-setpoints.md](s05-setpoints.md)<br>• GET setpoints + history YAML | [s05…](../../implement/implement-v1-p1-api/s05-setpoints.md) | no | yes | BACK IMPLEMENT | done | Реализованы endpoints и YAML fixture; targeted 4 passed |
-| **s06** | [s06-ws-fanout.md](s06-ws-fanout.md)<br>• WS /api/stream + FanoutBridge | [s06…](../../implement/implement-v1-p1-api/s06-ws-fanout.md) | no — CR-API-02/04 closed | yes | BACK IMPLEMENT | done | Реализованы WS protocol/ring/manager/bridge; targeted 3 passed |
+| **s01** | [s01-scaffold.yaml](s01-scaffold.yaml)<br>• OpenAPI factory, envelope, DI, docker | [s01…](../../implement/implement-v1-p1-api/s01-scaffold.yaml) | no | yes | BACK IMPLEMENT | done |
+| **s02** | [s02-assets-tree.yaml](s02-assets-tree.yaml)<br>• GET /api/assets/tree + aggregate status | [s02…](../../implement/implement-v1-p1-api/s02-assets-tree.yaml) | no | yes | BACK IMPLEMENT | done |
+| **s03** | [s03-series-downsample.yaml](s03-series-downsample.yaml)<br>• GET /api/series + aggregate | [s03…](../../implement/implement-v1-p1-api/s03-series-downsample.yaml) | no — CR-API-01 closed | yes | BACK IMPLEMENT | done |Исправление статуса s03 после targeted green тестов|
+| **s04** | [s04-events-rest.yaml](s04-events-rest.yaml)<br>• GET /api/events keyset | [s04…](../../implement/implement-v1-p1-api/s04-events-rest.yaml) | no — CR-API-04 closed | yes | BACK IMPLEMENT | done | Реализован GET /api/events, cursor, filters; targeted 7 passed |
+| **s05** | [s05-setpoints.yaml](s05-setpoints.yaml)<br>• GET setpoints + history YAML | [s05…](../../implement/implement-v1-p1-api/s05-setpoints.yaml) | no | yes | BACK IMPLEMENT | done | Реализованы endpoints и YAML fixture; targeted 4 passed |
+| **s06** | [s06-ws-fanout.yaml](s06-ws-fanout.yaml)<br>• WS /api/stream + FanoutBridge | [s06…](../../implement/implement-v1-p1-api/s06-ws-fanout.yaml) | no — CR-API-02/04 closed | yes | BACK IMPLEMENT | done | Реализованы WS protocol/ring/manager/bridge; targeted 3 passed |
 
-| **s07** | [s07-session-b11.md](s07-session-b11.md)<br>• roster + POST/DELETE session → B6 | [s07…](../../implement/implement-v1-p1-api/s07-session-b11.md) | no — CR-API-03 closed | yes | BACK IMPLEMENT | done | Реализованы roster/session lifecycle, cookie и B6 audit events |
+| **s07** | [s07-session-b11.yaml](s07-session-b11.yaml)<br>• roster + POST/DELETE session → B6 | [s07…](../../implement/implement-v1-p1-api/s07-session-b11.yaml) | no — CR-API-03 closed | yes | BACK IMPLEMENT | done | Реализованы roster/session lifecycle, cookie и B6 audit events |
 
-| **s08** | [s08-reports-watch.md](s08-reports-watch.md)<br>• reports list + watch stub | [s08…](../../implement/implement-v1-p1-api/s08-reports-watch.md) | no — CR-API-05 closed | yes | BACK IMPLEMENT | completed | Реализованы reports catalog/watch JSON+HTML, deterministic verdict и data-quality |
-| **s09** | [s09-health-sources-rate.md](s09-health-sources-rate.md)<br>• health/sources + rate limit | [s09…](../../implement/implement-v1-p1-api/s09-health-sources-rate.md) | no | yes | BACK IMPLEMENT | done | Реализованы health/sources status и in-memory rate limit; targeted 4 passed |
-| **s10** | [s10-tests-i1-openapi.md](s10-tests-i1-openapi.md)<br>• I1 audit + OpenAPI completeness | [s10…](../../implement/implement-v1-p1-api/s10-tests-i1-openapi.md) | no | yes | BACK IMPLEMENT | completed |I1 import audit и OpenAPI completeness suite green|
+| **s08** | [s08-reports-watch.yaml](s08-reports-watch.yaml)<br>• reports list + watch stub | [s08…](../../implement/implement-v1-p1-api/s08-reports-watch.yaml) | no — CR-API-05 closed | yes | BACK IMPLEMENT | completed | Реализованы reports catalog/watch JSON+HTML, deterministic verdict и data-quality |
+| **s09** | [s09-health-sources-rate.yaml](s09-health-sources-rate.yaml)<br>• health/sources + rate limit | [s09…](../../implement/implement-v1-p1-api/s09-health-sources-rate.yaml) | no | yes | BACK IMPLEMENT | done | Реализованы health/sources status и in-memory rate limit; targeted 4 passed |
+| **s10** | [s10-tests-i1-openapi.yaml](s10-tests-i1-openapi.yaml)<br>• I1 audit + OpenAPI completeness | [s10…](../../implement/implement-v1-p1-api/s10-tests-i1-openapi.yaml) | no | yes | BACK IMPLEMENT | completed |I1 import audit и OpenAPI completeness suite green|
 
 Статусы: `pending` | `active` | `done` | `blocked` | `needs_creative`
 

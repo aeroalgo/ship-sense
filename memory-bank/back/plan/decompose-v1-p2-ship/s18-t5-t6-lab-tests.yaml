@@ -5,20 +5,41 @@ plan_id: v1-p2-ship
 title: T5/T6 lab automation OTA + disk
 next_phase: BACK IMPLEMENT
 needs_creative: 'no'
-goal: Automate T5 (rollback/unsigned/resume) and T6 (degrade/ZIP/restore) against
-  lab mocks/hardware hooks.
+goal: Automate T5 (rollback/unsigned/resume) and T6 (degrade/ZIP/restore) against lab mocks/hardware hooks.
 context:
   consumes:
   - '**Consumes:** s12–s13; plan §13.3–13.4.'
   - '**Produces:** lab test packages; CI where mockable; hardware checklist.'
   files:
-  - apps/edge/ota/tests/lab/test_t5_scenarios.py` (Создание)
-  - apps/edge/storage/tests/lab/test_t6_scenarios.py` (Создание)
-  - docs/tests/T5-ota.md` (Создание)
-  - docs/tests/T6-disk.md` (Создание)
+  - apps/edge/ota/tests/lab/test_t5_scenarios.py (Создание)
+  - apps/edge/storage/tests/lab/test_t6_scenarios.py (Создание)
+  - docs/tests/T5-ota.md (Создание)
+  - docs/tests/T6-disk.md (Создание)
+  plan_refs:
+  - plan §13.3
+as_built:
+- 'Consumes: s12–s13; plan §13.3–13.4.'
+delta:
+- 'Создание: apps/edge/ota/tests/lab/test_t5_scenarios.py'
+- 'Создание: apps/edge/storage/tests/lab/test_t6_scenarios.py'
+- 'Создание: docs/tests/T5-ota.md'
+- 'Создание: docs/tests/T6-disk.md'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: Automate T5 (rollback/unsigned/resume) and T6 (degrade/ZIP/restore) against
-    lab mocks/hardware hooks.
-verify: []
-tdd: []
+  criterion: Automate T5 (rollback/unsigned/resume) and T6 (degrade/ZIP/restore) against lab mocks/hardware
+    hooks.
+  verify: .venv/bin/pytest apps/edge/ota/tests/lab/test_t5_scenarios.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/edge/storage/tests/lab/test_t6_scenarios.py -q
+verify:
+- .venv/bin/pytest apps/edge/ota/tests/lab/test_t5_scenarios.py -q
+- .venv/bin/pytest apps/edge/storage/tests/lab/test_t6_scenarios.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

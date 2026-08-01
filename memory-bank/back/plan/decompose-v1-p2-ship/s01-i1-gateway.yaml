@@ -5,26 +5,46 @@ plan_id: v1-p2-ship
 title: I1 Read-only gateway (Modbus/OPC barrier)
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-01) — **closed**
-goal: 'Production read-only барьер перед collector: Modbus FC whitelist 01–04 и/или
-  OPC UA read-only account по ADR CR-P2-01; rejected writes log; compose service `gateway`
-  без bypass к АПС.'
+goal: 'Production read-only барьер перед collector: Modbus FC whitelist 01–04 и/или OPC UA read-only account
+  по ADR CR-P2-01; rejected writes log; compose service `gateway` без bypass к АПС.'
 context:
   consumes:
-  - '**Consumes:** T-001 collector B2; plan §6; CR-P2-01 ADR (до IMPLEMENT — hard
-    stop).'
-  - '**Produces:** `apps/edge/gateway/` процесс; `rejected_writes.log`; docker network/iptables
-    без bypass; unit/integration тесты fragmentation/pipeline.'
+  - '**Consumes:** T-001 collector B2; plan §6; CR-P2-01 ADR (до IMPLEMENT — hard stop).'
+  - '**Produces:** `apps/edge/gateway/` процесс; `rejected_writes.log`; docker network/iptables без bypass;
+    unit/integration тесты fragmentation/pipeline.'
   files:
-  - apps/edge/gateway/modbus_filter/` (Создание) — MBAP/PDU parse, FC whitelist, Exception
-    0x01
-  - apps/edge/gateway/opcua_readonly/` (Создание|условно по ADR) — client без Write/Call/HistoryUpdate
-  - apps/edge/gateway/tests/` (Создание) — fragmentation, pipeline, write reject
+  - apps/edge/gateway/modbus_filter/ (Создание) — MBAP/PDU parse, FC whitelist, Exception 0x01
+  - apps/edge/gateway/opcua_readonly/ (Создание|условно по ADR) — client без Write/Call/HistoryUpdate
+  - apps/edge/gateway/tests/ (Создание) — fragmentation, pipeline, write reject
   - compose / docker service `gateway` (Модификация) — between collector and APS
   - docs/runbooks snippet I1 (Создание) — log path, config hash
+  plan_refs:
+  - plan §6
+  - CR-P2-01
+as_built:
+- compose / docker service gateway — существует; правим в этом шаге
+- 'Consumes: T-001 collector B2; plan §6; CR-P2-01 ADR (до IMPLEMENT — hard stop).'
+delta:
+- 'Создание: apps/edge/gateway/modbus_filter/'
+- 'Создание: apps/edge/gateway/opcua_readonly/'
+- 'Создание: apps/edge/gateway/tests/'
+- 'Модификация: compose / docker service gateway'
+- 'Создание: docs/runbooks snippet I1'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Production read-only барьер перед collector: Modbus FC whitelist 01–04
-    и/или OPC UA read-only account по ADR CR-P2-01; rejected writes log; compose service
-    `gateway` без bypass к АПС.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/edge/gateway/modbus_filter/, apps/edge/gateway/opcua_readonly/…'
+  verify: .venv/bin/pytest apps/edge/gateway/tests/ -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/edge/gateway/tests/ -q
+verify:
+- .venv/bin/pytest apps/edge/gateway/tests/ -q
+- .venv/bin/pytest apps/edge/gateway/tests/ -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

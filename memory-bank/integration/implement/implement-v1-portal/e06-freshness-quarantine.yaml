@@ -1,0 +1,33 @@
+schema: epic-implement/v1
+role: integ
+step_id: e06
+plan_id: v1-portal
+title: Freshness + quarantine chrome
+status: in_progress
+decompose_ref: memory-bank/integration/plan/decompose-v1-portal/e06-freshness-quarantine.yaml
+implement_index: memory-bank/integration/implement/implement-v1-portal/index.md
+date: '2026-08-01'
+checkpoints:
+- id: cp1
+  criterion: Banner shows when sources stale/quarantine
+  status: pending
+  done_at: null
+  notes: null
+- id: cp2
+  criterion: Banner text from BACK (not invented "OK")
+  status: pending
+  done_at: null
+  notes: null
+- id: cp3
+  criterion: Live WS can update freshness
+  status: pending
+  done_at: null
+  notes: null
+resume_from: cp1
+element_ref: memory-bank/integration/plan/decompose-v1-portal/e06-freshness-quarantine.yaml
+gaps:
+  status: none
+grep_control:
+- back: GET /api/sources/status
+  front: fetchSourcesStatus
+verification_results: []

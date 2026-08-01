@@ -5,20 +5,40 @@ plan_id: v1-p1-screens
 title: WS manager subscribe/resume/reconnect
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: 'Единый WebSocket manager: channels values/events, tag budget, resume после
-  reconnect, CURSOR_EXPIRED→refetch signal.'
+goal: 'Единый WebSocket manager: channels values/events, tag budget, resume после reconnect, CURSOR_EXPIRED→refetch
+  signal.'
 context:
   consumes:
   - '**Consumes:** s01, s04 (URL); BACK WS contract'
   - '**Produces:** `lib/ws` + hooks stub for features'
   files:
-  - frontend/src/lib/ws/manager.ts` (Создание)
-  - frontend/src/lib/ws/types.ts` (Создание)
-  - frontend/src/lib/ws/manager.test.ts` (Создание)
-  - frontend/src/hooks/useWsChannel.ts` (Создание)
+  - frontend/src/lib/ws/manager.ts (Создание)
+  - frontend/src/lib/ws/types.ts (Создание)
+  - frontend/src/lib/ws/manager.test.ts (Создание)
+  - frontend/src/hooks/useWsChannel.ts (Создание)
+as_built:
+- 'Consumes: s01, s04 (URL); BACK WS contract'
+delta:
+- 'Создание: frontend/src/lib/ws/manager.ts'
+- 'Создание: frontend/src/lib/ws/types.ts'
+- 'Создание: frontend/src/lib/ws/manager.test.ts'
+- 'Создание: frontend/src/hooks/useWsChannel.ts'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: 'Единый WebSocket manager: channels values/events, tag budget, resume
-    после reconnect, CURSOR_EXPIRED→refetch signal.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/lib/ws/manager.ts, frontend/src/lib/ws/types.ts…'
+  verify: cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts
+verify:
+- cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts
+- cd frontend && npm exec vitest -- run src/lib/ws/manager.test.ts
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

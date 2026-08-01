@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e10
 plan_id: v1-portal
 title: Overview drill-down stub → future mnemo
 element_id: e10
 next_phase: INTEG IMPLEMENT
+goal: 'copy «Мнемосхема: фаза 2» (stub, not functional mnemo screen)'
 ui:
-  route: '** `/overview'
+  route: '** /overview'
   components: '** `DrillDownStubModal`'
   user_sees: '** copy «Мнемосхема: фаза 2» (stub, not functional mnemo screen)'
 data_need:
@@ -26,8 +28,21 @@ back:
 front:
 - stub only (FRONT s09)
 - 'До wire: оставить stub, но в DECOMPOSE пометить depends on FRONT creative mnemo'
+as_built:
+- 'API live: BACK: `GET /api/mnemo/schemas`, `GET /api/mnemo/schemas/{id}`, `GET /api/mnemo/schemas/{id}/values`,
+  WS /api/mnemo/{schema_id}'
+- 'BACK: already live (T-005 s08/s09)'
+- 'UI seams: DrillDownStubModal'
+delta:
+- 'BACK caveat: P1 wire: replace stub with screen/panel + client'
+- 'FRONT: stub only (FRONT s09)'
+- 'FRONT: До wire: оставить stub, но в DECOMPOSE пометить depends on FRONT creative mnemo'
+- 'Data need: future: schema list + values for selected group/system'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
-- back: GET /api/mnemo/*` + WS
+- back: GET /api/mnemo/* + WS
   front: (future client)
 verify:
 - '`grep -r "mnemo\|DrillDownStub" frontend/src api/`'
@@ -40,5 +55,7 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: 'Stub visible on overview (copy "Мнемосхема: фаза 2")'
+  verify: grep -r "mnemo\|DrillDownStub" frontend/src api/
 - id: cp2
   criterion: 'After wire: click → real mnemo schema loads'
+  verify: 'after wire: §0.11 mnemo clients ↔ endpoints; Playwright open schema'

@@ -7,13 +7,13 @@ Navigation hub. Статусы — только в `decompose-*/index.md` и в 
 
 | step | artifact |
 |------|----------|
-| s01 | [s01-scaffold.md](s01-scaffold.md) |
-| s02 | [s02-assets-tree.md](s02-assets-tree.md) |
-| s03 | [s03-series-downsample.md](s03-series-downsample.md) |
-| s04 | [s04-events-rest.md](s04-events-rest.md) |
-| s05 | [s05-setpoints.md](s05-setpoints.md) |
-| s06 | [s06-ws-fanout.md](s06-ws-fanout.md) |
-| s07 | [s07-session-b11.md](s07-session-b11.md) |
-| s08 | [s08-reports-watch.md](s08-reports-watch.md) |
-| s09 | [s09-health-sources-rate.md](s09-health-sources-rate.md) |
-| s10 | [s10-tests-i1-openapi.md](s10-tests-i1-openapi.md) |
+| s01 | [s01-scaffold.yaml](s01-scaffold.yaml) |
+| s02 | [s02-assets-tree.yaml](s02-assets-tree.yaml) |
+| s03 | [s03-series-downsample.yaml](s03-series-downsample.yaml) |
+| s04 | [s04-events-rest.yaml](s04-events-rest.yaml) |
+| s05 | [s05-setpoints.yaml](s05-setpoints.yaml) |
+| s06 | [s06-ws-fanout.yaml](s06-ws-fanout.yaml) |
+| s07 | [s07-session-b11.yaml](s07-session-b11.yaml) |
+| s08 | [s08-reports-watch.yaml](s08-reports-watch.yaml) |
+| s09 | [s09-health-sources-rate.yaml](s09-health-sources-rate.yaml) |
+| s10 | [s10-tests-i1-openapi.yaml](s10-tests-i1-openapi.yaml) |

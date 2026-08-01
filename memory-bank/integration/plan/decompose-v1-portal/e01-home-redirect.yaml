@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e01
 plan_id: v1-portal
 title: Home redirect `/`
 element_id: e01
 next_phase: INTEG IMPLEMENT
+goal: мгновенный redirect на `/login` (не должен видеть контент на `/`)
 ui:
-  route: '** `frontend/src/app/page.tsx'
+  route: '** frontend/src/app/page.tsx'
   components: '** Next.js `redirect("/login")`'
   user_sees: '** мгновенный redirect на `/login` (не должен видеть контент на `/`)'
 data_need:
@@ -24,9 +26,20 @@ back:
 front:
 - '`frontend/src/app/page.tsx` — ensure `redirect("/login")` (or `permanentRedirect`)'
 - no mock home page
+as_built:
+- 'UI seams: Next.js redirect("/login")'
+delta:
+- 'Довести client/fixture: static, no API'
+- 'BACK caveat: n/a (no backend work)'
+- 'FRONT: frontend/src/app/page.tsx` — ensure `redirect("/login")` (or `permanentRedirect)'
+- 'FRONT: no mock home page'
+- 'Data need: нет (статический redirect)'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: N/A
-  front: page.tsx` redirect
+  front: page.tsx redirect
 verify:
 - '`grep -r "redirect" frontend/src/app/page.tsx`'
 - 'Playwright: open `/` → lands on `/login`'
@@ -38,5 +51,7 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Browser open `/` immediately shows `/login` URL
+  verify: grep -r "redirect" frontend/src/app/page.tsx
 - id: cp2
   criterion: No flash of home page content
+  verify: 'Playwright: open `/` → lands on /login'

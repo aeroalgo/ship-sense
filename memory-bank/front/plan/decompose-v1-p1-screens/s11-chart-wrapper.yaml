@@ -5,23 +5,45 @@ plan_id: v1-p1-screens
 title: TrendChartContainer (CR-UI-02)
 next_phase: done (IMPLEMENT)
 needs_creative: yes (CR-UI-02) — **closed** | **tdd:** yes
-goal: 'Обёртка графика: series gaps, setpoint lines, event markers; библиотека **uPlot**
-  (CR-UI-02 closed).'
+goal: 'Обёртка графика: series gaps, setpoint lines, event markers; библиотека **uPlot** (CR-UI-02 closed).'
 context:
   consumes:
   - '**Consumes:** s02 tokens, s06 DS chrome; [CR-UI-02-chart-lib.md](../../creative/v1-p1-screens/CR-UI-02-chart-lib.md)
-    + spike + `chart-lib-spec.ts` + `uplot'
+    + spike + `chart-lib-spec.ts` + uplot'
   - '**Produces:** `TrendChartContainer` + fixture tests'
   files:
-  - frontend/src/components/ds/TrendChartContainer.tsx` (Создание)
-  - frontend/src/features/trends/chart/adapters/uplotAdapter.ts` (Создание) — thin
-    adapter
-  - frontend/src/components/ds/TrendChartContainer.test.tsx` (Создание)
-  - frontend/src/features/trends/spike/` (reference — уже от creative)
-  - frontend/src/lib/trends/chart-lib-spec.ts` (уже от creative)
+  - frontend/src/components/ds/TrendChartContainer.tsx (Создание)
+  - frontend/src/features/trends/chart/adapters/uplotAdapter.ts (Создание) — thin adapter
+  - frontend/src/components/ds/TrendChartContainer.test.tsx (Создание)
+  - frontend/src/features/trends/spike/ (reference — уже от creative)
+  - frontend/src/lib/trends/chart-lib-spec.ts (уже от creative)
+  plan_refs:
+  - CR-UI-02-chart-lib
+as_built:
+- 'Consumes: s02 tokens, s06 DS chrome; [CR-UI-02-chart-lib.md](../../creative/v1-p1-screens/CR-UI-02-chart-lib.md)
+  + spike + `chart-lib-spec.ts` + uplot'
+delta:
+- 'Создание: frontend/src/components/ds/TrendChartContainer.tsx'
+- 'Создание: frontend/src/features/trends/chart/adapters/uplotAdapter.ts'
+- 'Создание: frontend/src/components/ds/TrendChartContainer.test.tsx'
+- frontend/src/features/trends/spike/
+- frontend/src/lib/trends/chart-lib-spec.ts
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: 'Обёртка графика: series gaps, setpoint lines, event markers; библиотека
-    **uPlot** (CR-UI-02 closed).'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/components/ds/TrendChartContainer.tsx, frontend/src/features/trends/chart/adapters/uplotAdapter.ts'
+  verify: cd frontend && npm exec vitest -- run src/components/ds/TrendChartContainer.test.tsx
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/lib/trends/chart-lib-spec.ts
+verify:
+- cd frontend && npm exec vitest -- run src/components/ds/TrendChartContainer.test.tsx
+- cd frontend && npm exec vitest -- run src/lib/trends/chart-lib-spec.ts
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

@@ -6,7 +6,7 @@ title: BACK REFACTOR — r06 migrations stub + ORM policy
 status: in_progress
 date: '2026-07-30'
 behavior_freeze: preserve external behavior
-decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r06-migrations-stub-orm-policy.yaml
+decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r06-migrations-stub-orm-policy.md
 done:
 - apps/api/README.md` дополнен phase-1 ORM и migrations policy.
 - 'Создан `apps/api/migrations/env.py` без Alembic wiring: reserved stub, `__all__

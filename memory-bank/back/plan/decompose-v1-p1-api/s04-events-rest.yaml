@@ -5,22 +5,47 @@ plan_id: v1-p1-api
 title: Events REST (keyset pagination)
 next_phase: BACK IMPLEMENT
 needs_creative: no — **closed** (CR-API-04)
-goal: '`GET /api/events` с фильтрами и opaque keyset cursor; header `X-Events-Reconstruction`
-  при Q4 mode A. Формат cursor — CR-API-04.'
+goal: '`GET /api/events` с фильтрами и opaque keyset cursor; header `X-Events-Reconstruction` при Q4 mode
+  A. Формат cursor — CR-API-04.'
 context:
   consumes:
   - '**Consumes:** s01; T-002 events B6; creative CR-API-04; plan §6.4.'
   - '**Produces:** events endpoint + schemas + queries; cursor encode/decode.'
   files:
-  - apps/api/app/api/v1/endpoints/events.py` (Создание)
-  - apps/api/app/events/schemas.py` (Создание)
-  - apps/api/app/events/service.py` (Создание)
-  - apps/api/app/events/queries_events.py` (Создание)
-  - apps/api/app/api/v1/api.py` (Модификация)
-  - apps/api/tests/api/test_events.py` (Создание)
+  - apps/api/app/api/v1/endpoints/events.py (Создание)
+  - apps/api/app/events/schemas.py (Создание)
+  - apps/api/app/events/service.py (Создание)
+  - apps/api/app/events/queries_events.py (Создание)
+  - apps/api/app/api/v1/api.py (Модификация)
+  - apps/api/tests/api/test_events.py (Создание)
+  plan_refs:
+  - CR-API-04
+  - plan §6.4.
+as_built:
+- apps/api/app/api/v1/api.py — существует; правим в этом шаге
+- 'Consumes: s01; T-002 events B6; creative CR-API-04; plan §6.4.'
+delta:
+- 'Создание: apps/api/app/api/v1/endpoints/events.py'
+- 'Создание: apps/api/app/events/schemas.py'
+- 'Создание: apps/api/app/events/service.py'
+- 'Создание: apps/api/app/events/queries_events.py'
+- 'Модификация: apps/api/app/api/v1/api.py'
+- 'Создание: apps/api/tests/api/test_events.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: '`GET /api/events` с фильтрами и opaque keyset cursor; header `X-Events-Reconstruction`
-    при Q4 mode A. Формат cursor — CR-API-04.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/app/api/v1/endpoints/events.py, apps/api/app/events/schemas.py…'
+  verify: .venv/bin/pytest apps/api/tests/api/test_events.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_events.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_events.py -q
+- .venv/bin/pytest apps/api/tests/api/test_events.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

@@ -1,4 +1,4 @@
-schema: integ-implement/v1
+schema: epic-implement/v1
 step_id: e02
 plan_id: v1-portal
 title: e02 — Login roster tiles IMPLEMENT

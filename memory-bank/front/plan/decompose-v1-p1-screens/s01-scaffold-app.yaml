@@ -5,27 +5,55 @@ plan_id: v1-p1-screens
 title: Scaffold Next.js 15 + Vitest + Playwright + env
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: Поднять каркас `frontend/` (Next.js 15 App Router, React 19, TS strict, Vitest,
-  Playwright, env) без экранов и DS-компонентов.
+goal: Поднять каркас `frontend/` (Next.js 15 App Router, React 19, TS strict, Vitest, Playwright, env)
+  без экранов и DS-компонентов.
 context:
   consumes:
   - '**Consumes:** plan §1.3 Tech, §4.1 tree, §4.4 env; techContext frontend'
   - '**Produces:** runnable Next app + test runners; пустые route stubs optional'
   files:
-  - frontend/package.json` (Создание)
-  - frontend/next.config.ts` (Создание)
-  - frontend/tsconfig.json` (Создание)
-  - frontend/vitest.config.ts` (Создание)
-  - frontend/playwright.config.ts` (Создание)
-  - frontend/.env.example` (Создание) — NEXT_PUBLIC_API_URL, NEXT_PUBLIC_WS_URL, NEXT_PUBLIC_STALE_THRESHOLD_SEC
-  - frontend/src/app/layout.tsx` (Создание) — root shell placeholder
+  - frontend/package.json (Создание)
+  - frontend/next.config.ts (Создание)
+  - frontend/tsconfig.json (Создание)
+  - frontend/vitest.config.ts (Создание)
+  - frontend/playwright.config.ts (Создание)
+  - frontend/.env.example (Создание) — NEXT_PUBLIC_API_URL, NEXT_PUBLIC_WS_URL, NEXT_PUBLIC_STALE_THRESHOLD_SEC
+  - frontend/src/app/layout.tsx (Создание) — root shell placeholder
   - frontend/src/app/page.tsx` (Создание) — redirect stub `/login
-  - frontend/src/app/globals.css` (Создание)
-  - frontend/src/test/setup.ts` (Создание)
-  - frontend/src/test/smoke.test.ts` (Создание)
+  - frontend/src/app/globals.css (Создание)
+  - frontend/src/test/setup.ts (Создание)
+  - frontend/src/test/smoke.test.ts (Создание)
+  plan_refs:
+  - plan §1.3
+as_built:
+- 'Consumes: plan §1.3 Tech, §4.1 tree, §4.4 env; techContext frontend'
+delta:
+- 'Создание: frontend/package.json'
+- 'Создание: frontend/next.config.ts'
+- 'Создание: frontend/tsconfig.json'
+- 'Создание: frontend/vitest.config.ts'
+- 'Создание: frontend/playwright.config.ts'
+- 'Создание: frontend/.env.example'
+- 'Создание: frontend/src/app/layout.tsx'
+- 'Создание: frontend/src/app/page.tsx'
+- 'Создание: frontend/src/app/globals.css'
+- 'Создание: frontend/src/test/setup.ts'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: Поднять каркас `frontend/` (Next.js 15 App Router, React 19, TS strict,
-    Vitest, Playwright, env) без экранов и DS-компонентов.
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/package.json, frontend/next.config.ts…'
+  verify: cd frontend && npm exec vitest -- run vitest.config.ts
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/test/setup.ts
+verify:
+- cd frontend && npm exec vitest -- run vitest.config.ts
+- cd frontend && npm exec vitest -- run src/test/setup.ts
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

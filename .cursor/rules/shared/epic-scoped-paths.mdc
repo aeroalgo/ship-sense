@@ -26,10 +26,10 @@ alwaysApply: false
 |-------|----------|-----------|
 | PLAN | `plan/plan-<epic_id>.md` + `plan/decompose-<epic_id>/` | — (PLAN всегда с id) |
 | IMPLEMENT | `implement/implement-<epic_id>/` | `implement/<slug>/` или `implement/task-YYYYMMDD-<slug>.md` (без `implement-<epic>/`) |
-| REFACTOR | `refactor/plan/decompose-<epic_id>/` + execute `refactor/implement/implement-<epic_id>/rNN-*.md` | `refactor/session-YYYYMMDD-<slug>.md` (корень `refactor/`) |
-| SECURITY | `security/plan/decompose-<epic_id>/` + execute `security/implement/implement-<epic_id>/aNN-*.md` | `security/security-audit-YYYYMMDD-<slug>.md` (корень `security/`) |
+| REFACTOR | `refactor/plan/decompose-<epic_id>/` + execute `refactor/implement/implement-<epic_id>/rNN-*.yaml` | `refactor/session-YYYYMMDD-<slug>.md` (корень `refactor/`) |
+| SECURITY | `security/plan/decompose-<epic_id>/` + execute `security/implement/implement-<epic_id>/aNN-*.yaml` | `security/security-audit-YYYYMMDD-<slug>.md` (корень `security/`) |
 | CREATIVE | `creative/<epic_id>/creative-<feature>.md` | `creative/creative-<feature>.md` |
-| QA | `qa/<epic_id>/qa-YYYYMMDD-<slug>.md` | `qa/qa-YYYYMMDD-<slug>.md` |
+| QA | `qa/<epic_id>/qa-YYYYMMDD-<slug>.yaml` | `qa/qa-YYYYMMDD-<slug>.yaml` |
 | BUGFIX | `bugfix/<epic_id>/bugfix-YYYYMMDD-<slug>.md` | `bugfix/bugfix-YYYYMMDD-<slug>.md` |
 | GAP (INTEG) | `gap/<epic_id>/gap-YYYYMMDD-<slug>.md` | `gap/gap-YYYYMMDD-<slug>.md` |
 | GAP CLOSE (INTEG) | `gap/<epic_id>/close-YYYYMMDD-<slug>.md` | `gap/close-YYYYMMDD-<slug>.md` |
@@ -56,7 +56,7 @@ alwaysApply: false
 - `bugfix/<epic_id>/` (целиком)
 - `gap/<epic_id>/` (целиком; INTEG: gap-*.md + close-*.md)
 - Legacy flat-файлы с этим epic slug в имени, если ещё не в `<epic_id>/`:  
-  `qa/qa-*-<epic_id>*.md`, `bugfix/*<epic_id>*`, `creative/*`, `gap/gap-*` / `gap/close-*` явно связанные с эпиком — перенести **в** `archive/.../qa|bugfix|creative|gap/<epic_id>/`
+  `qa/qa-*-<epic_id>*.yaml`, `bugfix/*<epic_id>*`, `creative/*`, `gap/gap-*` / `gap/close-*` явно связанные с эпиком — перенести **в** `archive/.../qa|bugfix|creative|gap/<epic_id>/`
 
 ### Не переносить
 

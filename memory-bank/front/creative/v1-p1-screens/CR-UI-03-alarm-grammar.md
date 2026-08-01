@@ -2,7 +2,7 @@
 
 **Тип:** Architecture + UI-UX  
 **Задача:** T-004 / plan `plan-v1-p1-screens.md` §2.1, §3.1, §10 CR-UI-03  
-**Decompose:** [s06-ds-components.md](../../plan/decompose-v1-p1-screens/s06-ds-components.md)  
+**Decompose:** [s06-ds-components.yaml](../../plan/decompose-v1-p1-screens/s06-ds-components.yaml)  
 **Deps tokens:** [CR-UI-01-tokens.md](CR-UI-01-tokens.md) (`semantic-alarms.css`)  
 **Дата:** 2026-07-26  
 **Статус:** closed (creative) — IMPLEMENT s06 собирает `<Lamp />` + Storybook

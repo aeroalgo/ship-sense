@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Migrate epic shards *.md → *.yaml (BACK/FRONT sNN + INTEG eNN)."""
+"""One-shot (historical): migrate epic shards *.md → *.yaml (BACK/FRONT sNN + INTEG eNN)."""
 from __future__ import annotations
 
 import re
@@ -196,7 +196,7 @@ def migrate_tree(base: Path) -> int:
                 dec_md = dec / md.name if (dec / md.name).is_file() else None
                 dec_data = migrate_integ_decompose(dec_md) if dec_md else None
                 data = migrate_integ_implement(md, dec_data)
-            if data.get("schema") == "integ-decompose/v1":
+            if data.get("schema") in {"integ-decompose/v1", "epic-decompose/v1"}:
                 data["schema"] = SCHEMA_EPIC_DECOMPOSE
                 data.setdefault("role", "integ")
             if data.get("schema") == "epic-implement/v1":

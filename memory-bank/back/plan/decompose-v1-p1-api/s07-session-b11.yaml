@@ -5,26 +5,51 @@ plan_id: v1-p1-api
 title: Session B11 (roster + lifecycle → B6)
 next_phase: BACK IMPLEMENT
 needs_creative: no — **closed** (CR-API-03)
-goal: '`GET /api/watch/roster`, `POST /api/session`, `DELETE /api/session`: плитки
-  фамилий, cookie session, append-only `session_started`/`session_ended` в B6. Idle/max
-  TTL — CR-API-03.'
+goal: '`GET /api/watch/roster`, `POST /api/session`, `DELETE /api/session`: плитки фамилий, cookie session,
+  append-only `session_started`/`session_ended` в B6. Idle/max TTL — CR-API-03.'
 context:
   consumes:
-  - '**Consumes:** s01; events write path B6 (controlled); roster.yaml; creative CR-API-03;
-    plan §6.9–6.11, §12.'
+  - '**Consumes:** s01; events write path B6 (controlled); roster.yaml; creative CR-API-03; plan §6.9–6.11,
+    §12.'
   - '**Produces:** session feature + endpoints; in-memory SessionState.'
   files:
-  - apps/api/app/api/v1/endpoints/session.py` (Создание)
-  - apps/api/app/session/schemas.py` (Создание)
-  - apps/api/app/session/service.py` (Создание)
-  - apps/api/app/session/models.py` (Создание) — SessionState
-  - apps/api/app/api/v1/api.py` (Модификация)
-  - apps/api/tests/api/test_session.py` (Создание)
+  - apps/api/app/api/v1/endpoints/session.py (Создание)
+  - apps/api/app/session/schemas.py (Создание)
+  - apps/api/app/session/service.py (Создание)
+  - apps/api/app/session/models.py (Создание) — SessionState
+  - apps/api/app/api/v1/api.py (Модификация)
+  - apps/api/tests/api/test_session.py (Создание)
   - fixture `roster.yaml` (Создание/мод.)
+  plan_refs:
+  - CR-API-03
+  - plan §6.9
+as_built:
+- apps/api/app/api/v1/api.py — существует; правим в этом шаге
+- 'Consumes: s01; events write path B6 (controlled); roster.yaml; creative CR-API-03; plan §6.9–6.11,
+  §12.'
+delta:
+- 'Создание: apps/api/app/api/v1/endpoints/session.py'
+- 'Создание: apps/api/app/session/schemas.py'
+- 'Создание: apps/api/app/session/service.py'
+- 'Создание: apps/api/app/session/models.py'
+- 'Модификация: apps/api/app/api/v1/api.py'
+- 'Создание: apps/api/tests/api/test_session.py'
+- 'Создание: fixture roster.yaml'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: '`GET /api/watch/roster`, `POST /api/session`, `DELETE /api/session`:
-    плитки фамилий, cookie session, append-only `session_started`/`session_ended`
-    в B6. Idle/max TTL — CR-API-03.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/app/api/v1/endpoints/session.py, apps/api/app/session/schemas.py…'
+  verify: .venv/bin/pytest apps/api/tests/api/test_session.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_session.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_session.py -q
+- .venv/bin/pytest apps/api/tests/api/test_session.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

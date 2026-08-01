@@ -46,12 +46,12 @@
 
 | step_id | title & files | implement | needs_creative | tdd | next_phase | status |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| **r01** | [r01-scaffold-apps-api.md](r01-scaffold-apps-api.md)<br>• `apps/api` skill tree, pythonpath, health stub | [r01…](../../implement/implement-rf-fastapi-template-ownership/r01-scaffold-apps-api.md) | no | yes | BACK REFACTOR | done |
-| **r02** | [r02-move-canonical-models.md](r02-move-canonical-models.md)<br>• Quality/TelemetrySample/Event* → app.*; split Raw*/health; rewire | [r02…](../../implement/implement-rf-fastapi-template-ownership/r02-move-canonical-models.md) | no | yes | BACK REFACTOR | done |
-| **r03** | [r03-move-semantic.md](r03-move-semantic.md)<br>• `apps.edge.semantic` → `app.semantic`; delete old pkg | [r03…](../../implement/implement-rf-fastapi-template-ownership/r03-move-semantic.md) | no | yes | BACK REFACTOR | done |
-| **r04** | [r04-import-graph-audit.md](r04-import-graph-audit.md)<br>• audit tests + README domain ownership | [r04…](../../implement/implement-rf-fastapi-template-ownership/r04-import-graph-audit.md) | no | yes | BACK REFACTOR | done |
-| **r05** | [r05-amend-t003-plan-paths.md](r05-amend-t003-plan-paths.md)<br>• plan-v1-p1-api + decompose s01–s10 → `apps/api` | [r05…](../../implement/implement-rf-fastapi-template-ownership/r05-amend-t003-plan-paths.md) | no | no | BACK REFACTOR | done |
-| **r06** | [r06-migrations-stub-orm-policy.md](r06-migrations-stub-orm-policy.md)<br>• empty migrations stub; ORM остаётся storage | [r06…](../../implement/implement-rf-fastapi-template-ownership/r06-migrations-stub-orm-policy.md) | no | no | BACK REFACTOR | done |
+| **r01** | [r01-scaffold-apps-api.md](r01-scaffold-apps-api.md)<br>• `apps/api` skill tree, pythonpath, health stub | [r01…](../../implement/implement-rf-fastapi-template-ownership/r01-scaffold-apps-api.yaml) | no | yes | BACK REFACTOR | done |
+| **r02** | [r02-move-canonical-models.md](r02-move-canonical-models.md)<br>• Quality/TelemetrySample/Event* → app.*; split Raw*/health; rewire | [r02…](../../implement/implement-rf-fastapi-template-ownership/r02-move-canonical-models.yaml) | no | yes | BACK REFACTOR | done |
+| **r03** | [r03-move-semantic.md](r03-move-semantic.md)<br>• `apps.edge.semantic` → `app.semantic`; delete old pkg | [r03…](../../implement/implement-rf-fastapi-template-ownership/r03-move-semantic.yaml) | no | yes | BACK REFACTOR | done |
+| **r04** | [r04-import-graph-audit.md](r04-import-graph-audit.md)<br>• audit tests + README domain ownership | [r04…](../../implement/implement-rf-fastapi-template-ownership/r04-import-graph-audit.yaml) | no | yes | BACK REFACTOR | done |
+| **r05** | [r05-amend-t003-plan-paths.md](r05-amend-t003-plan-paths.md)<br>• plan-v1-p1-api + decompose s01–s10 → `apps/api` | [r05…](../../implement/implement-rf-fastapi-template-ownership/r05-amend-t003-plan-paths.yaml) | no | no | BACK REFACTOR | done |
+| **r06** | [r06-migrations-stub-orm-policy.md](r06-migrations-stub-orm-policy.md)<br>• empty migrations stub; ORM остаётся storage | [r06…](../../implement/implement-rf-fastapi-template-ownership/r06-migrations-stub-orm-policy.yaml) | no | no | BACK REFACTOR | done |
 
 Статусы: `pending` | `active` | `done` | `blocked` | `needs_creative`
 

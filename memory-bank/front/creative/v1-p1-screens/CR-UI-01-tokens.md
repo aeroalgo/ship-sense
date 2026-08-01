@@ -2,7 +2,7 @@
 
 **Тип:** Architecture + UI-UX  
 **Задача:** T-004 / plan `plan-v1-p1-screens.md` §2.2–2.5, §10 CR-UI-01  
-**Decompose:** [s02-tokens-themes.md](../../plan/decompose-v1-p1-screens/s02-tokens-themes.md)  
+**Decompose:** [s02-tokens-themes.yaml](../../plan/decompose-v1-p1-screens/s02-tokens-themes.yaml)  
 **Дата:** 2026-07-26  
 **Статус:** closed (creative) — IMPLEMENT s02 подключает provider/switchers
 

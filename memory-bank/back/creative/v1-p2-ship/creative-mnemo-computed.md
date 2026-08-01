@@ -3,7 +3,7 @@
 **Creative ID:** CR-P2-05  
 **Plan:** [plan-v1-p2-ship.md](../../plan/plan-v1-p2-ship.md)  
 **Decompose:** [decompose-v1-p2-ship/index.md](../../plan/decompose-v1-p2-ship/index.md)  
-**Зависимые шаги:** [s08-mnemo-bindings-loader.md](../../plan/decompose-v1-p2-ship/s08-mnemo-bindings-loader.md), [s09-api-mnemo-endpoints.md](../../plan/decompose-v1-p2-ship/s09-api-mnemo-endpoints.md)  
+**Зависимые шаги:** [s08-mnemo-bindings-loader.yaml](../../plan/decompose-v1-p2-ship/s08-mnemo-bindings-loader.yaml), [s09-api-mnemo-endpoints.yaml](../../plan/decompose-v1-p2-ship/s09-api-mnemo-endpoints.yaml)  
 **Дата:** 2026-07-31  
 **Режим:** BACK CREATIVE  
 **Уровень:** L4  
@@ -56,7 +56,7 @@ Deletion test: отдельный универсальный `BindingRegistryFac
 ## Component 1 — typed binding model и YAML validation
 
 🎨🎨🎨 ENTERING CREATIVE PHASE: Architecture
-**Decompose step:** [s08-mnemo-bindings-loader.md](../../plan/decompose-v1-p2-ship/s08-mnemo-bindings-loader.md)  
+**Decompose step:** [s08-mnemo-bindings-loader.yaml](../../plan/decompose-v1-p2-ship/s08-mnemo-bindings-loader.yaml)  
 **Компонент:** typed model для `schema`, `element`, `value|enum|computed` binding и `computed_bindings`  
 **Требования и ограничения:** additive API, `extra="forbid"` для policy keys, invalid YAML — явная ошибка до worker/API start, `tag_id` обязателен для value/enum, computed может не иметь собственного tag.
 

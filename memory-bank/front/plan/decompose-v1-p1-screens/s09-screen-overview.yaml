@@ -5,23 +5,56 @@ plan_id: v1-p1-screens
 title: Screen 1 Overview
 next_phase: FRONT IMPLEMENT
 needs_creative: soft CR-UI-05 — **closed** | **tdd:** yes
-goal: 'Экран Обзор: AggregateShipStatus + группы нос/корма + WS values + quarantine/stale
-  states + drill stub T-006.'
+goal: 'Экран Обзор: AggregateShipStatus + группы нос/корма + WS values + quarantine/stale states + drill
+  stub T-006.'
 context:
   consumes:
   - '**Consumes:** s03 rollup, s04–s07, s06 DS cards; [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md)
     density floor'
   - '**Produces:** features/overview/*'
   files:
-  - frontend/src/features/overview/OverviewPage.tsx` (Создание)
-  - frontend/src/features/overview/useAssetsTree.ts` (Создание)
-  - frontend/src/features/overview/useOverviewRealtime.ts` (Создание)
-  - frontend/src/features/overview/DrillDownStubModal.tsx` (Создание)
-  - frontend/src/app/(authenticated)/overview/page.tsx` (Модификация)
-  - frontend/src/features/overview/OverviewPage.test.tsx` (Создание)
+  - frontend/src/features/overview/OverviewPage.tsx (Создание)
+  - frontend/src/features/overview/useAssetsTree.ts (Создание)
+  - frontend/src/features/overview/useOverviewRealtime.ts (Создание)
+  - frontend/src/features/overview/DrillDownStubModal.tsx (Создание)
+  - frontend/src/app/(authenticated)/overview/page.tsx (Модификация)
+  - frontend/src/features/overview/OverviewPage.test.tsx (Создание)
+  plan_refs:
+  - CR-UI-05-post-density
+as_built:
+- frontend/src/app/(authenticated)/overview/page.tsx — существует; правим в этом шаге
+- 'Consumes: s03 rollup, s04–s07, s06 DS cards; [CR-UI-05-post-density.md](../../creative/v1-p1-screens/CR-UI-05-post-density.md)
+  density floor'
+delta:
+- 'Создание: frontend/src/features/overview/OverviewPage.tsx'
+- 'Создание: frontend/src/features/overview/useAssetsTree.ts'
+- 'Создание: frontend/src/features/overview/useOverviewRealtime.ts'
+- 'Создание: frontend/src/features/overview/DrillDownStubModal.tsx'
+- 'Модификация: frontend/src/app/(authenticated)/overview/page.tsx'
+- 'Создание: frontend/src/features/overview/OverviewPage.test.tsx'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
+- INTEG eNN wire (live contract) — FRONT only UI/MSW path
+- Full Playwright suite → s16
 checkpoints:
 - id: cp1
-  criterion: 'Экран Обзор: AggregateShipStatus + группы нос/корма + WS values + quarantine/stale
-    states + drill stub T-006.'
-verify: []
-tdd: []
+  criterion: 'Overview layout: AggregateShipStatus + нос/корма groups'
+  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+- id: cp2
+  criterion: WS values bind to lamps/cards
+  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+- id: cp3
+  criterion: quarantine/stale states visible (not masked OK)
+  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+- id: cp4
+  criterion: Drill stub T-006 opens
+  verify: cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+verify:
+- cd frontend && npm exec vitest -- run src/features/overview/OverviewPage.test.tsx
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

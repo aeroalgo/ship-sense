@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-shot: migrate INTEG decompose/implement eNN *.md → *.yaml (v1-portal+)."""
+"""One-shot (historical): migrate INTEG decompose/implement eNN *.md → *.yaml."""
 from __future__ import annotations
 
 import re
@@ -138,7 +138,7 @@ def migrate_decompose(md_path: Path) -> dict[str, Any]:
     data_need = _bullets(data_block) or (data_block.strip() or None)
 
     return {
-        "schema": "integ-decompose/v1",
+        "schema": "epic-decompose/v1",
         "step_id": step_id,
         "plan_id": _meta(text, "Plan ID") or "unknown",
         "title": title,

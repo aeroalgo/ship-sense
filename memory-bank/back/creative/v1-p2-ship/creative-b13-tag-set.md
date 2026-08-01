@@ -3,7 +3,7 @@
 **Creative ID:** CR-P2-08  
 **Plan:** [plan-v1-p2-ship.md](../../plan/plan-v1-p2-ship.md)  
 **Decompose:** [decompose-v1-p2-ship/index.md](../../plan/decompose-v1-p2-ship/index.md)  
-**Зависимые шаги:** [s06-b13-drift-engine.md](../../plan/decompose-v1-p2-ship/s06-b13-drift-engine.md), [s07-b13-warnings-api.md](../../plan/decompose-v1-p2-ship/s07-b13-warnings-api.md)  
+**Зависимые шаги:** [s06-b13-drift-engine.yaml](../../plan/decompose-v1-p2-ship/s06-b13-drift-engine.yaml), [s07-b13-warnings-api.yaml](../../plan/decompose-v1-p2-ship/s07-b13-warnings-api.yaml)  
 **Дата:** 2026-07-31  
 **Режим:** BACK CREATIVE  
 **Уровень:** L4  

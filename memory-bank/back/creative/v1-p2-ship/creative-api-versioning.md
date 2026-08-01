@@ -2,8 +2,8 @@
 
 **Creative ID:** CR-P2-11  
 **Plan:** [plan-v1-p2-ship.md](../../plan/plan-v1-p2-ship.md)  
-**Decompose:** [s20-integration-hard.md](../../plan/decompose-v1-p2-ship/s20-integration-hard.md)  
-**Зависимый шаг:** [s20-integration-hard.md](../../plan/decompose-v1-p2-ship/s20-integration-hard.md)  
+**Decompose:** [s20-integration-hard.yaml](../../plan/decompose-v1-p2-ship/s20-integration-hard.yaml)  
+**Зависимый шаг:** [s20-integration-hard.yaml](../../plan/decompose-v1-p2-ship/s20-integration-hard.yaml)  
 **Дата:** 2026-08-01  
 **Режим:** BACK CREATIVE  
 **Уровень:** L4  
@@ -64,7 +64,7 @@ s20 закрывает последний технический шов v1-p2: e
 ## Component A — HTTP namespace и правило совместимости
 
 🎨🎨🎨 ENTERING CREATIVE PHASE: ARCHITECTURE  
-**Decompose step:** [s20-integration-hard.md](../../plan/decompose-v1-p2-ship/s20-integration-hard.md)  
+**Decompose step:** [s20-integration-hard.yaml](../../plan/decompose-v1-p2-ship/s20-integration-hard.yaml)  
 **Компонент:** HTTP API namespace/version policy  
 **Требования и ограничения:** существующий app монтирует router под `settings.API_V1_STR == /api`; plan прямо требует phase-2 additive `/api` и reserve `/api/v2` only if breaking.
 
@@ -413,7 +413,7 @@ s20 остаётся одним BACK IMPLEMENT шагом, но внутри н�
 ## Handoff
 
 - **Done:** BACK CREATIVE CR-P2-11 — API namespace/version policy, typed compatibility, WS reconnect contract, emulator seam, T7/T10 acceptance matrix.
-- **Artifact:** [creative-api-versioning.md](creative-api-versioning.md); rewired [s20-integration-hard.md](../../plan/decompose-v1-p2-ship/s20-integration-hard.md) и [decompose index](../../plan/decompose-v1-p2-ship/index.md).
+- **Artifact:** [creative-api-versioning.md](creative-api-versioning.md); rewired [s20-integration-hard.yaml](../../plan/decompose-v1-p2-ship/s20-integration-hard.yaml) и [decompose index](../../plan/decompose-v1-p2-ship/index.md).
 - **Next:** `BACK IMPLEMENT @s20`.
 - **code_changed:** no.
 - **New chat:** yes — один чат = один atomic subtask.

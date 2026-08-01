@@ -5,25 +5,46 @@ plan_id: v1-p1-api
 title: Health, sources/status, rate limits
 next_phase: BACK IMPLEMENT
 needs_creative: 'no'
-goal: Полный `GET /api/health` и `GET /api/sources/status` + in-memory rate limit
-  middleware (plan §10). Health stub r01 → production shape §6.12–6.13.
+goal: Полный `GET /api/health` и `GET /api/sources/status` + in-memory rate limit middleware (plan §10).
+  Health stub r01 → production shape §6.12–6.13.
 context:
   consumes:
-  - '**Consumes:** s01; collector health snapshots; LatestValueCache/WS connection
-    counts; plan §6.12–6.13, §10.'
+  - '**Consumes:** s01; collector health snapshots; LatestValueCache/WS connection counts; plan §6.12–6.13,
+    §10.'
   - '**Produces:** health service full; sources status; rate_limit middleware + 429.'
   files:
-  - apps/api/app/api/v1/endpoints/health.py` (Модификация) — health + sources/status
-  - apps/api/app/health/schemas.py` (Создание)
-  - apps/api/app/health/service.py` (Создание)
-  - apps/api/app/core/middleware.py` (Модификация) — rate limit sliding window **или**
-    `app/core/rate_limit.py
-  - apps/api/app/main.py` (Модификация) — wire middleware
-  - apps/api/tests/api/test_health.py` (Создание/мод.)
-  - apps/api/tests/api/test_rate_limit.py` (Создание)
+  - apps/api/app/api/v1/endpoints/health.py (Модификация) — health + sources/status
+  - apps/api/app/health/schemas.py (Создание)
+  - apps/api/app/health/service.py (Создание)
+  - apps/api/app/core/middleware.py` (Модификация) — rate limit sliding window **или** `app/core/rate_limit.py
+  - apps/api/app/main.py (Модификация) — wire middleware
+  - apps/api/tests/api/test_health.py (Создание/мод.)
+  - apps/api/tests/api/test_rate_limit.py (Создание)
+  plan_refs:
+  - plan §6.12
+as_built:
+- health endpoint stub from scaffold/r01 — расширяем до production shape
+- 'Consumes: s01; collector health snapshots; LatestValueCache/WS counts; plan §6.12–6.13, §10'
+delta:
+- health schemas + service full
+- sources/status aggregator fields
+- rate_limit middleware wire in main
+- 'tests: test_health.py + test_rate_limit.py'
+out_of_scope:
+- OpenAPI I1 suite → s10
+- FRONT FreshnessController wire → INTEG e06
+- Полный pytest suite → BACK QA
 checkpoints:
 - id: cp1
-  criterion: Полный `GET /api/health` и `GET /api/sources/status` + in-memory rate
-    limit middleware (plan §10). Health stub r01 → production shape §6.12–6.13.
-verify: []
-tdd: []
+  criterion: GET /api/health + GET /api/sources/status production shape
+  verify: .venv/bin/pytest apps/api/tests/api/test_health.py -q
+- id: cp2
+  criterion: in-memory rate limit middleware returns 429
+  verify: .venv/bin/pytest apps/api/tests/api/test_rate_limit.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_health.py -q
+- .venv/bin/pytest apps/api/tests/api/test_rate_limit.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

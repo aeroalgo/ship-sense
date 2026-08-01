@@ -1,9 +1,11 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e27
 plan_id: v1-portal
 title: Vessel state
 element_id: e27
 next_phase: INTEG IMPLEMENT
+goal: (future) mode ANCHORAGE/STEAMING/… with TTL
 ui:
   route: '** none (ops/mode chip future)'
   components: '** (future) vessel mode chip (read-only first)'
@@ -27,6 +29,20 @@ back:
 front:
 - no UI yet
 - OTA gate depends on vessel mode (admin) — crew UI may be read-only chip first
+as_built:
+- 'API live: GET /api/vessel/state`, `POST /api/vessel/state/override'
+- 'BACK: already live (T-005 s11)'
+- 'UI seams: (future) vessel mode chip (read-only first)'
+delta:
+- 'Довести client/fixture: FRONT ❌'
+- 'BACK caveat: OTA gate depends on vessel mode (admin) — crew UI may be read-only chip first'
+- 'BACK caveat: Permission matrix B11 for override'
+- 'FRONT: no UI yet'
+- 'FRONT: OTA gate depends on vessel mode (admin) — crew UI may be read-only chip first'
+- 'Data need: mode ANCHORAGE/STEAMING/…; override with TTL (permissioned)'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: GET /api/vessel/state
   front: (future client)
@@ -43,7 +59,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Read-only chip shows current mode
+  verify: grep -r "/api/vessel/state" frontend/src api/
 - id: cp2
   criterion: Override (admin only) → clear error if denied
+  verify: §0.11 after client
 - id: cp3
   criterion: OTA respects vessel mode gate
+  verify: role-denied override → clear error (no silent fail)

@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e16
 plan_id: v1-portal
 title: Trends series / aggregate chart
 element_id: e16
 next_phase: INTEG IMPLEMENT
+goal: line/area chart for single tag or aggregate (multi-tag + fn)
 ui:
-  route: '** `/trends'
+  route: '** /trends'
   components: '** `TrendChartContainer`, `useSeries`, uPlot adapter'
   user_sees: '** line/area chart for single tag or aggregate (multi-tag + fn)'
 data_need:
@@ -20,8 +22,8 @@ api_today:
   detail: 'FRONT: `lib/api/series.ts`'
 contract:
   method_path: '** `GET /api/series/aggregate?tags=&tags=&from=&to=&resolution=&fn=avg|min|max|last`'
-  response_shape: '** `SeriesAggregateResponse { from, to, resolution, series: [{
-    tag_id, unit, points }] }`'
+  response_shape: '** `SeriesAggregateResponse { from, to, resolution, series: [{ tag_id, unit, points
+    }] }`'
   front_client: '** `lib/api/series.ts` → `fetchSeries`, `fetchSeriesAggregate`'
 db: '- Timescale downsample (series endpoint)'
 back:
@@ -32,6 +34,23 @@ back:
 front:
 - '`TrendChartContainer` + `useSeries` already wired (FRONT s11–s12)'
 - MSW must support multi-tag + fn for E2E
+as_built:
+- 'API live: both endpoints'
+- 'BACK: already live (T-003 s03)'
+- 'FRONT: TrendChartContainer` + `useSeries already wired (FRONT s11–s12)'
+- 'UI seams: `TrendChartContainer`, `useSeries`, uPlot adapter'
+delta:
+- 'Исправить/заменить mock: MSW series fixtures'
+- 'Довести client/fixture: FRONT: lib/api/series.ts'
+- 'BACK caveat: buildQueryString array → repeated keys must match FastAPI list parsing'
+- 'BACK caveat: Downsample resolution vocabulary front presets ↔ BACK auto'
+- 'BACK caveat: Null gaps / quality coloring per product invariant'
+- 'FRONT: MSW must support multi-tag + fn for E2E'
+- 'Data need: single: /api/series?tag&from&to&resolution'
+- 'Data need: multi: /api/series/aggregate?tags[]&from&to&resolution&fn'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: GET /api/series
   front: fetchSeries
@@ -50,7 +69,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Select tag → chart renders series
+  verify: grep -r "/api/series" frontend/src api/
 - id: cp2
   criterion: Multi-select + fn → aggregate chart
+  verify: §0.11 series pairs
 - id: cp3
   criterion: Range change → refetch with new params
+  verify: vitest TrendsPage / useSeries

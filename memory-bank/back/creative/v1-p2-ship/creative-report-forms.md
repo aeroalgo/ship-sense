@@ -3,7 +3,7 @@
 **Creative ID:** CR-P2-07  
 **Plan:** [plan-v1-p2-ship.md](../../plan/plan-v1-p2-ship.md)  
 **Decompose:** [decompose-v1-p2-ship/index.md](../../plan/decompose-v1-p2-ship/index.md)  
-**Step:** [s04-b12-templates.md](../../plan/decompose-v1-p2-ship/s04-b12-templates.md)  
+**Step:** [s04-b12-templates.yaml](../../plan/decompose-v1-p2-ship/s04-b12-templates.yaml)  
 **Дата:** 2026-07-31  
 **Режим:** BACK CREATIVE  
 **Уровень:** L3/L4  

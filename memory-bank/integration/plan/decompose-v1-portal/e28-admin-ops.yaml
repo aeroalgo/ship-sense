@@ -1,21 +1,22 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e28
 plan_id: v1-portal
 title: Admin ops (storage / OTA / audit)
 element_id: e28
 next_phase: INTEG IMPLEMENT
+goal: (future) storage health, OTA status/approve/trigger, access audit list
 ui:
   route: '** none in crew portal; possible `/admin` later'
   components: '** (future) admin panels (role-gated)'
-  user_sees: '** (future) storage health, OTA status/approve/trigger, access audit
-    list'
+  user_sees: '** (future) storage health, OTA status/approve/trigger, access audit list'
 data_need:
 - storage health, OTA status/approve/trigger, access audit list
 api_today:
 - status: ✅
   detail: '`GET /api/admin/storage`'
 - status: ✅
-  detail: '`GET/POST /api/admin/ota/status'
+  detail: GET/POST /api/admin/ota/status
 - status: ✅
   detail: '`GET /api/admin/access/audit?limit&offset`'
 - status: —
@@ -32,6 +33,22 @@ back:
 front:
 - no UI yet (crew portal)
 - No accidental public fetch from crew screens
+as_built:
+- 'API live: GET /api/admin/storage'
+- 'API live: GET/POST /api/admin/ota/status'
+- 'API live: GET /api/admin/access/audit?limit&offset'
+- 'BACK: already live (T-005 s14/s16)'
+- 'UI seams: (future) admin panels (role-gated)'
+delta:
+- 'Довести client/fixture: FRONT ❌'
+- 'BACK caveat: Out of P0 crew journeys; P2 section portal or separate ops app'
+- 'BACK caveat: If in scope: new routes under authenticated admin role only'
+- 'FRONT: no UI yet (crew portal)'
+- 'FRONT: No accidental public fetch from crew screens'
+- 'Data need: storage health, OTA status/approve/trigger, access audit list'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: GET/POST /api/admin/*
   front: (future client, role-gated)
@@ -46,7 +63,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Admin routes role-gated (Permission.*)
+  verify: grep -r "/api/admin" frontend/src api/
 - id: cp2
   criterion: No crew screen accidentally calls admin API
+  verify: pytest admin authz
 - id: cp3
   criterion: Audit list paginates
+  verify: no accidental public fetch from crew screens

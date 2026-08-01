@@ -1,0 +1,25 @@
+schema: epic-refactor/v1
+role: back
+step_id: r01
+plan_id: rf-fastapi-template-ownership
+title: BACK REFACTOR — r01 scaffold apps/api
+status: completed
+date: '2026-07-30'
+behavior_freeze: IPC wire, Quality/EventSeverity values, DB ORM schema и семантика коннекторов не затрагивались.
+decompose_ref: memory-bank/back/refactor/plan/decompose-rf-fastapi-template-ownership/r01-scaffold-apps-api.md
+done:
+- Создан пакет apps/api/app по FastAPI template layout.
+- create_app(), /api router, stub GET /api/health.
+- pyproject pythonpath/testpaths включают apps/api.
+files:
+- apps/api/app/main.py
+- apps/api/app/core/
+- apps/api/tests/api/test_health_stub.py
+- pyproject.toml
+tests:
+- '`.venv/bin/pytest apps/api/tests -q --tb=line` → 1 passed'
+checkpoints:
+- id: cp1
+  criterion: refactor AC + behavior freeze
+  status: done
+  done_at: '2026-07-30'

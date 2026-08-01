@@ -1,9 +1,11 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e05
 plan_id: v1-portal
 title: StatusBar alarms
 element_id: e05
 next_phase: INTEG IMPLEMENT
+goal: alarm/warning chips in top bar; click → /journal?asset_id=&from=
 ui:
   route: '** `(auth)/*` (inside `AppShell`)'
   components: '** DS `StatusBar` in `AppShell`; hook `features/shell/useStatusBarAlarms.ts`'
@@ -32,8 +34,24 @@ back:
 front:
 - '`useStatusBarAlarms` already wired (FRONT s07)'
 - Deep-link query keys must match journal filters (`asset_id`, `from`)
+as_built:
+- 'API live: REST `GET /api/events` (bootstrap query in hook)'
+- 'API live: WS `/api/stream` subscribe events'
+- 'BACK: already live (T-003 s04/s06)'
+- 'FRONT: useStatusBarAlarms already wired (FRONT s07)'
+- 'UI seams: DS `StatusBar` in `AppShell`; hook features/shell/useStatusBarAlarms.ts'
+delta:
+- 'Исправить/заменить mock: MSW covers REST events only (не WS)'
+- 'BACK caveat: severity filter must match BACK enum (`info|warning|alarm`)'
+- 'FRONT: Deep-link query keys must match journal filters (`asset_id`, `from`)'
+- 'Data need: bootstrap: recent alarm/warning events'
+- 'Data need: live: WS events channel updates'
+- 'Data need: click → /journal?asset_id=&from='
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
-- back: GET /api/events` + WS events
+- back: GET /api/events + WS events
   front: fetchEvents` + `useWsChannel
 verify:
 - '`grep -r "/api/events\|/api/stream" frontend/src api/`'
@@ -46,7 +64,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: StatusBar shows recent alarms/warnings
+  verify: grep -r "/api/events\|/api/stream" frontend/src api/
 - id: cp2
   criterion: Click → journal with filter applied
+  verify: 'vitest: StatusBar.alarms.test.tsx'
 - id: cp3
   criterion: Live WS appends new alarm
+  verify: 'Playwright: alarm chip → journal filtered'

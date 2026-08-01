@@ -113,7 +113,7 @@ RESULT:
 - path: loop/runtime/epic/result.yaml
 - expect: status=ok ↔ VERIFY green; FAIL verify ⇒ нельзя status=ok
 - note: parent: Write implement step → finalize result ДО spawn (не pending/draft; artifact существует); verify только читает
-ALLOW READ: apps/edge/storage/time_axis.py, tests/storage/test_time_axis.py, apps/edge/storage/events_repo.py, loop/runtime/epic/result.yaml, memory-bank/back/implement/implement-<plan>/sNN-<slug>.md
+ALLOW READ: apps/edge/storage/time_axis.py, tests/storage/test_time_axis.py, apps/edge/storage/events_repo.py, loop/runtime/epic/result.yaml, memory-bank/back/implement/implement-<plan>/sNN-<slug>.yaml
 FORBID: edit/write; role-command; plan.
 Отчёт: VERDICT PASS|FAIL. На русском.
 ```
@@ -132,7 +132,7 @@ AC−:
 - не объявлять full suite green если не завершён
 §0.11:
 - DATABASE_URL ↔ docker-compose.yml
-ALLOW READ: apps/edge/storage/writer.py, tests/storage/test_storage_contracts.py, pyproject.toml, docker-compose.yml, memory-bank/back/qa/qa-YYYYMMDD-slug.md
+ALLOW READ: apps/edge/storage/writer.py, tests/storage/test_storage_contracts.py, pyproject.toml, docker-compose.yml, memory-bank/back/qa/<epic>/qa-YYYYMMDD-<slug>.yaml
 FORBID: edit/write; pytest; .cursor/rules/**; Plan Mode / plan-файлы.
 Отчёт: VERDICT PASS|BLOCKED|FAIL. На русском.
 ```

@@ -47,22 +47,22 @@
 
 | step_id | title & files | implement | needs_creative | tdd | next_phase | status |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| **s01** | [s01-scaffold-app.md](s01-scaffold-app.md)<br>• Next.js 15 + Vitest + Playwright + env | [s01](../../implement/implement-v1-p1-screens/s01-scaffold-app.md) | no | yes | FRONT IMPLEMENT | done |
-| **s02** | [s02-tokens-themes.md](s02-tokens-themes.md)<br>• Theme/Design providers + switchers (tokens CSS уже от CR-UI-01) | [s02](../../implement/implement-v1-p1-screens/s02-tokens-themes.md) | yes (done) | yes | FRONT IMPLEMENT | done |
-| **s03** | [s03-quality-lib.md](s03-quality-lib.md)<br>• worst-of rollup + event priority sort | [s03](../../implement/implement-v1-p1-screens/s03-quality-lib.md) | no | yes | FRONT IMPLEMENT | done |
-| **s04** | [s04-api-client.md](s04-api-client.md)<br>• OpenAPI types + REST wrappers + MSW fixtures | [s04](../../implement/implement-v1-p1-screens/s04-api-client.md) | no | yes | FRONT IMPLEMENT | done |
-| **s05** | [s05-ws-manager.md](s05-ws-manager.md)<br>• WS subscribe/resume/reconnect + channel mux | [s05](../../implement/implement-v1-p1-screens/s05-ws-manager.md) | no | yes | FRONT IMPLEMENT | done |
-| **s06** | [s06-ds-components.md](s06-ds-components.md)<br>• DS0-4: Lamp..PrintLayout + Storybook scaffold | [s06](../../implement/implement-v1-p1-screens/s06-ds-components.md) | yes (done) | yes | FRONT IMPLEMENT | done |
-| **s07** | [s07-shell-statusbar.md](s07-shell-statusbar.md)<br>• App shell layout + StatusBar + nav + banners wire | [s07](../../implement/implement-v1-p1-screens/s07-shell-statusbar.md) | no | yes | FRONT IMPLEMENT | done |
-| **s08** | [s08-session-tiles.md](s08-session-tiles.md)<br>• /login roster tiles + POST/DELETE session | [s08](../../implement/implement-v1-p1-screens/s08-session-tiles.md) | no | yes | FRONT IMPLEMENT | done |
-| **s09** | [s09-screen-overview.md](s09-screen-overview.md)<br>• Screen 1 Overview + tree + WS values + stub drill | [s09](../../implement/implement-v1-p1-screens/s09-screen-overview.md) | no | yes | FRONT IMPLEMENT | done |
-| **s10** | [s10-screen-journal.md](s10-screen-journal.md)<br>• Screen 5 filters + virtual list + print + deep link | [s10](../../implement/implement-v1-p1-screens/s10-screen-journal.md) | no | yes | FRONT IMPLEMENT | done |
-| **s11** | [s11-chart-wrapper.md](s11-chart-wrapper.md)<br>• TrendChartContainer (uPlot / CR-UI-02) | [s11](../../implement/implement-v1-p1-screens/s11-chart-wrapper.md) | yes (done) | yes | FRONT IMPLEMENT | done |
-| **s12** | [s12-screen-trends.md](s12-screen-trends.md)<br>• Screen 8 modes + deep link + markers + setpoints | [s12](../../implement/implement-v1-p1-screens/s12-screen-trends.md) | no | yes | FRONT IMPLEMENT | done |
-| **s13** | [s13-screen-watch.md](s13-screen-watch.md)<br>• Screen 6 prototype sections + print | [s13](../../implement/implement-v1-p1-screens/s13-screen-watch.md) | yes (done) | yes | FRONT IMPLEMENT | done |
-| **s14** | [s14-handoff-flow.md](s14-handoff-flow.md)<br>• Пересменочный UX 6→5/1 | [s14](../../implement/implement-v1-p1-screens/s14-handoff-flow.md) | no | yes | FRONT IMPLEMENT | done |
-| **s15** | [s15-quality-global.md](s15-quality-global.md)<br>• Global stale desaturate + quarantine banners | [s15](../../implement/implement-v1-p1-screens/s15-quality-global.md) | no | yes | FRONT IMPLEMENT | done |
-| **s16** | [s16-e2e-suite.md](s16-e2e-suite.md)<br>• Playwright PW-01..PW-10 | [s16](../../implement/implement-v1-p1-screens/s16-e2e-suite.md) | no | yes | FRONT IMPLEMENT | done |
+| **s01** | [s01-scaffold-app.yaml](s01-scaffold-app.yaml)<br>• Next.js 15 + Vitest + Playwright + env | [s01](../../implement/implement-v1-p1-screens/s01-scaffold-app.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s02** | [s02-tokens-themes.yaml](s02-tokens-themes.yaml)<br>• Theme/Design providers + switchers (tokens CSS уже от CR-UI-01) | [s02](../../implement/implement-v1-p1-screens/s02-tokens-themes.yaml) | yes (done) | yes | FRONT IMPLEMENT | done |
+| **s03** | [s03-quality-lib.yaml](s03-quality-lib.yaml)<br>• worst-of rollup + event priority sort | [s03](../../implement/implement-v1-p1-screens/s03-quality-lib.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s04** | [s04-api-client.yaml](s04-api-client.yaml)<br>• OpenAPI types + REST wrappers + MSW fixtures | [s04](../../implement/implement-v1-p1-screens/s04-api-client.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s05** | [s05-ws-manager.yaml](s05-ws-manager.yaml)<br>• WS subscribe/resume/reconnect + channel mux | [s05](../../implement/implement-v1-p1-screens/s05-ws-manager.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s06** | [s06-ds-components.yaml](s06-ds-components.yaml)<br>• DS0-4: Lamp..PrintLayout + Storybook scaffold | [s06](../../implement/implement-v1-p1-screens/s06-ds-components.yaml) | yes (done) | yes | FRONT IMPLEMENT | done |
+| **s07** | [s07-shell-statusbar.yaml](s07-shell-statusbar.yaml)<br>• App shell layout + StatusBar + nav + banners wire | [s07](../../implement/implement-v1-p1-screens/s07-shell-statusbar.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s08** | [s08-session-tiles.yaml](s08-session-tiles.yaml)<br>• /login roster tiles + POST/DELETE session | [s08](../../implement/implement-v1-p1-screens/s08-session-tiles.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s09** | [s09-screen-overview.yaml](s09-screen-overview.yaml)<br>• Screen 1 Overview + tree + WS values + stub drill | [s09](../../implement/implement-v1-p1-screens/s09-screen-overview.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s10** | [s10-screen-journal.yaml](s10-screen-journal.yaml)<br>• Screen 5 filters + virtual list + print + deep link | [s10](../../implement/implement-v1-p1-screens/s10-screen-journal.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s11** | [s11-chart-wrapper.yaml](s11-chart-wrapper.yaml)<br>• TrendChartContainer (uPlot / CR-UI-02) | [s11](../../implement/implement-v1-p1-screens/s11-chart-wrapper.yaml) | yes (done) | yes | FRONT IMPLEMENT | done |
+| **s12** | [s12-screen-trends.yaml](s12-screen-trends.yaml)<br>• Screen 8 modes + deep link + markers + setpoints | [s12](../../implement/implement-v1-p1-screens/s12-screen-trends.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s13** | [s13-screen-watch.yaml](s13-screen-watch.yaml)<br>• Screen 6 prototype sections + print | [s13](../../implement/implement-v1-p1-screens/s13-screen-watch.yaml) | yes (done) | yes | FRONT IMPLEMENT | done |
+| **s14** | [s14-handoff-flow.yaml](s14-handoff-flow.yaml)<br>• Пересменочный UX 6→5/1 | [s14](../../implement/implement-v1-p1-screens/s14-handoff-flow.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s15** | [s15-quality-global.yaml](s15-quality-global.yaml)<br>• Global stale desaturate + quarantine banners | [s15](../../implement/implement-v1-p1-screens/s15-quality-global.yaml) | no | yes | FRONT IMPLEMENT | done |
+| **s16** | [s16-e2e-suite.yaml](s16-e2e-suite.yaml)<br>• Playwright PW-01..PW-10 | [s16](../../implement/implement-v1-p1-screens/s16-e2e-suite.yaml) | no | yes | FRONT IMPLEMENT | done |
 
 Статусы: `pending` | `active` | `done` | `blocked` | `needs_creative`
 

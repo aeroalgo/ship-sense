@@ -13,8 +13,8 @@ alwaysApply: false
 
 | Связь с эпиком | Куда писать итог execute | FORBIDDEN |
 |----------------|--------------------------|-----------|
-| **Есть эпик** (`decompose-<id>/`, `implement-<id>/`, `plan-<id>`, `* REFACTOR @rNN`) | `{role}/refactor/implement/implement-<id>/rNN-<slug>.md` | `session-*.md` в корне `refactor/` |
-| **Нет эпика** (ad-hoc S one-shot) | `{role}/refactor/session-YYYYMMDD-<slug>.md` | `implement/implement-*/rNN-*.md` |
+| **Есть эпик** (`decompose-<id>/`, `implement-<id>/`, `plan-<id>`, `* REFACTOR @rNN`) | `{role}/refactor/implement/implement-<id>/rNN-<slug>.yaml` | `session-*.md` в корне `refactor/` |
+| **Нет эпика** (ad-hoc S one-shot) | `{role}/refactor/session-YYYYMMDD-<slug>.md` | `implement/implement-*/rNN-*.yaml` |
 
 Писать **оба** (session + implement) = FAIL. Один шаг = один execute-артефакт.
 
@@ -28,10 +28,10 @@ memory-bank/{back|front|integration}/refactor/
     decompose-<id>/               # REFACTOR DECOMPOSE (эпик)
       index.md
       rNN-<slug>.md
-  implement/
+    implement/
     implement-<id>/               # M/L execute (эпик) — ТОЛЬКО сюда rNN
       index.md
-      rNN-<slug>.md
+      rNN-<slug>.yaml
   session-YYYYMMDD-<slug>.md      # ТОЛЬКО S без эпика (корень refactor/)
 ```
 
@@ -42,7 +42,7 @@ memory-bank/{back|front|integration}/refactor/
 | Signal | Scope | Цепочка | Execute path |
 |--------|-------|---------|--------------|
 | 1–3 файла, ≤1 слой, один чат ок | **S** (без эпика) | `* REFACTOR` one-shot | `refactor/session-*.md` |
-| ≥4 файла / несколько модулей / риск контракта / >1 чата | **M/L** (эпик) | `* REFACTOR PLAN` → `DECOMPOSE` → `* REFACTOR` @rNN | `refactor/implement/implement-<id>/rNN-*.md` |
+| ≥4 файла / несколько модулей / риск контракта / >1 чата | **M/L** (эпик) | `* REFACTOR PLAN` → `DECOMPOSE` → `* REFACTOR` @rNN | `refactor/implement/implement-<id>/rNN-*.yaml` |
 
 Сомнение → **M/L**.  
 S: **FORBIDDEN** создавать `decompose-*` «на всякий случай».  
@@ -54,7 +54,7 @@ M/L: **FORBIDDEN** кодить в PLAN/DECOMPOSE; execute только чере
 |---------|--------|
 | `BACK\|FRONT\|INTEG REFACTOR PLAN` | `refactor/plan/analysis-*.md` (опц.), `refactor/plan/plan-<id>.md` |
 | `BACK\|FRONT\|INTEG REFACTOR DECOMPOSE` | `refactor/plan/decompose-<id>/` |
-| `BACK\|FRONT\|INTEG REFACTOR` @rNN (эпик) | **только** `implement/implement-<id>/rNN-*.md` + code |
+| `BACK\|FRONT\|INTEG REFACTOR` @rNN (эпик) | **только** `implement/implement-<id>/rNN-*.yaml` + code |
 | `BACK\|FRONT\|INTEG REFACTOR` (без эпика) | **только** `refactor/session-YYYYMMDD-<slug>.md` + code |
 
 ## Behavior freeze (HARD — все scopes)
@@ -74,7 +74,7 @@ M/L: **FORBIDDEN** кодить в PLAN/DECOMPOSE; execute только чере
 | Execute cmd | `* IMPLEMENT` | `* REFACTOR` |
 
 **Epic loop:** `./loop/epic-loop.sh memory-bank/.../refactor/plan/decompose-<id>` — `REFACTOR` в `allowed_modes`; один `rNN` на сессию. Канон: `.claude/instructions/epic-loop.md`.  
-В промпт REFACTOR epic: FINISH-артефакт = `implement/.../rNN-*.md`, не `session-*`.
+В промпт REFACTOR epic: FINISH-артефакт = `implement/.../rNN-*.yaml`, не `session-*`.
 
 ## PLAN output
 

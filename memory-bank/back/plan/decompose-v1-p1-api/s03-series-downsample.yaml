@@ -5,25 +5,50 @@ plan_id: v1-p1-api
 title: Series + DownsampleService
 next_phase: BACK IMPLEMENT
 needs_creative: no — **closed** (CR-API-01)
-goal: '`GET /api/series` и `GET /api/series/aggregate` с auto-resolution ~1500 points,
-  quality per bucket, quarantine не маскируется. Алгоритм — только после CR-API-01.'
+goal: '`GET /api/series` и `GET /api/series/aggregate` с auto-resolution ~1500 points, quality per bucket,
+  quarantine не маскируется. Алгоритм — только после CR-API-01.'
 context:
   consumes:
-  - '**Consumes:** s01–s02; T-002 samples repo/Timescale; creative CR-API-01; plan
-    §6.2–6.3, §9.'
+  - '**Consumes:** s01–s02; T-002 samples repo/Timescale; creative CR-API-01; plan §6.2–6.3, §9.'
   - '**Produces:** DownsampleService + series endpoints/schemas + SQL queries.'
   files:
-  - apps/api/app/api/v1/endpoints/series.py` (Создание)
-  - apps/api/app/telemetry/schemas.py` (Создание)
-  - apps/api/app/telemetry/service.py` (Модификация) — DownsampleService
-  - apps/api/app/telemetry/queries_series.py` (Создание) — time_bucket SQL
-  - apps/api/app/api/v1/api.py` (Модификация)
-  - apps/api/tests/api/test_series.py` (Создание)
-  - apps/api/tests/api/test_series_downsample.py` (Создание)
+  - apps/api/app/api/v1/endpoints/series.py (Создание)
+  - apps/api/app/telemetry/schemas.py (Создание)
+  - apps/api/app/telemetry/service.py (Модификация) — DownsampleService
+  - apps/api/app/telemetry/queries_series.py (Создание) — time_bucket SQL
+  - apps/api/app/api/v1/api.py (Модификация)
+  - apps/api/tests/api/test_series.py (Создание)
+  - apps/api/tests/api/test_series_downsample.py (Создание)
+  plan_refs:
+  - CR-API-01
+  - plan §6.2
+as_built:
+- apps/api/app/telemetry/service.py — существует; правим в этом шаге
+- apps/api/app/api/v1/api.py — существует; правим в этом шаге
+- 'Consumes: s01–s02; T-002 samples repo/Timescale; creative CR-API-01; plan §6.2–6.3, §9.'
+delta:
+- 'Создание: apps/api/app/api/v1/endpoints/series.py'
+- 'Создание: apps/api/app/telemetry/schemas.py'
+- 'Модификация: apps/api/app/telemetry/service.py'
+- 'Создание: apps/api/app/telemetry/queries_series.py'
+- 'Модификация: apps/api/app/api/v1/api.py'
+- 'Создание: apps/api/tests/api/test_series.py'
+- 'Создание: apps/api/tests/api/test_series_downsample.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: '`GET /api/series` и `GET /api/series/aggregate` с auto-resolution ~1500
-    points, quality per bucket, quarantine не маскируется. Алгоритм — только после
-    CR-API-01.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/app/api/v1/endpoints/series.py, apps/api/app/telemetry/schemas.py…'
+  verify: .venv/bin/pytest apps/api/tests/api/test_series.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_series_downsample.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_series.py -q
+- .venv/bin/pytest apps/api/tests/api/test_series_downsample.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

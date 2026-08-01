@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e29
 plan_id: v1-portal
 title: Dev appearance (non-prod)
 element_id: e29
 next_phase: INTEG IMPLEMENT
+goal: theme/design controls (tokens, variants)
 ui:
-  route: '** `/dev/appearance` → `AppearanceControls'
+  route: '** `/dev/appearance` → AppearanceControls'
   components: '** `AppearanceControls`'
   user_sees: '** theme/design controls (tokens, variants)'
 data_need:
@@ -22,9 +24,20 @@ back:
 front:
 - '`/dev/appearance` route + `AppearanceControls` already wired (FRONT s02)'
 - Exclude from production nav; no API mock required
+as_built:
+- 'FRONT: /dev/appearance` route + `AppearanceControls already wired (FRONT s02)'
+- 'UI seams: AppearanceControls'
+delta:
+- 'Довести client/fixture: static, no API'
+- 'BACK caveat: n/a'
+- 'FRONT: Exclude from production nav; no API mock required'
+- 'Data need: none (static, non-prod)'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: N/A
-  front: /dev/appearance` static
+  front: /dev/appearance static
 verify:
 - '`grep -r "/dev/appearance\|AppearanceControls" frontend/src`'
 - page renders theme controls
@@ -34,8 +47,11 @@ tdd:
 - 3. Wire + §Verify
 checkpoints:
 - id: cp1
-  criterion: '`/dev/appearance` renders in dev only'
+  criterion: /dev/appearance renders in dev only
+  verify: grep -r "/dev/appearance\|AppearanceControls" frontend/src
 - id: cp2
   criterion: Theme/design controls visible
+  verify: page renders theme controls
 - id: cp3
   criterion: Not in production nav
+  verify: page renders theme controls

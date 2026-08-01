@@ -5,25 +5,51 @@ plan_id: v1-p2-ship
 title: B12 formulas ship-pack v1 (motohours/fuel/avg)
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-04) — **closed**
-goal: 'Версионированные формулы ship-pack: моточасы, топливо (Q8 A/B), time-weighted
-  avg/peak, rounding на границе представления, debounce running.'
+goal: 'Версионированные формулы ship-pack: моточасы, топливо (Q8 A/B), time-weighted avg/peak, rounding
+  на границе представления, debounce running.'
 context:
   consumes:
   - '**Consumes:** s02 engine; CR-P2-04; ship-pack/makarov/formulas/; plan §4.7–4.9.'
-  - '**Produces:** `formulas/manifest.yaml` + v1 YAMLs; FormulaLoader; integrators;
-    body_json numeric sections.'
+  - '**Produces:** `formulas/manifest.yaml` + v1 YAMLs; FormulaLoader; integrators; body_json numeric
+    sections.'
   files:
-  - ship-pack/makarov/formulas/manifest.yaml` (Создание)
-  - ship-pack/makarov/formulas/v1/motohours.yaml` (Создание)
-  - ship-pack/makarov/formulas/v1/fuel.yaml` (Создание)
-  - ship-pack/makarov/formulas/v1/rounding.yaml` (Создание)
-  - ship-pack/makarov/formulas/v1/debounce.yaml` (Создание)
-  - apps/api/app/reports/formulas/` (Создание) — loader + integrators
-  - apps/api/tests/reports/test_formulas_motohours.py` (Создание)
-  - apps/api/tests/reports/test_formulas_fuel.py` (Создание)
+  - ship-pack/makarov/formulas/manifest.yaml (Создание)
+  - ship-pack/makarov/formulas/v1/motohours.yaml (Создание)
+  - ship-pack/makarov/formulas/v1/fuel.yaml (Создание)
+  - ship-pack/makarov/formulas/v1/rounding.yaml (Создание)
+  - ship-pack/makarov/formulas/v1/debounce.yaml (Создание)
+  - apps/api/app/reports/formulas/ (Создание) — loader + integrators
+  - apps/api/tests/reports/test_formulas_motohours.py (Создание)
+  - apps/api/tests/reports/test_formulas_fuel.py (Создание)
+  plan_refs:
+  - CR-P2-04
+  - plan §4.7
+as_built:
+- 'Consumes: s02 engine; CR-P2-04; ship-pack/makarov/formulas/; plan §4.7–4.9.'
+delta:
+- 'Создание: ship-pack/makarov/formulas/manifest.yaml'
+- 'Создание: ship-pack/makarov/formulas/v1/motohours.yaml'
+- 'Создание: ship-pack/makarov/formulas/v1/fuel.yaml'
+- 'Создание: ship-pack/makarov/formulas/v1/rounding.yaml'
+- 'Создание: ship-pack/makarov/formulas/v1/debounce.yaml'
+- 'Создание: apps/api/app/reports/formulas/'
+- 'Создание: apps/api/tests/reports/test_formulas_motohours.py'
+- 'Создание: apps/api/tests/reports/test_formulas_fuel.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Версионированные формулы ship-pack: моточасы, топливо (Q8 A/B), time-weighted
-    avg/peak, rounding на границе представления, debounce running.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: ship-pack/makarov/formulas/manifest.yaml, ship-pack/makarov/formulas/v1/motohours.yaml…'
+  verify: .venv/bin/pytest apps/api/tests/reports/test_formulas_motohours.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/reports/test_formulas_fuel.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/reports/test_formulas_motohours.py -q
+- .venv/bin/pytest apps/api/tests/reports/test_formulas_fuel.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

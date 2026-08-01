@@ -16,7 +16,7 @@ Rules (`finish-doc-router.mdc`) дают **когда** и **By command** / grap
 
 ## Новый load_now (max 3)
 
-1. next work shard — **путь к файлу**, не index: `decompose-*/sNN|eNN-*.yaml` · `bugfix-*.md` · `qa-*.md` · `task-*.md` (**только pending/active**, не completed)
+1. next work shard — **путь к файлу**, не index: `decompose-*/sNN|eNN-*.yaml` · `bugfix-*.md` · `qa-*.yaml` · `task-*.md` (**только pending/active**, не completed)
 2. при epic → QA: `implement-<id>/index.md` (навигация) — **без** `plan-*.md`
 3. опц. qa-артефакт при re-run / BUGFIX из Fix plan
 
@@ -111,14 +111,14 @@ QA (обязателен всегда — pass и blocked). Роль: `BACK` | `
 ```markdown
 ## Handoff BACK QA T-xxx <plan_id>
 
-- **Предыдущий:** BACK QA — [qa-YYYYMMDD-<plan_id>](memory-bank/back/qa/<epic_id>/qa-….md) — pass|fail|blocked
+- **Предыдущий:** BACK QA — [qa-YYYYMMDD-<plan_id>](memory-bank/back/qa/<epic_id>/qa-….yaml) — pass|fail|blocked
 - **Verdict:** pass | fail | blocked
-- **Артефакт:** memory-bank/back/qa/<epic_id>/qa-YYYYMMDD-<plan_id>.md
+- **Артефакт:** memory-bank/back/qa/<epic_id>/qa-YYYYMMDD-<plan_id>.yaml
 - **Epic:** T-xxx / `<plan_id>` — что проверяли (шаги, сервисы)
 - **code_changed:** no
 ```
 
-Без эпика: путь плоско `memory-bank/back/qa/qa-….md`. Канон: @.cursor/rules/shared/epic-scoped-paths.mdc.
+Без эпика: путь плоско `memory-bank/back/qa/qa-….yaml`. Канон: @.cursor/rules/shared/epic-scoped-paths.mdc.
 
 **pass** — добавить:
 - **Следующий:** BACK REFLECT | BACK IMPLEMENT sNN+1 | ARCHIVE NOW
@@ -127,7 +127,7 @@ QA (обязателен всегда — pass и blocked). Роль: `BACK` | `
 
 **fail | blocked** — добавить (обязательно):
 - **Следующий:** `BACK BUGFIX` (первая строка Fix plan) → затем повторный `BACK QA`
-- **Fix plan:** таблица из qa-артефакта §Fix plan (минимум первая строка в Handoff):
+- **Fix plan:** таблица из qa-артефакта `fix_plan[]` (минимум первая строка в Handoff):
   - `#1` `BACK BUGFIX <subject>` — files: `…` — verify: `…`
 - **Epic QA (повтор):** `BACK QA <plan_id> — <предмет>`; scope: `s01–s18`; suite: `…`
 - **Кратко:** N blockers; первая — QA-1 …
@@ -138,14 +138,14 @@ IMPLEMENT — последний шаг эпика (все строки decompos
 ```markdown
 ## Handoff BACK IMPLEMENT T-xxx sNN (epic complete)
 
-- **Предыдущий:** [sNN slug](memory-bank/.../sNN-slug.md) — done; **эпик `<plan_id>` завершён**
+- **Предыдущий:** [sNN slug](memory-bank/.../sNN-slug.yaml) — done; **эпик `<plan_id>` завершён**
 - **Следующий:** `BACK QA` (обязательно перед REFLECT)
 - **Epic QA:**
   - **Команда:** `BACK QA <plan_id> — <предмет из plan/decompose>`
   - **Эпик:** T-xxx / `<plan_id>`
   - **Scope:** все шаги implement (напр. s01–s18, compose, full suite) — AC из Handoff/suite, **не** полный plan в load_now
   - **Suite:** `.venv/bin/pytest` full; compose smoke если в scope шагов
-  - **Артефакт:** `memory-bank/back/qa/qa-YYYYMMDD-<plan_id>.md`
+  - **Артефакт:** `memory-bank/back/qa/qa-YYYYMMDD-<plan_id>.yaml`
 - **Кратко:** implement done; QA эпика не выполнен / blocked — см. qa-артефакт
 - **New chat:** yes → `BACK QA`
 ```
@@ -158,7 +158,7 @@ BUGFIX FINISH — обязательная рекомендация QA:
 ## Handoff BACK BUGFIX <slug>
 
 - **Предыдущий:** [bugfix-…](memory-bank/back/bugfix/bugfix-….md) — done
-- **Источник QA:** [qa-…](memory-bank/back/qa/qa-….md) — issue QA-1, QA-2
+- **Источник QA:** [qa-…](memory-bank/back/qa/qa-….yaml) — issue QA-1, QA-2
 - **Следующий:** `BACK QA <plan_id> — <предмет>` (повтор эпика; не REFLECT пока QA не pass)
 - **Epic QA:** scope + suite из исходного qa §Epic QA
 - **Осталось в Fix plan:** #2 `BACK BUGFIX …` (если были другие строки)
@@ -178,7 +178,7 @@ BUGFIX FINISH — обязательная рекомендация QA:
 
 Старт:
 1. memory-bank/activeContext.md → load_now + §Handoff
-2. memory-bank/back/plan/decompose-<plan_id>/sNN-<slug>.md
+2. memory-bank/back/plan/decompose-<plan_id>/sNN-<slug>.yaml
 ```
 
 **IMPLEMENT (эпик завершён → QA):**
@@ -195,7 +195,7 @@ BUGFIX FINISH — обязательная рекомендация QA:
 Старт:
 1. memory-bank/activeContext.md → §Handoff + load_now
 2. memory-bank/back/implement/implement-<plan_id>/index.md
-3. (опц.) последний qa-*.md при re-run — **не** plan-*.md
+3. (опц.) последний qa-*.yaml при re-run — **не** plan-*.md
 ```
 
 **QA blocked → BUGFIX:**
@@ -207,11 +207,11 @@ QA заблокирован (verdict: blocked). Следующий шаг — т
 Предмет: <одна фраза — что чиним>
 Файлы: <paths из Fix plan>
 Проверка: <verify из Fix plan>
-Источник: qa-YYYYMMDD-<plan_id>.md → issue QA-1
+Источник: qa-YYYYMMDD-<plan_id>.yaml → issue QA-1
 
 Старт:
 1. memory-bank/activeContext.md → load_now + §Handoff
-2. memory-bank/back/qa/.../qa-*.md (Fix plan row) — **не** полный plan
+2. memory-bank/back/qa/.../qa-*.yaml (fix_plan row) — **не** полный plan
 
 После green → BACK QA <plan_id> — повтор эпики (new chat).
 ```
@@ -224,7 +224,7 @@ BUGFIX завершён. Повторная валидация эпики.
 
 Старт:
 1. memory-bank/activeContext.md → §Handoff
-2. memory-bank/back/qa/qa-YYYYMMDD-<plan_id>.md (предыдущий прогон)
+2. memory-bank/back/qa/qa-YYYYMMDD-<plan_id>.yaml (предыдущий прогон)
 3. memory-bank/back/bugfix/bugfix-YYYYMMDD-<slug>.md (что исправлено)
 ```
 

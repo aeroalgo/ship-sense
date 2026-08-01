@@ -5,23 +5,46 @@ plan_id: v1-p2-ship
 title: E2E API+engines on emulator + T7/T10 BACK
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-11) — **closed**
-goal: 'Жёсткая интеграция: emulator → B12/B13/API/WS; T7 rebrowse quarantine; T10
-  ≥6 WS; OpenAPI complete; exclusion greps; contract note for INTEG.'
+goal: 'Жёсткая интеграция: emulator → B12/B13/API/WS; T7 rebrowse quarantine; T10 ≥6 WS; OpenAPI complete;
+  exclusion greps; contract note for INTEG.'
 context:
   consumes:
   - '**Consumes:** s01–s19; plan §13.5–13.7, §16; CR-P2-11.'
-  - '**Produces:** e2e suite; T7/T10 tests; `integration/contracts/b10-phase2.md`
-    stub link; AC greps.'
+  - '**Produces:** e2e suite; T7/T10 tests; `integration/contracts/b10-phase2.md` stub link; AC greps.'
   files:
-  - apps/api/tests/integration/test_p2_e2e_reports_warnings.py` (Создание)
-  - apps/api/tests/integration/test_t7_rebrowse.py` (Создание)
-  - apps/api/tests/integration/test_t10_six_posts.py` (Создание)
-  - apps/api/tests/api/test_openapi_p2_surface.py` (Создание)
-  - apps/api/tests/test_v1_exclusions.py` (Создание)
-  - memory-bank/integration/contracts/b10-phase2.md` (Создание stub или note)
+  - apps/api/tests/integration/test_p2_e2e_reports_warnings.py (Создание)
+  - apps/api/tests/integration/test_t7_rebrowse.py (Создание)
+  - apps/api/tests/integration/test_t10_six_posts.py (Создание)
+  - apps/api/tests/api/test_openapi_p2_surface.py (Создание)
+  - apps/api/tests/test_v1_exclusions.py (Создание)
+  - memory-bank/integration/contracts/b10-phase2.md (Создание stub или note)
+  plan_refs:
+  - plan §13.5
+  - CR-P2-11
+as_built:
+- 'Consumes: s01–s19; plan §13.5–13.7, §16; CR-P2-11.'
+delta:
+- 'Создание: apps/api/tests/integration/test_p2_e2e_reports_warnings.py'
+- 'Создание: apps/api/tests/integration/test_t7_rebrowse.py'
+- 'Создание: apps/api/tests/integration/test_t10_six_posts.py'
+- 'Создание: apps/api/tests/api/test_openapi_p2_surface.py'
+- 'Создание: apps/api/tests/test_v1_exclusions.py'
+- 'Создание: memory-bank/integration/contracts/b10-phase2.md'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Жёсткая интеграция: emulator → B12/B13/API/WS; T7 rebrowse quarantine;
-    T10 ≥6 WS; OpenAPI complete; exclusion greps; contract note for INTEG.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: memory-bank/integration/contracts/b10-phase2.md'
+  verify: .venv/bin/pytest apps/api/tests/integration/test_p2_e2e_reports_warnings.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/integration/test_t7_rebrowse.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/integration/test_p2_e2e_reports_warnings.py -q
+- .venv/bin/pytest apps/api/tests/integration/test_t7_rebrowse.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

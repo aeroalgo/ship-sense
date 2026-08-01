@@ -11,10 +11,11 @@ alwaysApply: false
 1. Объект: `plan-<id>.md` или shard из `load_now`
 2. L3–L4: все shards плана (исключение ONE shard)
 3. Шаг = один IMPLEMENT + TDD; `step_id`, files, `needs_creative`, `tdd`, `code_surface`
+3a. Delta layer: `goal` · `as_built` · `delta` · `out_of_scope`; checkpoints 2–4 с `criterion` + `verify` (не mega-cp = весь goal)
 4. Каждый `sNN`: skills gate — Core(4) ∪ situational из @.cursor/rules/back_developer/skills-gate-situational.mdc (concrete paths)
 5. Папка создана: index + `sNN-*.yaml`
 6. Plan: ссылка на index как единственный трекер; нет sNN-чеклистов в plan
-7. `load_now` → `s01-*.md` (не index)
+7. `load_now` → `s01-*.yaml` (не index)
 
 ## Abort
 

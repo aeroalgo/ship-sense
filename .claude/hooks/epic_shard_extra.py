@@ -17,14 +17,6 @@ STEP_R_RE = re.compile(r"(?i)^((?:r)\d{2}-[a-z0-9][a-z0-9-]*)$")
 STEP_A_RE = re.compile(r"(?i)^((?:a)\d{2}-[a-z0-9][a-z0-9-]*)$")
 QA_STEM_RE = re.compile(r"(?i)^qa-\d{8}-[a-z0-9][a-z0-9-]*$")
 
-_EPIC_MD_COERCE = re.compile(
-    r"(?i)(memory-bank/(?:back|front|integration)/(?:"
-    r"qa/[^/]+/qa-\d{8}-[a-z0-9-]+|"
-    r"(?:refactor|security)/implement/implement-[^/]+/(?:[ra]\d{2}-[a-z0-9-]+)|"
-    r"plan/decompose-[^/]+/(?:[se]\d{2}-[a-z0-9-]+)"
-    r"))\.md$"
-)
-
 
 class FixPlanRow(BaseModel):
     issue: str
@@ -143,22 +135,6 @@ def load_refactor(path: Path) -> EpicRefactorDoc:
 
 def load_security(path: Path) -> EpicSecurityDoc:
     return EpicSecurityDoc.model_validate(load_yaml_file(path))
-
-
-def coerce_mode_artifact_path(
-    cwd: str | Path,
-    artifact: str | None,
-) -> tuple[str | None, str | None]:
-    if not artifact:
-        return artifact, None
-    norm = artifact.replace("\\", "/")
-    m = _EPIC_MD_COERCE.search(norm)
-    if not m:
-        return artifact, None
-    yaml_rel = f"{m.group(1)}.yaml"
-    if (Path(cwd) / yaml_rel).is_file():
-        return yaml_rel, f"artifact {artifact!r}→{yaml_rel!r} (epic yaml canonical)"
-    return artifact, None
 
 
 def validate_qa_yaml(path: Path, *, expected_verdict: str | None = None) -> list[str]:

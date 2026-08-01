@@ -1,9 +1,11 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e25
 plan_id: v1-portal
 title: Watch schedule
 element_id: e25
 next_phase: INTEG IMPLEMENT
+goal: (future) watch window boundaries auto-filled
 ui:
   route: '** none yet (period pickers use search params / local now)'
   components: '** (future) period pickers default from schedule'
@@ -17,17 +19,29 @@ api_today:
   detail: FRONT ❌ no client
 contract:
   method_path: '** `GET /api/watch/schedule`'
-  response_shape: '** dict schedule fields (as-built service) — pin exact schema in
-    DECOMPOSE eNN from OpenAPI/service'
+  response_shape: '** dict schedule fields (as-built service) — pin exact schema in DECOMPOSE eNN from
+    OpenAPI/service'
   front_client: '** (future) `lib/api/watch.ts` + query key'
 db: '- schedule svc (watch_schedule.py)'
 back:
 - already live (T-003 s08 / T-005 s10)
-- Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule when params
-  absent
+- Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule when params absent
 front:
 - no client yet
 - WatchPage defaults from schedule when params absent (after client)
+as_built:
+- 'API live: GET /api/watch/schedule` (`watch_schedule.py)'
+- 'BACK: already live (T-003 s08 / T-005 s10)'
+- 'UI seams: (future) period pickers default from schedule'
+delta:
+- 'Довести client/fixture: FRONT ❌ no client'
+- 'BACK caveat: Add `lib/api/watch.ts` + query key; WatchPage defaults from schedule when params absent'
+- 'FRONT: no client yet'
+- 'FRONT: WatchPage defaults from schedule when params absent (after client)'
+- 'Data need: current watch window boundaries for default `/watch` period'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: GET /api/watch/schedule
   front: (future client)
@@ -41,8 +55,11 @@ tdd:
 - 3. Wire + §Verify
 checkpoints:
 - id: cp1
-  criterion: '`/watch` without params → uses server schedule window'
+  criterion: /watch without params → uses server schedule window
+  verify: grep -r "/api/watch/schedule" frontend/src api/
 - id: cp2
   criterion: Client `fetchWatchSchedule` wired
+  verify: §0.11 schedule pair after client
 - id: cp3
   criterion: Period pickers default from schedule
+  verify: Playwright `/watch` without params uses server window

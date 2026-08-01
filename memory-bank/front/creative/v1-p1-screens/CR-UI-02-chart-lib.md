@@ -2,7 +2,7 @@
 
 **Тип:** Architecture + Algorithm + UI-UX  
 **Задача:** T-004 / plan `plan-v1-p1-screens.md` §5.3, §7, §10 CR-UI-02  
-**Decompose:** [s11-chart-wrapper.md](../../plan/decompose-v1-p1-screens/s11-chart-wrapper.md)  
+**Decompose:** [s11-chart-wrapper.yaml](../../plan/decompose-v1-p1-screens/s11-chart-wrapper.yaml)  
 **Deps tokens:** [CR-UI-01-tokens.md](CR-UI-01-tokens.md)  
 **Deps alarm shapes:** [CR-UI-03-alarm-grammar.md](CR-UI-03-alarm-grammar.md) (marker silhouettes)  
 **Дата:** 2026-07-26  
@@ -258,6 +258,6 @@ createUplotAdapter(el: HTMLElement, opts: {
 
 - **Done:** FRONT CREATIVE CR-UI-02 — uPlot выбран; spike + spec + dep; s11 unblocked
 - **Files:** `memory-bank/front/creative/v1-p1-screens/CR-UI-02-chart-lib.md`; `frontend/src/lib/trends/chart-lib-spec.ts`; `frontend/src/features/trends/spike/*`; `frontend/package.json` (`uplot`)
-- **Next:** `FRONT IMPLEMENT` s11 (`decompose-v1-p1-screens/s11-chart-wrapper.md`) — новый чат; параллельно можно s12 stub без chart
+- **Next:** `FRONT IMPLEMENT` s11 (`decompose-v1-p1-screens/s11-chart-wrapper.yaml`) — новый чат; параллельно можно s12 stub без chart
 - **Tool / model:** Cursor + fast-editing (s11 TDD); premium если canvas flaky в jsdom
 - **New chat:** yes — one chat = one atomic subtask

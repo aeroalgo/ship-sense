@@ -3,7 +3,7 @@
 **Creative ID:** CR-P2-06  
 **Plan:** [plan-v1-p2-ship.md](../../plan/plan-v1-p2-ship.md)  
 **Decompose:** [decompose-v1-p2-ship/index.md](../../plan/decompose-v1-p2-ship/index.md)  
-**Зависимые шаги:** [s14-i7-hardening-audit.md](../../plan/decompose-v1-p2-ship/s14-i7-hardening-audit.md), [s16-admin-api-storage-ota.md](../../plan/decompose-v1-p2-ship/s16-admin-api-storage-ota.md)  
+**Зависимые шаги:** [s14-i7-hardening-audit.yaml](../../plan/decompose-v1-p2-ship/s14-i7-hardening-audit.yaml), [s16-admin-api-storage-ota.yaml](../../plan/decompose-v1-p2-ship/s16-admin-api-storage-ota.yaml)  
 **Дата:** 2026-07-31  
 **Режим:** BACK CREATIVE  
 **Уровень:** L4  
@@ -38,7 +38,7 @@ Security invariant: **rank — display metadata, role — explicit authorization
 
 ## 🎨🎨🎨 ENTERING CREATIVE PHASE: Architecture
 
-**Decompose steps:** [s14-i7-hardening-audit.md](../../plan/decompose-v1-p2-ship/s14-i7-hardening-audit.md), [s16-admin-api-storage-ota.md](../../plan/decompose-v1-p2-ship/s16-admin-api-storage-ota.md)
+**Decompose steps:** [s14-i7-hardening-audit.yaml](../../plan/decompose-v1-p2-ship/s14-i7-hardening-audit.yaml), [s16-admin-api-storage-ota.yaml](../../plan/decompose-v1-p2-ship/s16-admin-api-storage-ota.yaml)
 
 ### Компонент 1 — источник role claims
 
@@ -228,7 +228,7 @@ Denied audit — часть access trail, но ошибка самого audit s
 ## Handoff
 
 - **Done:** BACK CREATIVE CR-P2-06 — explicit roster roles, `Role`/`Permission` matrix, session claims snapshot и fail-closed admin authorization для I7/s16.
-- **Files:** [creative-b11-roles.md](creative-b11-roles.md); rewired [s14-i7-hardening-audit.md](../../plan/decompose-v1-p2-ship/s14-i7-hardening-audit.md), [s16-admin-api-storage-ota.md](../../plan/decompose-v1-p2-ship/s16-admin-api-storage-ota.md), [decompose index](../../plan/decompose-v1-p2-ship/index.md).
+- **Files:** [creative-b11-roles.md](creative-b11-roles.md); rewired [s14-i7-hardening-audit.yaml](../../plan/decompose-v1-p2-ship/s14-i7-hardening-audit.yaml), [s16-admin-api-storage-ota.yaml](../../plan/decompose-v1-p2-ship/s16-admin-api-storage-ota.yaml), [decompose index](../../plan/decompose-v1-p2-ship/index.md).
 - **Next:** `BACK IMPLEMENT` @s14; после s14 — @s15, затем @s16 по очереди.
 - **Tool / model:** Claude Code + GPT для CREATIVE; implementation — в новой сессии.
 - **New chat:** yes — один чат = один atomic subtask.

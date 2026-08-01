@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e02
 plan_id: v1-portal
 title: Login roster tiles
 element_id: e02
 next_phase: INTEG IMPLEMENT
+goal: плитки вахтенных (name, rank); клик → login → navigate to default_screen
 ui:
-  route: '** `/login` → `frontend/src/app/login/page.tsx` → `features/session/LoginPage.tsx'
+  route: '** `/login` → `frontend/src/app/login/page.tsx` → features/session/LoginPage.tsx'
   components: '** DS `components/ds/LoginTile.tsx`'
   user_sees: '** плитки вахтенных (name, rank); клик → login → navigate to default_screen'
 data_need:
@@ -21,8 +23,7 @@ api_today:
 contract:
   method_path: '** `GET /api/watch/roster`'
   query_keys: '** none (public for login)'
-  response_shape: '** `{ items: [{ person_id, name, rank, tile_order, active, default_screen
-    }] }`'
+  response_shape: '** `{ items: [{ person_id, name, rank, tile_order, active, default_screen }] }`'
   front_client: '** `lib/api/session.ts` → `fetchRoster`'
 db: '- ship-pack roster / `SessionService.roster()`'
 back:
@@ -32,6 +33,22 @@ front:
 - убрать зависимость от MSW в non-mock env
 - проверить empty roster / inactive tiles
 - 'wire: `NEXT_PUBLIC_API_URL` + `credentials: include`'
+as_built:
+- 'API live: GET /api/watch/roster (BACK live, T-003 s07)'
+- 'BACK: already live (T-003 s07)'
+- 'UI seams: DS components/ds/LoginTile.tsx'
+delta:
+- 'Исправить/заменить mock: MSW `*/api/watch/roster` → rosterFixture'
+- 'Довести client/fixture: FRONT client: `lib/api/session.ts` → fetchRoster'
+- 'BACK caveat: роль/permissions snapshot — T-005 B11 creative (future)'
+- 'FRONT: убрать зависимость от MSW в non-mock env'
+- 'FRONT: проверить empty roster / inactive tiles'
+- 'FRONT: wire: `NEXT_PUBLIC_API_URL` + credentials: include'
+- 'Data need: список вахтенных: `person_id`, `name`, `rank`, `tile_order`, `active`, default_screen'
+- 'Data need: только `active=true`, сортировка по tile_order'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: apps/api/.../session.py` `getWatchRoster
   front: lib/api/session.ts` `fetchRoster
@@ -46,6 +63,8 @@ tdd:
 - 3. Wire + §Verify
 checkpoints:
 - id: cp1
-  criterion: '`/login` shows live roster tiles (not fixture)'
+  criterion: /login shows live roster tiles (not fixture)
+  verify: grep -r "/watch/roster" frontend/src api/
 - id: cp2
   criterion: Click tile logs in and navigates
+  verify: 'vitest: `session.test.tsx` roster path'

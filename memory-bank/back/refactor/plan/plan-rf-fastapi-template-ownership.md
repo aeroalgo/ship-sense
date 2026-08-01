@@ -347,7 +347,7 @@ DECOMPOSE разобьёт точнее; здесь — **обязательны
 |----------|------------|
 | `memory-bank/back/plan/plan-v1-p1-api.md` §13 File tree | Заменить на дерево §2.1; все пути `apps/edge/api/...` → `apps/api/app/...` |
 | Mermaid / package refs в plan | `apps/edge/api` → `apps/api` |
-| `decompose-v1-p1-api/s01-scaffold.md` | files list под skill; `code_surface` + Impl skills: **обязательно** `fastapi-templates` |
+| `decompose-v1-p1-api/s01-scaffold.yaml` | files list под skill; `code_surface` + Impl skills: **обязательно** `fastapi-templates` |
 | `s02`–`s10` | пути routers→`app/api/v1/endpoints`, services→`app/<feature>/service.py`, schemas→`app/<feature>/schemas.py` |
 | `decompose-v1-p1-api/index.md` | ссылка на refactor epic; note «blocked by rf-… until rNN E done» если ещё не закрыт |
 | `activeContext` / tasks | после DECOMPOSE/REFACTOR — next T-003 IMPLEMENT на новом каркасе |

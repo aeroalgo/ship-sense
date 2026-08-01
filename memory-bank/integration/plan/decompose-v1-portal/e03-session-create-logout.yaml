@@ -1,15 +1,15 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e03
 plan_id: v1-portal
 title: Session create / logout
 element_id: e03
 next_phase: INTEG IMPLEMENT
+goal: после клика на tile → cookie set → redirect to default_screen; logout → clear → /login
 ui:
   route: '** `/login` (tile click) + `(auth)/*` (logout via `SessionChip`)'
-  components: '** `LoginPage` on tile click → `useSession().login`; `AppShell` `SessionChip`
-    → logout'
-  user_sees: '** после клика на tile → cookie set → redirect to default_screen; logout
-    → clear → `/login`'
+  components: '** `LoginPage` on tile click → `useSession().login`; `AppShell` `SessionChip` → logout'
+  user_sees: '** после клика на tile → cookie set → redirect to default_screen; logout → clear → `/login`'
 data_need:
 - 'create: `{ person_id }` → session cookie `shipsense_session` + `SessionResponse`'
 - 'logout: clear cookie; optional session event'
@@ -30,12 +30,29 @@ contract:
 db: '- session table + cookie + events (T-003 s07)'
 back:
 - already live (T-003 s07)
-- audit writer / session events (T-005 hardening) — UI не показывает audit, но cookie
-  auth обязателен
+- audit writer / session events (T-005 hardening) — UI не показывает audit, но cookie auth обязателен
 front:
-- после login navigate to `default_screen` mapping (overview/journal/trends/watch)
-  — проверить parity с BACK enum
+- после login navigate to `default_screen` mapping (overview/journal/trends/watch) — проверить parity
+  с BACK enum
 - '`onUnauthorized` global handler'
+as_built:
+- 'API live: POST /api/session → 201 + Set-Cookie'
+- 'API live: DELETE /api/session → 204'
+- 'BACK: already live (T-003 s07)'
+- 'UI seams: `LoginPage` on tile click → `useSession().login`; `AppShell` `SessionChip` → logout'
+delta:
+- 'Исправить/заменить mock: MSW both'
+- 'Довести client/fixture: FRONT: `createSession`, `deleteSession`; `onUnauthorized` → redirect login'
+- 'BACK caveat: audit writer / session events (T-005 hardening) — UI не показывает audit, но cookie auth
+  обязателен'
+- 'FRONT: после login navigate to `default_screen` mapping (overview/journal/trends/watch) — проверить
+  parity с BACK enum'
+- 'FRONT: onUnauthorized global handler'
+- 'Data need: create: `{ person_id }` → session cookie `shipsense_session` + SessionResponse'
+- 'Data need: logout: clear cookie; optional session event'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: POST /api/session
   front: createSession
@@ -52,7 +69,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Login sets `shipsense_session` cookie
+  verify: grep -r "/api/session" frontend/src api/
 - id: cp2
   criterion: Logout clears cookie and redirects
+  verify: 'Playwright: pick tile → `/overview` (or mapped) with cookie; logout → /login'
 - id: cp3
-  criterion: Unauthorized → redirect to `/login`
+  criterion: Unauthorized → redirect to /login
+  verify: pytest session endpoint suite

@@ -5,25 +5,58 @@ plan_id: v1-p1-screens
 title: Screen 6 Watch prototype
 next_phase: FRONT IMPLEMENT
 needs_creative: CR-UI-04 / DS0-3 — **closed** | **tdd:** yes
-goal: 'Вахтенный прототип: verdict, protections never collapse, alarms debounce groups,
-  drifts stub, data_quality, print.'
+goal: 'Вахтенный прототип: verdict, protections never collapse, alarms debounce groups, drifts stub, data_quality,
+  print.'
 context:
   consumes:
   - '**Consumes:** s04 reports, s06 Watch*, PrintLayout; [CR-UI-04](../../creative/v1-p1-screens/CR-UI-04-watch-compression.md)
     + DS0-3'
   - '**Produces:** features/watch/*'
   files:
-  - frontend/src/features/watch/WatchPage.tsx` (Создание)
-  - frontend/src/features/watch/useWatchReport.ts` (Создание)
-  - frontend/src/features/watch/DebounceGroupRow.tsx` (Создание)
-  - frontend/src/features/watch/DataQualityPanel.tsx` (Создание)
+  - frontend/src/features/watch/WatchPage.tsx (Создание)
+  - frontend/src/features/watch/useWatchReport.ts (Создание)
+  - frontend/src/features/watch/DebounceGroupRow.tsx (Создание)
+  - frontend/src/features/watch/DataQualityPanel.tsx (Создание)
   - frontend/src/features/watch/debounce.ts` (Создание) — re-export / wrap `@/lib/watch/watch-compression-spec
-  - frontend/src/app/(authenticated)/watch/page.tsx` (Модификация)
-  - frontend/src/features/watch/WatchPage.test.tsx` (Создание)
-  - frontend/src/features/watch/debounce.test.ts` (Создание)
+  - frontend/src/app/(authenticated)/watch/page.tsx (Модификация)
+  - frontend/src/features/watch/WatchPage.test.tsx (Создание)
+  - frontend/src/features/watch/debounce.test.ts (Создание)
+  plan_refs:
+  - CR-UI-04
+  - CR-UI-04-watch-compression
+as_built:
+- frontend/src/app/(authenticated)/watch/page.tsx — существует; правим в этом шаге
+- 'Consumes: s04 reports, s06 Watch*, PrintLayout; [CR-UI-04](../../creative/v1-p1-screens/CR-UI-04-watch-compression.md)
+  + DS0-3'
+delta:
+- 'Создание: frontend/src/features/watch/WatchPage.tsx'
+- 'Создание: frontend/src/features/watch/useWatchReport.ts'
+- 'Создание: frontend/src/features/watch/DebounceGroupRow.tsx'
+- 'Создание: frontend/src/features/watch/DataQualityPanel.tsx'
+- 'Создание: frontend/src/features/watch/debounce.ts'
+- 'Модификация: frontend/src/app/(authenticated)/watch/page.tsx'
+- 'Создание: frontend/src/features/watch/WatchPage.test.tsx'
+- 'Создание: frontend/src/features/watch/debounce.test.ts'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
+- INTEG eNN wire (live contract) — FRONT only UI/MSW path
+- Full Playwright suite → s16
 checkpoints:
 - id: cp1
-  criterion: 'Вахтенный прототип: verdict, protections never collapse, alarms debounce
-    groups, drifts stub, data_quality, print.'
-verify: []
-tdd: []
+  criterion: Watch report body sections render
+  verify: cd frontend && npm exec vitest -- run src/features/watch
+- id: cp2
+  criterion: Verdict / data quality panels present
+  verify: cd frontend && npm exec vitest -- run src/features/watch
+- id: cp3
+  criterion: Targeted watch tests PASS
+  verify: cd frontend && npm exec vitest -- run src/features/watch
+verify:
+- cd frontend && npm exec vitest -- run src/features/watch
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

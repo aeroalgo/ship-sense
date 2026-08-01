@@ -5,21 +5,43 @@ plan_id: v1-p1-api
 title: I1 audit + OpenAPI completeness suite
 next_phase: BACK IMPLEMENT
 needs_creative: 'no'
-goal: 'Закрыть DoD: static import denylist I1; OpenAPI surface scan (mutating только
-  session); примеры quarantine; regression suite green на ship-pack-min.'
+goal: 'Закрыть DoD: static import denylist I1; OpenAPI surface scan (mutating только session); примеры
+  quarantine; regression suite green на ship-pack-min.'
 context:
   consumes:
   - '**Consumes:** s01–s09 endpoints; plan §4, §11, §16.6; AC-01/AC-06.'
-  - '**Produces:** `test_i1_no_write_paths.py` + OpenAPI completeness tests; README
-    link I1.'
+  - '**Produces:** `test_i1_no_write_paths.py` + OpenAPI completeness tests; README link I1.'
   files:
-  - apps/api/tests/api/test_i1_no_write_paths.py` (Создание)
-  - apps/api/tests/api/test_openapi_surface.py` (Создание)
-  - apps/api/README.md` (Модификация) — I1 minimal disclaimer
+  - apps/api/tests/api/test_i1_no_write_paths.py (Создание)
+  - apps/api/tests/api/test_openapi_surface.py (Создание)
+  - apps/api/README.md (Модификация) — I1 minimal disclaimer
   - точечные донастройки OpenAPI examples в schemas (Модификация при gaps)
+  plan_refs:
+  - plan §4
+as_built:
+- apps/api/README.md — существует; правим в этом шаге
+- точечные донастройки OpenAPI examples в schemas — существует; правим в этом шаге
+- 'Consumes: s01–s09 endpoints; plan §4, §11, §16.6; AC-01/AC-06.'
+delta:
+- 'Создание: apps/api/tests/api/test_i1_no_write_paths.py'
+- 'Создание: apps/api/tests/api/test_openapi_surface.py'
+- 'Модификация: apps/api/README.md'
+- 'Модификация: точечные донастройки OpenAPI examples в schemas'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Закрыть DoD: static import denylist I1; OpenAPI surface scan (mutating
-    только session); примеры quarantine; regression suite green на ship-pack-min.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/README.md, точечные донастройки OpenAPI examples в schemas'
+  verify: .venv/bin/pytest apps/api/tests/api/test_i1_no_write_paths.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_openapi_surface.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_i1_no_write_paths.py -q
+- .venv/bin/pytest apps/api/tests/api/test_openapi_surface.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

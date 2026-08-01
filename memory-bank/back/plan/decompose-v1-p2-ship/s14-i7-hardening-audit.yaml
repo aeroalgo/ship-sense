@@ -5,24 +5,46 @@ plan_id: v1-p2-ship
 title: I7 hardening + access_audit + threat model
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-06) — **closed**
-goal: 'Edge cyber baseline: STRIDE doc, CIS hardening checklist applied in image,
-  access_audit table, OT/IT diagram, org package template; OTA key lifecycle note.'
+goal: 'Edge cyber baseline: STRIDE doc, CIS hardening checklist applied in image, access_audit table,
+  OT/IT diagram, org package template; OTA key lifecycle note.'
 context:
   consumes:
   - '**Consumes:** plan §10; s12 pubkey; CR-P2-06 for person/session roles.'
-  - '**Produces:** migration access_audit; middleware write hooks; docs threat model
-    + hardening.'
+  - '**Produces:** migration access_audit; middleware write hooks; docs threat model + hardening.'
   files:
-  - apps/api/migrations/versions/*_access_audit.py` (Создание)
-  - apps/api/app/audit/` (Создание)
-  - docs/security/threat-model-edge-v1.md` (Создание)
-  - docs/security/hardening-checklist.md` (Создание)
-  - docs/security/network-ot-it.md` (Создание)
-  - apps/api/tests/audit/test_access_audit.py` (Создание)
+  - apps/api/migrations/versions/*_access_audit.py (Создание)
+  - apps/api/app/audit/ (Создание)
+  - docs/security/threat-model-edge-v1.md (Создание)
+  - docs/security/hardening-checklist.md (Создание)
+  - docs/security/network-ot-it.md (Создание)
+  - apps/api/tests/audit/test_access_audit.py (Создание)
+  plan_refs:
+  - plan §10
+  - CR-P2-06
+as_built:
+- 'Consumes: plan §10; s12 pubkey; CR-P2-06 for person/session roles.'
+delta:
+- 'Создание: apps/api/migrations/versions/*_access_audit.py'
+- 'Создание: apps/api/app/audit/'
+- 'Создание: docs/security/threat-model-edge-v1.md'
+- 'Создание: docs/security/hardening-checklist.md'
+- 'Создание: docs/security/network-ot-it.md'
+- 'Создание: apps/api/tests/audit/test_access_audit.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Edge cyber baseline: STRIDE doc, CIS hardening checklist applied in
-    image, access_audit table, OT/IT diagram, org package template; OTA key lifecycle
-    note.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/migrations/versions/*_access_audit.py, apps/api/app/audit/…'
+  verify: .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q
+- .venv/bin/pytest apps/api/tests/audit/test_access_audit.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

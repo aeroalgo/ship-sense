@@ -5,21 +5,43 @@ plan_id: v1-p1-screens
 title: Session tiles B11 login/logout
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: '`/login` плитки roster → POST session → redirect default_screen; logout DELETE;
-  anonymous overview allowed.'
+goal: '`/login` плитки roster → POST session → redirect default_screen; logout DELETE; anonymous overview
+  allowed.'
 context:
   consumes:
   - '**Consumes:** s04 session API, s06 LoginTile/SessionChip, s07 layout'
   - '**Produces:** features/session + login page'
   files:
-  - frontend/src/app/login/page.tsx` (Создание)
-  - frontend/src/features/session/LoginPage.tsx` (Создание)
-  - frontend/src/features/session/useSession.tsx` (Создание)
-  - frontend/src/features/session/session.test.tsx` (Создание)
-  - frontend/src/app/(authenticated)/layout.tsx` (Модификация) — SessionChip
+  - frontend/src/app/login/page.tsx (Создание)
+  - frontend/src/features/session/LoginPage.tsx (Создание)
+  - frontend/src/features/session/useSession.tsx (Создание)
+  - frontend/src/features/session/session.test.tsx (Создание)
+  - frontend/src/app/(authenticated)/layout.tsx (Модификация) — SessionChip
+as_built:
+- frontend/src/app/login/page.tsx — существует; правим в этом шаге
+- 'Consumes: s04 session API, s06 LoginTile/SessionChip, s07 layout'
+delta:
+- 'Создание: frontend/src/app/login/page.tsx'
+- 'Создание: frontend/src/features/session/LoginPage.tsx'
+- 'Создание: frontend/src/features/session/useSession.tsx'
+- 'Создание: frontend/src/features/session/session.test.tsx'
+- 'Модификация: frontend/src/app/login/page.tsx'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: '`/login` плитки roster → POST session → redirect default_screen; logout
-    DELETE; anonymous overview allowed.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/app/login/page.tsx, frontend/src/features/session/LoginPage.tsx…'
+  verify: cd frontend && npm exec vitest -- run src/features/session/session.test.tsx
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/features/session/session.test.tsx
+verify:
+- cd frontend && npm exec vitest -- run src/features/session/session.test.tsx
+- cd frontend && npm exec vitest -- run src/features/session/session.test.tsx
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

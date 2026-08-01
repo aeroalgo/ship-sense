@@ -1,9 +1,11 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e24
 plan_id: v1-portal
 title: Reports hub (фаза 2 UI; BACK already rich)
 element_id: e24
 next_phase: INTEG IMPLEMENT
+goal: (future) catalog + generate + poll + versioned HTML
 ui:
   route: '** **нет route** `/reports` сегодня; product screen 9 phase 2'
   components: '** (future) reports hub UI'
@@ -14,11 +16,9 @@ api_today:
 - status: ✅
   detail: '`GET /api/reports/catalog` — canonical catalog'
 - status: ✅
-  detail: '`GET /api/reports` — list runs (also legacy empty-filter catalog branch
-    for non-DB)'
+  detail: '`GET /api/reports` — list runs (also legacy empty-filter catalog branch for non-DB)'
 - status: ✅
-  detail: '`POST /api/reports/generate`, `POST /api/reports/watch/generate` → 202
-    job'
+  detail: '`POST /api/reports/generate`, `POST /api/reports/watch/generate` → 202 job'
 - status: ✅
   detail: '`GET /api/reports/jobs/{job_id}`'
 - status: ✅
@@ -26,13 +26,12 @@ api_today:
 - status: —
   detail: 'FRONT: only list+watch get; **missing** generate/job/version clients'
 - status: ⚠️
-  detail: 'Drift risk: front `fetchReports` hits `/api/reports` expecting `ReportsListResponse`,
-    while live DB path returns **run list** shape'
+  detail: 'Drift risk: front `fetchReports` hits `/api/reports` expecting `ReportsListResponse`, while
+    live DB path returns **run list** shape'
 contract:
   method_path: '** `GET /api/reports/{report_id}/versions/{version}/html`'
   response_shape: '** text/html'
-  front_client: '** (future) `lib/api/reports.ts` — fix `fetchReports` (catalog vs
-    runs drift)'
+  front_client: '** (future) `lib/api/reports.ts` — fix `fetchReports` (catalog vs runs drift)'
 db: '- reports svc (catalog, runs, jobs, versions)'
 back:
 - already live (T-005 s10)
@@ -41,10 +40,30 @@ front:
 - only list+watch get (FRONT s13); **missing** generate/job/version clients
 - New UI route or section under Watch for «полный B12» when product ready
 - 'MSW: add catalog + jobs handlers when UI lands'
+as_built:
+- 'API live: GET /api/reports/catalog — canonical catalog'
+- 'API live: GET /api/reports — list runs (also legacy empty-filter catalog branch for non-DB)'
+- 'API live: POST /api/reports/generate`, `POST /api/reports/watch/generate → 202 job'
+- 'API live: GET /api/reports/jobs/{job_id}'
+- 'API live: GET /api/reports/{id}`, `/versions/{v}`, `/versions/{v}/html'
+- 'BACK: already live (T-005 s10)'
+- 'UI seams: (future) reports hub UI'
+delta:
+- 'Довести client/fixture: FRONT: only list+watch get; **missing** generate/job/version clients'
+- 'Исправить/заменить mock: Drift risk: front `fetchReports` hits `/api/reports` expecting `ReportsListResponse`,
+  while live DB path returns **run list** shape'
+- 'BACK caveat: Fix client: catalog → `/api/reports/catalog`; runs → `/api/reports` with filters'
+- 'FRONT: only list+watch get (FRONT s13); **missing** generate/job/version clients'
+- 'FRONT: New UI route or section under Watch for «полный B12» when product ready'
+- 'FRONT: MSW: add catalog + jobs handlers when UI lands'
+- 'Data need: catalog of report types; async generate; job poll; versioned HTML'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: GET /api/reports/catalog
   front: (future client)
-- back: GET /api/reports` (runs)
+- back: GET /api/reports (runs)
   front: fix `fetchReports` drift
 - back: POST /api/reports/generate
   front: (future client)
@@ -59,8 +78,11 @@ tdd:
 - 3. Wire + §Verify
 checkpoints:
 - id: cp1
-  criterion: '`fetchReports` hits correct endpoint (catalog vs runs)'
+  criterion: fetchReports hits correct endpoint (catalog vs runs)
+  verify: grep -r "/api/reports" frontend/src api/
 - id: cp2
   criterion: 'After UI: generate job → poll → render HTML'
+  verify: §0.11 all report paths used by UI
 - id: cp3
   criterion: No drift between client expectation and BACK response
+  verify: contract test catalog vs runs shapes

@@ -5,27 +5,53 @@ plan_id: v1-p1-screens
 title: OpenAPI types + REST client + MSW
 next_phase: FRONT IMPLEMENT
 needs_creative: no | **tdd:** yes
-goal: Typed REST client (`lib/api`) + types (codegen или hand-sync из BACK plan) +
-  MSW fixtures для offline UI.
+goal: Typed REST client (`lib/api`) + types (codegen или hand-sync из BACK plan) + MSW fixtures для offline
+  UI.
 context:
   consumes:
   - '**Consumes:** s01; BACK plan-v1-p1-api §6/§19 (или live openapi.json)'
   - '**Produces:** fetch wrappers + Query keys; MSW handlers'
   files:
-  - frontend/src/lib/api/types.ts` (Создание)
-  - frontend/src/lib/api/client.ts` (Создание) — base URL, credentials cookies
-  - frontend/src/lib/api/assets.ts` (Создание) — GET /api/assets/tree
-  - frontend/src/lib/api/events.ts` (Создание)
-  - frontend/src/lib/api/series.ts` (Создание)
-  - frontend/src/lib/api/setpoints.ts` (Создание)
-  - frontend/src/lib/api/session.ts` (Создание) — roster/session
-  - frontend/src/lib/api/reports.ts` (Создание) — watch report
-  - frontend/src/lib/api/sources.ts` (Создание)
-  - frontend/src/test/msw/handlers.ts` (Создание)
-  - frontend/src/lib/api/client.test.ts` (Создание)
+  - frontend/src/lib/api/types.ts (Создание)
+  - frontend/src/lib/api/client.ts (Создание) — base URL, credentials cookies
+  - frontend/src/lib/api/assets.ts (Создание) — GET /api/assets/tree
+  - frontend/src/lib/api/events.ts (Создание)
+  - frontend/src/lib/api/series.ts (Создание)
+  - frontend/src/lib/api/setpoints.ts (Создание)
+  - frontend/src/lib/api/session.ts (Создание) — roster/session
+  - frontend/src/lib/api/reports.ts (Создание) — watch report
+  - frontend/src/lib/api/sources.ts (Создание)
+  - frontend/src/test/msw/handlers.ts (Создание)
+  - frontend/src/lib/api/client.test.ts (Создание)
+as_built:
+- 'Consumes: s01; BACK plan-v1-p1-api §6/§19 (или live openapi.json)'
+delta:
+- 'Создание: frontend/src/lib/api/types.ts'
+- 'Создание: frontend/src/lib/api/client.ts'
+- 'Создание: frontend/src/lib/api/assets.ts'
+- 'Создание: frontend/src/lib/api/events.ts'
+- 'Создание: frontend/src/lib/api/series.ts'
+- 'Создание: frontend/src/lib/api/setpoints.ts'
+- 'Создание: frontend/src/lib/api/session.ts'
+- 'Создание: frontend/src/lib/api/reports.ts'
+- 'Создание: frontend/src/lib/api/sources.ts'
+- 'Создание: frontend/src/test/msw/handlers.ts'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: Typed REST client (`lib/api`) + types (codegen или hand-sync из BACK
-    plan) + MSW fixtures для offline UI.
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/lib/api/types.ts, frontend/src/lib/api/client.ts…'
+  verify: cd frontend && npm exec vitest -- run src/test/msw/handlers.ts
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/lib/api/client.test.ts
+verify:
+- cd frontend && npm exec vitest -- run src/test/msw/handlers.ts
+- cd frontend && npm exec vitest -- run src/lib/api/client.test.ts
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

@@ -5,37 +5,65 @@ plan_id: v1-p1-screens
 title: DS0-4 components + Storybook scaffold
 next_phase: FRONT IMPLEMENT
 needs_creative: yes (CR-UI-03 / DS0-1) — **closed** | **tdd:** yes
-goal: Библиотека `components/ds/*` фазы 1 + SVG lamps + Storybook; gate до вёрстки
-  экранов.
+goal: Библиотека `components/ds/*` фазы 1 + SVG lamps + Storybook; gate до вёрстки экранов.
 context:
   consumes:
   - '**Consumes:** s01–s03, s02 tokens; [CR-UI-03-alarm-grammar.md](../../creative/v1-p1-screens/CR-UI-03-alarm-grammar.md)
-    + DS0-1 SVG в `frontend/public/ds/lamps/`; `lamp-grammar-spec.ts'
+    + DS0-1 SVG в `frontend/public/ds/lamps/`; lamp-grammar-spec.ts'
   - '**Produces:** все компоненты §3.4 (кроме TrendChartContainer → s11)'
   files:
   - frontend/public/ds/lamps/*.svg` (уже от CR-UI-03) — wire в `<Lamp />
-  - frontend/src/components/ds/Lamp.tsx` (Создание)
-  - frontend/src/components/ds/StatusBar.tsx` (Создание)
-  - frontend/src/components/ds/AggregateShipStatus.tsx` (Создание)
-  - frontend/src/components/ds/OverviewGroupCard.tsx` (Создание)
-  - frontend/src/components/ds/EventRow.tsx` (Создание)
-  - frontend/src/components/ds/EventFilters.tsx` (Создание)
-  - frontend/src/components/ds/TagPicker.tsx` (Создание)
-  - frontend/src/components/ds/WatchVerdict.tsx` (Создание)
-  - frontend/src/components/ds/WatchSection.tsx` (Создание)
-  - frontend/src/components/ds/LoginTile.tsx` (Создание)
-  - frontend/src/components/ds/StateShell.tsx` (Создание)
-  - frontend/src/components/ds/FreshnessBanner.tsx` (Создание)
-  - frontend/src/components/ds/QuarantineBanner.tsx` (Создание)
-  - frontend/src/components/ds/PrintLayout.tsx` (Создание)
-  - frontend/src/components/ds/SessionChip.tsx` (Создание)
-  - frontend/src/components/ds/index.ts` (Создание)
-  - frontend/src/components/ds/Lamp.test.tsx` (Создание)
-  - frontend/src/components/ds/StateShell.test.tsx` (Создание)
+  - frontend/src/components/ds/Lamp.tsx (Создание)
+  - frontend/src/components/ds/StatusBar.tsx (Создание)
+  - frontend/src/components/ds/AggregateShipStatus.tsx (Создание)
+  - frontend/src/components/ds/OverviewGroupCard.tsx (Создание)
+  - frontend/src/components/ds/EventRow.tsx (Создание)
+  - frontend/src/components/ds/EventFilters.tsx (Создание)
+  - frontend/src/components/ds/TagPicker.tsx (Создание)
+  - frontend/src/components/ds/WatchVerdict.tsx (Создание)
+  - frontend/src/components/ds/WatchSection.tsx (Создание)
+  - frontend/src/components/ds/LoginTile.tsx (Создание)
+  - frontend/src/components/ds/StateShell.tsx (Создание)
+  - frontend/src/components/ds/FreshnessBanner.tsx (Создание)
+  - frontend/src/components/ds/QuarantineBanner.tsx (Создание)
+  - frontend/src/components/ds/PrintLayout.tsx (Создание)
+  - frontend/src/components/ds/SessionChip.tsx (Создание)
+  - frontend/src/components/ds/index.ts (Создание)
+  - frontend/src/components/ds/Lamp.test.tsx (Создание)
+  - frontend/src/components/ds/StateShell.test.tsx (Создание)
   - Storybook config + stories per component (Создание)
+  plan_refs:
+  - CR-UI-03-alarm-grammar
+as_built:
+- 'Consumes: s01–s03, s02 tokens; [CR-UI-03-alarm-grammar.md](../../creative/v1-p1-screens/CR-UI-03-alarm-grammar.md)
+  + DS0-1 SVG в `frontend/public/ds/lamps/`; lamp-grammar-spec.ts'
+delta:
+- frontend/public/ds/lamps/*.svg
+- 'Создание: frontend/src/components/ds/Lamp.tsx'
+- 'Создание: frontend/src/components/ds/StatusBar.tsx'
+- 'Создание: frontend/src/components/ds/AggregateShipStatus.tsx'
+- 'Создание: frontend/src/components/ds/OverviewGroupCard.tsx'
+- 'Создание: frontend/src/components/ds/EventRow.tsx'
+- 'Создание: frontend/src/components/ds/EventFilters.tsx'
+- 'Создание: frontend/src/components/ds/TagPicker.tsx'
+- 'Создание: frontend/src/components/ds/WatchVerdict.tsx'
+- 'Создание: frontend/src/components/ds/WatchSection.tsx'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- Полный Playwright PW-01..N → отдельный e2e шаг / QA
+- INTEG wire contract — не этот FRONT шаг
 checkpoints:
 - id: cp1
-  criterion: Библиотека `components/ds/*` фазы 1 + SVG lamps + Storybook; gate до
-    вёрстки экранов.
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: frontend/src/components/ds/Lamp.tsx, frontend/src/components/ds/StatusBar.tsx…'
+  verify: cd frontend && npm exec vitest -- run src/components/ds/Lamp.test.tsx
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: cd frontend && npm exec vitest -- run src/components/ds/StateShell.test.tsx
+verify:
+- cd frontend && npm exec vitest -- run src/components/ds/Lamp.test.tsx
+- cd frontend && npm exec vitest -- run src/components/ds/StateShell.test.tsx
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

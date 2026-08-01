@@ -5,20 +5,41 @@ plan_id: v1-p2-ship
 title: API mnemo schemas/values + WS
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-05) — **closed**
-goal: GET /api/mnemo/schemas[/{id}][/values]; WS `mnemo:{schema_id}` subset fanout;
-  Q3 generators flag.
+goal: GET /api/mnemo/schemas[/{id}][/values]; WS `mnemo:{schema_id}` subset fanout; Q3 generators flag.
 context:
   consumes:
   - '**Consumes:** s08 loader; LatestValueCache; FanoutBridge; plan §11.1–11.3.'
   - '**Produces:** REST+WS mnemo; OpenAPI; feature flag include_generators.'
   files:
-  - apps/api/app/api/v1/endpoints/mnemo.py` (Создание)
-  - apps/api/app/mnemo/service.py` (Создание)
-  - apps/api/app/stream/` (Модификация) — mnemo topic filter by bound tags
-  - apps/api/tests/api/test_mnemo.py` (Создание)
+  - apps/api/app/api/v1/endpoints/mnemo.py (Создание)
+  - apps/api/app/mnemo/service.py (Создание)
+  - apps/api/app/stream/ (Модификация) — mnemo topic filter by bound tags
+  - apps/api/tests/api/test_mnemo.py (Создание)
+  plan_refs:
+  - plan §11.1
+as_built:
+- apps/api/app/stream/ — существует; правим в этом шаге
+- 'Consumes: s08 loader; LatestValueCache; FanoutBridge; plan §11.1–11.3.'
+delta:
+- 'Создание: apps/api/app/api/v1/endpoints/mnemo.py'
+- 'Создание: apps/api/app/mnemo/service.py'
+- 'Модификация: apps/api/app/stream/'
+- 'Создание: apps/api/tests/api/test_mnemo.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: GET /api/mnemo/schemas[/{id}][/values]; WS `mnemo:{schema_id}` subset
-    fanout; Q3 generators flag.
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/app/api/v1/endpoints/mnemo.py, apps/api/app/mnemo/service.py'
+  verify: .venv/bin/pytest apps/api/tests/api/test_mnemo.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_mnemo.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_mnemo.py -q
+- .venv/bin/pytest apps/api/tests/api/test_mnemo.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

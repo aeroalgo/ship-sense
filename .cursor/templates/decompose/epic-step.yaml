@@ -7,12 +7,23 @@ next_phase: BACK IMPLEMENT
 needs_creative: "no"
 
 goal: |
-  одна-две строки: что должен дать шаг
+  одна-две строки: что должен дать шаг (user/API outcome)
 
 context:
   consumes: []
   produces: []
   plan_refs: []
+  files: []
+
+# Delta layer (HARD for brownfield / «already wired»)
+as_built: []
+# что уже в коде до этого sNN/eNN (пути + 1 факт)
+
+delta: []
+# только что меняем в этом шаге
+
+out_of_scope: []
+# соседние sNN/eNN, full suite → QA, не трогать
 
 skills:
   code_surface: api
@@ -20,14 +31,18 @@ skills:
 
 checkpoints:
   - id: cp1
-    criterion: AC из goal / §Verify
-    verify: pytest / targeted test
+    criterion: атомарный AC (не весь goal)
+    verify: ".venv/bin/pytest path/to/test -q"
+  - id: cp2
+    criterion: ...
+    verify: "..."
 
 verify: []
-
 tdd: []
 
 # needs_creative (BACK/FRONT): no | yes (CR-…) | yes (CR-…) — **closed**
+#
+# role: front — next_phase: FRONT IMPLEMENT; code_surface: ui
 #
 # role: integ — дополнительно:
 # element_id: eNN
@@ -39,3 +54,5 @@ tdd: []
 # back: []
 # front: []
 # grep_control: [{ back, front }]
+# goal / as_built / delta / out_of_scope — обязательны как у BACK/FRONT
+# checkpoints[] — 2–4 cp; у каждого criterion + verify (vitest/pytest/grep)

@@ -2,8 +2,8 @@
 
 **Creative ID:** CR-P2-09  
 **Plan:** [plan-v1-p2-ship.md](../../plan/plan-v1-p2-ship.md)  
-**Decompose:** [s11-api-vessel-setpoints.md](../../plan/decompose-v1-p2-ship/s11-api-vessel-setpoints.md)  
-**Зависимый шаг:** [s11-api-vessel-setpoints.md](../../plan/decompose-v1-p2-ship/s11-api-vessel-setpoints.md)  
+**Decompose:** [s11-api-vessel-setpoints.yaml](../../plan/decompose-v1-p2-ship/s11-api-vessel-setpoints.yaml)  
+**Зависимый шаг:** [s11-api-vessel-setpoints.yaml](../../plan/decompose-v1-p2-ship/s11-api-vessel-setpoints.yaml)  
 **Дата:** 2026-07-31  
 **Режим:** BACK CREATIVE  
 **Уровень:** L3  

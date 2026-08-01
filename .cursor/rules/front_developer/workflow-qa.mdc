@@ -10,7 +10,7 @@ alwaysApply: false
 **Процесс**:
 1. `OK FRONT QA - Выполняю техническую валидацию` → **Gates**
 2. Проверки + exploratory browser (live app) — gates; suite/Playwright **parent only**
-3. `memory-bank/front/qa/qa-YYYYMMDD-<slug>.md`
+3. `memory-bank/front/qa/<epic_id>/qa-YYYYMMDD-<slug>.yaml`
 4. fail|blocked → §Fix plan (`FRONT BUGFIX <subject>`)
 5. **FINISH:** finish-block (`code_changed: no`|`yes` если дописали тесты) + Handoff  
    Next-mode: только `loop/transitions.yaml` (+ runner из `result.yaml`) · @.cursor/rules/shared/workflow-loop-state.mdc  

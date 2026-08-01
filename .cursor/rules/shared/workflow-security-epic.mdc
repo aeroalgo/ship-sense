@@ -13,8 +13,8 @@ alwaysApply: false
 
 | Связь с эпиком | Куда писать итог audit | FORBIDDEN |
 |----------------|------------------------|-----------|
-| **Есть эпик** (`decompose-<id>/`, `implement-<id>/`, `plan-<id>`, `* SECURITY @aNN`) | `{role}/security/implement/implement-<id>/aNN-<slug>.md` | `security-audit-*.md` в корне `security/` |
-| **Нет эпика** (ad-hoc S one-shot) | `{role}/security/security-audit-YYYYMMDD-<slug>.md` | `implement/implement-*/aNN-*.md` |
+| **Есть эпик** (`decompose-<id>/`, `implement-<id>/`, `plan-<id>`, `* SECURITY @aNN`) | `{role}/security/implement/implement-<id>/aNN-<slug>.yaml` | `security-audit-*.md` в корне `security/` |
+| **Нет эпика** (ad-hoc S one-shot) | `{role}/security/security-audit-YYYYMMDD-<slug>.md` | `implement/implement-*/aNN-*.yaml` |
 
 Писать **оба** (root audit + implement aNN) = FAIL. Один шаг = один audit-артефакт.
 
@@ -30,7 +30,7 @@ memory-bank/{back|front|integration}/security/
   implement/
     implement-<id>/               # M/L execute (эпик) — ТОЛЬКО сюда aNN findings
       index.md
-      aNN-<slug>.md
+      aNN-<slug>.yaml
   security-audit-YYYYMMDD-<slug>.md  # ТОЛЬКО S без эпика (корень security/)
 ```
 
@@ -41,7 +41,7 @@ memory-bank/{back|front|integration}/security/
 | Signal | Scope | Цепочка | Execute path |
 |--------|-------|---------|--------------|
 | 1 модуль / ≤3 файла / один threat class / один чат ок | **S** (без эпика) | `* SECURITY` one-shot | `security/security-audit-*.md` |
-| весь проект / несколько surfaces / OWASP multi-area / >1 чата | **M/L** (эпик) | `* SECURITY PLAN` → `SECURITY DECOMPOSE` → `* SECURITY` @aNN | `security/implement/implement-<id>/aNN-*.md` |
+| весь проект / несколько surfaces / OWASP multi-area / >1 чата | **M/L** (эпик) | `* SECURITY PLAN` → `SECURITY DECOMPOSE` → `* SECURITY` @aNN | `security/implement/implement-<id>/aNN-*.yaml` |
 
 Сомнение → **M/L**.  
 S: **FORBIDDEN** создавать `decompose-*` «на всякий случай».  
@@ -53,7 +53,7 @@ M/L: **FORBIDDEN** полный аудит в PLAN/DECOMPOSE; execute тольк
 |---------|--------|
 | `BACK\|FRONT\|INTEG SECURITY PLAN` | `security/plan/plan-<id>.md` |
 | `BACK\|FRONT\|INTEG SECURITY DECOMPOSE` | `security/plan/decompose-<id>/` |
-| `BACK\|FRONT\|INTEG SECURITY` @aNN (эпик) | **только** `implement/implement-<id>/aNN-*.md` (+ findings; код не чинить) |
+| `BACK\|FRONT\|INTEG SECURITY` @aNN (эпик) | **только** `implement/implement-<id>/aNN-*.yaml` (+ findings; код не чинить) |
 | `BACK\|FRONT\|INTEG SECURITY` (без эпика) | **только** `security/security-audit-YYYYMMDD-<slug>.md` |
 
 ## Behavior freeze (HARD — все scopes)
@@ -72,8 +72,8 @@ M/L: **FORBIDDEN** полный аудит в PLAN/DECOMPOSE; execute тольк
 | Execute dir | `{role}/implement/implement-<plan>/` | `{role}/refactor/implement/implement-<id>/` | `{role}/security/implement/implement-<id>/` |
 | Execute cmd | `* IMPLEMENT` | `* REFACTOR` | `* SECURITY` |
 
-**Epic loop:** arm на `memory-bank/{back\|front\|integration}/security/plan/decompose-<id>/`; pending считает `aNN`. FINISH artifact = `security/implement/implement-<id>/aNN-*.md`.  
-В промпт SECURITY epic: FINISH-артефакт = `implement/.../aNN-*.md`, не `security-audit-*`.
+**Epic loop:** arm на `memory-bank/{back\|front\|integration}/security/plan/decompose-<id>/`; pending считает `aNN`. FINISH artifact = `security/implement/implement-<id>/aNN-*.yaml`.  
+В промпт SECURITY epic: FINISH-артефакт = `implement/.../aNN-*.yaml`, не `security-audit-*`.
 
 ## PLAN output
 

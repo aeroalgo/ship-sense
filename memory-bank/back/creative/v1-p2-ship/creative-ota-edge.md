@@ -3,7 +3,7 @@
 **Creative IDs:** CR-P2-10 · CR-P2-12  
 **Plan:** [plan-v1-p2-ship.md](../../plan/plan-v1-p2-ship.md)  
 **Decompose:** [decompose-v1-p2-ship/index.md](../../plan/decompose-v1-p2-ship/index.md)  
-**Связанный шаг:** [s12-i5-ota-rauc.md](../../plan/decompose-v1-p2-ship/s12-i5-ota-rauc.md)  
+**Связанный шаг:** [s12-i5-ota-rauc.yaml](../../plan/decompose-v1-p2-ship/s12-i5-ota-rauc.yaml)  
 **Дата:** 2026-07-31  
 **Режим:** BACK CREATIVE  
 **Уровень:** L4  

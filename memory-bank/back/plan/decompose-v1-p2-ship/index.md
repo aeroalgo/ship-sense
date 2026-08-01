@@ -44,26 +44,26 @@
 
 | step_id | title & files | implement | needs_creative | tdd | next_phase | status |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| **s01** | [s01-i1-gateway.md](s01-i1-gateway.md)<br>• I1 Modbus/OPC gateway, logs, compose | [s01…](../../implement/implement-v1-p2-ship/s01-i1-gateway.md) | yes (CR-P2-01) ✅ | yes | BACK IMPLEMENT | **completed** |
-| **s02** | [s02-b12-engine-core.md](s02-b12-engine-core.md)<br>• ReportEngine + report_runs | [s02…](../../implement/implement-v1-p2-ship/s02-b12-engine-core.md) | yes (CR-P2-04) ✅ | yes | BACK IMPLEMENT | completed |
-| **s03** | [s03-b12-formulas-v1.md](s03-b12-formulas-v1.md)<br>• formulas ship-pack motohours/fuel | [s03…](../../implement/implement-v1-p2-ship/s03-b12-formulas-v1.md) | yes (CR-P2-04) ✅ | yes | BACK IMPLEMENT | completed |
-| **s04** | [s04-b12-templates.md](s04-b12-templates.md)<br>• Jinja watch/daily/fuel | [s04…](../../implement/implement-v1-p2-ship/s04-b12-templates.md) | yes (CR-P2-07) ✅ | yes | BACK IMPLEMENT | completed |
-| **s05** | [s05-b12-t9-fixtures.md](s05-b12-t9-fixtures.md)<br>• T9 golden fixtures | [s05…](../../implement/implement-v1-p2-ship/s05-b12-t9-fixtures.md) | no | yes | BACK IMPLEMENT | completed |
-| **s06** | [s06-b13-drift-engine.md](s06-b13-drift-engine.md)<br>• EWMA DriftEngine | [s06…](../../implement/implement-v1-p2-ship/s06-b13-drift-engine.md) | yes (CR-P2-08) ✅ | yes | BACK IMPLEMENT | completed |
-| **s07** | [s07-b13-warnings-api.md](s07-b13-warnings-api.md)<br>• warnings REST+WS | [s07…](../../implement/implement-v1-p2-ship/s07-b13-warnings-api.md) | no | yes | BACK IMPLEMENT | **completed** |
-| **s08** | [s08-mnemo-bindings-loader.md](s08-mnemo-bindings-loader.md)<br>• mnemo YAML loader | [s08…](../../implement/implement-v1-p2-ship/s08-mnemo-bindings-loader.md) | yes (CR-P2-05) ✅ | yes | BACK IMPLEMENT | **completed** |
-| **s09** | [s09-api-mnemo-endpoints.md](s09-api-mnemo-endpoints.md)<br>• mnemo API+WS | [s09…](../../implement/implement-v1-p2-ship/s09-api-mnemo-endpoints.md) | yes (CR-P2-05) ✅ | yes | BACK IMPLEMENT | completed |
-| **s10** | [s10-api-reports-full.md](s10-api-reports-full.md)<br>• reports generate/list/versions | [s10…](../../implement/implement-v1-p2-ship/s10-api-reports-full.md) | no | yes | BACK IMPLEMENT | completed |
-| **s11** | [s11-api-vessel-setpoints.md](s11-api-vessel-setpoints.md)<br>• vessel state + setpoints changelog | [s11…](../../implement/implement-v1-p2-ship/s11-api-vessel-setpoints.md) | yes (CR-P2-09) ✅ | yes | BACK IMPLEMENT | completed |
-| **s12** | [s12-i5-ota-rauc.md](s12-i5-ota-rauc.md)<br>• OTA A/B sign health gate | [s12…](../../implement/implement-v1-p2-ship/s12-i5-ota-rauc.md) | yes (CR-P2-02, CR-P2-10, CR-P2-12) ✅ | yes | BACK IMPLEMENT | **completed** |
-| **s13** | [s13-i6-raid-backup.md](s13-i6-raid-backup.md)<br>• RAID + backup + alerts | [s13…](../../implement/implement-v1-p2-ship/s13-i6-raid-backup.md) | yes (CR-P2-03) ✅ | yes | BACK IMPLEMENT | **completed** |
-| **s14** | [s14-i7-hardening-audit.md](s14-i7-hardening-audit.md)<br>• hardening + access_audit | [s14…](../../implement/implement-v1-p2-ship/s14-i7-hardening-audit.md) | yes (CR-P2-06) ✅ | yes | BACK IMPLEMENT | completed |
-| **s15** | [s15-i1-proof-artifact.md](s15-i1-proof-artifact.md)<br>• I1 proof PDF + T4 | [s15…](../../implement/implement-v1-p2-ship/s15-i1-proof-artifact.md) | no | yes | BACK IMPLEMENT | completed |
-| **s16** | [s16-admin-api-storage-ota.md](s16-admin-api-storage-ota.md)<br>• admin OTA/storage/audit | [s16…](../../implement/implement-v1-p2-ship/s16-admin-api-storage-ota.md) | yes (CR-P2-06) ✅ | yes | BACK IMPLEMENT | completed |
-| **s17** | [s17-t1-soak-harness.md](s17-t1-soak-harness.md)<br>• T1 soak harness | [s17…](../../implement/implement-v1-p2-ship/s17-t1-soak-harness.md) | no | yes | BACK IMPLEMENT | completed |
-| **s18** | [s18-t5-t6-lab-tests.md](s18-t5-t6-lab-tests.md)<br>• T5/T6 lab automation | [s18…](../../implement/implement-v1-p2-ship/s18-t5-t6-lab-tests.md) | no | yes | BACK IMPLEMENT | **completed** |
-| **s19** | [s19-i4-runbook.md](s19-i4-runbook.md)<br>• I4 runbook + training | [s19…](../../implement/implement-v1-p2-ship/s19-i4-runbook.md) | no | no | BACK IMPLEMENT | completed |
-| **s20** | [s20-integration-hard.md](s20-integration-hard.md)<br>• E2E + T7/T10 + OpenAPI p2 | [s20…](../../implement/implement-v1-p2-ship/s20-integration-hard.md) | yes (CR-P2-11) ✅ | yes | BACK QA | completed |
+| **s01** | [s01-i1-gateway.yaml](s01-i1-gateway.yaml)<br>• I1 Modbus/OPC gateway, logs, compose | [s01…](../../implement/implement-v1-p2-ship/s01-i1-gateway.yaml) | yes (CR-P2-01) ✅ | yes | BACK IMPLEMENT | **completed** |
+| **s02** | [s02-b12-engine-core.yaml](s02-b12-engine-core.yaml)<br>• ReportEngine + report_runs | [s02…](../../implement/implement-v1-p2-ship/s02-b12-engine-core.yaml) | yes (CR-P2-04) ✅ | yes | BACK IMPLEMENT | completed |
+| **s03** | [s03-b12-formulas-v1.yaml](s03-b12-formulas-v1.yaml)<br>• formulas ship-pack motohours/fuel | [s03…](../../implement/implement-v1-p2-ship/s03-b12-formulas-v1.yaml) | yes (CR-P2-04) ✅ | yes | BACK IMPLEMENT | completed |
+| **s04** | [s04-b12-templates.yaml](s04-b12-templates.yaml)<br>• Jinja watch/daily/fuel | [s04…](../../implement/implement-v1-p2-ship/s04-b12-templates.yaml) | yes (CR-P2-07) ✅ | yes | BACK IMPLEMENT | completed |
+| **s05** | [s05-b12-t9-fixtures.yaml](s05-b12-t9-fixtures.yaml)<br>• T9 golden fixtures | [s05…](../../implement/implement-v1-p2-ship/s05-b12-t9-fixtures.yaml) | no | yes | BACK IMPLEMENT | completed |
+| **s06** | [s06-b13-drift-engine.yaml](s06-b13-drift-engine.yaml)<br>• EWMA DriftEngine | [s06…](../../implement/implement-v1-p2-ship/s06-b13-drift-engine.yaml) | yes (CR-P2-08) ✅ | yes | BACK IMPLEMENT | completed |
+| **s07** | [s07-b13-warnings-api.yaml](s07-b13-warnings-api.yaml)<br>• warnings REST+WS | [s07…](../../implement/implement-v1-p2-ship/s07-b13-warnings-api.yaml) | no | yes | BACK IMPLEMENT | **completed** |
+| **s08** | [s08-mnemo-bindings-loader.yaml](s08-mnemo-bindings-loader.yaml)<br>• mnemo YAML loader | [s08…](../../implement/implement-v1-p2-ship/s08-mnemo-bindings-loader.yaml) | yes (CR-P2-05) ✅ | yes | BACK IMPLEMENT | **completed** |
+| **s09** | [s09-api-mnemo-endpoints.yaml](s09-api-mnemo-endpoints.yaml)<br>• mnemo API+WS | [s09…](../../implement/implement-v1-p2-ship/s09-api-mnemo-endpoints.yaml) | yes (CR-P2-05) ✅ | yes | BACK IMPLEMENT | completed |
+| **s10** | [s10-api-reports-full.yaml](s10-api-reports-full.yaml)<br>• reports generate/list/versions | [s10…](../../implement/implement-v1-p2-ship/s10-api-reports-full.yaml) | no | yes | BACK IMPLEMENT | completed |
+| **s11** | [s11-api-vessel-setpoints.yaml](s11-api-vessel-setpoints.yaml)<br>• vessel state + setpoints changelog | [s11…](../../implement/implement-v1-p2-ship/s11-api-vessel-setpoints.yaml) | yes (CR-P2-09) ✅ | yes | BACK IMPLEMENT | completed |
+| **s12** | [s12-i5-ota-rauc.yaml](s12-i5-ota-rauc.yaml)<br>• OTA A/B sign health gate | [s12…](../../implement/implement-v1-p2-ship/s12-i5-ota-rauc.yaml) | yes (CR-P2-02, CR-P2-10, CR-P2-12) ✅ | yes | BACK IMPLEMENT | **completed** |
+| **s13** | [s13-i6-raid-backup.yaml](s13-i6-raid-backup.yaml)<br>• RAID + backup + alerts | [s13…](../../implement/implement-v1-p2-ship/s13-i6-raid-backup.yaml) | yes (CR-P2-03) ✅ | yes | BACK IMPLEMENT | **completed** |
+| **s14** | [s14-i7-hardening-audit.yaml](s14-i7-hardening-audit.yaml)<br>• hardening + access_audit | [s14…](../../implement/implement-v1-p2-ship/s14-i7-hardening-audit.yaml) | yes (CR-P2-06) ✅ | yes | BACK IMPLEMENT | completed |
+| **s15** | [s15-i1-proof-artifact.yaml](s15-i1-proof-artifact.yaml)<br>• I1 proof PDF + T4 | [s15…](../../implement/implement-v1-p2-ship/s15-i1-proof-artifact.yaml) | no | yes | BACK IMPLEMENT | completed |
+| **s16** | [s16-admin-api-storage-ota.yaml](s16-admin-api-storage-ota.yaml)<br>• admin OTA/storage/audit | [s16…](../../implement/implement-v1-p2-ship/s16-admin-api-storage-ota.yaml) | yes (CR-P2-06) ✅ | yes | BACK IMPLEMENT | completed |
+| **s17** | [s17-t1-soak-harness.yaml](s17-t1-soak-harness.yaml)<br>• T1 soak harness | [s17…](../../implement/implement-v1-p2-ship/s17-t1-soak-harness.yaml) | no | yes | BACK IMPLEMENT | completed |
+| **s18** | [s18-t5-t6-lab-tests.yaml](s18-t5-t6-lab-tests.yaml)<br>• T5/T6 lab automation | [s18…](../../implement/implement-v1-p2-ship/s18-t5-t6-lab-tests.yaml) | no | yes | BACK IMPLEMENT | **completed** |
+| **s19** | [s19-i4-runbook.yaml](s19-i4-runbook.yaml)<br>• I4 runbook + training | [s19…](../../implement/implement-v1-p2-ship/s19-i4-runbook.yaml) | no | no | BACK IMPLEMENT | completed |
+| **s20** | [s20-integration-hard.yaml](s20-integration-hard.yaml)<br>• E2E + T7/T10 + OpenAPI p2 | [s20…](../../implement/implement-v1-p2-ship/s20-integration-hard.yaml) | yes (CR-P2-11) ✅ | yes | BACK QA | completed |
 
 **status:** `pending` | `active` | `completed` | `blocked`  
 **needs_creative:** `no` | `yes (CR-…)` | `yes (CR-…) ✅`
@@ -102,5 +102,5 @@
 Канон next / курсора: `loop/loop-state.yaml` + `memory-bank/activeContext.md`.
 
 - **Next:** `BACK IMPLEMENT` @s20
-- **load_now:** `memory-bank/back/plan/decompose-v1-p2-ship/s20-integration-hard.md`
+- **load_now:** `memory-bank/back/plan/decompose-v1-p2-ship/s20-integration-hard.yaml`
 - **INTEG GAP вход:** этот index + implement index после QA pass (только когда s01–s20 completed)

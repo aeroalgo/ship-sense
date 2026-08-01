@@ -35,7 +35,7 @@ Feature-план T-003 и все `decompose-v1-p1-api/s01–s10` описыва�
 ## Файлы
 - `memory-bank/back/plan/plan-v1-p1-api.md` (Модификация) — §13 file tree, mermaid/package refs
 - `memory-bank/back/plan/decompose-v1-p1-api/index.md` (Модификация) — ссылка на RF-01; unblock note после r05
-- `memory-bank/back/plan/decompose-v1-p1-api/s01-scaffold.md` (Модификация) — files → `apps/api/app/...`; `code_surface`/skills: **fastapi-templates**
+- `memory-bank/back/plan/decompose-v1-p1-api/s01-scaffold.yaml` (Модификация) — files → `apps/api/app/...`; `code_surface`/skills: **fastapi-templates**
 - `memory-bank/back/plan/decompose-v1-p1-api/s02-*.md` … `s10-*.md` (Модификация) — routers→`app/api/v1/endpoints`, services→`app/<feature>/service.py`, schemas→`app/<feature>/schemas.py`
 - `memory-bank/activeContext.md` / `tasks.md` (Модификация на FINISH r05) — T-003 path unblock если r01+r02 тоже done
 

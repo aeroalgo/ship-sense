@@ -2,7 +2,7 @@
 
 **Тип:** Architecture + Algorithm + UI-UX  
 **Задача:** T-004 / plan `plan-v1-p1-screens.md` §2.3–2.4, §3.2 DS0-2, §10 CR-UI-05  
-**Decompose:** [s02-tokens-themes.md](../../plan/decompose-v1-p1-screens/s02-tokens-themes.md) (soft), [s09-screen-overview.md](../../plan/decompose-v1-p1-screens/s09-screen-overview.md) (soft)  
+**Decompose:** [s02-tokens-themes.yaml](../../plan/decompose-v1-p1-screens/s02-tokens-themes.yaml) (soft), [s09-screen-overview.yaml](../../plan/decompose-v1-p1-screens/s09-screen-overview.yaml) (soft)  
 **Deps tokens:** [CR-UI-01-tokens.md](CR-UI-01-tokens.md)  
 **Дата:** 2026-07-27  
 **Статус:** closed (creative) — Q9 field **waiver** + formula floor; photo evidence → после полевых замеров
@@ -248,8 +248,8 @@ display 62 / critical 48 / title 36 / body 22 / caption 17.
 
 | Шаг | Действие |
 |-----|----------|
-| [s02](../../plan/decompose-v1-p1-screens/s02-tokens-themes.md) | `**Creative:**` → CR-UI-01 + CR-UI-05; soft Q9 closed via waiver |
-| [s09](../../plan/decompose-v1-p1-screens/s09-screen-overview.md) | `**Creative:**` → CR-UI-05; Consumes density tokens |
+| [s02](../../plan/decompose-v1-p1-screens/s02-tokens-themes.yaml) | `**Creative:**` → CR-UI-01 + CR-UI-05; soft Q9 closed via waiver |
+| [s09](../../plan/decompose-v1-p1-screens/s09-screen-overview.yaml) | `**Creative:**` → CR-UI-05; Consumes density tokens |
 | [index](../../plan/decompose-v1-p1-screens/index.md) | CR-UI-05 ✅ |
 
 ---

@@ -5,22 +5,45 @@ plan_id: v1-p2-ship
 title: I5 OTA A/B sign health anchorage gate
 next_phase: BACK IMPLEMENT
 needs_creative: yes (CR-P2-02, CR-P2-10, CR-P2-12) — **closed**
-goal: 'OTA A/B (RAUC/Mender per ADR): signed bundles, watchdog health «data flows»,
-  anchorage gate, rollback paths for T5.'
+goal: 'OTA A/B (RAUC/Mender per ADR): signed bundles, watchdog health «data flows», anchorage gate, rollback
+  paths for T5.'
 context:
   consumes:
   - '**Consumes:** CR-P2-02/10/12; s11 vessel_state; plan §8.'
-  - '**Produces:** ota agent scripts; pubkey path; healthcheck script; approve/trigger
-    hooks (API later s16).'
+  - '**Produces:** ota agent scripts; pubkey path; healthcheck script; approve/trigger hooks (API later
+    s16).'
   files:
-  - apps/edge/ota/` (Создание) — verify, switch, healthcheck, rollback
-  - /etc/shipsense/ota_pubkey.pem` path docs (Создание)
-  - apps/edge/ota/tests/test_signature.py` (Создание)
-  - apps/edge/ota/tests/test_healthcheck.py` (Создание)
-  - apps/edge/ota/tests/test_anchorage_gate.py` (Создание)
+  - apps/edge/ota/ (Создание) — verify, switch, healthcheck, rollback
+  - /etc/shipsense/ota_pubkey.pem path docs (Создание)
+  - apps/edge/ota/tests/test_signature.py (Создание)
+  - apps/edge/ota/tests/test_healthcheck.py (Создание)
+  - apps/edge/ota/tests/test_anchorage_gate.py (Создание)
+  plan_refs:
+  - CR-P2-02
+  - plan §8.
+as_built:
+- 'Consumes: CR-P2-02/10/12; s11 vessel_state; plan §8.'
+delta:
+- 'Создание: apps/edge/ota/'
+- 'Создание: /etc/shipsense/ota_pubkey.pem path docs'
+- 'Создание: apps/edge/ota/tests/test_signature.py'
+- 'Создание: apps/edge/ota/tests/test_healthcheck.py'
+- 'Создание: apps/edge/ota/tests/test_anchorage_gate.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'OTA A/B (RAUC/Mender per ADR): signed bundles, watchdog health «data
-    flows», anchorage gate, rollback paths for T5.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/edge/ota/, /etc/shipsense/ota_pubkey.pem path docs'
+  verify: .venv/bin/pytest apps/edge/ota/tests/test_signature.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/edge/ota/tests/test_healthcheck.py -q
+verify:
+- .venv/bin/pytest apps/edge/ota/tests/test_signature.py -q
+- .venv/bin/pytest apps/edge/ota/tests/test_healthcheck.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

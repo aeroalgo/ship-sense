@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e18
 plan_id: v1-portal
 title: Trends event markers + deep-link
 element_id: e18
 next_phase: INTEG IMPLEMENT
+goal: event markers on chart; click → `/journal?...` with filters
 ui:
-  route: '** `/trends'
+  route: '** /trends'
   components: '** `useEventMarkers.ts`, `journalFromMarker.ts`, `trendsParams.ts`'
   user_sees: '** event markers on chart; click → `/journal?...` with filters'
 data_need:
@@ -26,8 +28,21 @@ back:
 front:
 - '`useEventMarkers` + deep-link helpers (FRONT s12)'
 - Marker severity colors ≡ EventRow
+as_built:
+- 'API live: GET /api/events with from/to (+ optional asset)'
+- 'BACK: already live (T-003 s04)'
+- 'UI seams: `useEventMarkers.ts`, `journalFromMarker.ts`, trendsParams.ts'
+delta:
+- 'Довести client/fixture: no dedicated marker endpoint'
+- 'BACK caveat: Param names identical to journalFilters'
+- 'FRONT: useEventMarkers + deep-link helpers (FRONT s12)'
+- 'FRONT: Marker severity colors ≡ EventRow'
+- 'Data need: events in chart from/to window; click → /journal?...'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
-- back: GET /api/events` (from/to)
+- back: GET /api/events (from/to)
   front: useEventMarkers
 verify:
 - '`grep -r "useEventMarkers\|journalFromMarker" frontend/src`'
@@ -40,7 +55,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Chart shows markers for events in range
+  verify: grep -r "useEventMarkers\|journalFromMarker" frontend/src
 - id: cp2
   criterion: Click marker → journal with matching filters
+  verify: Playwright click marker → journal URL params
 - id: cp3
   criterion: Severity colors match EventRow
+  verify: vitest journalFromMarker

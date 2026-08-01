@@ -22,7 +22,7 @@
 ## Файлы
 
 - `tests/storage/test_stop_gate.py`
-- [implement step](../implement/implement-v1-p2-ship/s20-qa2-stop-gate.md)
+- [implement step](../implement/implement-v1-p2-ship/s20-qa2-stop-gate.yaml)
 
 ## Тесты
 

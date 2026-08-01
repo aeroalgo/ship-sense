@@ -1,14 +1,15 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e08
 plan_id: v1-portal
 title: Overview assets tree + aggregate status
 element_id: e08
 next_phase: INTEG IMPLEMENT
+goal: hierarchical plant→system→equipment→tag cards with aggregate status, last_value/quality
 ui:
-  route: '** `/overview` → `OverviewPage'
+  route: '** `/overview` → OverviewPage'
   components: '** DS `AggregateShipStatus`, `OverviewGroupCard`, lamps via tree'
-  user_sees: '** hierarchical plant→system→equipment→tag cards with aggregate status,
-    last_value/quality'
+  user_sees: '** hierarchical plant→system→equipment→tag cards with aggregate status, last_value/quality'
 data_need:
 - hierarchical plant→system→equipment→tag with aggregate status, last_value/quality
 api_today:
@@ -26,27 +27,45 @@ contract:
 db: '- assets semantic + latest values (Timescale)'
 back:
 - already live (T-003 s02)
-- 'Realtime patch: `useOverviewRealtime` merges WS values into React Query cache —
-  contract tag_id identity'
+- 'Realtime patch: `useOverviewRealtime` merges WS values into React Query cache — contract tag_id identity'
 front:
 - '`useAssetsTree` already wired (FRONT s09)'
 - '`treeUtils` must tolerate missing optional fields'
+as_built:
+- 'API live: GET /api/assets/tree Cache-Control max-age=60'
+- 'BACK: already live (T-003 s02)'
+- 'FRONT: useAssetsTree already wired (FRONT s09)'
+- 'UI seams: DS `AggregateShipStatus`, `OverviewGroupCard`, lamps via tree'
+delta:
+- 'Исправить/заменить mock: MSW assetsTreeFixture'
+- 'Довести client/fixture: FRONT: `useAssetsTree` → fetchAssetsTree'
+- 'BACK caveat: Realtime patch: `useOverviewRealtime` merges WS values into React Query cache — contract
+  tag_id identity'
+- 'FRONT: treeUtils must tolerate missing optional fields'
+- 'Data need: hierarchical plant→system→equipment→tag with aggregate status, last_value/quality'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
 - back: GET /api/assets/tree
   front: fetchAssetsTree
 verify:
 - '`grep -r "/api/assets/tree" frontend/src api/`'
 - vitest `OverviewPage.test.tsx`
-- 'pytest `apps/api/tests/api/test_assets_tree.py` (note: currently related to QA-4
-  vessel pack tags blocker on BACK suite)'
+- 'pytest `apps/api/tests/api/test_assets_tree.py` (note: currently related to QA-4 vessel pack tags blocker
+  on BACK suite)'
 tdd:
 - '1. Red: vitest OverviewPage with tree fixture → assert cards'
 - '2. Green: live fetch, remove MSW'
 - 3. Wire + §Verify
 checkpoints:
 - id: cp1
-  criterion: '`/overview` shows hierarchical tree from DB'
+  criterion: /overview shows hierarchical tree from DB
+  verify: grep -r "/api/assets/tree" frontend/src api/
 - id: cp2
   criterion: Cards display last_value + status
+  verify: vitest OverviewPage.test.tsx
 - id: cp3
   criterion: Realtime WS updates tree in place
+  verify: 'pytest `apps/api/tests/api/test_assets_tree.py` (note: currently related to QA-4 vessel pack
+    tags blocker on BACK suite)'

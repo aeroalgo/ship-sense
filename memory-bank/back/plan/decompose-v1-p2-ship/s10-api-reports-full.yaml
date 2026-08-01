@@ -5,20 +5,42 @@ plan_id: v1-p2-ship
 title: API reports generate/list/versions/html
 next_phase: BACK IMPLEMENT
 needs_creative: 'no'
-goal: 'Полный reports API: catalog, generate async job, list, versions, html; legacy
-  watch alias → B12 persisted; watch schedule.'
+goal: 'Полный reports API: catalog, generate async job, list, versions, html; legacy watch alias → B12
+  persisted; watch schedule.'
 context:
   consumes:
   - '**Consumes:** s02–s05; T-003 stub; plan §11.4–11.6.'
   - '**Produces:** Routers jobs; replace stub body with ReportOutput; POST generate.'
   files:
-  - apps/api/app/api/v1/endpoints/reports.py` (Модификация)
-  - apps/api/app/reports/jobs.py` (Создание)
-  - apps/api/app/api/v1/endpoints/watch_schedule.py` (Создание)
-  - apps/api/tests/api/test_reports_full.py` (Создание)
+  - apps/api/app/api/v1/endpoints/reports.py (Модификация)
+  - apps/api/app/reports/jobs.py (Создание)
+  - apps/api/app/api/v1/endpoints/watch_schedule.py (Создание)
+  - apps/api/tests/api/test_reports_full.py (Создание)
+  plan_refs:
+  - plan §11.4
+as_built:
+- apps/api/app/api/v1/endpoints/reports.py — существует; правим в этом шаге
+- 'Consumes: s02–s05; T-003 stub; plan §11.4–11.6.'
+delta:
+- 'Модификация: apps/api/app/api/v1/endpoints/reports.py'
+- 'Создание: apps/api/app/reports/jobs.py'
+- 'Создание: apps/api/app/api/v1/endpoints/watch_schedule.py'
+- 'Создание: apps/api/tests/api/test_reports_full.py'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: 'Полный reports API: catalog, generate async job, list, versions, html;
-    legacy watch alias → B12 persisted; watch schedule.'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/app/reports/jobs.py, apps/api/app/api/v1/endpoints/watch_schedule.py'
+  verify: .venv/bin/pytest apps/api/tests/api/test_reports_full.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_reports_full.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_reports_full.py -q
+- .venv/bin/pytest apps/api/tests/api/test_reports_full.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

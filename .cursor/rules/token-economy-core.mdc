@@ -109,7 +109,7 @@ Applies when **создаёшь/правишь** non-plan artifacts. **Does NOT*
 **REQUIRED session load order (default IMPLEMENT/TASK/BUGFIX/QA):**
 
 1. `memory-bank/activeContext.md` → **`load_now`** list (ONLY those files)
-2. ONE work shard: `decompose-*/sNN|eNN-*.yaml` · implement step · `task-*.md` · `bugfix-*.md` · `qa-*.md`
+2. ONE work shard: `decompose-*/sNN|eNN-*.yaml` · implement step · `task-*.md` · `bugfix-*.md` · `qa-*.yaml`
 3. AC source = **этот shard** (цель / файлы / TDD / Fix plan). **Не** подставлять полный `plan-*.md` «как AC»
 4. Если в step `Consumes: plan §N` и AC в shard не хватает — **jump только на §N** (Read/offset), не весь plan
 5. `load_if_needed` only when task requires

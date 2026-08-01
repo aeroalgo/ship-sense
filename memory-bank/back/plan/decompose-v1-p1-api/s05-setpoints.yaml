@@ -5,22 +5,46 @@ plan_id: v1-p1-api
 title: Setpoints read (YAML)
 next_phase: BACK IMPLEMENT
 needs_creative: 'no'
-goal: '`GET /api/setpoints` и `GET /api/setpoints/history` read-only из ship-pack
-  YAML (p1 без history table).'
+goal: '`GET /api/setpoints` и `GET /api/setpoints/history` read-only из ship-pack YAML (p1 без history
+  table).'
 context:
   consumes:
   - '**Consumes:** s01; semantic/ship-pack; plan §6.5–6.6.'
   - '**Produces:** setpoints feature + endpoints.'
   files:
-  - apps/api/app/api/v1/endpoints/setpoints.py` (Создание)
-  - apps/api/app/setpoints/schemas.py` (Создание)
-  - apps/api/app/setpoints/service.py` (Создание)
-  - apps/api/app/api/v1/api.py` (Модификация)
-  - apps/api/tests/api/test_setpoints.py` (Создание)
+  - apps/api/app/api/v1/endpoints/setpoints.py (Создание)
+  - apps/api/app/setpoints/schemas.py (Создание)
+  - apps/api/app/setpoints/service.py (Создание)
+  - apps/api/app/api/v1/api.py (Модификация)
+  - apps/api/tests/api/test_setpoints.py (Создание)
   - fixture `setpoints.yaml` в ship-pack-min (Создание/мод.)
+  plan_refs:
+  - plan §6.5
+as_built:
+- apps/api/app/api/v1/api.py — существует; правим в этом шаге
+- 'Consumes: s01; semantic/ship-pack; plan §6.5–6.6.'
+delta:
+- 'Создание: apps/api/app/api/v1/endpoints/setpoints.py'
+- 'Создание: apps/api/app/setpoints/schemas.py'
+- 'Создание: apps/api/app/setpoints/service.py'
+- 'Модификация: apps/api/app/api/v1/api.py'
+- 'Создание: apps/api/tests/api/test_setpoints.py'
+- 'Создание: fixture `setpoints.yaml` в ship-pack-min'
+out_of_scope:
+- Полный test suite / QA epic — не этот sNN
+- Соседние sNN из decompose index — не трогать
+- OpenAPI/I1 proof / соседние API slices — только если в delta
 checkpoints:
 - id: cp1
-  criterion: '`GET /api/setpoints` и `GET /api/setpoints/history` read-only из ship-pack
-    YAML (p1 без history table).'
-verify: []
-tdd: []
+  criterion: 'Код шага на месте: apps/api/app/api/v1/endpoints/setpoints.py, apps/api/app/setpoints/schemas.py…'
+  verify: .venv/bin/pytest apps/api/tests/api/test_setpoints.py -q
+- id: cp2
+  criterion: Targeted tests PASS по AC шага
+  verify: .venv/bin/pytest apps/api/tests/api/test_setpoints.py -q
+verify:
+- .venv/bin/pytest apps/api/tests/api/test_setpoints.py -q
+- .venv/bin/pytest apps/api/tests/api/test_setpoints.py -q
+tdd:
+- '1. Red: targeted failing test из checkpoints.verify'
+- '2. Green: минимальная реализация delta'
+- 3. Wire + §Verify

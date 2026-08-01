@@ -1,11 +1,13 @@
-schema: integ-decompose/v1
+schema: epic-decompose/v1
+role: integ
 step_id: e22
 plan_id: v1-portal
 title: Watch DataQualityPanel
 element_id: e22
 next_phase: INTEG IMPLEMENT
+goal: quarantine/stale intervals + banner from report data_quality
 ui:
-  route: '** `/watch'
+  route: '** /watch'
   components: '** `DataQualityPanel.tsx`'
   user_sees: '** quarantine/stale intervals + banner from report data_quality'
 data_need:
@@ -18,13 +20,24 @@ contract:
 db: '- none (derived from report body)'
 back:
 - already live (report data_quality)
-- Banner text from BACK is source of truth; FRONT does not invent «OK» when quarantine
-  non-empty
+- Banner text from BACK is source of truth; FRONT does not invent «OK» when quarantine non-empty
 front:
 - '`DataQualityPanel` already wired (FRONT s13)'
 - Banner text from BACK (not invented)
+as_built:
+- 'BACK: already live (report data_quality)'
+- 'FRONT: DataQualityPanel already wired (FRONT s13)'
+- 'UI seams: DataQualityPanel.tsx'
+delta:
+- 'Довести client/fixture: subset of watch report'
+- 'BACK caveat: Banner text from BACK is source of truth; FRONT does not invent «OK» when quarantine non-empty'
+- 'FRONT: Banner text from BACK (not invented)'
+- 'Data need: data_quality.quarantine_tags`, `stale_intervals`, `banner'
+out_of_scope:
+- Полный INTEG QA journey / соседние eNN — не этот шаг
+- Не расширять scope за пределы contract + checkpoints
 grep_control:
-- back: report `data_quality
+- back: report data_quality
   front: DataQualityPanel
 verify:
 - '`grep -r "DataQualityPanel" frontend/src`'
@@ -37,7 +50,10 @@ tdd:
 checkpoints:
 - id: cp1
   criterion: Panel shows quarantine_tags + stale_intervals
+  verify: grep -r "DataQualityPanel" frontend/src
 - id: cp2
   criterion: Banner text from BACK (not "OK" if quarantine)
+  verify: vitest panel with quarantine fixture
 - id: cp3
   criterion: Empty DQ → panel empty or "clean" state
+  verify: Playwright visible banner text

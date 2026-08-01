@@ -74,7 +74,7 @@ def main() -> None:
         st["need_reviewer"] = True
         ctx_parts.append(
             "QA FINISH detected → @reviewer VERDICT уже нужен; "
-            "обязателен Handoff в activeContext.md (не только qa-*.md / tasks.md). "
+            "обязателен Handoff в activeContext.md (не только qa-*.yaml / tasks.md). "
             "Stop-hook заблокирует стоп без VERDICT reviewer."
         )
 

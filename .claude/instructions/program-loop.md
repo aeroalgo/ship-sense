@@ -62,7 +62,7 @@ State: `.claude/runtime/program/state.json` + `queue.json`.
 - **Следующий:** BACK PLAN
 - **Program:** GAP_FANOUT
 - **Gap:** `memory-bank/integration/gap/<epic_id>/gap-YYYYMMDD-slug.md`
-- **Resume:** INTEG GAP CLOSE @memory-bank/integration/implement/…/eNN-….md
+- **Resume:** INTEG GAP CLOSE @memory-bank/integration/implement/…/eNN-….yaml
 ```
 
 ## Запуск
